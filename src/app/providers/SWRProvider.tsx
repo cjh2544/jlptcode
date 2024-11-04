@@ -22,7 +22,8 @@ export const SWRProvider = ({ children }:Props) => {
               body: JSON.stringify(params),
             }).then(res => res.json());
           }
-        }
+        },
+        fallback: {}
     }}>
       {children}
     </SWRConfig>

@@ -135,20 +135,6 @@ export async function GET(request: NextRequest) {
     },
     { $sort: { level: 1 } },
   ]);
-
+  
   return NextResponse.json([...jlptClassInfo1, ...jlptClassInfo2])
-
-  // const jlptClassList = await Jlpt.aggregate([
-  //   { '$group' : 
-  //       {
-  //           '_id' : 'class', 
-  //           'levelArr': {'$addToSet' : '$level'}, 
-  //           'classificationArr' : {'$addToSet' : '$classification'}, 
-  //           'yearArr' : {'$addToSet' : '$year'}, 
-  //           'monthArr' : {'$addToSet' : '$month'}, 
-  //       }
-  //   },
-  // ])
-
-  // return NextResponse.json(jlptClassList)
 }

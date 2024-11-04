@@ -31,9 +31,7 @@ export default function JlptLayout({
         <HeaderTitle title="JLPT 기출문제" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
+          {children}
           <Footer />
         </div>
       </div>

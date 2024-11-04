@@ -2,31 +2,36 @@ import { Schema, model, models } from 'mongoose'
 
 // 문제 스키마
 const QuestionSchema = new Schema({
-  question: String,
-  choice: Array<string>,
+  question: {
+    type: String,
+    required: true,
+  },
+  choice: {
+    type: Array<string>,
+    required: true,
+  },
+  // 정답
+  answer: {
+    type: Number,
+    required: false,
+  },
 });
 
 const wordTodaySchema = new Schema({
-  // 년도
-  year: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 월
-  month: {
-    type: String,
-    required: true,
-    index: true,
-  },
   // 등급
   level: {
     type: String,
     required: true,
     index: true,
   },
+  // 년도
+  year: {
+    type: String,
+    required: true,
+    index: true,
+  },
   // 문제번호
-  questionNo: {
+  wordNo: {
     type: Number,
     required: true,
   },
@@ -48,25 +53,21 @@ const wordTodaySchema = new Schema({
   // 문장
   sentence: {
     type: String,
-    required: true,
   },
-  // 해석
-  translate: {
+  // 문장 읽기
+  sentence_read: {
     type: String,
-    required: true,
+  },
+  // 문장 해석
+  sentence_translate: {
+    type: String,
   },
   // 문제
   question: {
     type: QuestionSchema,
-    required: true,
-  },
-  // 정답
-  answer: {
-    type: Number,
-    required: false,
   },
 }, {timestamps: true, collection: 'word_today'})
 
-const WordToday = models?.wordToday || model('wordToday', wordTodaySchema)
+const WordToday = models?.wordToday || model('wordToday', wordTodaySchema, 'word_today')
 
 export default WordToday;

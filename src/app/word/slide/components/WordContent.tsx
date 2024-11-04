@@ -14,6 +14,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import WordCard from './WordCard';
 import { prevArrow, propTypesPrevArrow } from '@material-tailwind/react/types/components/carousel';
 import ModalFullScreen from '@/app/components/Modals/ModalFullScreen';
+import Loading from '@/app/components/Loading/loading';
 
 type WordTableProps = {
   conditions: any,
@@ -34,32 +35,37 @@ const WordContent = (props: WordTableProps) => {
   //   return <p>조회중...</p>;
   // }
 
-  return (
-    <>
-      <ModalFullScreen visible={words.length > 0} title='단어암기' onChange={setFullScreen}>
-        <Swiper
-          // spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="w-full"
-        >
-          {words.map((wordInfo: any, index: number) => {
-            return (
-              <SwiperSlide key={index}><WordCard fullScreen={isFullScreen} wordInfo={wordInfo} /></SwiperSlide>
-            )
-          })}
-        </Swiper>
-      </ModalFullScreen>
-    </>
+  return isLoading ?
+    (
+      <>
+        <Loading />
+      </>
+    ) : (
+      <>
+        <ModalFullScreen visible={words.length > 0} title='단어암기' onChange={setFullScreen}>
+          <Swiper
+            // spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="w-full"
+          >
+            {words.map((wordInfo: any, index: number) => {
+              return (
+                <SwiperSlide key={index}><WordCard fullScreen={isFullScreen} wordInfo={wordInfo} /></SwiperSlide>
+              )
+            })}
+          </Swiper>
+        </ModalFullScreen>
+      </>
   )
 }
 

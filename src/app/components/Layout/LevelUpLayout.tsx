@@ -2,8 +2,6 @@ import SessionProvider from "@/app/providers/SessionProvider";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
-import { Suspense } from "react";
-import Loading from "../Loading/loading";
 
 // import { Nanum_Gothic } from "next/font/google";
 
@@ -31,9 +29,7 @@ export default function LevelUpLayout({
         <HeaderTitle title="레벨업 문제풀이" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
-          <Suspense fallback={<Loading />}>
-            {children}
-          </Suspense>
+          {children}
           <Footer />
         </div>
       </div>

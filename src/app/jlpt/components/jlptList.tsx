@@ -5,7 +5,6 @@ import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useJlptStore } from '@/app/store/jlptStore';
 import { useClassTypeList } from '@/app/swr/useJlpt';
 import Classification from './classification';
-import { Suspense } from 'react'
 import Loading from '@/app/components/Loading/loading';
 
 type JlptListProps = {
@@ -39,7 +38,12 @@ const JlptList = (props: JlptListProps) => {
     setJlptInfo({...jlptInfo, level: level});
   }, [level])
 
-  return (
+  return isLoading ?
+    (
+      <>
+        <Loading />
+      </>
+    ) : (
     <>
       <div className="px-4 mx-auto w-full m-10 mb-12">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
@@ -49,19 +53,15 @@ const JlptList = (props: JlptListProps) => {
             </div>
           </div>
           <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-            <Suspense fallback={<Loading />}>
-              <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
-                classInfos.map((item: any, idx: number) => {
-                  return {
-                    title: item.level,
-                    content: (
-                      <Suspense fallback={<Loading />}>
-                        <Classification classData={item} onClick={(data) => handleClick(data)}/>
-                      </Suspense>
-                    ),
-                  };
-                })} />
-            </Suspense>
+            <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+              classInfos.map((item: any, idx: number) => {
+                return {
+                  title: item.level,
+                  content: (
+                    <Classification classData={item} onClick={(data) => handleClick(data)}/>
+                  ),
+                };
+              })} />
           </div>
         </div>
       </div>

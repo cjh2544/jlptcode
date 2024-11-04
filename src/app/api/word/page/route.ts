@@ -54,7 +54,5 @@ export async function POST(request: NextRequest) {
     .skip((page1 - 1) * limit1)
     .exec();
 
-  // const userList = await User.find().select('-password');
-
   return NextResponse.json(wordList)
 }
