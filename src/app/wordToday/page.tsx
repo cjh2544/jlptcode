@@ -3,8 +3,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useSearchParams, usePathname } from 'next/navigation'
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import WordTodayLayout from "../components/Layout/WordTodayLayout";
-import WordTodayTestPage from "./test/page";
 import LevelList from "./components/levelList";
+import WordList from "./components/wordList";
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
@@ -16,7 +16,7 @@ const JlptPage = () => {
   return (
     <WordTodayLayout>
       <LevelList level={searchParams.get('level') || wordTodayInfo.level || 'N1'} />
-      <WordTodayTestPage  />
+      <WordList />
     </WordTodayLayout>
   )
 }
