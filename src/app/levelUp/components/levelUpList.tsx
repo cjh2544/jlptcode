@@ -50,17 +50,19 @@ const LevelUpList = (props: LevelUpListProps) => {
             </div>
           </div>
           <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-            <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
-              sortBy(classInfos[0]?.levelArr).map((item, idx) => {
-                return {
-                  title: item,
-                  content: (
-                    <Suspense fallback={<Loading />}>
-                      <Classification classData={classInfos[0]} onClick={(data) => handleClick(data)}/>
-                    </Suspense>
-                  ),
-                };
-              })} />
+            <Suspense fallback={<Loading />}>
+              <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+                sortBy(classInfos[0]?.levelArr).map((item, idx) => {
+                  return {
+                    title: item,
+                    content: (
+                      <Suspense fallback={<Loading />}>
+                        <Classification classData={classInfos[0]} onClick={(data) => handleClick(data)}/>
+                      </Suspense>
+                    ),
+                  };
+                })} />
+            </Suspense>
           </div>
         </div>
       </div>

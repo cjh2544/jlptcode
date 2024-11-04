@@ -49,17 +49,19 @@ const JlptList = (props: JlptListProps) => {
             </div>
           </div>
           <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-            <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
-              classInfos.map((item: any, idx: number) => {
-                return {
-                  title: item.level,
-                  content: (
-                    <Suspense fallback={<Loading />}>
-                      <Classification classData={item} onClick={(data) => handleClick(data)}/>
-                    </Suspense>
-                  ),
-                };
-              })} />
+            <Suspense fallback={<Loading />}>
+              <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+                classInfos.map((item: any, idx: number) => {
+                  return {
+                    title: item.level,
+                    content: (
+                      <Suspense fallback={<Loading />}>
+                        <Classification classData={item} onClick={(data) => handleClick(data)}/>
+                      </Suspense>
+                    ),
+                  };
+                })} />
+            </Suspense>
           </div>
         </div>
       </div>
