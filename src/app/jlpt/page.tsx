@@ -1,6 +1,5 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
-import Image from 'next/image'
 import JlptLayout from '@/app/components/Layout/JlptLayout'
 import { useSearchParams, usePathname } from 'next/navigation'
 import JlptList from "./components/jlptList";

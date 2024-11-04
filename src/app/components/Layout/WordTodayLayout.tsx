@@ -2,6 +2,8 @@ import SessionProvider from "@/app/providers/SessionProvider";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
+import Loading from "../Loading/loading";
+import { Suspense } from "react";
 
 // import { Nanum_Gothic } from "next/font/google";
 
@@ -29,7 +31,9 @@ export default function WordTodayLayout({
         <HeaderTitle title="今日の日本語" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
-          {children}
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
           <Footer />
         </div>
       </div>

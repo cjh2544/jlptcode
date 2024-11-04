@@ -1,6 +1,8 @@
 import useWord from '@/app/swr/useWord';
 import WordTable from './WordTable';
 import WordList from './WordList';
+import { Suspense } from 'react';
+import Loading from '@/app/components/Loading/loading';
 
 type WordTableProps = {
   conditions: any,
@@ -26,7 +28,9 @@ const WordTableContent = (props: WordTableProps) => {
         <WordTable title='JLPT 단어외우기' data={words} />
       </div>
       <div className='md:hidden lg:hidden xl:hidden 2xl:hidden'>
-        <WordList title='JLPT 단어외우기' data={words} />
+        <Suspense fallback={<Loading />}>
+          <WordList title='JLPT 단어외우기' data={words} />
+        </Suspense>
       </div>
     </>
   )

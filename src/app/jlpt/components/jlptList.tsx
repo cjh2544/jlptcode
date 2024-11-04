@@ -4,8 +4,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useJlptStore } from '@/app/store/jlptStore';
 import { useClassTypeList } from '@/app/swr/useJlpt';
-import { sortBy } from 'lodash';
 import Classification from './classification';
+import { Suspense } from 'react'
+import Loading from '@/app/components/Loading/loading';
 
 type JlptListProps = {
   level?: string,
@@ -52,7 +53,11 @@ const JlptList = (props: JlptListProps) => {
               classInfos.map((item: any, idx: number) => {
                 return {
                   title: item.level,
-                  content: (<Classification classData={item} onClick={(data) => handleClick(data)}/>),
+                  content: (
+                    <Suspense fallback={<Loading />}>
+                      <Classification classData={item} onClick={(data) => handleClick(data)}/>
+                    </Suspense>
+                  ),
                 };
               })} />
           </div>

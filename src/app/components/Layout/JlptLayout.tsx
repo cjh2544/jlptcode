@@ -2,6 +2,8 @@ import SessionProvider from "@/app/providers/SessionProvider";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import HeaderTitle from "../Headers/HeaderTitle";
 import Footer from "@/app/components/Footers/Footer";
+import { Suspense } from "react";
+import Loading from "../Loading/loading";
 
 // import { Nanum_Gothic } from "next/font/google";
 
@@ -29,7 +31,9 @@ export default function JlptLayout({
         <HeaderTitle title="JLPT 기출문제" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
-          {children}
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
           <Footer />
         </div>
       </div>

@@ -1,11 +1,12 @@
 'use client';
-import React, {memo, useEffect} from 'react';
+import React, {memo, Suspense, useEffect} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import { useClassTypeList } from '@/app/swr/useLevelUp';
 import { sortBy } from 'lodash';
 import Classification from './classification';
+import Loading from '@/app/components/Loading/loading';
 
 type LevelUpListProps = {
   level?: string,
@@ -53,7 +54,11 @@ const LevelUpList = (props: LevelUpListProps) => {
               sortBy(classInfos[0]?.levelArr).map((item, idx) => {
                 return {
                   title: item,
-                  content: (<Classification classData={classInfos[0]} onClick={(data) => handleClick(data)}/>),
+                  content: (
+                    <Suspense fallback={<Loading />}>
+                      <Classification classData={classInfos[0]} onClick={(data) => handleClick(data)}/>
+                    </Suspense>
+                  ),
                 };
               })} />
           </div>
