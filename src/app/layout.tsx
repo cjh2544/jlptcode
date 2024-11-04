@@ -8,6 +8,8 @@ import VisitHistory from "./components/Visit/VisitHistory";
 import type { Metadata } from 'next'
 
 import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
+import { Suspense } from "react";
+import Loading from "./components/Loading/loading";
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
@@ -39,7 +41,9 @@ export default function RootLayout({
         <SessionProvider>
           <SWRProvider>
             <main>
-              {children}
+              <Suspense fallback={<></>}>
+                {children}
+              </Suspense>
             </main>
           </SWRProvider>
         </SessionProvider>
