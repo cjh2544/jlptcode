@@ -1,15 +1,6 @@
-import SessionProvider from "@/app/providers/SessionProvider";
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
-
-// import { Nanum_Gothic } from "next/font/google";
-
-// const nanum_gothic = Nanum_Gothic({
-//   subsets: ["latin"],
-//   weight: ["400", "700", "800"],
-//   display: 'swap',
-// });
 
 export const metadata = {
   title: "naver social sign-in by next-auth",

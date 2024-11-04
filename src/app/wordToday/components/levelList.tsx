@@ -1,6 +1,5 @@
 'use client';
 import React, {memo, useEffect} from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { useClassTypeList } from '@/app/swr/useWordToday';
@@ -16,17 +15,10 @@ const LevelList = (props: LevelListProps) => {
     level
   } = props
   
-  const pathname = usePathname();
-  const router = useRouter();
   const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
   const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {level: wordTodayInfo.level || level}});
-
-  const handleClick = (selectedData: any) => {
-    setWordTodayInfo({...wordTodayInfo, ...selectedData});
-    router.push('/wordToday/test');
-  }
 
   const handleTabChange = (selectedData: any) => {
     setWordTodayInfo({...wordTodayInfo, ...selectedData});
