@@ -5,7 +5,11 @@ import React, { useEffect, useState } from "react";
 
 const mainNavbarMenuList = [
   {
-    name: 'LEVEL UP',
+    name: '今日の単語',
+    link: '/wordToday',
+  },
+  {
+    name: '레벨업(Level up)',
     link: '/levelUp',
   },
   {
@@ -13,7 +17,7 @@ const mainNavbarMenuList = [
     link: '/jlpt',
   },
   {
-    name: 'WORD',
+    name: '단어 | 単語 | WORD',
     link: '/word/jlpt',
   },
 ];
