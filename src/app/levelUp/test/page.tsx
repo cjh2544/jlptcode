@@ -1,22 +1,21 @@
 "use client"; // 필수!
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import Question from '../components/question';
-import { useEffect, memo, useState } from 'react';
+import { memo } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
+import { useLevelUpList } from '@/app/swr/useLevelUp';
+import Loading from '@/app/components/Loading/loading';
 
 const LevelUpTestPage = () => {
-  const { levelUpInfo, levelUpList, getLevelUpList, init } = useLevelUpStore();
-  const [mounted, setMounted] = useState<boolean>(false);
+  const { levelUpInfo } = useLevelUpStore();
+  const {data: levelUpList = [], isLoading, error} = useLevelUpList({params: levelUpInfo});
 
-  useEffect(() => {
-    setMounted(true);
-    getLevelUpList();
-  }, [])
-
-  return (
-    mounted && (
+  return <>
       <LevelUpLayout>
+      {isLoading ? (
+        <Loading />
+      ) : (
         <div onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()} className="px-4 mx-auto w-full m-10">
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6 shadow-lg">
@@ -39,9 +38,9 @@ const LevelUpTestPage = () => {
             </div>
           </div>
         </div>
-      </LevelUpLayout>
-    )
-  )
+      )}
+    </LevelUpLayout>
+  </>
 }
 
 export default memo(LevelUpTestPage)

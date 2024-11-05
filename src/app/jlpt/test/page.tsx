@@ -2,20 +2,20 @@
 import { useJlptStore } from '@/app/store/jlptStore';
 import JlptLayout from '@/app/components/Layout/JlptLayout'
 import Question from '../components/question';
-import { useEffect, memo, useState } from 'react';
+import { memo } from 'react';
 import ModalAnswer from '../components/modalAnswer';
+import { useJlptList } from '@/app/swr/useJlpt';
+import Loading from '@/app/components/Loading/loading';
 
 const JlptTestPage = () => {
-  const { jlptInfo, jlptList, getJlptList, init } = useJlptStore();
-  const [mounted, setMounted] = useState<boolean>(false);
+  const { jlptInfo } = useJlptStore();
+  const {data: jlptList = [], isLoading, error} = useJlptList({params: jlptInfo});
 
-  useEffect(() => {
-    setMounted(true);
-    getJlptList();
-  }, [])
-
-  return (
-    mounted && <JlptLayout>
+  return <>
+    <JlptLayout>
+      {isLoading ? (
+        <Loading />
+      ) : (
       <div onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()} className="px-4 mx-auto w-full m-10">
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6 shadow-lg">
@@ -47,8 +47,9 @@ const JlptTestPage = () => {
           </div>
         </div>
       </div>
+      )}
     </JlptLayout>
-  )
+  </>
 }
 
 export default memo(JlptTestPage)
