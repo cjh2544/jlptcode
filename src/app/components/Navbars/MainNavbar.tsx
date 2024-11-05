@@ -28,7 +28,6 @@ export default function MainNavbar() {
     event.preventDefault();
     setOpenNav(!openNav);
   }
-
   useEffect(() => {
     window.addEventListener(
       "resize",
