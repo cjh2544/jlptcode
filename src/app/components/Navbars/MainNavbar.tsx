@@ -35,6 +35,7 @@ export default function MainNavbar() {
       () => setOpenNav(false),
     );
   }, []);
+  
 
   return (
     <>
