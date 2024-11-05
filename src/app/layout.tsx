@@ -9,7 +9,6 @@ import type { Metadata } from 'next'
 
 import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
 import { Suspense } from "react";
-import Loading from "./components/Loading/loading";
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
