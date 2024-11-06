@@ -1,18 +1,17 @@
+'use client';
 import React, {memo} from "react";
-import { useLevelUpStore } from '@/app/store/levelUpStore';
-import CardLevelUpQuestion from "@/app/components/Cards/CardLevelUpQuestion";
-import CardLevelUpContent from "@/app/components/Cards/CardLevelUpContent";
-import CardLevelUpAnswer from "@/app/components/Cards/CardLevelUpAnswer";
-import CardAudio from "@/app/components/Cards/CardAudio";
-import CardImage from "@/app/components/Cards/CardImage";
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, Tooltip, Typography } from "@material-tailwind/react";
 
 type WordInfoProps = {
-  wordInfo?: any
+  wordInfo: any
+  onClick?: any
 }
 
 const WordInfo = (props:WordInfoProps) => {
-  const { wordInfo } = props;
+  const { 
+    wordInfo, 
+    onClick
+  } = props;
   const { 
     level, 
     year, 
@@ -23,66 +22,76 @@ const WordInfo = (props:WordInfoProps) => {
     sentence, 
     sentence_read, 
     sentence_translate,
-    question
+    question,
+    hideWord = false,
+    hideRead = false,
+    hideMeans = false
   } = wordInfo;
 
-  // const handleClick = (selectedData: any) => {
-  //   setLevelUpAnswer(selectedData);
-  // }
+  const handleClick = (colType: string) => {
+    let visibleInfo = {};
+
+    if('word' === colType) {
+      visibleInfo = { hideWord: !hideWord };
+    } else if('read' === colType) {
+      visibleInfo = { hideRead: !hideRead };
+    } else if('means' === colType) {
+      visibleInfo = { hideMeans: !hideMeans };
+    }
+
+    onClick && onClick({...wordInfo, ...visibleInfo});
+  }
 
   return (
     <>
       <tr className="even:bg-blue-gray-50/50">
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <div className="font-normal">
             {year}
-          </Typography>
+          </div> 
         </td>
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <div className="font-normal">
             {wordNo}
-          </Typography>
+          </div>
         </td>
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <div className="font-normal">
             <div className="flex justify-between items-center">
-              <p>{word}</p>
-              <p>
-                <Typography as="a" href="#" variant="small" color="blue" className="font-normal">
-                  [隠す]
-                </Typography>
-              </p>
+              <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
+              {/* <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
+              <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
+                <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+              </button>
             </div> 
-          </Typography>
+          </div>
         </td>
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <div className="font-normal">
             <div className="flex justify-between items-center">
-              <p>{read}</p>
-              <p>
-                <Typography as="a" href="#" variant="small" color="blue" className="font-normal">
-                  [隠す]
-                </Typography>
-              </p>
+              <p className={`${hideRead ? 'invisible' : ''}`}>{read}</p>
+              {/* <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
+              <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
+                <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+              </button>
             </div> 
-          </Typography>
+          </div> 
         </td>
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <div className="font-normal">
             <div className="flex justify-between items-center">
-              <p>{means}</p>
-              <p>
-                <Typography as="a" href="#" variant="small" color="blue" className="font-normal">
-                  [隠す]
-                </Typography>
-              </p>
+              <p className={`${hideMeans ? 'invisible' : ''}`}>{means}</p>
+              {/* <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
+              <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">
+                <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+              </button>
             </div> 
-          </Typography>
+          </div> 
         </td>
         <td className="p-4 border-b border-blue-gray-50">
-          <Typography as="a" href="#" variant="small" color="blue" className="font-normal">
+          <div className="font-normal">
             [確認]
-          </Typography>
+          </div>
         </td>
       </tr>
     </>
