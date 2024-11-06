@@ -4,11 +4,10 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const mainNavbarMenuList = [
-  // {
-  //   name: '今日の単語',
-  //   link: '/wordToday',
-  // },
-  
+  {
+    name: '今日の単語',
+    link: '/wordToday',
+  },
   {
     name: '레벨업(Level up)',
     link: '/levelUp',
