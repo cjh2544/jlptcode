@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
@@ -17,21 +18,24 @@ type WordTodayInfoType = {
     hideMeans: boolean
 }
 
+type HeaderVisibleType = {
+    [index: string]: boolean;
+    word: boolean;
+    read: boolean;
+    means: boolean;
+}
+
 interface WordTodayStore {
     wordTodayInfo: {
         level: string,
     },
-    hideAll: {
-        word: boolean,
-        read: boolean,
-        means: boolean
-    },
+    hideAll: HeaderVisibleType,
     wordTodayList: Array<WordTodayInfoType>,
     setWordTodayInfo: (wordTodayInfo: any) => void,
     setWordTodayList: (wordTodayList: any) => void,
     setWordTodayAnswer: (selectedData: any) => void,
     getWordTodayList: () => void,
-    setHideAllInfo: (hideAllInfo: any) => void,
+    setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
 
@@ -74,19 +78,16 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 const resData = await response.json();
                 set({ wordTodayList: resData });
             },
-            setHideAllInfo: (hideAllInfo: any) => set((state) => {
-                console.log(hideAllInfo);
-                // state.hideAll = {...state.hideAll, ...hideAllInfo};
-                // state.wordTodayList = state.wordTodayList.map((item, idx) => {
-                //     if(hideAllInfo.word) item.hideWord = hideAllInfo.word;
-                //     if(hideAllInfo.read) item.hideRead = hideAllInfo.read;
-                //     if(hideAllInfo.means) item.hideMeans = hideAllInfo.means;
-
-                //     return item;
-                // });
-
-                return state;
-            }),
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+                hideAll: headerVisibleInfo,
+                wordTodayList: state.wordTodayList.map((data) => {
+                    data.hideWord = headerVisibleInfo.word;
+                    data.hideRead = headerVisibleInfo.read;
+                    data.hideMeans = headerVisibleInfo.means;
+                    
+                    return data;
+                })
+            })),
             init: () => set({ 
                 wordTodayInfo: {
                     level: '',
