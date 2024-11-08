@@ -19,15 +19,16 @@ const LevelUpList = (props: LevelUpListProps) => {
     level
   } = props
   
-  const pathname = usePathname();
   const router = useRouter();
   const levelUpInfo =useLevelUpStore((state) => state.levelUpInfo);
   const setLevelUpInfo = useLevelUpStore((state) => state.setLevelUpInfo);
+  const getLevelUpList = useLevelUpStore((state) => state.getLevelUpList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: levelUpInfo.level || level}});
 
   const handleClick = (selectedData: any) => {
     setLevelUpInfo({...levelUpInfo, ...selectedData});
+    getLevelUpList();
     router.push('/levelUp/test');
   }
 

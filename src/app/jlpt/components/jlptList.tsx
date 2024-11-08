@@ -22,11 +22,13 @@ const JlptList = (props: JlptListProps) => {
   const router = useRouter();
   const jlptInfo =useJlptStore((state) => state.jlptInfo);
   const setJlptInfo = useJlptStore((state) => state.setJlptInfo);
+  const getJlptList = useJlptStore((state) => state.getJlptList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: jlptInfo.level || level}});
 
   const handleClick = (selectedData: any) => {
     setJlptInfo({...jlptInfo, ...selectedData});
+    getJlptList();
     router.push('/jlpt/test');
   }
 
