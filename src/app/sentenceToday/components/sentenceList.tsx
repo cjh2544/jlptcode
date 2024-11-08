@@ -1,9 +1,6 @@
 'use client';
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
-import { Button, Card, Typography } from "@material-tailwind/react";
-import WordInfo from './sentenceInfo';
-import { Suspense, useState } from 'react';
-import HeaderButton from './headerButton';
+import { Card } from "@material-tailwind/react";
 import SentenceInfo from './sentenceInfo';
 
 type SentenceListProps = {
