@@ -1,15 +1,20 @@
 "use client"; // 필수!
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import Question from '../components/question';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
 import { useLevelUpList } from '@/app/swr/useLevelUp';
 import Loading from '@/app/components/Loading/loading';
 
 const LevelUpTestPage = () => {
-  const { levelUpInfo } = useLevelUpStore();
+  const levelUpInfo = useLevelUpStore(state => state.levelUpInfo);
+  const setLevelupList = useLevelUpStore(state => state.setLevelUpList);
   const {data: levelUpList = [], isLoading, error} = useLevelUpList({params: levelUpInfo});
+
+  useEffect(() => {
+    setLevelupList(levelUpList)
+  }, [levelUpList])
 
   return <>
       <LevelUpLayout>

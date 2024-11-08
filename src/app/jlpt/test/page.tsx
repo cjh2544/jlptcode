@@ -2,14 +2,19 @@
 import { useJlptStore } from '@/app/store/jlptStore';
 import JlptLayout from '@/app/components/Layout/JlptLayout'
 import Question from '../components/question';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import { useJlptList } from '@/app/swr/useJlpt';
 import Loading from '@/app/components/Loading/loading';
 
 const JlptTestPage = () => {
-  const { jlptInfo } = useJlptStore();
+  const jlptInfo = useJlptStore(state => state.jlptInfo);
+  const setJlptList = useJlptStore(state => state.setJlptList);
   const {data: jlptList = [], isLoading, error} = useJlptList({params: jlptInfo});
+
+  useEffect(() => {
+    setJlptList(jlptList)
+  }, [jlptList])
 
   return <>
     <JlptLayout>
