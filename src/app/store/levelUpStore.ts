@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
 interface LevelUpStore {
+    isLoading: boolean,
     levelUpInfo: {
         level: string,
         classification: string,
@@ -17,6 +18,7 @@ interface LevelUpStore {
 export const useLevelUpStore = create<LevelUpStore>()(
     devtools(
         persist((set, get) => ({
+            isLoading: false,
             levelUpInfo: {
                 level: '',
                 classification: '',
@@ -35,6 +37,7 @@ export const useLevelUpStore = create<LevelUpStore>()(
                 return state;
             }),
             getLevelUpList: async () => {
+                set({ isLoading: true });
                 const response = await fetch('/api/levelUp/list', {
                     method: 'POST',
                     headers: {
@@ -43,9 +46,10 @@ export const useLevelUpStore = create<LevelUpStore>()(
                     body: JSON.stringify({params: get().levelUpInfo}),
                 })
                 const resData = await response.json();
-                set({ levelUpList: resData });
+                set({ levelUpList: resData, isLoading: false });
             },
             init: () => set({ 
+                isLoading: false,
                 levelUpInfo: {
                     level: '',
                     classification: '',

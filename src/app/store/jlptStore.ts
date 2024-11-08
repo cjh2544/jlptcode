@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
 interface JlptStore {
+    isLoading: boolean,
     jlptInfo: {
         level: string,
         classification: string,
@@ -19,6 +20,7 @@ interface JlptStore {
 export const useJlptStore = create<JlptStore>()(
     devtools(
         persist((set, get) => ({
+            isLoading: false,
             jlptInfo: {
                 level: '',
                 classification: '',
@@ -39,6 +41,7 @@ export const useJlptStore = create<JlptStore>()(
                 return state;
             }),
             getJlptList: async () => {
+                set({ isLoading: true });
                 const response = await fetch('/api/jlpt/list', {
                     method: 'POST',
                     headers: {
@@ -47,9 +50,10 @@ export const useJlptStore = create<JlptStore>()(
                     body: JSON.stringify({params: get().jlptInfo}),
                 })
                 const resData = await response.json();
-                set({ jlptList: resData });
+                set({ jlptList: resData, isLoading: false });
             },
             init: () => set({ 
+                isLoading: false,
                 jlptInfo: {
                     level: '',
                     classification: '',
