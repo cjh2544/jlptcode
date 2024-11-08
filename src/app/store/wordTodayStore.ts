@@ -13,6 +13,7 @@ type WordTodayInfoType = {
     sentence_read: string;
     sentence_translate: string;
     question: any;
+    showQuestion: boolean;
     hideWord: boolean,
     hideRead: boolean,
     hideMeans: boolean
@@ -76,7 +77,14 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     body: JSON.stringify({params: get().wordTodayInfo}),
                 })
                 const resData = await response.json();
-                set({ wordTodayList: resData });
+                set({ 
+                    wordTodayList: resData, 
+                    hideAll: {
+                        word: false,
+                        read: false,
+                        means: false
+                    }
+                });
             },
             setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
                 hideAll: headerVisibleInfo,

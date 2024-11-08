@@ -1,6 +1,8 @@
 'use client';
 import React, {memo} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
+import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
+import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 
 type WordInfoProps = {
   wordInfo: any
@@ -23,6 +25,7 @@ const WordInfo = (props:WordInfoProps) => {
     sentence_read, 
     sentence_translate,
     question,
+    showQuestion = false,
     hideWord = false,
     hideRead = false,
     hideMeans = false
@@ -40,6 +43,10 @@ const WordInfo = (props:WordInfoProps) => {
     }
 
     onClick && onClick({...wordInfo, ...visibleInfo});
+  }
+
+  const handleShowQuestion = () => {
+    onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
   return (
@@ -90,10 +97,20 @@ const WordInfo = (props:WordInfoProps) => {
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
-            [確認]
+            {/* [確認] */}
+            <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
+              [確認]
+            </button>
           </div>
         </td>
       </tr>
+      {showQuestion && (
+        <tr className="even:bg-blue-gray-50/50">
+          <td colSpan={6} className="p-4 border-b border-blue-gray-50">
+            <CardWordQuestion questionInfo={question} />
+          </td>
+        </tr>
+      )}
     </>
   );
 }
