@@ -30,10 +30,10 @@ const SentenceList = ({className}: SentenceListProps) => {
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full table-auto text-left">
           <colgroup>
-            <col className='w-1/12' />
-            <col className='w-1/12' />
+            <col />
+            <col />
             <col className='w-8/12' />
-            <col className='w-2/12' />
+            <col />
           </colgroup>
           <thead>
             <tr>

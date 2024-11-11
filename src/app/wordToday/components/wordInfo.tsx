@@ -3,7 +3,7 @@ import React, {memo} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-import { getSpeech } from "@/app/utils/getSpeech";
+// import { getSpeech } from "@/app/utils/getSpeech";
 
 type WordInfoProps = {
   wordInfo: any
@@ -51,7 +51,7 @@ const WordInfo = (props:WordInfoProps) => {
   }
 
   const handleGetSpeech = (read: string) => {
-    getSpeech(read);
+    // getSpeech(read);
   }
 
   return (
