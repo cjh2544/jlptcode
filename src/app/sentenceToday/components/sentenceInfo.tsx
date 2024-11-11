@@ -60,7 +60,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             {year}
-          </div> 
+          </div>
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
