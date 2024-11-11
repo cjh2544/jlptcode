@@ -3,6 +3,7 @@ import React, {memo} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
+import { getSpeech } from "@/app/utils/getSpeech";
 
 type SentenceInfoProps = {
   wordInfo: any
@@ -49,6 +50,10 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
+  const handleGetSpeech = (read: string) => {
+    getSpeech(read);
+  }
+
   return (
     <>
       <tr className="even:bg-blue-gray-50/50">
@@ -67,9 +72,14 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             <div className="flex flex-col">
               <div className="flex justify-between items-center">
                 <p className={`${hideSentence ? 'invisible' : ''}`}>{sentence}</p>
-                <button onClick={(e) => handleClick('sentence')} className="text-blue-500 focus:outline-none">
-                  <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-                </button>
+                <p>
+                  <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
+                    <i className="fa-solid fa-volume-high"></i>
+                  </button>
+                  <button onClick={(e) => handleClick('sentence')} className="text-blue-500 focus:outline-none">
+                    <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                  </button>
+                </p>
               </div>
               <div className="flex justify-between items-center">
                 <p className={`${hideSentenceRead ? 'invisible' : ''}`}>{sentence_read}</p>
