@@ -26,20 +26,20 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     sentence_translate,
     question,
     showQuestion = false,
-    hideWord = false,
-    hideRead = false,
-    hideMeans = false
+    hideSentence = false,
+    hideSentenceRead = false,
+    hideSentenceTranslate = false
   } = wordInfo;
 
   const handleClick = (colType: string) => {
     let visibleInfo = {};
 
-    if('word' === colType) {
-      visibleInfo = { hideWord: !hideWord };
-    } else if('read' === colType) {
-      visibleInfo = { hideRead: !hideRead };
-    } else if('means' === colType) {
-      visibleInfo = { hideMeans: !hideMeans };
+    if('sentence' === colType) {
+      visibleInfo = { hideSentence: !hideSentence };
+    } else if('sentence_read' === colType) {
+      visibleInfo = { hideSentenceRead: !hideSentenceRead };
+    } else if('sentence_translate' === colType) {
+      visibleInfo = { hideSentenceTranslate: !hideSentenceTranslate };
     }
 
     onClick && onClick({...wordInfo, ...visibleInfo});
@@ -65,25 +65,26 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             <div className="flex flex-col">
-              <p>{sentence}</p>
-              <p>{sentence_read}</p>
-              <p>{sentence_translate}</p>
+              <div className="flex justify-between items-center">
+                <p className={`${hideSentence ? 'invisible' : ''}`}>{sentence}</p>
+                <button onClick={(e) => handleClick('sentence')} className="text-blue-500 focus:outline-none">
+                  <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                </button>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className={`${hideSentenceRead ? 'invisible' : ''}`}>{sentence_read}</p>
+                <button onClick={(e) => handleClick('sentence_read')} className="text-blue-500 focus:outline-none">
+                  <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                </button>
+              </div>
+              <div className="flex justify-between items-center">
+                <p className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{sentence_translate}</p>
+                <button onClick={(e) => handleClick('sentence_translate')} className="text-blue-500 focus:outline-none">
+                  <i className={`${hideSentenceTranslate ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                </button>
+              </div>
             </div> 
           </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
-              [読み方]
-            </button>
-          </div> 
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
-              [意味]
-            </button> 
-          </div> 
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
@@ -93,6 +94,13 @@ const SentenceInfo = (props:SentenceInfoProps) => {
           </div>
         </td>
       </tr>
+      {showQuestion && (
+        <tr className="even:bg-blue-gray-50/50">
+          <td colSpan={4} className="p-4 border-b border-blue-gray-50">
+            <CardWordQuestion questionInfo={question} />
+          </td>
+        </tr>
+      )}
     </>
   );
 }

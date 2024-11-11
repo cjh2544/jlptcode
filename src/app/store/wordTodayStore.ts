@@ -16,7 +16,10 @@ type WordTodayInfoType = {
     showQuestion: boolean;
     hideWord: boolean,
     hideRead: boolean,
-    hideMeans: boolean
+    hideMeans: boolean,
+    hideSentence: boolean,
+    hideSentenceRead: boolean
+    hideSentenceTranslate: boolean,
 }
 
 type HeaderVisibleType = {
@@ -24,6 +27,9 @@ type HeaderVisibleType = {
     word: boolean;
     read: boolean;
     means: boolean;
+    sentence: boolean;
+    sentence_read: boolean;
+    sentence_translate: boolean;
 }
 
 interface WordTodayStore {
@@ -49,7 +55,10 @@ export const useWordTodayStore = create<WordTodayStore>()(
             hideAll: {
                 word: false,
                 read: false,
-                means: false
+                means: false,
+                sentence: false,
+                sentence_read: false,
+                sentence_translate: false
             },
             wordTodayList: [],
             setWordTodayInfo: (wordTodayInfo) => set((state) => {
@@ -82,7 +91,10 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     hideAll: {
                         word: false,
                         read: false,
-                        means: false
+                        means: false,
+                        sentence: false,
+                        sentence_read: false,
+                        sentence_translate: false
                     }
                 });
             },
@@ -92,6 +104,10 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     data.hideWord = headerVisibleInfo.word;
                     data.hideRead = headerVisibleInfo.read;
                     data.hideMeans = headerVisibleInfo.means;
+
+                    data.hideSentence = headerVisibleInfo.sentence;
+                    data.hideSentenceRead = headerVisibleInfo.sentence_read;
+                    data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;
                     
                     return data;
                 })
@@ -104,7 +120,10 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 hideAll: {
                     word: false,
                     read: false,
-                    means: false
+                    means: false,
+                    sentence: false,
+                    sentence_read: false,
+                    sentence_translate: false
                 },
             }),
         }),

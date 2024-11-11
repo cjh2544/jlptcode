@@ -2,6 +2,7 @@
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { Card } from "@material-tailwind/react";
 import SentenceInfo from './sentenceInfo';
+import HeaderButton from './headerButton';
 
 type SentenceListProps = {
   className?: string,
@@ -10,9 +11,7 @@ type SentenceListProps = {
 const TABLE_HEAD = [
   { label: "出題年度", visibleBtn: false },
   { label: "番号", visibleBtn: false },
-  { label: "文章", visibleBtn: false },
-  { label: "文章読み方", visibleBtn: false },
-  { label: "文章意味", visibleBtn: false },
+  { label: "文章", visibleBtn: true },
   { label: "出題問題", visibleBtn: false },
 ];
 
@@ -29,13 +28,26 @@ const SentenceList = ({className}: SentenceListProps) => {
   return (
     <div className={`mx-4 ${className}`}>
       <Card className="h-full w-full overflow-scroll">
-        <table className="w-full min-w-max table-auto text-left">
+        <table className="w-full table-auto text-left">
+          <colgroup>
+            <col className='w-1/12' />
+            <col className='w-1/12' />
+            <col className='w-8/12' />
+            <col className='w-2/12' />
+          </colgroup>
           <thead>
             <tr>
               {TABLE_HEAD.map((head: any, idx) => (
                 <th key={idx} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
                   <div className="text-sm font-normal flex justify-between items-center">
                     <label>{head?.label}</label>
+                    {head.visibleBtn && (
+                      <div className='flex flex-col'>
+                        <HeaderButton colName={'sentence'} />
+                        <HeaderButton colName={'sentence_read'} />
+                        <HeaderButton colName={'sentence_translate'} />
+                      </div>
+                    )}
                   </div>
                 </th>
               ))}

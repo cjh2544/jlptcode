@@ -66,7 +66,6 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
-              {/* <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
               <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
                 <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
               </button>
@@ -77,7 +76,6 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideRead ? 'invisible' : ''}`}>{read}</p>
-              {/* <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
               <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
                 <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
               </button>
@@ -88,7 +86,6 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideMeans ? 'invisible' : ''}`}>{means}</p>
-              {/* <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">[隠す]</button> */}
               <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">
                 <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
               </button>
@@ -97,7 +94,6 @@ const WordInfo = (props:WordInfoProps) => {
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
-            {/* [確認] */}
             <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
               [確認]
             </button>
