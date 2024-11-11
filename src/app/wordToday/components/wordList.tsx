@@ -2,7 +2,7 @@
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { Button, Card, Typography } from "@material-tailwind/react";
 import WordInfo from './wordInfo';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import HeaderButton from './headerButton';
 
 type WordListProps = {
@@ -27,6 +27,11 @@ const WordList = ({className}: WordListProps) => {
       wordTodayList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
+
+  //음성 변환 목소리 preload
+  useEffect(() => {
+    window.speechSynthesis.getVoices();
+  }, []);
 
   return (
     <div className={`mx-4 ${className}`}>

@@ -3,6 +3,7 @@ import React, {memo} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
+import { getSpeech } from "@/app/utils/getSpeech";
 
 type WordInfoProps = {
   wordInfo: any
@@ -49,6 +50,11 @@ const WordInfo = (props:WordInfoProps) => {
     onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
+  const handleGetSpeech = (word: string) => {
+    console.log(word);
+    getSpeech(word);
+  }
+
   return (
     <>
       <tr className="even:bg-blue-gray-50/50">
@@ -66,9 +72,14 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
-              <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
-                <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-              </button>
+              <p>
+                <button onClick={(e) => handleGetSpeech(word)} className="text-blue-500 focus:outline-none mr-1">
+                  <i className="fa-solid fa-volume-high"></i>
+                </button>
+                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
+                  <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                </button>
+              </p>
             </div> 
           </div>
         </td>
