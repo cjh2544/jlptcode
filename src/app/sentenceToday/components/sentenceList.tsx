@@ -32,7 +32,7 @@ const SentenceList = ({className}: SentenceListProps) => {
           <colgroup>
             <col />
             <col />
-            <col />
+            <col className='max-w-lg' />
             <col />
           </colgroup>
           <thead>
