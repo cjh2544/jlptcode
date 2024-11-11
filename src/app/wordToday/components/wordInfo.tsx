@@ -50,9 +50,8 @@ const WordInfo = (props:WordInfoProps) => {
     onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
-  const handleGetSpeech = (word: string) => {
-    console.log(word);
-    getSpeech(word);
+  const handleGetSpeech = (read: string) => {
+    getSpeech(read);
   }
 
   return (
@@ -73,7 +72,7 @@ const WordInfo = (props:WordInfoProps) => {
             <div className="flex justify-between items-center">
               <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
               <p>
-                <button onClick={(e) => handleGetSpeech(word)} className="text-blue-500 focus:outline-none mr-1">
+                <button onClick={(e) => handleGetSpeech(read)} className="text-blue-500 focus:outline-none mr-1">
                   <i className="fa-solid fa-volume-high"></i>
                 </button>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
