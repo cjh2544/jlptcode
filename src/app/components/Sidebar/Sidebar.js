@@ -4,7 +4,7 @@ import Link from "next/link";
 // import { useRouter } from "next/router";
 
 import { useRouter, usePathname } from 'next/navigation';
-import SignInSidebarPage from "@/app/signinSidebar/page";
+import SignInSidebarPage from "../SignIn/SignInSidebar";
 
 // import NotificationDropdown from "@/app/components/Dropdowns/NotificationDropdown";
 // import UserDropdown from "@/app/components/Dropdowns/UserDropdown";

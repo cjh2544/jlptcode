@@ -2,6 +2,7 @@ import SignInPage from "@/app/signin/page";
 import { Collapse } from "@material-tailwind/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import SignInHeaderPage from "../SignIn/SignInHeader";
 
 const mainNavbarMenuList = [
   {
@@ -47,7 +48,7 @@ export default function MainNavbar() {
               JLPTCODE
             </a>
             <div className="flex items-center">
-              <div className="lg:hidden"><SignInPage /></div>
+              <div className="lg:hidden"><SignInHeaderPage /></div>
               <button onClick={(e) => handleClickMenuBtn(e)} className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button">
                 <span className="block relative w-6 h-px rounded-sm bg-white"></span>
                 <span className="block relative w-6 h-px rounded-sm bg-white mt-1"></span>
@@ -56,7 +57,7 @@ export default function MainNavbar() {
             </div>
           </div>
           <div className="flex-col md:flex-row list-none items-center hidden lg:flex">
-            <SignInPage />
+            <SignInHeaderPage />
             <ul className="flex flex-col lg:flex-row list-none ml-auto">
               {mainNavbarMenuList.map((item: any, idx) => {
                 return (

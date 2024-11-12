@@ -28,7 +28,7 @@ const SentenceList = ({className}: SentenceListProps) => {
   return (
     <div className={`mx-4 ${className}`}>
       <Card className="h-full w-full overflow-scroll">
-        <table className="w-full min-w-max table-auto text-left">
+        <table className="w-full max-w-[1080px] table-auto text-left">
           <colgroup>
             <col />
             <col />
