@@ -3,7 +3,7 @@ import React, {memo} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-// import { getSpeech } from "@/app/utils/getSpeech";
+import { playSpeech } from "@/app/utils/openai";
 
 type WordInfoProps = {
   wordInfo: any
@@ -51,7 +51,7 @@ const WordInfo = (props:WordInfoProps) => {
   }
 
   const handleGetSpeech = (read: string) => {
-    // getSpeech(read);
+    playSpeech(read);
   }
 
   return (
@@ -72,9 +72,9 @@ const WordInfo = (props:WordInfoProps) => {
             <div className="flex justify-between items-center">
               <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
               <p>
-                <button onClick={(e) => handleGetSpeech(read)} className="text-blue-500 focus:outline-none mr-1">
+                {/* <button onClick={(e) => handleGetSpeech(read)} className="text-blue-500 focus:outline-none mr-1">
                   <i className="fa-solid fa-volume-high"></i>
-                </button>
+                </button> */}
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
