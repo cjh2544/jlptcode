@@ -23,7 +23,7 @@ export default function SignUpLayout({
         <div className="flex-1 sm:hidden">
             <img
               className="object-cover object-center w-full h-full"
-              src={'images/main_bg.png'}
+              src={'/images/main_bg.png'}
               alt="nature image"
             />
         </div>

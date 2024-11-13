@@ -13,6 +13,9 @@ module.exports = withMT({
   ],
   theme: {
     extend: {},
+    fontFamily: {
+      nanumGothic: ["Nanum Gothic"],
+    },
     screens: {
       'xs': {'max': '637px'},
       // => @media (max-width: 637px) { ... }
