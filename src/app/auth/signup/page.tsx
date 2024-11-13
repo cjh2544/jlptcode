@@ -3,6 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useState } from "react";
 import { z } from "zod";
+import { filter, includes } from "lodash";
 
 const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -26,6 +27,7 @@ const SignUpPage = () => {
       if(data.success) {
         console.log(data.result);
       } else {
+        console.log(data.error.issues);
         setErrors(data.error.issues);
       }
     } catch (error) {
@@ -50,7 +52,7 @@ const SignUpPage = () => {
                         회원가입
                     </h1>
                     <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
-                        <div>
+                        <div className={``}>
                             <label className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">이름</label>
                             <input required={true} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="김회원" />
                         </div>
