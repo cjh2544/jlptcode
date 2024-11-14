@@ -1,14 +1,18 @@
 import User from "@/app/models/userModel";
 import connectDB from "@/app/utils/database";
+import { isEmpty } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 
 const UserFormData = z.object({
-  name: z.string().min(2, "이름은 2자이상 입력해 주세요."),
-  email: z.string(),
-  password: z.string(),
-  // 'confirm-password': z.string(),
+  name: z.string().min(2, "이름은 2자이상 입력해 주세요.").max(20, "이름은 최대 20자리까지 입력해 주세요."),
+  email: z.string().email("이메일 형식이 올바르지 않습니다.").max(100, "이메일은 최대 100자리까지 입력해 주세요."),
+  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
+  'confirm-password': z.string().min(6, "비밀번호 확인은 6자이상 입력해 주세요.").max(20, "비밀번호 확인은 최대 20자리까지 입력해 주세요."),
+}).refine((data) => data.password === data[`confirm-password`], {
+  message: "비밀번호가 일치하지 않습니다.",
+  path: ["confirm-password"], // path of error
 });
 
 export async function GET(request: NextRequest) {
@@ -24,19 +28,25 @@ export async function GET(request: NextRequest) {
 export async function POST(req: NextRequest, res: NextResponse) {
   await connectDB();
   const body = await req.formData();
-
   const userInfo = Object.fromEntries(body.entries());
-
   const validation = UserFormData.safeParse(userInfo);
+  let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   if (validation.success) {
-    // 
-    await User.create(userInfo);
+    // 회원정보 조회
+    const existUserInfo = await User.find({email: userInfo.email})
+
+    if(isEmpty(existUserInfo)) {
+      await User.create(userInfo);
+      resultInfo = { success: true, message: '회원가입이 완료 되었습니다.' };
+    } else {
+      resultInfo = { success: false, message: '이미 등록된 이메일 입니다.' };
+    }
   } else {
-    return NextResponse.json(validation);
+    resultInfo = validation;
   }
 
-  return NextResponse.json({success: true, result: userInfo})
+  return NextResponse.json(resultInfo)
 }
 
 export async function DELETE(request: NextRequest) {
