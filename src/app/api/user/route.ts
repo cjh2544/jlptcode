@@ -4,6 +4,9 @@ import { isEmpty } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
+import bcrypt from "bcrypt";
+
+const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 const UserFormData = z.object({
   name: z.string().min(2, "이름은 2자이상 입력해 주세요.").max(20, "이름은 최대 20자리까지 입력해 주세요."),
@@ -37,7 +40,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const existUserInfo = await User.find({email: userInfo.email})
 
     if(isEmpty(existUserInfo)) {
-      await User.create(userInfo);
+      await User.create({...userInfo, password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))});
       resultInfo = { success: true, message: '회원가입이 완료 되었습니다.' };
     } else {
       resultInfo = { success: false, message: '이미 등록된 이메일 입니다.' };
@@ -52,7 +55,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 export async function DELETE(request: NextRequest) {
   await connectDB();
 
-  const { id }: Partial<User> = await request.json();
+  // const { id }: Partial<User> = await request.json();
 
   // const res = await fetch(`${DATA_USERS_URL}/${id}`, {
   //   method: 'DELETE',
@@ -62,5 +65,5 @@ export async function DELETE(request: NextRequest) {
   //   }
   // });
 
-  return NextResponse.json({ "message": `${id}가 삭제 되었습니다.`})
+  return NextResponse.json({ "message": `삭제 되었습니다.`})
 }

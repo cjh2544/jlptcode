@@ -44,6 +44,6 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2"
+    "@types/bcrypt": "^5.0.2"
   }
 }

@@ -3,10 +3,11 @@ import KakaoProvider from 'next-auth/providers/kakao'
 import NaverProvider from 'next-auth/providers/naver'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-// import { prisma } from '@/app/lib/prisma'
-import { compare } from 'bcryptjs'
 import User from '@/app/models/userModel'
 import connectDB from '@/app/utils/database'
+import bcrypt from "bcrypt";
+
+const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 export const options: NextAuthOptions = {
   providers: [
@@ -14,53 +15,56 @@ export const options: NextAuthOptions = {
       clientId: process.env.KAKAO_CLIENT_ID as string,
       clientSecret: process.env.KAKAO_SECRET as string,
     }),
-    /*NaverProvider({
+    NaverProvider({
       clientId: process.env.NAVER_CLIENT_ID as string,
       clientSecret: process.env.NAVER_SECRET as string,
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
-    }),*/
-    // CredentialsProvider({
-    //   name: "Sign in",
-    //   credentials: {
-    //     email: {
-    //       label: "Email",
-    //       type: "email",
-    //       placeholder: "example@example.com",
-    //     },
-    //     password: { label: "Password", type: "password" },
-    //   },
-      // async authorize(credentials) {
-      //   if (!credentials?.email || !credentials.password) {
-      //     return null;
-      //   }
+    }),
+    CredentialsProvider({
+      name: "로그인",
+      credentials: {
+        email: {
+          label: "이메일",
+          type: "email",
+          placeholder: "name@company.com",
+        },
+        password: { label: "비밀번호", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials.password) {
+          return null;
+        }
 
-      //   const user = await prisma.user.findUnique({
-      //     where: {
-      //       email: credentials.email,
-      //     },
-      //   });
+        await connectDB();
 
-      //   if (!user || !(await compare(credentials.password, user.password))) {
-      //     return null;
-      //   }
+        const user = await User.findOne({
+          email: credentials.email,
+        });
 
-      //   return {
-      //     id: user.id,
-      //     email: user.email,
-      //     name: user.name,
-      //     randomKey: "Hey cool",
-      //   };
-      // },
-    // })
+        const isMatch = await bcrypt.compareSync(
+          credentials.password,
+          user.password
+        );
+
+        if (!user || !(isMatch)) {
+          return null;
+        }
+
+        return user;
+      },
+    })
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       if(account?.type === 'oauth') {
         return await signInWithOAuth({ user, account, profile });
       }
+
+      console.log(credentials);
+      console.log("ACOUNT TYPE ====>", account?.type);
 
       return true;
     },

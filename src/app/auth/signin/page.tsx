@@ -1,12 +1,29 @@
 "use client"; // 필수!
-import { signIn, signOut, useSession } from "next-auth/react";
+import { ClientSafeProvider, getCsrfToken, getProviders, LiteralUnion, signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import GoogleSigninButton from "./GoogleSigninButton";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
-import { FormEvent, useCallback } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
+import { BuiltInProviderType } from "next-auth/providers";
 
 const SignInPage = () => {
   const { data: session } = useSession();
+  const [ csrfToken, setCsrfToken ] = useState<string>();
+  const [ providers, setProviders ] = useState<Record<
+  LiteralUnion<BuiltInProviderType, string>,ClientSafeProvider > | null>();
+  
+  // const csrfToken = await getCsrfToken();
+  // const providers = await getProviders();
+
+  const getCsrf = async () => {
+    const csrf = await getCsrfToken();
+    setCsrfToken(csrf);
+  }
+
+  const getProv = async () => {
+    const prov = await getProviders();
+    setProviders(prov);
+  }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,15 +59,20 @@ const SignInPage = () => {
     // }
   }
 
-  const isValid = useCallback((colName: string) => {
-    // if(isEmpty(errors)) {
-    //   return true;
-    // } else {
-    //   const result = find(errors, (err) => includes(err.path, colName));
-    //   return isEmpty(result);
-    // }
+  // const isValid = useCallback((colName: string) => {
+  //   // if(isEmpty(errors)) {
+  //   //   return true;
+  //   // } else {
+  //   //   const result = find(errors, (err) => includes(err.path, colName));
+  //   //   return isEmpty(result);
+  //   // }
     
-    return true;
+  //   return true;
+  // }, [])
+
+  useEffect(()=> {
+    getCsrf();
+    getProv();
   }, [])
 
   return (
@@ -63,10 +85,18 @@ const SignInPage = () => {
           <div className="w-full bg-white rounded-lg shadow-lg dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    로그인
+                    로그인{session?.user.email}
                 </h1>
-                <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
+                <form action="/api/auth/callback/credentials" className="space-y-4 md:space-y-6">
+                  <input type="hidden" name="csrfToken" value={csrfToken} />
                   <GoogleSigninButton text="Sign in" />
+                  {/* {providers && Object.values(providers).map(provider => (
+                    <div key={provider.name}>
+                      <button onClick={() => signIn(provider.id)}>
+                        Sign in with {provider.name}
+                      </button>
+                    </div>
+                  ))} */}
                   <div className="my-6 flex items-center justify-center">
                     <span className="block h-px w-full bg-stroke dark:bg-dark-3"></span>
                     <div className="block w-full min-w-fit bg-white px-3 text-center font-medium dark:bg-gray-dark">
@@ -75,11 +105,11 @@ const SignInPage = () => {
                     <span className="block h-px w-full bg-stroke dark:bg-dark-3"></span>
                   </div>
                   <div>
-                      <label className={`block mb-2 text-sm font-bold ${isValid('email') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>이메일</label>
+                      <label className={`block mb-2 text-sm font-bold dark:text-white`}>이메일</label>
                       <input required={true} minLength={2} maxLength={100} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
                   </div>
                   <div>
-                      <label className={`block mb-2 text-sm font-bold ${isValid('password') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>비밀번호 (6~20자리)</label>
+                      <label className={`block mb-2 text-sm font-bold dark:text-white`}>비밀번호 (6~20자리)</label>
                       <input required={true} minLength={6} maxLength={20} type="password" name="password" id="password" placeholder="••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                   </div>
                   <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">로그인</button>
