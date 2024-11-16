@@ -3,10 +3,9 @@ import { ClientSafeProvider, getCsrfToken, getProviders, signIn, useSession } fr
 import Link from "next/link";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useEffect, useState } from "react";
-import { User } from "next-auth";
 import SocialSigninButton from "./SocialSigninButton";
 
-const SignInPage = (profile: User) => {
+const SignInPage = () => {
   const { data: session } = useSession();
   const [ csrfToken, setCsrfToken ] = useState<string>();
   const [ providers, setProviders ] = useState<Record<string, ClientSafeProvider>>();
