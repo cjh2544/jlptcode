@@ -6,6 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/models/userModel'
 import connectDB from '@/app/utils/database'
 import bcrypt from "bcrypt";
+import { NextResponse } from 'next/server'
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -15,10 +16,10 @@ export const options: NextAuthOptions = {
       clientId: process.env.KAKAO_CLIENT_ID as string,
       clientSecret: process.env.KAKAO_SECRET as string,
     }),
-    NaverProvider({
-      clientId: process.env.NAVER_CLIENT_ID as string,
-      clientSecret: process.env.NAVER_SECRET as string,
-    }),
+    // NaverProvider({
+    //   clientId: process.env.NAVER_CLIENT_ID as string,
+    //   clientSecret: process.env.NAVER_SECRET as string,
+    // }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
@@ -44,13 +45,23 @@ export const options: NextAuthOptions = {
           email: credentials.email,
         });
 
+        if (!user) {
+          return NextResponse.json({
+            status: 400,
+            message: '등록된 정보가 없습니다.',
+          });
+        }
+
         const isMatch = await bcrypt.compareSync(
           credentials.password,
           user.password
         );
 
-        if (!user || !(isMatch)) {
-          return null;
+        if (!isMatch) {
+          return NextResponse.json({
+            status: 400,
+            message: '비밀번호가 일치하지 않습니다.',
+          });
         }
 
         return user;
@@ -62,9 +73,6 @@ export const options: NextAuthOptions = {
       if(account?.type === 'oauth') {
         return await signInWithOAuth({ user, account, profile });
       }
-
-      console.log(credentials);
-      console.log("ACOUNT TYPE ====>", account?.type);
 
       return true;
     },
@@ -80,6 +88,13 @@ export const options: NextAuthOptions = {
 
       return token;
     }
+  },
+  pages: {
+    signIn: '/auth/signin',
+    // signOut: '/auth/signout',
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // (used for check email message)
+    newUser: '/auth/singup' // New users will be directed here on first sign in (leave the property out if not of interest)
   }
 }
 
