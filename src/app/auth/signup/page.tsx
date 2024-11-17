@@ -6,12 +6,14 @@ import { z } from "zod";
 import { filter, find, get, includes, isEmpty } from "lodash";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<any> | null>(null)
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
+  const [isSuccess, setSuccess] = useState<boolean>(false)
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,7 +31,9 @@ const SignUpPage = () => {
       const data = await response.json();
       
       if(data.success) {
-        console.log(data.result);
+        setConfirmMsg('회원가입이 완료되었습니다.');
+        setShowConfirm(true);
+        setSuccess(true);
       } else {
         if(data.error) {
           setErrors(data.error.issues);
@@ -67,6 +71,10 @@ const SignUpPage = () => {
 
   const handleCloseModal = (visible: boolean) => {
     setShowConfirm(visible);
+
+    if(isSuccess) {
+      redirect('/auth/signin');
+    }
   }
 
   return (
