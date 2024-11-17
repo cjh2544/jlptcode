@@ -6,7 +6,6 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/models/userModel'
 import connectDB from '@/app/utils/database'
 import bcrypt from "bcrypt";
-import { NextResponse } from 'next/server'
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -16,10 +15,10 @@ export const options: NextAuthOptions = {
       clientId: process.env.KAKAO_CLIENT_ID as string,
       clientSecret: process.env.KAKAO_SECRET as string,
     }),
-    // NaverProvider({
-    //   clientId: process.env.NAVER_CLIENT_ID as string,
-    //   clientSecret: process.env.NAVER_SECRET as string,
-    // }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID as string,
+      clientSecret: process.env.NAVER_SECRET as string,
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
@@ -46,10 +45,7 @@ export const options: NextAuthOptions = {
         });
 
         if (!user) {
-          return NextResponse.json({
-            status: 400,
-            message: '등록된 정보가 없습니다.',
-          });
+          throw new Error("회원정보가 없습니다.");
         }
 
         const isMatch = await bcrypt.compareSync(
@@ -58,10 +54,7 @@ export const options: NextAuthOptions = {
         );
 
         if (!isMatch) {
-          return NextResponse.json({
-            status: 400,
-            message: '비밀번호가 일치하지 않습니다.',
-          });
+          throw new Error("비밀번호가 일치하지 않습니다.");
         }
 
         return user;
@@ -92,9 +85,9 @@ export const options: NextAuthOptions = {
   pages: {
     signIn: '/auth/signin',
     // signOut: '/auth/signout',
-    // error: '/auth/error', // Error code passed in query string as ?error=
+    // error: '/auth/signin', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
-    newUser: '/auth/singup' // New users will be directed here on first sign in (leave the property out if not of interest)
+    // newUser: '/auth/singup' // New users will be directed here on first sign in (leave the property out if not of interest)
   }
 }
 
@@ -130,16 +123,13 @@ const signInWithOAuth = async ({ user, account, profile }: { user: any, account:
     })
   }
 
+  await connectDB();
 
-  if(account.provider !== 'kakao') {
-    await connectDB();
-
-    const userData = await User.findOne({ email: newUser.email });
-    
-    if(userData) return true;
-    
-    await newUser.save();
-  }
+  const userData = await User.findOne({ email: newUser.email });
+  
+  if(userData) return true;
+  
+  await newUser.save();
 
   return true;
 }

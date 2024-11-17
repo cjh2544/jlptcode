@@ -5,7 +5,6 @@ dns.setDefaultResultOrder("ipv4first")
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    // domains: ['http://k.kakaocdn.net', 'http://k.kakaocdn.net'],
     remotePatterns: [
       {
         protocol: 'http',
@@ -22,6 +21,12 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'drive.google.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'authjs.dev',
         port: '',
         pathname: '/**',
       },
