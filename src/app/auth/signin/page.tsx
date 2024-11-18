@@ -5,6 +5,7 @@ import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useEffect, useState } from "react";
 import SocialSigninButton from "./SocialSigninButton";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
+import { redirect } from "next/navigation";
 
 const SignInPage = () => {
   const { data: session } = useSession();
@@ -49,6 +50,8 @@ const SignInPage = () => {
     if(!res.ok) {
       setConfirmMsg(res?.error);
       setShowConfirm(true);
+    } else {
+      redirect('/')
     }
   }
   const handleCloseModal = (visible: boolean) => {
