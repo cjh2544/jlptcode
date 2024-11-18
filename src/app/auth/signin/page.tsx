@@ -16,6 +16,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState<string>('');
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
   const router = useRouter()
 
   const getCsrf = async () => {
@@ -51,6 +52,7 @@ const SignInPage = () => {
     if(!res.ok) {
       setConfirmMsg(res?.error);
       setShowConfirm(true);
+      setConfirmType('warning');
     } else {
       router.push("/")
     }
@@ -124,7 +126,7 @@ const SignInPage = () => {
           </div>
         </section>
       </SignUpLayout>
-      <ModalConfirm type={'warning'} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
+      <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
     </>
   )
 }

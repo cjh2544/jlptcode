@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
   const [isSuccess, setSuccess] = useState<boolean>(false)
-  const router = useRouter()
+  const [userInfo, setUserInfo] = useState<any>({})
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +32,7 @@ const SignUpPage = () => {
       const data = await response.json();
       
       if(data.success) {
+        setUserInfo(Object.fromEntries(formData));
         setConfirmMsg('회원가입이 완료되었습니다.');
         setShowConfirm(true);
         setSuccess(true);
@@ -74,7 +75,7 @@ const SignUpPage = () => {
     setShowConfirm(visible);
 
     if(isSuccess) {
-      router.push("/auth/signin")
+      signIn('credentials', {...userInfo, redirect: true});
     }
   }
 
