@@ -5,7 +5,7 @@ import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useEffect, useState } from "react";
 import SocialSigninButton from "./SocialSigninButton";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const SignInPage = () => {
   const { data: session } = useSession();
@@ -16,6 +16,7 @@ const SignInPage = () => {
   const [password, setPassword] = useState<string>('');
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
+  const router = useRouter()
 
   const getCsrf = async () => {
     const csrf = await getCsrfToken();
@@ -51,7 +52,7 @@ const SignInPage = () => {
       setConfirmMsg(res?.error);
       setShowConfirm(true);
     } else {
-      redirect('/')
+      router.push("/")
     }
   }
   const handleCloseModal = (visible: boolean) => {
@@ -74,7 +75,7 @@ const SignInPage = () => {
             <div className="w-full bg-white rounded-lg shadow-lg sm:max-w-md xl:p-0">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                   <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                      로그인{session?.user.email}
+                      로그인
                   </h1>
                   <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                     <SocialSigninButton providers={providers} onClick={(providerId) => handleClickSocialButton(providerId)} />

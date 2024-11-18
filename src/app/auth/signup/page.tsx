@@ -6,7 +6,7 @@ import { z } from "zod";
 import { filter, find, get, includes, isEmpty } from "lodash";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -14,6 +14,7 @@ const SignUpPage = () => {
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
   const [isSuccess, setSuccess] = useState<boolean>(false)
+  const router = useRouter()
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,7 +74,7 @@ const SignUpPage = () => {
     setShowConfirm(visible);
 
     if(isSuccess) {
-      redirect('/auth/signin');
+      router.push("/auth/signin")
     }
   }
 

@@ -37,10 +37,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   if (validation.success) {
     // 회원정보 조회
-    const existUserInfo = await User.find({email: userInfo.email})
+    const existUserInfo = await User.find({
+      email: userInfo.email,
+      provider: 'credentials'
+    })
 
     if(isEmpty(existUserInfo)) {
-      await User.create({...userInfo, password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))});
+      await User.create({
+        ...userInfo,
+        password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
+      });
       resultInfo = { success: true, message: '회원가입이 완료 되었습니다.' };
     } else {
       resultInfo = { success: false, message: '이미 등록된 이메일 입니다.' };

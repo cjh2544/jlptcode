@@ -42,6 +42,7 @@ export const options: NextAuthOptions = {
 
         const user = await User.findOne({
           email: credentials.email,
+          provider: 'credentials'
         });
 
         if (!user) {
@@ -75,7 +76,7 @@ export const options: NextAuthOptions = {
     async session({ session, user, token }) {
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token, user, account, profile }) {
       // const userData = await getUserByEmail({ email: token?.email || '' });
       // token.user = userData;
 
