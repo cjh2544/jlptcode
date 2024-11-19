@@ -54,6 +54,10 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     playSpeech(read);
   }
 
+  const parseHtml = (html: string) => {
+    return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
+  };
+
   return (
     <>
       <tr className="even:bg-blue-gray-50/50">
@@ -71,7 +75,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
           <div className="font-normal">
             <div className="flex flex-col">
               <div className="flex justify-between items-center">
-                <p className={`${hideSentence ? 'invisible' : ''}`}>{sentence}</p>
+                <p className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence)}</p>
                 <p>
                   {/* <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
                     <i className="fa-solid fa-volume-high"></i>
@@ -82,13 +86,13 @@ const SentenceInfo = (props:SentenceInfoProps) => {
                 </p>
               </div>
               <div className="flex justify-between items-center">
-                <p className={`${hideSentenceRead ? 'invisible' : ''}`}>{sentence_read}</p>
+                <p className={`${hideSentenceRead ? 'invisible' : ''}`}>{parseHtml(sentence_read)}</p>
                 <button onClick={(e) => handleClick('sentence_read')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>
               <div className="flex justify-between items-center">
-                <p className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{sentence_translate}</p>
+                <p className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{parseHtml(sentence_translate)}</p>
                 <button onClick={(e) => handleClick('sentence_translate')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideSentenceTranslate ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
