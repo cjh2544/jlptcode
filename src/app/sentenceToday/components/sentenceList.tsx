@@ -28,12 +28,12 @@ const SentenceList = ({className}: SentenceListProps) => {
   return (
     <div className={`mx-4 ${className}`}>
       <Card className="h-full w-full overflow-scroll">
-        <table className="w-full max-w-[1080px] table-auto text-left">
+        <table className="w-full table-auto text-left">
           <colgroup>
+            <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
+            <col className='sm:w-2/12 lg:w-1/12 w-1/12' />
             <col />
-            <col />
-            <col />
-            <col />
+            <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
           </colgroup>
           <thead>
             <tr>
