@@ -42,7 +42,7 @@ const CardWordQuestion = (props:JlptContentProps) => {
           </p>
           <div className="flex flex-col">
             {choice.map((item, idx) => {
-              return <Radio onClick={(e) => handleClickAnswer(idx + 1)} name={question} color="blue" label={item} />
+              return <Radio onClick={(e) => handleClickAnswer(idx + 1)} name={question} color="blue" label={parseHtml(item)} />
             })}
           </div>
         </CardBody>
