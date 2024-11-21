@@ -14,12 +14,14 @@ const nanumGothic = Nanum_Gothic({
   preload: false,
   weight: ["400", "700", "800"],
   display: 'swap',
+  adjustFontFallback: false
 });
 
 const notoSerifJP = Noto_Serif_JP({
   preload: false,
   weight: ["400", "700", "900"],
   display: 'swap',
+  adjustFontFallback: false
 });
 
 export const metadata: Metadata = {
