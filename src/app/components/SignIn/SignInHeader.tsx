@@ -23,10 +23,9 @@ const SignInHeaderPage = () => {
               <i className="fas fa-right-from-bracket ml-1" />
             </button>
 
-            {/* {isOpen && ( */}
             <div className="pt-1">
               <div className="z-10 absolute hidden group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-44">
-                {/* <ul className="py-2 dropdown-content text-sm text-gray-700 dark:text-gray-200">
+                {/* <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
                   <li>
                     <a onClick={handleClickUserModify} href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                       <i className="fas fa-user mr-1" />회원정보 수정
@@ -41,7 +40,6 @@ const SignInHeaderPage = () => {
                 </div>
               </div>
             </div>
-            {/* )} */}
           </div>
         </>
         : <>
