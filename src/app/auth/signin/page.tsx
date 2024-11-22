@@ -80,7 +80,7 @@ const SignInPage = () => {
                       로그인
                   </h1>
                   <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
-                    <SocialSigninButton providers={providers} onClick={(providerId) => handleClickSocialButton(providerId)} />
+                    {/* <SocialSigninButton providers={providers} onClick={(providerId) => handleClickSocialButton(providerId)} />
                     
                     <div className="my-6 flex items-center justify-center">
                       <span className="block h-px w-full bg-blue-500"></span>
@@ -88,7 +88,7 @@ const SignInPage = () => {
                         회원 이메일 로그인
                       </div>
                       <span className="block h-px w-full bg-blue-500"></span>
-                    </div>
+                    </div> */}
                     <div>
                         <label className={`block mb-2 text-sm font-bold`}>이메일</label>
                         <input onChange={(e) => setEmail(e.currentTarget.value)} value={email} required={true} minLength={2} maxLength={100} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" />

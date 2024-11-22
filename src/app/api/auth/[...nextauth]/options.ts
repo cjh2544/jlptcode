@@ -11,14 +11,14 @@ const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 export const options: NextAuthOptions = {
   providers: [
-    // KakaoProvider({
-    //   clientId: process.env.KAKAO_CLIENT_ID as string,
-    //   clientSecret: process.env.KAKAO_SECRET as string,
-    // }),
-    // NaverProvider({
-    //   clientId: process.env.NAVER_CLIENT_ID as string,
-    //   clientSecret: process.env.NAVER_SECRET as string,
-    // }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID as string,
+      clientSecret: process.env.KAKAO_SECRET as string,
+    }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID as string,
+      clientSecret: process.env.NAVER_SECRET as string,
+    }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
