@@ -5,12 +5,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { getServerSession } from "next-auth";
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 const UserFormData = z.object({
   name: z.string().min(2, "이름은 2자이상 입력해 주세요.").max(20, "이름은 최대 20자리까지 입력해 주세요."),
   email: z.string().email("이메일 형식이 올바르지 않습니다.").max(100, "이메일은 최대 100자리까지 입력해 주세요."),
+  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
+  'confirm-password': z.string().min(6, "비밀번호 확인은 6자이상 입력해 주세요.").max(20, "비밀번호 확인은 최대 20자리까지 입력해 주세요."),
+}).refine((data) => data.password === data[`confirm-password`], {
+  message: "비밀번호가 일치하지 않습니다.",
+  path: ["confirm-password"], // path of error
+});
+
+const UserUpdateFormData = z.object({
   password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
   'confirm-password': z.string().min(6, "비밀번호 확인은 6자이상 입력해 주세요.").max(20, "비밀번호 확인은 최대 20자리까지 입력해 주세요."),
 }).refine((data) => data.password === data[`confirm-password`], {
@@ -53,6 +62,41 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
   } else {
     resultInfo = validation;
+  }
+
+  return NextResponse.json(resultInfo)
+}  
+
+export async function PATCH(req: NextRequest, res: NextResponse) {
+  let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
+
+  const session = await getServerSession();
+
+  if(!session?.user.email) {
+    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+  } else {
+    await connectDB();
+    const body = await req.formData();
+    const userInfo = Object.fromEntries(body.entries());
+    const validation = UserUpdateFormData.safeParse(userInfo);
+
+    if (validation.success) {
+      const resultUpdate = await User.updateOne({
+        email: session?.user.email
+      }, 
+      {
+        ...userInfo,
+        password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
+      });
+      
+      if(isEmpty(resultUpdate)) {
+        resultInfo = { success: false, message: '처리 되지 않았습니다.' };
+      } else {
+        resultInfo = { success: true, message: '회원정보가 수정 되었습니다.' };
+      }
+    } else {
+      resultInfo = validation;
+    }
   }
 
   return NextResponse.json(resultInfo)

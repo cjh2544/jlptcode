@@ -13,8 +13,9 @@ const ModifyPage = () => {
   const [errors, setErrors] = useState<Array<any> | null>(null)
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
-  const [isSuccess, setSuccess] = useState<boolean>(false)
   const [userInfo, setUserInfo] = useState<any>({})
+  const { data: session } = useSession();
+  const router = useRouter()
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,7 +26,7 @@ const ModifyPage = () => {
       const formData = new FormData(event.currentTarget);
       
       const response = await fetch('/api/user', {
-        method: 'POST',
+        method: 'PATCH',
         body: formData,
       })
 
@@ -33,9 +34,8 @@ const ModifyPage = () => {
       
       if(data.success) {
         setUserInfo(Object.fromEntries(formData));
-        setConfirmMsg('회원정보 수정이 완료되었습니다.');
+        setConfirmMsg(data.message);
         setShowConfirm(true);
-        setSuccess(true);
       } else {
         if(data.error) {
           setErrors(data.error.issues);
@@ -74,9 +74,7 @@ const ModifyPage = () => {
   const handleCloseModal = (visible: boolean) => {
     setShowConfirm(visible);
 
-    if(isSuccess) {
-      signIn('credentials', {...userInfo, redirect: true});
-    }
+    router.push('/');
   }
 
   return (
@@ -95,13 +93,11 @@ const ModifyPage = () => {
                       <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('name') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>이름</label>
-                              <input required={true} minLength={2} maxLength={20} type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="김회원" />
-                              <p className={`${isValid('name') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('name')}</p>
+                              <p>{session?.user.name || ''}</p>
                           </div>
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('email') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>이메일</label>
-                              <input required={true} minLength={2} maxLength={100} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
-                              <p className={`${isValid('email') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('email')}</p>
+                              <p>{session?.user.email || ''}</p>
                           </div>
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('password') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>비밀번호 (6~20자리)</label>
