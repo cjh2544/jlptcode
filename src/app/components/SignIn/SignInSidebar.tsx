@@ -17,10 +17,6 @@ const SignInSidebarPage = () => {
       {
         session
         ? <>
-          {/* <button onClick={() => signOut()} className="focus:outline-none flex items-center font-bold leading-snug text-black opacity-50 hover:opacity-75" type="button">
-            {session.user.name}님
-            <i className="fas fa-right-from-bracket ml-1" />
-          </button> */}
           <div className="group relative">
             <button className="flex items-center font-bold leading-snug text-black opacity-50 hover:opacity-75" type="button">
               {session.user.name}님

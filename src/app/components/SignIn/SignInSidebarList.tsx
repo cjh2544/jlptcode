@@ -20,12 +20,12 @@ const SignInSidebarListPage = () => {
         ? 
         (
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li>
+            {/* <li>
               <Link scroll={false} href="/wordToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
               <i className="fas fa-user mr-1" />
                 회원정보 수정
               </Link>
-            </li>
+            </li> */}
             <li>
               <a onClick={() => signOut()} href="#" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                 <i className="fas fa-right-from-bracket mr-1" />
