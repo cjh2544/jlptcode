@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useRouter, usePathname } from 'next/navigation';
 import SignInSidebarPage from "../SignIn/SignInSidebar";
+import SignInSidebarListPage from "../SignIn/SignInSidebarList";
 
 // import NotificationDropdown from "@/app/components/Dropdowns/NotificationDropdown";
 // import UserDropdown from "@/app/components/Dropdowns/UserDropdown";
@@ -49,7 +50,7 @@ export default function Sidebar() {
             }
           >
             {/* Collapse header */}
-            <div className="md:min-w-full md:hidden block pb-4 mb-4">
+            <div className="md:min-w-full md:hidden block">
               <div className="flex flex-wrap">
                 <div className="w-6/12">
                   <Link scroll={false} href="/" passHref legacyBehavior>
@@ -73,11 +74,7 @@ export default function Sidebar() {
               </div>
             </div>
 
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <SignInSidebarPage />
-              </li>
-            </ul>
+            <SignInSidebarListPage />
 
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
