@@ -16,23 +16,29 @@ const ModifyPage = () => {
   const [userInfo, setUserInfo] = useState<any>({})
   const { data: session } = useSession();
   const router = useRouter()
+  const [submitProcType, setSubmitProcType] = useState('modify');
+  const [confirmType, setConfirmType] = useState<any>('info')
+  const [isProcSuccess, setProcSuccess] = useState<boolean>(false);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true)
     setErrors(null)
+    setConfirmType('info');
+    setProcSuccess(false);
  
     try {
       const formData = new FormData(event.currentTarget);
       
       const response = await fetch('/api/user', {
-        method: 'PATCH',
+        method: submitProcType === 'modify' ? 'PATCH' : 'DELETE',
         body: formData,
       })
 
       const data = await response.json();
       
       if(data.success) {
+        setProcSuccess(data.success);
         setUserInfo(Object.fromEntries(formData));
         setConfirmMsg(data.message);
         setShowConfirm(true);
@@ -40,6 +46,8 @@ const ModifyPage = () => {
         if(data.error) {
           setErrors(data.error.issues);
         } else {
+          setProcSuccess(false);
+          setConfirmType('warning');
           setConfirmMsg(data.message);
           setShowConfirm(true);
         }
@@ -71,10 +79,16 @@ const ModifyPage = () => {
     }
   }, [errors])
 
-  const handleCloseModal = (visible: boolean) => {
+  const handleCloseModal = async (visible: boolean) => {
     setShowConfirm(visible);
 
-    router.push('/');
+    if(isProcSuccess) {
+      if(submitProcType === 'delete') {
+        await signOut();
+      } else {
+        router.push('/');
+      }
+    }
   }
 
   return (
@@ -121,9 +135,17 @@ const ModifyPage = () => {
                             </>
                           ) : (
                             <>
-                              <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-                                수정하기
-                              </button>
+                              <div className="flex gap-1 text-center">
+                                <button type="submit" onClick={() => setSubmitProcType('modify')} name="modify" className="w-1/3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                                  수정하기
+                                </button>
+                                <Link href="/" className="w-1/3 text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
+                                  취소
+                                </Link>
+                                <button type="submit" onClick={() => setSubmitProcType('delete')} name="delete" className="w-1/3 text-white bg-red-500 hover:bg-red-700 focus:outline-none font-bold py-2 px-4 rounded focus:outline-none">
+                                  탈퇴하기
+                                </button>
+                              </div>
                             </>
                           )}
                       </form>
@@ -132,7 +154,7 @@ const ModifyPage = () => {
           </div>
         </section>
       </SignUpLayout>
-      <ModalConfirm message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
+      <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
     </>
   );
 };

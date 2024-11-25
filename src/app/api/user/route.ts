@@ -6,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
+import { signOut } from "next-auth/react";
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -102,18 +103,52 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   return NextResponse.json(resultInfo)
 }
 
-export async function DELETE(request: NextRequest) {
-  await connectDB();
+export async function DELETE(req: NextRequest, res: NextResponse) {
+  let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
-  // const { id }: Partial<User> = await request.json();
+  const session = await getServerSession();
 
-  // const res = await fetch(`${DATA_USERS_URL}/${id}`, {
-  //   method: 'DELETE',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     'API-Key': API_KEY,
-  //   }
-  // });
+  if(!session?.user.email) {
+    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+  } else {
+    await connectDB();
+    const body = await req.formData();
+    const userInfo = Object.fromEntries(body.entries());
+    const validation = UserUpdateFormData.safeParse(userInfo);
 
-  return NextResponse.json({ "message": `삭제 되었습니다.`})
+    if (validation.success) {
+      // 회원정보 조회
+      const existUserInfo = await User.findOne({
+        email: session?.user.email,
+        provider: 'credentials'
+      });
+
+      if(isEmpty(existUserInfo)) {
+        resultInfo = { success: false, message: '회원정보가 없습니다.' };
+      } else {
+        const matchPassword = bcrypt.compareSync(userInfo.password as string
+          , existUserInfo.password)
+        
+        if(matchPassword) {
+          // 삭제
+          const deleteInfo = await User.deleteOne({
+            email: session?.user.email,
+            provider: 'credentials'
+          });
+
+          if(isEmpty(deleteInfo) || deleteInfo.deletedCount !== 1) {
+            resultInfo = { success: false, message: '처리 되지 않았습니다.' };
+          } else {
+            resultInfo = { success: true, message: '회원정보가 삭제 되었습니다.' };
+          }
+        } else {
+          resultInfo = { success: false, message: '비밀번호가 일치하지 않습니다.' };
+        }
+      }
+    } else {
+      resultInfo = validation;
+    }
+  }
+
+  return NextResponse.json(resultInfo)
 }
