@@ -27,6 +27,12 @@ const SignInSidebarListPage = () => {
               </Link>
             </li>
             <li>
+              <Link scroll={false} href="/auth/delete" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+              <i className="fas fa-user mr-1" />
+                회원탈퇴
+              </Link>
+            </li>
+            <li>
               <a onClick={() => signOut()} href="#" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                 <i className="fas fa-right-from-bracket mr-1" />
                 {session.user.name}님

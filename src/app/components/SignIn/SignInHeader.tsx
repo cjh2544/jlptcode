@@ -31,6 +31,11 @@ const SignInHeaderPage = () => {
                       <i className="fas fa-user mr-1" />회원정보 수정
                     </a>
                   </li>
+                  <li>
+                    <a href="/auth/delete" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      <i className="fas fa-user mr-1" />회원탈퇴
+                    </a>
+                  </li>
                 </ul>
                 <div className="py-2">
                   <a onClick={handleClickSignout} className="block px-4 py-2 hover:bg-gray-100 text-red-500 font-medium" href="#">

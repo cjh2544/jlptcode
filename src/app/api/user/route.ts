@@ -28,6 +28,10 @@ const UserUpdateFormData = z.object({
   path: ["confirm-password"], // path of error
 });
 
+const UserDeleteFormData = z.object({
+  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
+});
+
 export async function GET(request: NextRequest) {
   await connectDB();
 
@@ -114,7 +118,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     await connectDB();
     const body = await req.formData();
     const userInfo = Object.fromEntries(body.entries());
-    const validation = UserUpdateFormData.safeParse(userInfo);
+    const validation = UserDeleteFormData.safeParse(userInfo);
 
     if (validation.success) {
       // 회원정보 조회

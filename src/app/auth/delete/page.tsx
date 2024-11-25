@@ -3,57 +3,59 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useCallback, useState } from "react";
 import { z } from "zod";
-import { filter, find, get, includes, isEmpty } from "lodash";
+import { find, includes, isEmpty } from "lodash";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
 
-const ModifyPage = () => {
+const DeletePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errors, setErrors] = useState<Array<any> | null>(null)
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
   const { data: session } = useSession();
-  const router = useRouter()
   const [confirmType, setConfirmType] = useState<any>('info')
   const [isProcSuccess, setProcSuccess] = useState<boolean>(false);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true)
-    setErrors(null)
-    setConfirmType('info');
- 
-    try {
-      const formData = new FormData(event.currentTarget);
-      
-      const response = await fetch('/api/user', {
-        method: 'PATCH',
-        body: formData,
-      })
+    
+    if(confirm('회원탈퇴 하시겠습니까?')) {
+      setIsLoading(true)
+      setErrors(null)
+      setConfirmType('info');
+      setProcSuccess(false);
+  
+      try {
+        const formData = new FormData(event.currentTarget);
+        
+        const response = await fetch('/api/user', {
+          method: 'DELETE',
+          body: formData,
+        })
 
-      const data = await response.json();
-      
-      setProcSuccess(data.success);
+        const data = await response.json();
+        
+        setProcSuccess(data.success);
 
-      if(data.success) {
-        setConfirmMsg(data.message);
-        setShowConfirm(true);
-      } else {
-        if(data.error) {
-          setErrors(data.error.issues);
-        } else {
-          setConfirmType('warning');
+        if(data.success) {
           setConfirmMsg(data.message);
           setShowConfirm(true);
+        } else {
+          if(data.error) {
+            setErrors(data.error.issues);
+          } else {
+            setConfirmType('warning');
+            setConfirmMsg(data.message);
+            setShowConfirm(true);
+          }
         }
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          console.log(error.message);
+        }
+      } finally {
+        setIsLoading(false)
       }
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log(error.message);
-      }
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -79,7 +81,7 @@ const ModifyPage = () => {
     setShowConfirm(visible);
 
     if(isProcSuccess) {
-      router.push('/');
+      await signOut();
     }
   }
 
@@ -94,7 +96,7 @@ const ModifyPage = () => {
               <div className="w-full bg-white rounded-lg shadow-lg dark:border sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                   <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                       <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                          회원정보수정
+                          회원탈퇴
                       </h1>
                       <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                           <div>
@@ -110,11 +112,6 @@ const ModifyPage = () => {
                               <input required={true} minLength={6} maxLength={20} type="password" name="password" id="password" placeholder="••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                               <p className={`${isValid('password') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('password')}</p>
                           </div>
-                          <div>
-                              <label className={`block mb-2 text-sm font-bold ${isValid('confirm-password') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>비밀번호 확인 (6~20자리)</label>
-                              <input required={true} minLength={6} maxLength={20} type="password" name="confirm-password" id="confirm-password" placeholder="••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                              <p className={`${isValid('confirm-password') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('confirm-password')}</p>
-                          </div>
 
                           <div className="flex gap-1 text-center">
                             {isLoading ? (
@@ -126,8 +123,8 @@ const ModifyPage = () => {
                                 처리중...
                               </button>
                             ) : (
-                              <button type="submit" name="modify" className="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-                                수정하기
+                              <button type="submit" name="delete" className="w-1/2 text-white bg-red-500 hover:bg-red-700 focus:outline-none font-bold py-2 px-4 rounded focus:outline-none">
+                                탈퇴하기
                               </button>
                             )}
                             <Link href="/" className="w-1/2 text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
@@ -145,4 +142,4 @@ const ModifyPage = () => {
   );
 };
 
-export default ModifyPage;
+export default DeletePage;
