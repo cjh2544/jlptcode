@@ -34,8 +34,6 @@ export async function GET(request: NextRequest) {
     pageInfo.totalPage = Math.ceil(wordCount / limit);
     pageInfo.currentPage = page;
 
-    
-
     pageInfo.pageSize = 10;
   }
 
