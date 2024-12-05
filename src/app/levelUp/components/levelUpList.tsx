@@ -29,7 +29,7 @@ const LevelUpList = (props: LevelUpListProps) => {
   const handleClick = (selectedData: any) => {
     setLevelUpInfo({...levelUpInfo, ...selectedData});
     getLevelUpList();
-    router.push('/levelUp/test');
+    router.push('/levelUp/test', {scroll:false});
   }
 
   const handleTabChange = (selectedData: any) => {

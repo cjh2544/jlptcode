@@ -1,7 +1,7 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
 import BoardLayout from "@/app/components/Layout/BoardLayout";
-import BoardWrite from "../../components/write";
+import BoardWrite from "@/app/board/components/write";
 import BoardTitle from "@/app/board/components/boardTitle";
 
 const BoardCommunityPage = () => {

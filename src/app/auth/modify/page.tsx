@@ -79,7 +79,7 @@ const ModifyPage = () => {
     setShowConfirm(visible);
 
     if(isProcSuccess) {
-      router.push('/');
+      router.push('/', {scroll:false});
     }
   }
 
@@ -130,7 +130,7 @@ const ModifyPage = () => {
                                 수정하기
                               </button>
                             )}
-                            <Link href="/" className="w-1/2 text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
+                            <Link href="/" scroll={false} className="w-1/2 text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
                               취소
                             </Link>
                           </div>

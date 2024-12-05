@@ -32,6 +32,8 @@ const BoardList = (props: BoardListProps) => {
   const setPageInfo = useBoardCommunityStore((state) => state.setPageInfo);
   const getPageInfo = useBoardCommunityStore((state) => state.getPageInfo);
   const getBoardList = useBoardCommunityStore((state) => state.getBoardList);
+  const setBoardInfo = useBoardCommunityStore((state) => state.setBoardInfo);
+  const getBoardInfo = useBoardCommunityStore((state) => state.getBoardInfo);
   const init = useBoardCommunityStore((state) => state.init);
 
   // const {data = [], isLoading, error} = useBoardList({params: {boardInfo: boardInfo, pageInfo: pageInfo}});
@@ -43,6 +45,13 @@ const BoardList = (props: BoardListProps) => {
     });
 
     getBoardList();
+  }
+
+  const handleClickDetail = (id: string) => {
+    setBoardInfo({id});
+    getBoardInfo()
+
+    router.push('view', {scroll: false})
   }
 
   useEffect(() => {
@@ -83,7 +92,7 @@ const BoardList = (props: BoardListProps) => {
                   ) : (
                     boardList.map((boardInfo: Board, idx: number) => {
                       return (
-                        <tr key={`board-community-${idx}`}>
+                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo._id)} className='cursor-pointer hover:font-bold'>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                     {boardInfo.title}

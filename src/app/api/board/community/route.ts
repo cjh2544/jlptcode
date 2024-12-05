@@ -9,25 +9,8 @@ import { getServerSession } from "next-auth";
 import BoardCommunity from "@/app/models/boeadCommunityModel";
 
 const BoardFormData = z.object({
-  name: z.string().min(2, "이름은 2자이상 입력해 주세요.").max(20, "이름은 최대 20자리까지 입력해 주세요."),
-  email: z.string().email("이메일 형식이 올바르지 않습니다.").max(100, "이메일은 최대 100자리까지 입력해 주세요."),
-  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
-  'confirm-password': z.string().min(6, "비밀번호 확인은 6자이상 입력해 주세요.").max(20, "비밀번호 확인은 최대 20자리까지 입력해 주세요."),
-}).refine((data) => data.password === data[`confirm-password`], {
-  message: "비밀번호가 일치하지 않습니다.",
-  path: ["confirm-password"], // path of error
-});
-
-const BoardUpdateFormData = z.object({
-  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
-  'confirm-password': z.string().min(6, "비밀번호 확인은 6자이상 입력해 주세요.").max(20, "비밀번호 확인은 최대 20자리까지 입력해 주세요."),
-}).refine((data) => data.password === data[`confirm-password`], {
-  message: "비밀번호가 일치하지 않습니다.",
-  path: ["confirm-password"], // path of error
-});
-
-const BoardDeleteFormData = z.object({
-  password: z.string().min(6, "비밀번호는 6자이상 입력해 주세요.").max(20, "비밀번호는 최대 20자리까지 입력해 주세요."),
+  title: z.string().min(2, "제목은 2자이상 입력해 주세요.").max(100, "제목은 최대 100자리까지 입력해 주세요."),
+  contents: z.string().min(2, "내용은 2자이상 입력해 주세요.").max(5000, "내용은 최대 5000자리까지 입력해 주세요."),
 });
 
 export async function GET(request: NextRequest) {
@@ -51,10 +34,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
 
   if(!session?.user.email) {
-    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     if (validation.success) {
-      await BoardCommunity.create(boardInfo);
+      await BoardCommunity.create({
+        ...boardInfo,
+        email: session.user.email,
+        name: session.user.name,
+      });
 
       resultInfo = { success: true, message: '등록 되었습니다.' };
     } else {
@@ -71,12 +58,12 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
 
   if(!session?.user.email) {
-    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();
     const body = await req.formData();
     const boardInfo = Object.fromEntries(body.entries());
-    const validation = BoardUpdateFormData.safeParse(boardInfo);
+    const validation = BoardFormData.safeParse(boardInfo);
 
     if (validation.success) {
       const resultUpdate = await BoardCommunity.updateOne({
@@ -103,12 +90,12 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
 
   if(!session?.user.email) {
-    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();
     const body = await req.formData();
     const boardInfo = Object.fromEntries(body.entries());
-    const validation = BoardDeleteFormData.safeParse(boardInfo);
+    const validation = BoardFormData.safeParse(boardInfo);
 
     if (validation.success) {
       // 게시판 등록정보 조회

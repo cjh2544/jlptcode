@@ -1,21 +1,33 @@
 'use client';
-import React, {FormEvent, memo, useCallback} from 'react';
-import { useRouter } from 'next/navigation';
+import React, {FormEvent, memo, useCallback, useEffect, useState} from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import TabDefault from '@/app/components/Tabs/TabDefault';
+import { useJlptStore } from '@/app/store/jlptStore';
+import { useClassTypeList } from '@/app/swr/useJlpt';
+import Loading from '@/app/components/Loading/loading';
+import PaginationNew from '@/app/components/Navbars/PaginationNew';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
+import { useBoardList } from '@/app/swr/useBoardCommunity';
+import { format } from "date-fns";
+import { init } from 'next/dist/compiled/webpack/webpack';
+import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import { find, includes, isEmpty } from 'lodash';
 import Link from 'next/link';
 import { z } from 'zod';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 
 type BoardWriteProps = {
-  id?: string,
+  level?: string,
+  onSearch?: (data: any) => any,
+  onClick?: (data: any) => any,
 }
 
 const BoardWrite = (props: BoardWriteProps) => {
   const {
-    id
+    level
   } = props
   
+  const pathname = usePathname();
   const router = useRouter();
   const isLoading = useBoardCommunityStore((state) => state.isLoading);
   const errors = useBoardCommunityStore((state) => state.errors);
@@ -106,7 +118,7 @@ const BoardWrite = (props: BoardWriteProps) => {
           <div className="w-full bg-white rounded-lg shadow-lg">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                   <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                      문의내용 입력
+                      문의내용 수정
                   </h1>
                   <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                       <div>

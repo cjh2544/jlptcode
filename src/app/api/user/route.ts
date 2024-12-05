@@ -78,7 +78,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
 
   if(!session?.user.email) {
-    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();
     const body = await req.formData();
@@ -113,7 +113,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
 
   if(!session?.user.email) {
-    resultInfo = { success: true, message: '로그인 정보가 없습니다.' };
+    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();
     const body = await req.formData();

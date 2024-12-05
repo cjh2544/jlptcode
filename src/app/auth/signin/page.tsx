@@ -54,7 +54,7 @@ const SignInPage = () => {
       setShowConfirm(true);
       setConfirmType('warning');
     } else {
-      router.push("/")
+      router.push("/", {scroll:false})
     }
   }
   const handleCloseModal = (visible: boolean) => {

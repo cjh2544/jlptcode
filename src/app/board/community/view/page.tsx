@@ -1,8 +1,8 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
 import BoardLayout from "@/app/components/Layout/BoardLayout";
-import List from "@/app/board/components/list";
 import BoardTitle from "@/app/board/components/boardTitle";
+import BoardView from "@/app/board/components/view";
 
 const BoardCommunityPage = () => {
 
@@ -10,8 +10,8 @@ const BoardCommunityPage = () => {
 
   return (
     <BoardLayout>
-      <BoardTitle title="문의 게시판" visibleButton={true} buttonTitle="문의하기" />
-      <List />
+      <BoardTitle title="문의 게시판" />
+      <BoardView />
     </BoardLayout>
   )
 }

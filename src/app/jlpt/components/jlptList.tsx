@@ -29,7 +29,7 @@ const JlptList = (props: JlptListProps) => {
   const handleClick = (selectedData: any) => {
     setJlptInfo({...jlptInfo, ...selectedData});
     getJlptList();
-    router.push('/jlpt/test');
+    router.push('/jlpt/test', {scroll:false});
   }
 
   const handleTabChange = (selectedData: any) => {
