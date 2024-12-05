@@ -92,7 +92,7 @@ const BoardList = (props: BoardListProps) => {
                   ) : (
                     boardList.map((boardInfo: Board, idx: number) => {
                       return (
-                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo._id)} className='cursor-pointer hover:font-bold'>
+                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo._id as string)} className='cursor-pointer hover:font-bold'>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                     {boardInfo.title}
