@@ -1,15 +1,9 @@
 'use client';
-import React, {memo, useEffect, useState} from 'react';
+import React, {memo, useEffect} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useJlptStore } from '@/app/store/jlptStore';
-import { useClassTypeList } from '@/app/swr/useJlpt';
-import Loading from '@/app/components/Loading/loading';
 import PaginationNew from '@/app/components/Navbars/PaginationNew';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
-import { useBoardList } from '@/app/swr/useBoardCommunity';
 import { format } from "date-fns";
-import { init } from 'next/dist/compiled/webpack/webpack';
 import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 
 type BoardListProps = {
@@ -23,20 +17,15 @@ const BoardList = (props: BoardListProps) => {
     level
   } = props
   
-  const pathname = usePathname();
   const router = useRouter();
-  const boardInfo = useBoardCommunityStore((state) => state.boardInfo);
   const pageInfo = useBoardCommunityStore((state) => state.pageInfo);
   const boardList = useBoardCommunityStore((state) => state.boardList);
   const isLoading = useBoardCommunityStore((state) => state.isLoading);
   const setPageInfo = useBoardCommunityStore((state) => state.setPageInfo);
   const getPageInfo = useBoardCommunityStore((state) => state.getPageInfo);
   const getBoardList = useBoardCommunityStore((state) => state.getBoardList);
-  const setBoardInfo = useBoardCommunityStore((state) => state.setBoardInfo);
   const getBoardInfo = useBoardCommunityStore((state) => state.getBoardInfo);
   const init = useBoardCommunityStore((state) => state.init);
-
-  // const {data = [], isLoading, error} = useBoardList({params: {boardInfo: boardInfo, pageInfo: pageInfo}});
 
   const handlePageChange = (newPageNo: number) => {
     setPageInfo({
@@ -47,9 +36,8 @@ const BoardList = (props: BoardListProps) => {
     getBoardList();
   }
 
-  const handleClickDetail = (id: string) => {
-    setBoardInfo({id});
-    getBoardInfo()
+  const handleClickDetail = (boardInfo: Board) => {
+    getBoardInfo(boardInfo)
 
     router.push('view', {scroll: false})
   }
@@ -92,7 +80,7 @@ const BoardList = (props: BoardListProps) => {
                   ) : (
                     boardList.map((boardInfo: Board, idx: number) => {
                       return (
-                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo._id as string)} className='cursor-pointer hover:font-bold'>
+                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo)} className='cursor-pointer hover:font-bold'>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
                                     {boardInfo.title}
@@ -105,7 +93,7 @@ const BoardList = (props: BoardListProps) => {
                             </td>
                             <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                 <p className="text-gray-900 whitespace-no-wrap">
-                                    {format(boardInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')}
+                                    {format(boardInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
                                 </p>
                             </td>
                         </tr>

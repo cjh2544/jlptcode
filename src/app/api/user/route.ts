@@ -57,11 +57,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
     })
 
     if(isEmpty(existUserInfo)) {
-      await User.create({
+      const resultInsert = await User.create({
         ...userInfo,
         password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
       });
-      resultInfo = { success: true, message: '회원가입이 완료 되었습니다.' };
+
+      if(isEmpty(resultInsert)) {
+        resultInfo = { success: true, message: '처리되지 않았습니다.' };
+      } else {
+        resultInfo = { success: true, message: '회원가입이 완료 되었습니다.' };
+      }
     } else {
       resultInfo = { success: false, message: '이미 등록된 이메일 입니다.' };
     }
@@ -94,7 +99,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
         password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
       });
       
-      if(isEmpty(resultUpdate)) {
+      if(isEmpty(resultUpdate) || isEmpty(resultUpdate.modifiedCount === 0)) {
         resultInfo = { success: false, message: '처리 되지 않았습니다.' };
       } else {
         resultInfo = { success: true, message: '회원정보가 수정 되었습니다.' };

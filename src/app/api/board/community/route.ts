@@ -37,13 +37,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     if (validation.success) {
-      await BoardCommunity.create({
+      const resultInsert = await BoardCommunity.create({
         ...boardInfo,
         email: session.user.email,
         name: session.user.name,
       });
 
-      resultInfo = { success: true, message: '등록 되었습니다.' };
+      if(isEmpty(resultInsert)) {
+        resultInfo = { success: false, message: '등록 되지 않았습니다.' };
+      } else {
+        resultInfo = { success: true, message: '등록 되었습니다.' };
+      }
     } else {
       resultInfo = validation;
     }
@@ -56,29 +60,36 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
+  const boardInfo = await req.json();
 
   if(!session?.user.email) {
-    resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
-  } else {
-    await connectDB();
-    const body = await req.formData();
-    const boardInfo = Object.fromEntries(body.entries());
-    const validation = BoardFormData.safeParse(boardInfo);
+    return NextResponse.json({ success: false, message: '로그인 정보가 없습니다.' })
+  }
+  
+  if(boardInfo.email !== session.user.email) {
+    return NextResponse.json({ success: false, message: '등록된 정보가 일치하지 않습니다.' })
+  }
 
-    if (validation.success) {
-      const resultUpdate = await BoardCommunity.updateOne({
-        email: session?.user.email,
-        _id: boardInfo.id
-      }, boardInfo);
-      
-      if(isEmpty(resultUpdate)) {
-        resultInfo = { success: false, message: '처리 되지 않았습니다.' };
-      } else {
-        resultInfo = { success: true, message: '수정 되었습니다.' };
-      }
+  const validation = BoardFormData.safeParse(boardInfo);
+  
+  if (validation.success) {
+    await connectDB();
+
+    const resultUpdate = await BoardCommunity.updateOne({
+      _id: boardInfo._id,
+      email: session.user.email
+    }, {
+      title: boardInfo.title,
+      contents: boardInfo.contents
+    });
+    
+    if(isEmpty(resultUpdate) || resultUpdate.modifiedCount === 0) {
+      resultInfo = { success: false, message: '처리 되지 않았습니다.' };
     } else {
-      resultInfo = validation;
+      resultInfo = { success: true, message: '수정 되었습니다.' };
     }
+  } else {
+    resultInfo = validation;
   }
 
   return NextResponse.json(resultInfo)
@@ -88,44 +99,39 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
+  const boardInfo = await req.json();
 
   if(!session?.user.email) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();
-    const body = await req.formData();
-    const boardInfo = Object.fromEntries(body.entries());
-    const validation = BoardFormData.safeParse(boardInfo);
 
-    if (validation.success) {
-      // 게시판 등록정보 조회
-      const existBoardInfo = await BoardCommunity.findOne({
-        _id: boardInfo.id,
-      });
+    // 게시판 등록정보 조회
+    const existBoardInfo = await BoardCommunity.findOne({
+      _id: boardInfo._id,
+      email: session.user.email
+    });
 
-      if(isEmpty(existBoardInfo)) {
-        resultInfo = { success: false, message: '등록된 정보가 없습니다.' };
-      } else {
-        const matchEmail = boardInfo.email as string === existBoardInfo.email;
-        
-        if(matchEmail) {
-          // 삭제
-          const deleteInfo = await BoardCommunity.deleteOne({
-            email: session?.user.email,
-            id: boardInfo.id
-          });
-
-          if(isEmpty(deleteInfo) || deleteInfo.deletedCount !== 1) {
-            resultInfo = { success: false, message: '처리 되지 않았습니다.' };
-          } else {
-            resultInfo = { success: true, message: '삭제 되었습니다.' };
-          }
-        } else {
-          resultInfo = { success: false, message: '등록된 정보가 일치하지 않습니다.' };
-        }
-      }
+    if(isEmpty(existBoardInfo)) {
+      resultInfo = { success: false, message: '등록된 정보가 없습니다.' };
     } else {
-      resultInfo = validation;
+      const matchEmail = boardInfo.email as string === existBoardInfo.email;
+      
+      if(matchEmail) {
+        // 삭제
+        const deleteInfo = await BoardCommunity.deleteOne({
+          _id: boardInfo._id,
+          email: session?.user.email
+        });
+
+        if(isEmpty(deleteInfo) || deleteInfo.deletedCount !== 1) {
+          resultInfo = { success: false, message: '처리 되지 않았습니다.' };
+        } else {
+          resultInfo = { success: true, message: '삭제 되었습니다.' };
+        }
+      } else {
+        resultInfo = { success: false, message: '등록된 정보가 일치하지 않습니다.' };
+      }
     }
   }
 

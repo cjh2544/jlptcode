@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   // const {title, contents, email} = boardInfo;
   const searchInfo: any = {};
 
-  const resultBoardInfo = await BoardCommunity.findOne({_id: boardInfo.id});
-  
+  const resultBoardInfo = await BoardCommunity.findOne({_id: boardInfo._id});
+
   return NextResponse.json(resultBoardInfo)
 }

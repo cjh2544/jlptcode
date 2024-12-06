@@ -31,8 +31,6 @@ const BoardWrite = (props: BoardWriteProps) => {
   const setSuccess = useBoardCommunityStore((state) => state.setSuccess);
   const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
 
-  // const {data = [], isLoading, error} = useBoardList({params: {boardInfo: boardInfo, pageInfo: pageInfo}});
-
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true)
@@ -139,7 +137,7 @@ const BoardWrite = (props: BoardWriteProps) => {
                         ) : (
                           <>
                             <button type="submit" className="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-                              문의하기
+                              등록
                             </button>
                           </>
                         )}

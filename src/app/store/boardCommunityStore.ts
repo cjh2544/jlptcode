@@ -1,8 +1,14 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
+const procTypes = ["create", "read", "update", "delete"] as const;
+const messageTypes = ["info", "error", "warning"] as const;
+type ProcType = typeof procTypes[number];
+type MessageType = typeof messageTypes[number];
+
 type BoardCommunityStore = {
-    messageType: 'info' | 'error' | 'warning',
+    procType: ProcType,
+    messageType: MessageType,
     isLoading: boolean,
     pageInfo?: Paginate,
     boardInfo: Board,
@@ -11,17 +17,20 @@ type BoardCommunityStore = {
     showConfirm: boolean,
     confirmMsg: string,
     success: boolean,
-    setBoardInfo: (boardInfo: any) => void,
+    setProcType: (procType: ProcType) => void,
+    setBoardInfo: (boardInfo: Board) => void,
     setPageInfo: (pageInfo: any) => void,
     setLoading: (isLoading: boolean) => void, 
     setErrors: (errors: Array<any> | null) => void,
     setShowConfirm: (showConfirm: boolean) => void,
     setConfirmMsg: (confirmMsg: string) => void,
     setSuccess: (isSuccess: boolean) => void, 
-    setMessageType: (messageType: 'info' | 'error' | 'warning') => void, 
+    setMessageType: (messageType: MessageType) => void, 
     getPageInfo: () => void,
-    getBoardInfo: () => void,
+    getBoardInfo: (boardInfo: Board) => void,
     getBoardList: () => void,
+    updateBoardInfo: (boardInfo: Board) => Object,
+    deleteBoardInfo: (boardInfo: Board) => Object,
     init: () => void,
 }
 
@@ -30,6 +39,7 @@ const PAGE_PER_SIZE = 1
 export const useBoardCommunityStore = create<BoardCommunityStore>() (
     devtools(
         persist((set, get) => ({
+            procType: 'create',
             messageType: 'info',
             isLoading: true,
             pageInfo: {
@@ -45,6 +55,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             showConfirm: false,
             confirmMsg: '',
             success: false,
+            setProcType: (procType: ProcType) => set((state) => ({ procType: procType })),
             setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
             setBoardInfo: (boardInfo) => set((state) => ({ boardInfo: {...state.boardInfo, ...boardInfo} })),
             setLoading: (isLoading) => set((state) => ({ isLoading: isLoading })),
@@ -52,7 +63,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             setShowConfirm: (showConfirm) => set((state) => ({ showConfirm: showConfirm })),
             setConfirmMsg: (confirmMsg) => set((state) => ({ confirmMsg: confirmMsg })),
             setSuccess: (isSuccess) => set((state) => ({ success: isSuccess })),
-            setMessageType: (messageType) => set((state) => ({ messageType: messageType })),
+            setMessageType: (messageType: MessageType) => set((state) => ({ messageType: messageType })),
             getPageInfo: async () => {
                 const response = await fetch('/api/board/community/page', {
                     method: 'POST',
@@ -68,13 +79,17 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     pageInfo: resData,
                 });
             },
-            getBoardInfo: async () => {
+            getBoardInfo: async (boardInfo) => {
+                set({ 
+                    boardInfo: {},
+                });
+
                 const response = await fetch('/api/board/community/view', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({boardInfo: get().boardInfo}),
+                    body: JSON.stringify({boardInfo}),
                 })
 
                 const resData = await response.json();
@@ -96,6 +111,32 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     isLoading: false,
                     boardList: resData,
                 });
+            },
+            updateBoardInfo: async (boardInfo) => {
+                const response = await fetch('/api/board/community', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({...get().boardInfo, ...boardInfo}),
+                })
+
+                const resData = await response.json();
+
+                return resData;
+            },
+            deleteBoardInfo: async (boardInfo) => {
+                const response = await fetch('/api/board/community', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({...get().boardInfo, ...boardInfo}),
+                })
+
+                const resData = await response.json();
+
+                return resData;
             },
             init: () => set({
                 messageType: 'info',
