@@ -14,9 +14,10 @@ export async function POST(request: NextRequest) {
   const searchInfo: any = {};
 
   const communityList = await BoardCommunity.find()
-    .limit(pageInfo.pageSize * 1)
-    .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
-    .exec();
+  .limit(pageInfo.pageSize * 1)
+  .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
+  .sort({createdAt:-1, updatedAt:-1 })
+  .exec()
   
   return NextResponse.json(communityList)
 }
