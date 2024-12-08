@@ -13,8 +13,9 @@ const userSchema = new Schema({
   password: String,
   image: String,
   role: {
-    type: String,
-    default: 'user',
+    type: [String],
+    enum: ['user', 'admin'],
+    default: ['user'],
   },
   provider: {
     type: String,

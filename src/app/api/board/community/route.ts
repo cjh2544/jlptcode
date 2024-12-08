@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
-import BoardCommunity from "@/app/models/boeadCommunityModel";
+import BoardCommunity from "@/app/models/boardCommunityModel";
 
 const BoardFormData = z.object({
   title: z.string().min(2, "제목은 2자이상 입력해 주세요.").max(100, "제목은 최대 100자리까지 입력해 주세요."),

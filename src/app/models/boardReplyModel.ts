@@ -1,5 +1,5 @@
 import { Schema, model, models } from 'mongoose'
-import BoardCommunity from './boeadCommunityModel';
+import BoardCommunity from './boardCommunityModel';
 
 const boardReplySchema = new Schema({
   board_id: {
