@@ -119,7 +119,7 @@ const BoardWrite = (props: BoardWriteProps) => {
   }
 
   const isMyWrite = useCallback(() => {
-    return session?.user.email === boardInfo.email;
+    return session?.user?.email === boardInfo.email;
   }, [boardInfo])
 
   return (

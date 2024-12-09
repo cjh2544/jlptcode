@@ -35,7 +35,7 @@ const SignInSidebarListPage = () => {
             <li>
               <a onClick={() => signOut()} href="#" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                 <i className="fas fa-right-from-bracket mr-1" />
-                {session.user.name}님
+                {session.user?.name}님
               </a>
             </li>
           </ul>

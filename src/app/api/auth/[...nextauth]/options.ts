@@ -74,18 +74,15 @@ export const options: NextAuthOptions = {
       return baseUrl;
     },
     async session({ session, user, token }) {
-      const userData = await getUserByEmail({ email: token.email || '' });
-      
-      if(session?.user) {
-        session.user.role = userData.role;
-      }
+      // const userData = await getUserByEmail({ email: token?.email || '' });
+      // session.user = {...session.user, role: userData.role};
       
       return session;
     },
     async jwt({ token, user, account, profile }) {
-      const userData = await getUserByEmail({ email: token?.email || '' });
+      // const userData = await getUserByEmail({ email: token?.email || '' });
       
-      token.user = userData;
+      // token = {...token, role: userData.role};
       
       return token;
     }

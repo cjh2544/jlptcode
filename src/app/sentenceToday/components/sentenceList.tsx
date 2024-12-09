@@ -40,7 +40,7 @@ const SentenceList = ({className}: SentenceListProps) => {
               {TABLE_HEAD.map((head: any, idx) => (
                 <th key={idx} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
                   <div className="text-sm font-normal flex justify-between items-center">
-                    <label>{head?.label}</label>
+                    <p>{head?.label}</p>
                     {head.visibleBtn && (
                       <div className='flex flex-col'>
                         <HeaderButton colName={'sentence'} />

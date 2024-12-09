@@ -7,7 +7,7 @@ const ProtectedClientPage = () => {
   return (
     <div className="flex gap-2 ml-auto">
       <h1><i style={{color: 'red'}}>Client-Side</i> Protected Page.</h1>
-      <p>You are logged in as : <b>{session?.user.name}</b></p>
+      <p>You are logged in as : <b>{session?.user?.name}</b></p>
     </div>
   )
 }

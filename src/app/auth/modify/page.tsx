@@ -99,11 +99,11 @@ const ModifyPage = () => {
                       <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('name') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>이름</label>
-                              <p>{session?.user.name || ''}</p>
+                              <p>{session?.user?.name || ''}</p>
                           </div>
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('email') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>이메일</label>
-                              <p>{session?.user.email || ''}</p>
+                              <p>{session?.user?.email || ''}</p>
                           </div>
                           <div>
                               <label className={`block mb-2 text-sm font-bold ${isValid('password') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>비밀번호 (6~20자리)</label>

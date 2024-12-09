@@ -33,7 +33,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
   const session = await getServerSession();
 
-  if(!session?.user.email) {
+  if(!session?.user?.email) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     if (validation.success) {
@@ -62,7 +62,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
   const boardInfo = await req.json();
 
-  if(!session?.user.email) {
+  if(!session?.user?.email) {
     return NextResponse.json({ success: false, message: '로그인 정보가 없습니다.' })
   }
   
@@ -101,7 +101,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const session = await getServerSession();
   const boardInfo = await req.json();
 
-  if(!session?.user.email) {
+  if(!session?.user?.email) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     await connectDB();

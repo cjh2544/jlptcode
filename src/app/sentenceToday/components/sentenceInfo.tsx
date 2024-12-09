@@ -75,7 +75,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
           <div className="font-normal">
             <div className="flex flex-col">
               <div className="flex justify-between items-center">
-                <p className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence)}</p>
+                <div className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence)}</div>
                 <p>
                   {/* <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
                     <i className="fa-solid fa-volume-high"></i>
@@ -86,13 +86,13 @@ const SentenceInfo = (props:SentenceInfoProps) => {
                 </p>
               </div>
               <div className="flex justify-between items-center">
-                <p className={`${hideSentenceRead ? 'invisible' : ''}`}>{parseHtml(sentence_read)}</p>
+                <div className={`${hideSentenceRead ? 'invisible' : ''}`}>{parseHtml(sentence_read)}</div>
                 <button onClick={(e) => handleClick('sentence_read')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>
               <div className="flex justify-between items-center">
-                <p className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{parseHtml(sentence_translate)}</p>
+                <div className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{parseHtml(sentence_translate)}</div>
                 <button onClick={(e) => handleClick('sentence_translate')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideSentenceTranslate ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
