@@ -74,12 +74,19 @@ export const options: NextAuthOptions = {
       return baseUrl;
     },
     async session({ session, user, token }) {
+      const userData = await getUserByEmail({ email: token.email || '' });
+      
+      if(session?.user) {
+        session.user.role = userData.role;
+      }
+      
       return session;
     },
     async jwt({ token, user, account, profile }) {
-      // const userData = await getUserByEmail({ email: token?.email || '' });
-      // token.user = userData;
-
+      const userData = await getUserByEmail({ email: token?.email || '' });
+      
+      token.user = userData;
+      
       return token;
     }
   },
@@ -140,7 +147,5 @@ const getUserByEmail = async ({ email }: { email: string }) => {
     
   const user = await User.findOne({ email }).select('-password');
 
-  if(!user) throw new Error('등록된 이메일 정보가 없습니다.');
-
-  return { ...user._doc, _id: user._id.toString() };
+  return user;
 }

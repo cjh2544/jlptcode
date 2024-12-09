@@ -4,6 +4,7 @@ import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
 import Link from 'next/link';
 import { z } from 'zod';
 import { useSession } from 'next-auth/react';
+import { includes } from 'lodash';
 
 type BoardWriteProps = {
   id?: string,
@@ -18,12 +19,12 @@ const BoardView = (props: BoardWriteProps) => {
   const boardInfo: Board = useBoardCommunityStore((state) => state.boardInfo);
 
   const handleLinkActive = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (session?.user.email !== boardInfo.email) event.preventDefault();
+    if (session?.user?.email !== boardInfo.email) event.preventDefault();
   };
 
   const isMyWrite = useCallback(() => {
-    return session?.user.email === boardInfo.email;
-  }, [boardInfo])
+    return session?.user?.email === boardInfo.email;
+  }, [boardInfo, session])
 
   return (
     <>
