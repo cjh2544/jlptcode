@@ -1,4 +1,5 @@
 "use client"; // 필수!
+import { includes } from "lodash";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const SignInHeaderPage = () => {
@@ -19,7 +20,7 @@ const SignInHeaderPage = () => {
         ? <>
           <div className="group relative">
             <button className="rounded-lg border border-white px-3 py-2 flex items-center text-xs font-bold leading-snug text-white hover:opacity-75" type="button">
-              {session?.user?.name}님
+              {session.user?.name}님
               <i className="fas fa-right-from-bracket ml-1" />
             </button>
 

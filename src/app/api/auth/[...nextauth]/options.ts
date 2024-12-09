@@ -73,18 +73,17 @@ export const options: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
-    async session({ session, user, token }) {
-      // const userData = await getUserByEmail({ email: token?.email || '' });
-      // session.user = {...session.user, role: userData.role};
-      
-      return session;
-    },
     async jwt({ token, user, account, profile }) {
-      // const userData = await getUserByEmail({ email: token?.email || '' });
-      
-      // token = {...token, role: userData.role};
-      
+      if (user) {
+        token.role = user.role;
+      }
+
       return token;
+    },
+    async session({ session, user, token }) {
+      if(session.user) session.user.role = token.role;
+
+      return session;
     }
   },
   pages: {

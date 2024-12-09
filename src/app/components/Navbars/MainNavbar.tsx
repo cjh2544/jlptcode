@@ -9,6 +9,10 @@ const mainNavbarMenuList = [
     link: '/wordToday',
   },
   {
+    name: '今日の文章',
+    link: '/sentenceToday',
+  },
+  {
     name: '레벨업(Level up)',
     link: '/levelUp',
   },
