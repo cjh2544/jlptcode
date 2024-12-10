@@ -6,29 +6,16 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
-import BoardCommunity from "@/app/models/boardCommunityModel";
+import BoardReply from "@/app/models/boardReplyModel";
 
-const BoardFormData = z.object({
-  title: z.string().min(2, "제목은 2자이상 입력해 주세요.").max(100, "제목은 최대 100자리까지 입력해 주세요."),
+const ReplyFormData = z.object({
   contents: z.string().min(2, "내용은 2자이상 입력해 주세요.").max(5000, "내용은 최대 5000자리까지 입력해 주세요."),
 });
 
-export async function GET(request: NextRequest) {
-  await connectDB();
-
-  const { searchParams } = new URL(request.url);
-
-  // const communityList = await BoardCommunity.find().select('-password');
-  const communityList = await BoardCommunity.find(searchParams);
-
-  return NextResponse.json(communityList)
-}
-
 export async function POST(req: NextRequest, res: NextResponse) {
   await connectDB();
-  const body = await req.formData();
-  const boardInfo = Object.fromEntries(body.entries());
-  const validation = BoardFormData.safeParse(boardInfo);
+  const replyInfo = await req.json();
+  const validation = ReplyFormData.safeParse(replyInfo);
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
@@ -37,8 +24,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     if (validation.success) {
-      const resultInsert = await BoardCommunity.create({
-        ...boardInfo,
+      const resultInsert = await BoardReply.create({
+        ...replyInfo,
         email: session.user.email,
         name: session.user.name,
       });
@@ -60,27 +47,27 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
-  const boardInfo = await req.json();
+  const replyInfo = await req.json();
 
   if(!session?.user?.email) {
     return NextResponse.json({ success: false, message: '로그인 정보가 없습니다.' })
   }
   
-  if(boardInfo.email !== session.user.email) {
+  if(replyInfo.email !== session.user.email) {
     return NextResponse.json({ success: false, message: '수정 권한이 없습니다.' })
   }
 
-  const validation = BoardFormData.safeParse(boardInfo);
+  const validation = ReplyFormData.safeParse(replyInfo);
   
   if (validation.success) {
     await connectDB();
 
-    const resultUpdate = await BoardCommunity.updateOne({
-      _id: boardInfo._id,
+    const resultUpdate = await BoardReply.updateOne({
+      _id: replyInfo._id,
       email: session.user.email
     }, {
-      title: boardInfo.title,
-      contents: boardInfo.contents
+      title: replyInfo.title,
+      contents: replyInfo.contents
     });
     
     if(isEmpty(resultUpdate) || resultUpdate.modifiedCount === 0) {
@@ -99,7 +86,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
-  const boardInfo = await req.json();
+  const replyInfo = await req.json();
 
   if(!session?.user?.email) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
@@ -107,20 +94,20 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     await connectDB();
 
     // 게시판 등록정보 조회
-    const existBoardInfo = await BoardCommunity.findOne({
-      _id: boardInfo._id,
+    const existBoardInfo = await BoardReply.findOne({
+      _id: replyInfo._id,
       email: session.user.email
     });
 
     if(isEmpty(existBoardInfo)) {
       resultInfo = { success: false, message: '등록된 정보가 없습니다.' };
     } else {
-      const matchEmail = boardInfo.email as string === existBoardInfo.email;
+      const matchEmail = replyInfo.email as string === existBoardInfo.email;
       
       if(matchEmail) {
         // 삭제
-        const deleteInfo = await BoardCommunity.deleteOne({
-          _id: boardInfo._id,
+        const deleteInfo = await BoardReply.deleteOne({
+          _id: replyInfo._id,
           email: session?.user.email
         });
 

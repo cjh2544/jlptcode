@@ -37,7 +37,7 @@ const BoardView = (props: BoardWriteProps) => {
                   <form className="space-y-4 md:space-y-6">
                       <div>
                           <label className={`block mb-2 text-sm font-bold text-gray-900`}>제목 (2~100자리)</label>
-                          <input defaultValue={boardInfo.title || ''} disabled maxLength={100} type="text" name="title" id="title" className="bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="제목 입력" />
+                          <input defaultValue={boardInfo.title || ''} disabled={true} maxLength={100} type="text" name="title" id="title" className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:outline-none block w-full p-2.5" placeholder="제목 입력" />
                       </div>
                       <div>
                           <label className={`block mb-2 text-sm font-bold text-gray-900`}>내용 (2~5000자리)</label>
@@ -45,7 +45,7 @@ const BoardView = (props: BoardWriteProps) => {
                             disabled={true} 
                             maxLength={5000}
                             rows={10}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                             placeholder="내용 입력">
                           </textarea>
                       </div>

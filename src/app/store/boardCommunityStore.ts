@@ -31,6 +31,7 @@ type BoardCommunityStore = {
     getBoardList: () => void,
     updateBoardInfo: (boardInfo: Board) => Object,
     deleteBoardInfo: (boardInfo: Board) => Object,
+    insertReplyInfo: (replyInfo: BoardReply) => Object,
     init: () => void,
 }
 
@@ -132,6 +133,19 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({...get().boardInfo, ...boardInfo}),
+                })
+
+                const resData = await response.json();
+
+                return resData;
+            },
+            insertReplyInfo: async (replyInfo) => {
+                const response = await fetch('/api/board/reply', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({...replyInfo, board_id: get().boardInfo._id}),
                 })
 
                 const resData = await response.json();

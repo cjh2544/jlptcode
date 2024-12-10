@@ -35,24 +35,17 @@ const BoardReply = (props: BoardReplyProps) => {
   const confirmMsg = useBoardCommunityStore((state) => state.confirmMsg);
   const messageType = useBoardCommunityStore((state) => state.messageType);
   const success = useBoardCommunityStore((state) => state.success);
-  const procType = useBoardCommunityStore((state) => state.procType);
   const setLoading = useBoardCommunityStore((state) => state.setLoading);
-  const setBoardInfo = useBoardCommunityStore((state) => state.setBoardInfo);
   const setErrors = useBoardCommunityStore((state) => state.setErrors);
   const setShowConfirm = useBoardCommunityStore((state) => state.setShowConfirm);
   const setConfirmMsg = useBoardCommunityStore((state) => state.setConfirmMsg);
   const setSuccess = useBoardCommunityStore((state) => state.setSuccess);
   const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
   const setProcType = useBoardCommunityStore((state) => state.setProcType);
-  const updateBoardInfo = useBoardCommunityStore((state) => state.updateBoardInfo);
-  const deleteBoardInfo = useBoardCommunityStore((state) => state.deleteBoardInfo);
+  const insertReplydInfo = useBoardCommunityStore((state) => state.insertReplyInfo);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    if(procType === 'delete') {
-      if(!confirm('삭제 하시겠습니까?')) return false;
-    }
 
     setLoading(true)
     setErrors(null)
@@ -60,14 +53,12 @@ const BoardReply = (props: BoardReplyProps) => {
     try {
       const formData = new FormData(event.currentTarget);
 
-      const boardInfo = Object.fromEntries(formData.entries());
-      const response = procType === 'update' ? await updateBoardInfo(boardInfo)
-        :  await deleteBoardInfo(boardInfo);
+      const replyInfo = Object.fromEntries(formData.entries());
+      const response = await insertReplydInfo(replyInfo);
 
       const data: any = await response;
       
       if(data.success) {
-        setBoardInfo(Object.fromEntries(formData));
         setMessageType('info');
         setConfirmMsg(data.message);
         setShowConfirm(true);
@@ -118,9 +109,16 @@ const BoardReply = (props: BoardReplyProps) => {
     }
   }
 
-  const isMyWrite = useCallback(() => {
-    return session?.user?.email === boardInfo.email;
-  }, [boardInfo])
+  const isAdmin = useCallback(() => {
+    return session?.user?.role?.includes('admin');
+  }, [session])
+
+  useEffect(() => {
+    return () => {
+      setLoading(false);
+      setErrors(null)
+    };
+  }, [])
 
   return (
     <>
@@ -132,28 +130,43 @@ const BoardReply = (props: BoardReplyProps) => {
                   </h1>
                   <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
                       <div>
-                          <label className={`block mb-2 text-sm font-bold ${isValid('title') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>제목 (2~100자리)</label>
+                          <label className={`block mb-2 text-sm font-bold text-gray-900`}>제목 (2~100자리)</label>
                           <input
+                            disabled={true}
+                            readOnly={true}
                             defaultValue={boardInfo.title || ''}
-                            required={true} maxLength={100} type="text" name="title" id="title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="제목 입력" />
-                          <p className={`${isValid('title') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('title')}</p>
+                            type="text" className="read-only:bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="제목 입력" />
                       </div>
                       <div>
-                          <label className={`block mb-2 text-sm font-bold ${isValid('contents') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>내용 (2~5000자리)</label>
-                          <textarea name="contents" id="contents"
+                          <label className={`block mb-2 text-sm font-bold text-gray-900`}>내용 (2~5000자리)</label>
+                          <textarea
+                            disabled={true}
+                            readOnly={true}
                             defaultValue={boardInfo.contents || ''}
+                            rows={10}
+                            className="read-only:bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="내용 입력">
+                          </textarea>
+                      </div>
+                      <div className="inline-flex items-center justify-center w-full">
+                          <hr className="w-96 h-px my-8 bg-gray-200 border-0" />
+                          <span className="absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-white left-1/2">답변</span>
+                      </div>
+                      <div>
+                          <label className={`block mb-2 text-sm font-bold ${isValid('contents') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>답변 (2~5000자리)</label>
+                          <textarea name="contents" id="contents"
                             required={true} 
                             maxLength={5000}
                             rows={10}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder="내용 입력">
+                            className="read-only:bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            placeholder="답변 입력">
                           </textarea>
                           <p className={`${isValid('contents') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('contents')}</p>
                       </div>
                       <div className='flex justify-center gap-2'>
                         {isLoading ? (
                           <>
-                            <button disabled type="submit" className="cursor-not-allowed w-2/3 bg-blue-300 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                            <button disabled type="submit" className="cursor-not-allowed flex-1 bg-blue-300 text-white font-bold py-2 px-4 rounded focus:outline-none">
                               <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
                                 <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
@@ -163,15 +176,12 @@ const BoardReply = (props: BoardReplyProps) => {
                           </>
                         ) : (
                           <>
-                            <button disabled={!isMyWrite()} onClick={() => setProcType('update')} type="submit" className={`${isMyWrite() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} w-1/3 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                              수정
-                            </button>
-                            <button disabled={!isMyWrite()} onClick={() => setProcType('delete')} type="submit" className={`${isMyWrite() ? 'hover:bg-red-700' : 'opacity-50 cursor-not-allowed'} w-1/3 bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                              삭제
+                            <button disabled={!isAdmin()} onClick={() => setProcType('update')} type="submit" className={`${isAdmin() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} flex-1 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                              답변등록
                             </button>
                           </>
                         )}
-                        <Link href="view" scroll={false} className="w-1/3 text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
+                        <Link href="view" scroll={false} className="flex-1 text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
                           취소
                         </Link>
                       </div>

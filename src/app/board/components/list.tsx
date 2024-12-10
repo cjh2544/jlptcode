@@ -5,6 +5,7 @@ import PaginationNew from '@/app/components/Navbars/PaginationNew';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
 import { format } from "date-fns";
 import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
+import BoardRowInfo from './boardRowInfo';
 
 type BoardListProps = {
   level?: string,
@@ -80,23 +81,7 @@ const BoardList = (props: BoardListProps) => {
                   ) : (
                     boardList.map((boardInfo: Board, idx: number) => {
                       return (
-                        <tr key={`board-community-${idx}`} onClick={() => handleClickDetail(boardInfo)} className='cursor-pointer hover:font-bold'>
-                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p className="text-gray-900 whitespace-no-wrap">
-                                    {boardInfo.title}
-                                </p>
-                            </td>
-                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p className="text-gray-900 whitespace-no-wrap">
-                                    {boardInfo.name}
-                                </p>
-                            </td>
-                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                <p className="text-gray-900 whitespace-no-wrap">
-                                    {format(boardInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
-                                </p>
-                            </td>
-                        </tr>
+                        <BoardRowInfo key={idx} boardInfo={boardInfo} />
                       )
                     })
                   )
