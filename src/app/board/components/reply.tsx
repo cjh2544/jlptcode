@@ -29,6 +29,7 @@ const BoardReply = (props: BoardReplyProps) => {
   const { data: session } = useSession();
   const router = useRouter();
   const boardInfo: Board = useBoardCommunityStore((state) => state.boardInfo);
+  const replyInfo: Board = useBoardCommunityStore((state) => state.replyInfo);
   const isLoading = useBoardCommunityStore((state) => state.isLoading);
   const errors = useBoardCommunityStore((state) => state.errors);
   const showConfirm = useBoardCommunityStore((state) => state.showConfirm);
@@ -43,6 +44,7 @@ const BoardReply = (props: BoardReplyProps) => {
   const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
   const setProcType = useBoardCommunityStore((state) => state.setProcType);
   const insertReplydInfo = useBoardCommunityStore((state) => state.insertReplyInfo);
+  const updateReplydInfo = useBoardCommunityStore((state) => state.updateReplyInfo);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,8 +55,8 @@ const BoardReply = (props: BoardReplyProps) => {
     try {
       const formData = new FormData(event.currentTarget);
 
-      const replyInfo = Object.fromEntries(formData.entries());
-      const response = await insertReplydInfo(replyInfo);
+      const replyFormInfo = Object.fromEntries(formData.entries());
+      const response = replyInfo?._id ? await updateReplydInfo(replyFormInfo) : await insertReplydInfo(replyFormInfo);
 
       const data: any = await response;
       
@@ -155,6 +157,7 @@ const BoardReply = (props: BoardReplyProps) => {
                       <div>
                           <label className={`block mb-2 text-sm font-bold ${isValid('contents') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>답변 (2~5000자리)</label>
                           <textarea name="contents" id="contents"
+                            defaultValue={replyInfo?.contents || ''}
                             required={true} 
                             maxLength={5000}
                             rows={10}
@@ -176,7 +179,7 @@ const BoardReply = (props: BoardReplyProps) => {
                           </>
                         ) : (
                           <>
-                            <button disabled={!isAdmin()} onClick={() => setProcType('update')} type="submit" className={`${isAdmin() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} flex-1 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                            <button disabled={!isAdmin()} type="submit" className={`${isAdmin() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} flex-1 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
                               답변등록
                             </button>
                           </>

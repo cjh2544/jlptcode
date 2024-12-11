@@ -12,6 +12,7 @@ type BoardCommunityStore = {
     isLoading: boolean,
     pageInfo?: Paginate,
     boardInfo: Board,
+    replyInfo: BoardReply,
     boardList: [],
     errors: Array<any> | null,
     showConfirm: boolean,
@@ -32,10 +33,9 @@ type BoardCommunityStore = {
     updateBoardInfo: (boardInfo: Board) => Object,
     deleteBoardInfo: (boardInfo: Board) => Object,
     insertReplyInfo: (replyInfo: BoardReply) => Object,
+    updateReplyInfo: (replyInfo: BoardReply) => Object,
     init: () => void,
 }
-
-const PAGE_PER_SIZE = 1
 
 export const useBoardCommunityStore = create<BoardCommunityStore>() (
     devtools(
@@ -48,9 +48,10 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                 totalPage: 1, 
                 currentPage: 1, 
                 startPage: 1, 
-                pageSize: PAGE_PER_SIZE,
+                pageSize: 10,
             },
             boardInfo: {},
+            replyInfo: {},
             boardList: [],
             errors: [],
             showConfirm: false,
@@ -66,6 +67,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             setSuccess: (isSuccess) => set((state) => ({ success: isSuccess })),
             setMessageType: (messageType: MessageType) => set((state) => ({ messageType: messageType })),
             getPageInfo: async () => {
+                console.log(get().pageInfo);
                 const response = await fetch('/api/board/community/page', {
                     method: 'POST',
                     headers: {
@@ -83,6 +85,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             getBoardInfo: async (boardInfo) => {
                 set({ 
                     boardInfo: {},
+                    replyInfo: {}
                 });
 
                 const response = await fetch('/api/board/community/view', {
@@ -93,10 +96,20 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     body: JSON.stringify({boardInfo}),
                 })
 
-                const resData = await response.json();
+                const resBoardInfo = await response.json();
+
+                const responseReply = await fetch('/api/board/reply/' + resBoardInfo._id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                const resReplyInfo = await responseReply.json();
 
                 set({ 
-                    boardInfo: resData,
+                    boardInfo: resBoardInfo,
+                    replyInfo: resReplyInfo
                 });
             },
             getBoardList: async () => {
@@ -152,6 +165,19 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
 
                 return resData;
             },
+            updateReplyInfo: async (replyInfo) => {
+                const response = await fetch('/api/board/reply', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({...get().replyInfo, ...replyInfo}),
+                })
+
+                const resData = await response.json();
+
+                return resData;
+            },
             init: () => set({
                 messageType: 'info',
                 isLoading: true,
@@ -160,9 +186,10 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     totalPage: 1, 
                     currentPage: 1, 
                     startPage: 1, 
-                    pageSize: PAGE_PER_SIZE,
+                    pageSize: 10,
                 },
                 boardInfo: {},
+                replyInfo: {},
                 boardList: [],
                 errors: [],
                 showConfirm: false,

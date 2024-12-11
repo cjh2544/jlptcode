@@ -1,6 +1,7 @@
 import { isEmpty } from "lodash";
-import React, {memo, useState} from "react";
-import { Card, CardBody, CardFooter, CardHeader, Radio, Typography } from "@material-tailwind/react";
+import React, {memo} from "react";
+import { Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
+import { format } from "date-fns";
 
 type BoardDetailProps = {
   boardInfo: Board,
@@ -9,25 +10,30 @@ type BoardDetailProps = {
 
 const CardBoardDetailInfo = (props:BoardDetailProps) => {
   const { boardInfo, replyInfo } = props;
-  const { title, contents, name, createdAt } = boardInfo;
-
-  const parseHtml = (html: string) => {
-    return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
-  };
 
   return (
     <>
       <Card className="w-full">
         <CardBody>
-          <div className="mb-2 font-normal mx-auto">
-            {title}
-          </div>
+          <Typography variant="h6" color="blue-gray" className="mb-2 flex gap-2 justify-between items-center">
+            <span>{boardInfo?.title}</span>
+            <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+              {format(boardInfo?.updatedAt ||  boardInfo?.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+            </span>
+          </Typography>
+          <div style={{ whiteSpace: "pre-wrap" }}>{boardInfo?.contents as string}</div>
         </CardBody>
-        <CardFooter className={`pt-0`}>
-          <div className={`relative w-full flex items-center font-bold px-4 py-3 rounded-md`}>
-            <div>{parseHtml(contents as string)}</div>
-          </div>
-        </CardFooter>
+        {!isEmpty(replyInfo) && (
+          <CardFooter className={`border-t`}>
+            <Typography variant="h6" color="blue-gray" className="mb-2 flex gap-2 justify-between items-center">
+              <span>답변</span>
+              <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
+                {format(replyInfo?.updatedAt ||  replyInfo?.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+              </span>
+            </Typography>
+            <div style={{ whiteSpace: "pre-wrap" }}>{replyInfo?.contents as string}</div>
+          </CardFooter>
+        )}
       </Card>
     </>
   );

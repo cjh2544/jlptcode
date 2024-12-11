@@ -66,7 +66,6 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
       _id: replyInfo._id,
       email: session.user.email
     }, {
-      title: replyInfo.title,
       contents: replyInfo.contents
     });
     

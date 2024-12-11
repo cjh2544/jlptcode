@@ -6,6 +6,7 @@ import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
 import { format } from "date-fns";
 import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import BoardRowInfo from './boardRowInfo';
+import { isEmpty } from 'lodash';
 
 type BoardListProps = {
   level?: string,
@@ -44,10 +45,10 @@ const BoardList = (props: BoardListProps) => {
   }
 
   useEffect(() => {
-    init();
+    // init();
     getPageInfo();
     getBoardList();
-  }, [level])
+  }, [])
 
   return (
     <>
@@ -79,9 +80,20 @@ const BoardList = (props: BoardListProps) => {
                       </tr>
                     </>
                   ) : (
-                    boardList.map((boardInfo: Board, idx: number) => {
+                    isEmpty(boardList) ? (
+                      <>
+                        <tr>
+                          <td colSpan={3}>
+                            등록된 정보가 없습니다.
+                          </td>
+                        </tr>
+                      </>
+                    ) : boardList.map((boardInfo: Board, idx: number) => {
                       return (
-                        <BoardRowInfo key={idx} boardInfo={boardInfo} />
+                        <BoardRowInfo 
+                          key={idx} 
+                          onClickDetail={handleClickDetail} 
+                          boardInfo={boardInfo} />
                       )
                     })
                   )
