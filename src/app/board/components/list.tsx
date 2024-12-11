@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import BoardRowInfo from './boardRowInfo';
 import { isEmpty } from 'lodash';
+import EmptyData from '@/app/components/Alert/EmptyData';
 
 type BoardListProps = {
   level?: string,
@@ -84,7 +85,7 @@ const BoardList = (props: BoardListProps) => {
                       <>
                         <tr>
                           <td colSpan={3}>
-                            등록된 정보가 없습니다.
+                            <EmptyData />
                           </td>
                         </tr>
                       </>

@@ -6,6 +6,8 @@ const messageTypes = ["info", "error", "warning"] as const;
 type ProcType = typeof procTypes[number];
 type MessageType = typeof messageTypes[number];
 
+const PAGE_PER_SIZE = 3
+
 type BoardCommunityStore = {
     procType: ProcType,
     messageType: MessageType,
@@ -48,7 +50,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                 totalPage: 1, 
                 currentPage: 1, 
                 startPage: 1, 
-                pageSize: 10,
+                pageSize: PAGE_PER_SIZE,
             },
             boardInfo: {},
             replyInfo: {},
@@ -67,7 +69,6 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             setSuccess: (isSuccess) => set((state) => ({ success: isSuccess })),
             setMessageType: (messageType: MessageType) => set((state) => ({ messageType: messageType })),
             getPageInfo: async () => {
-                console.log(get().pageInfo);
                 const response = await fetch('/api/board/community/page', {
                     method: 'POST',
                     headers: {
@@ -186,7 +187,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     totalPage: 1, 
                     currentPage: 1, 
                     startPage: 1, 
-                    pageSize: 10,
+                    pageSize: PAGE_PER_SIZE,
                 },
                 boardInfo: {},
                 replyInfo: {},
