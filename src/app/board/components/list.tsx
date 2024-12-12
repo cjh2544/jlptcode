@@ -3,7 +3,6 @@ import React, {memo, useEffect} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import PaginationNew from '@/app/components/Navbars/PaginationNew';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
-import { format } from "date-fns";
 import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import BoardRowInfo from './boardRowInfo';
 import { isEmpty } from 'lodash';

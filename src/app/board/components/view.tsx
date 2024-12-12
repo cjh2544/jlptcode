@@ -2,9 +2,7 @@
 import React, {memo, MouseEvent, useCallback} from 'react';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
 import Link from 'next/link';
-import { z } from 'zod';
 import { useSession } from 'next-auth/react';
-import { includes } from 'lodash';
 
 type BoardWriteProps = {
   id?: string,

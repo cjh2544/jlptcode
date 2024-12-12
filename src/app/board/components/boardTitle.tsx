@@ -15,7 +15,6 @@ const BoardTitle = (props: HeaderSubTitleProps) => {
   const router = useRouter();
 
   const searchInfo = useBoardCommunityStore((state) => state.searchInfo);
-  const pageInfo = useBoardCommunityStore((state) => state.pageInfo);
   const isLoading = useBoardCommunityStore((state) => state.isLoading);
   const setPageInfo = useBoardCommunityStore((state) => state.setPageInfo);
   const setSearchInfo = useBoardCommunityStore((state) => state.setSearchInfo);

@@ -1,16 +1,7 @@
 'use client';
 import React, {FormEvent, memo, useCallback, useEffect, useState} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useJlptStore } from '@/app/store/jlptStore';
-import { useClassTypeList } from '@/app/swr/useJlpt';
-import Loading from '@/app/components/Loading/loading';
-import PaginationNew from '@/app/components/Navbars/PaginationNew';
 import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
-import { useBoardList } from '@/app/swr/useBoardCommunity';
-import { format } from "date-fns";
-import { init } from 'next/dist/compiled/webpack/webpack';
-import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import { find, includes, isEmpty } from 'lodash';
 import Link from 'next/link';
 import { z } from 'zod';
@@ -42,7 +33,6 @@ const BoardReply = (props: BoardReplyProps) => {
   const setConfirmMsg = useBoardCommunityStore((state) => state.setConfirmMsg);
   const setSuccess = useBoardCommunityStore((state) => state.setSuccess);
   const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
-  const setProcType = useBoardCommunityStore((state) => state.setProcType);
   const insertReplydInfo = useBoardCommunityStore((state) => state.insertReplyInfo);
   const updateReplydInfo = useBoardCommunityStore((state) => state.updateReplyInfo);
 
