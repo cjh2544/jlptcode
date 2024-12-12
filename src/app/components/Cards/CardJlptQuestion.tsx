@@ -14,8 +14,10 @@ type JlptQuestionProps = {
 const CardJlptQuestion = (props:JlptQuestionProps) => {
   const {questionType, question, id = '', sentence} = props;
   const {content = '', audio = {}, image = {}} = question;
-  const [open, setOpen] = React.useState(false);
-  const toggleOpen = () => setOpen((cur) => !cur);
+  const [openTranslate, setOpenTranslate] = React.useState(false);
+  const [openRead, setOpenRead] = React.useState(false);
+  const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
+  const toggleOpenRead = () => setOpenRead((cur) => !cur);
 
   const parseHtml = (html: string) => {
     return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
@@ -28,16 +30,32 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
           <div className="flex flex-wrap" id={id}>
             {parseHtml(content || '')}
             {sentence?.translation && (
-              <Button onClick={toggleOpen} className="px-2 py-1 inline">해석</Button>
+              <Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button>
+            )}
+            {sentence?.reading && (
+              <Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button>
             )}
           </div>
-          {open && (
+          {openTranslate && (
             <div className="flex flex-wrap">
-              <Collapse open={open} className="w-full mt-1">
+              <Collapse open={openTranslate} className="w-full mt-1">
                 <Card>
-                  <CardBody className="px-3 py-2">
+                  <CardBody className="px-3 py-2 font-nanumGothic">
                     <Typography>
                       {sentence?.translation}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </div>
+          )}
+          {openRead && (
+            <div className="flex flex-wrap">
+              <Collapse open={openRead} className="w-full mt-1">
+                <Card>
+                  <CardBody className="px-3 py-2 font-nanumGothic">
+                    <Typography>
+                      {sentence?.reading}
                     </Typography>
                   </CardBody>
                 </Card>
