@@ -13,6 +13,10 @@ const mainNavbarMenuList = [
     link: '/sentenceToday',
   },
   {
+    name: '今日の文法',
+    link: '/grammarToday',
+  },
+  {
     name: '레벨업(Level up)',
     link: '/levelUp',
   },
