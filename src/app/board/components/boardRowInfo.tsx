@@ -43,26 +43,28 @@ const BoardRowInfo = (props:BoardRowInfoProps) => {
   return (
     <>
       <tr>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex gap-2 items-center">
-              <p onClick={handleClickDetail} className="text-gray-900 whitespace-no-wrap cursor-pointer hover:font-bold">
-                  {boardInfo.title}
-              </p>
-              {!isEmpty(replyInfo) && (
-                <button type="button" onClick={() => setShowReply(!showReply)} className="focus:outline-none text-xs bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-md">
-                  답변완료
-                </button>
-              )}
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <p className="text-gray-900 whitespace-no-wrap">
-                  {boardInfo.name}
-              </p>
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-              <p className="text-gray-900 whitespace-no-wrap">
-                  {format(boardInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
-              </p>
-          </td>
+        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm items-center whitespace-no-wrap">
+          <div className="flex gap-2">
+            <p onClick={handleClickDetail} className="text-gray-900 cursor-pointer hover:font-bold underline underline-offset-4">
+                {boardInfo.title}
+            </p>
+            {!isEmpty(replyInfo) && (
+              <button type="button" onClick={() => setShowReply(!showReply)} className="focus:outline-none text-xs bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded-md">
+                답변완료
+              </button>
+            )}
+          </div>
+        </td>
+        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
+            <p className="text-gray-900">
+                {boardInfo.name}
+            </p>
+        </td>
+        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
+            <p className="text-gray-900">
+                {format(boardInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+            </p>
+        </td>
       </tr>
       {showReply && (
         <tr className="even:bg-blue-gray-50/50">

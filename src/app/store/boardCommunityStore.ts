@@ -6,13 +6,14 @@ const messageTypes = ["info", "error", "warning"] as const;
 type ProcType = typeof procTypes[number];
 type MessageType = typeof messageTypes[number];
 
-const PAGE_PER_SIZE = 3
+const PAGE_PER_SIZE = 10
 
 type BoardCommunityStore = {
     procType: ProcType,
     messageType: MessageType,
     isLoading: boolean,
     pageInfo?: Paginate,
+    searchInfo?: any,
     boardInfo: Board,
     replyInfo: BoardReply,
     boardList: [],
@@ -23,6 +24,7 @@ type BoardCommunityStore = {
     setProcType: (procType: ProcType) => void,
     setBoardInfo: (boardInfo: Board) => void,
     setPageInfo: (pageInfo: any) => void,
+    setSearchInfo: (searchInfo: any) => void,
     setLoading: (isLoading: boolean) => void, 
     setErrors: (errors: Array<any> | null) => void,
     setShowConfirm: (showConfirm: boolean) => void,
@@ -52,6 +54,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                 startPage: 1, 
                 pageSize: PAGE_PER_SIZE,
             },
+            searchInfo: {},
             boardInfo: {},
             replyInfo: {},
             boardList: [],
@@ -62,6 +65,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
             setProcType: (procType: ProcType) => set((state) => ({ procType: procType })),
             setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
             setBoardInfo: (boardInfo) => set((state) => ({ boardInfo: {...state.boardInfo, ...boardInfo} })),
+            setSearchInfo: (searchInfo) => set((state) => ({ searchInfo: searchInfo })),
             setLoading: (isLoading) => set((state) => ({ isLoading: isLoading })),
             setErrors: (errors) => set((state) => ({ errors: errors })),
             setShowConfirm: (showConfirm) => set((state) => ({ showConfirm: showConfirm })),
@@ -74,7 +78,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({boardInfo: get().boardInfo, pageInfo: get().pageInfo}),
+                    body: JSON.stringify({searchInfo: get().searchInfo, pageInfo: get().pageInfo}),
                 })
 
                 const resData = await response.json();
@@ -119,7 +123,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({boardInfo: get().boardInfo, pageInfo: get().pageInfo}),
+                    body: JSON.stringify({searchInfo: get().searchInfo, pageInfo: get().pageInfo}),
                 })
                 const resData = await response.json();
                 set({ 
@@ -189,6 +193,7 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                     startPage: 1, 
                     pageSize: PAGE_PER_SIZE,
                 },
+                searchInfo: {},
                 boardInfo: {},
                 replyInfo: {},
                 boardList: [],

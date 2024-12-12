@@ -202,6 +202,23 @@ export default function Sidebar() {
                 </Link>
               </li>
             </ul>
+
+            {/* Divider */}
+            <hr className="my-4 md:min-w-full" />
+            {/* Heading */}
+            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+              게시판
+            </h6>
+            {/* Navigation */}
+
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+              <li className="items-center">
+                <Link scroll={false} href="/board/community/list" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  문의 게시판
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </nav>

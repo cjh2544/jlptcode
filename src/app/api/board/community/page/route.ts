@@ -8,14 +8,23 @@ import BoardCommunity from "@/app/models/boardCommunityModel";
 export async function POST(request: NextRequest) {
   await connectDB();
 
-  const {pageInfo, boardInfo} = await request.json();
+  const {pageInfo, searchInfo} = await request.json();
 
   let resultPageInfo: Paginate = pageInfo;
-
-  const {title, contents, email} = boardInfo;
   
-  // let conditions:any = {title, contents, email};
+  const {keyword} = searchInfo;
+  
   let conditions:any = {};
+
+  if(keyword) {
+    conditions = {
+      $or: [ 
+        { title: { $regex: keyword } },
+        { contents: { $regex: keyword } }
+      ]
+    }
+  }
+
 
   const boardCount = await BoardCommunity.count(conditions);
 
