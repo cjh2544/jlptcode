@@ -5,6 +5,8 @@ import Question from '../components/question';
 import { memo } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import Loading from '@/app/components/Loading/loading';
+import { isEmpty } from 'lodash';
+import EmptyData from '@/app/components/Alert/EmptyData';
 
 const JlptTestPage = () => {
   const { jlptInfo, jlptList, isLoading } = useJlptStore((state) => state);
@@ -36,6 +38,9 @@ const JlptTestPage = () => {
             </div>
           </div>
           <div className="flex-auto bg-white mt-2 sm:p-2 lg:px-10 p-10">
+              {isEmpty(jlptList) ? (
+                <EmptyData text='문제를 준비중입니다.' className='bg-blueGray-100' />
+              ) : (<></>)}
               {jlptList.map((questionInfo: any, idx: number) => {
                 return (<Question key={`jlpt-test-${idx}`} questionInfo={questionInfo} />)
               })}
