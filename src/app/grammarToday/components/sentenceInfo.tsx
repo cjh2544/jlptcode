@@ -49,9 +49,20 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     playSpeech(read);
   }
 
-  const parseHtml = (html: string) => {
-    // (.*)\((.*)\)(.*)
-    return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
+  const parseHtml = (html: string, sentenceType?: string) => {
+    let pHtml = html;
+
+    pHtml = pHtml.replaceAll(/\s/g, "&nbsp;");
+    pHtml = pHtml.replaceAll('\\r\\n', '<br>');
+    pHtml = pHtml.replaceAll('\\n', '<br>');
+
+    // 문장일 경우 괄호 빨강으로 표시
+    if(sentenceType === 'sentence') {
+      pHtml = pHtml.replace(/\([^)]+\)/g, (str) => '<span class="text-red-600">' + str + '</span>');
+      pHtml = pHtml.replace(/\（[^)]+\）/g, (str) => '<span class="text-red-600">' + str + '</span>');
+    }
+   
+    return <div dangerouslySetInnerHTML={{ __html: pHtml }} />;
   };
 
   return (
@@ -71,7 +82,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
           <div className="font-normal">
             <div className="flex flex-col">
               <div className="flex justify-between items-center">
-                <div className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence)}</div>
+                <div className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence, 'sentence')}</div>
                 <p>
                   {/* <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
                     <i className="fa-solid fa-volume-high"></i>
