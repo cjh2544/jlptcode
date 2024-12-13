@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   
   // 공지사항 조회
   conditions = { noticeYn: 'Y' };
-  const communityNoticeList = await BoardCommunity.find(conditions)
+  const communityNoticeList = await BoardCommunity.find(conditions).sort({createdAt:-1, updatedAt:-1 })
 
   conditions = {...conditions, noticeYn: 'N' };
 
