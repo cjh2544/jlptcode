@@ -17,6 +17,12 @@ const boardCommunitySchema = new Schema({
     type: String,
     required: true,
   },
+  noticeYn: {
+    type: String,
+    enum: ['Y', 'N'],
+    default: 'N',
+    required: true,
+  },
 }, {timestamps: true, collection: 'boardCommunity'})
 
 const BoardCommunity = models?.boardCommunity || model('boardCommunity', boardCommunitySchema, 'board_community')

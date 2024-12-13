@@ -13,13 +13,20 @@ export async function POST(request: NextRequest) {
   const { keyword } = searchInfo;
   
   let conditions:any = {};
+  
+  // 공지사항 조회
+  conditions = { noticeYn: 'Y' };
+  const communityNoticeList = await BoardCommunity.find(conditions)
+
+  conditions = {...conditions, noticeYn: 'N' };
 
   if(keyword) {
     conditions = {
+      ...conditions,
       $or: [ 
         { title: { $regex: keyword } },
         { contents: { $regex: keyword } }
-      ]
+      ],
     }
   }
 
@@ -29,5 +36,5 @@ export async function POST(request: NextRequest) {
   .sort({createdAt:-1, updatedAt:-1 })
   .exec()
   
-  return NextResponse.json(communityList)
+  return NextResponse.json([...communityNoticeList, ...communityList])
 }

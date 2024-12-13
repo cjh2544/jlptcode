@@ -43,6 +43,11 @@ const BoardRowInfo = (props:BoardRowInfoProps) => {
             <p onClick={handleClickDetail} className="text-gray-900 cursor-pointer hover:font-bold underline underline-offset-4">
                 {boardInfo.title}
             </p>
+            {boardInfo?.noticeYn === 'Y' && (
+              <span className="focus:outline-none text-xs bg-red-500 text-white font-bold py-1 px-2 rounded-md">
+                공지
+              </span>
+            )}
             {!isEmpty(replyInfo) && (
               <button type="button" onClick={() => setShowReply(!showReply)} className="focus:outline-none text-xs bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded-md">
                 답변완료

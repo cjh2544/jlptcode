@@ -14,14 +14,14 @@ export async function POST(request: NextRequest) {
   
   const {keyword} = searchInfo;
   
-  let conditions:any = {};
+  let conditions:any = { noticeYn: 'N' };
 
   if(keyword) {
     conditions = {
       $or: [ 
         { title: { $regex: keyword } },
         { contents: { $regex: keyword } }
-      ]
+      ],
     }
   }
 
