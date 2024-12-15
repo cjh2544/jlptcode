@@ -169,9 +169,11 @@ const BoardReply = (props: BoardReplyProps) => {
                           </>
                         ) : (
                           <>
-                            <button disabled={!isAdmin()} type="submit" className={`${isAdmin() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                              답변등록
-                            </button>
+                            {isAdmin() && (
+                              <button type="submit" className={`hover:bg-blue-700 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                                답변등록
+                              </button>
+                            )}
                           </>
                         )}
                         <Link href="view" scroll={false} className="text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">

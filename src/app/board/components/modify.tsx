@@ -122,6 +122,10 @@ const BoardWrite = (props: BoardWriteProps) => {
     return session?.user?.email === boardInfo.email;
   }, [boardInfo])
 
+  const isAdmin = useCallback(() => {
+      return session?.user?.role?.includes('admin');
+    }, [boardInfo, session])
+
   return (
     <>
       <div className="font-nanumGothic flex flex-col items-center justify-center px-6 py-8 lg:py-0">
@@ -163,12 +167,16 @@ const BoardWrite = (props: BoardWriteProps) => {
                           </>
                         ) : (
                           <>
-                            <button disabled={!isMyWrite()} onClick={() => setProcType('update')} type="submit" className={`${isMyWrite() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                              수정
-                            </button>
-                            <button disabled={!isMyWrite()} onClick={() => setProcType('delete')} type="submit" className={`${isMyWrite() ? 'hover:bg-red-700' : 'opacity-50 cursor-not-allowed'} bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                              삭제
-                            </button>
+                            {isMyWrite() && (
+                              <>
+                                <button onClick={() => setProcType('update')} type="submit" className={`hover:bg-blue-700 bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                                  수정
+                                </button>
+                                <button onClick={() => setProcType('delete')} type="submit" className={`hover:bg-red-700 bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                                  삭제
+                                </button>
+                              </>
+                            )}
                           </>
                         )}
                         <Link href="view" scroll={false} className="text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">

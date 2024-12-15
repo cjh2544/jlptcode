@@ -24,6 +24,10 @@ const BoardView = (props: BoardWriteProps) => {
     return session?.user?.email === boardInfo.email;
   }, [boardInfo, session])
 
+  const isAdmin = useCallback(() => {
+    return session?.user?.role?.includes('admin');
+  }, [boardInfo, session])
+
   return (
     <>
       <div className="font-nanumGothic flex flex-col items-center justify-center px-6 py-8 lg:py-0">
@@ -48,14 +52,16 @@ const BoardView = (props: BoardWriteProps) => {
                           </textarea>
                       </div>
                       <div className='flex justify-center gap-2'>
-                        {session?.user?.role?.includes('admin') && (
+                        {isAdmin() && (
                           <Link href="reply" scroll={false} className={`hover:bg-green-700 text-center bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
                             답변하기
                           </Link>
                         )}
-                        <Link onClick={handleLinkActive} href="modify" scroll={false} className={`${isMyWrite() ? 'hover:bg-blue-700' : 'opacity-50 cursor-not-allowed'} text-center bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
-                          수정하기
-                        </Link>
+                        {isMyWrite() && (
+                          <Link onClick={handleLinkActive} href="modify" scroll={false} className={`hover:bg-blue-700 text-center bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                            수정하기
+                          </Link>
+                        )}
                         <Link href="list" scroll={false} className="text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
                           확인
                         </Link>
