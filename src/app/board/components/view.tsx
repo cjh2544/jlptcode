@@ -21,11 +21,11 @@ const BoardView = (props: BoardWriteProps) => {
   };
 
   const isMyWrite = useCallback(() => {
-    return session?.user?.email === boardInfo.email;
+    return session?.user?.email && session?.user?.email === boardInfo.email;
   }, [boardInfo, session])
 
   const isAdmin = useCallback(() => {
-    return session?.user?.role?.includes('admin');
+    return session?.user?.role && session?.user?.role?.includes('admin');
   }, [boardInfo, session])
 
   return (

@@ -102,7 +102,7 @@ const BoardReply = (props: BoardReplyProps) => {
   }
 
   const isAdmin = useCallback(() => {
-    return session?.user?.role?.includes('admin');
+    return session?.user?.role && session?.user?.role?.includes('admin');
   }, [session])
 
   useEffect(() => {
