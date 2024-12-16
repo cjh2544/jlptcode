@@ -5,28 +5,30 @@ import WordLayout from '@/app/components/Layout/WordLayout'
 import SearchBar from './components/SearchBar';
 import WordContent from './components/WordContent';
 import Pagination from '@/app/components/Navbars/Pagination';
+import { useWordStore } from '@/app/store/wordStore';
 
 const JlptPage = () => {
 
   const { data: session } = useSession();
 
   const [conditions, setConditions] = useState({});
+  const searchInfo = useWordStore((state) => state.searchInfo);
+  const pageInfo = useWordStore((state) => state.pageInfo);
+  const getWordList = useWordStore((state) => state.getWordList);
+  const setPageInfo = useWordStore((state) => state.setPageInfo);
   
-  const handleSearch = (data: any) => {
-    setConditions(data);
-  }
-
   const handlePageChange = (page: number) => {
-    setConditions({...conditions, page});
+    setPageInfo({...pageInfo, currentPage: page});
+    getWordList();
   }
 
   return (
     <WordLayout>
-      <SearchBar onSearch={(data: any) => handleSearch(data)} />
+      <SearchBar />
 
       <div onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()} className="w-full h-auto relative">
-        <WordContent conditions={conditions} />
-        <Pagination conditions={conditions} onPageChange={(newPage: number) => handlePageChange(newPage)} />
+        <WordContent conditions={searchInfo} />
+        <Pagination pageInfo={pageInfo} onPageChange={(newPage: number) => handlePageChange(newPage)} />
       </div>
     </WordLayout>
   )

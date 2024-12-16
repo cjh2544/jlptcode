@@ -1,20 +1,20 @@
-import useWordPage from '@/app/swr/useWordPage';
+import { useWordPage } from '@/app/swr/useWord';
 import ResponsivePagination from 'react-responsive-pagination';
 
 type PaginationProps = {
-  conditions: any,
+  pageInfo: any,
   onPageChange: (newPage: number) => any,
 }
 
 const Pagination = (props: PaginationProps) => {
 
   const {
-    conditions,
+    pageInfo,
     onPageChange,
   } = props
 
-  const {data: pageInfo, isLoading} = useWordPage(conditions);
-  const { total = 0, totalPage = 0, currentPage = 0, startPage = 0, pageSize = 0 } = pageInfo || {};
+  // const {data: pageInfo, isLoading} = useWordPage(conditions);
+  // const { total = 0, totalPage = 0, currentPage = 0, startPage = 0, pageSize = 0 } = pageInfo || {};
 
   const handlePageClick = (newPage: number) => {
     onPageChange(newPage);
@@ -30,8 +30,8 @@ const Pagination = (props: PaginationProps) => {
             onPageChange={handlePageClick}
             previousLabel="《"
             nextLabel="》"
-            total={totalPage}
-            current={currentPage}
+            total={pageInfo.totalPage}
+            current={pageInfo.currentPage}
           />
         </nav>
       </div>

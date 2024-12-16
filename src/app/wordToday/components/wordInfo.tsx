@@ -4,6 +4,7 @@ import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";
+import GoogleTts from "@/app/components/Audio/GoogleTTS";
 
 type WordInfoProps = {
   wordInfo: any
@@ -16,6 +17,7 @@ const WordInfo = (props:WordInfoProps) => {
     onClick
   } = props;
   const { 
+    _id,
     level, 
     year, 
     wordNo, 
@@ -70,15 +72,16 @@ const WordInfo = (props:WordInfoProps) => {
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             <div className="flex justify-between items-center">
-              <p className={`${hideWord ? 'invisible' : ''}`}>{word}</p>
-              <p>
+              <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
+              <div>
                 {/* <button onClick={(e) => handleGetSpeech(read)} className="text-blue-500 focus:outline-none mr-1">
                   <i className="fa-solid fa-volume-high"></i>
                 </button> */}
+                {/* <GoogleTts id={_id} text={word} /> */}
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
-              </p>
+              </div>
             </div> 
           </div>
         </td>

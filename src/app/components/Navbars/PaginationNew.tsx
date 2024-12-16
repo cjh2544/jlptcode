@@ -1,4 +1,3 @@
-import useWordPage from '@/app/swr/useWordPage';
 import ResponsivePagination from 'react-responsive-pagination';
 
 type PaginationNewProps = {

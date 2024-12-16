@@ -1,6 +1,5 @@
 'use client'
 import React, {memo} from 'react';
-import { SwiperSlide } from 'swiper/react';
 
 type WordCardProps = {
   wordInfo: any,
@@ -24,7 +23,7 @@ const WordCard = (props: WordCardProps) => {
           {wordInfo?.read || ' '}
         </h3>
         <h3 className="text-4xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 w-full whitespace-pre-line">
-          {wordInfo?.means.join('\n')}
+          {wordInfo?.means?.join('\n')}
         </h3>
       </div>
     </>

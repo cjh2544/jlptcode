@@ -2,7 +2,7 @@ import CardWord from "@/app/components/Cards/CardWord"
 
 type WordListProps = {
   title?: string,
-  data: any[],
+  data: Array<Word> | undefined,
   className?: string,
 }
 
@@ -34,7 +34,7 @@ const WordList = ({title, data, className}: WordListProps) => {
           )}
           <div className="block w-full overflow-x-auto"></div>
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {data.map((item, index) => <CardWord key={`word-${index}`} data={item} />)}
+            {data && data.map((item, index) => <CardWord key={`word-${index}`} data={item} />)}
           </ul>
         </div>
       </div>

@@ -2,7 +2,7 @@ import CardSentence from "@/app/components/Cards/CardSentence"
 
 type WordTableProps = {
   title?: string,
-  data: any[],
+  data: Array<Word> | undefined,
   className?: string,
 }
 
@@ -43,7 +43,7 @@ const WordTable = ({title, data, className}: WordTableProps) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((wordInfo, idx) => {
+                {data && data.map((wordInfo, idx) => {
                   return (
                     <tr key={`row-${idx}`} className="border border-solid border-l-0 border-r-0">
                       <td className={`border-t-0 px-6 align-middle border-l-0 border-r-0 p-4`}>{wordInfo.word}</td>

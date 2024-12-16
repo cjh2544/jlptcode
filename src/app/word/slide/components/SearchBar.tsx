@@ -11,15 +11,24 @@ const SearchBar = (props: SearchProps) => {
     onSearch
   } = props
 
-  const wordInfo =useWordStore((state) => state.wordInfo);
-  const setWordInfo = useWordStore((state) => state.setWordInfo);
+  const searchInfo =useWordStore((state) => state.searchInfo);
+  const setSearchInfo = useWordStore((state) => state.setSearchInfo);
+  const getWordList = useWordStore((state) => state.getWordList);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setWordInfo({...wordInfo, [e.target.name]: e.target.value});
+    let eObj:any = {}
+
+    if(e.target.name === 'parts') {
+      eObj = {[e.target.name]: e.target.value ? [e.target.value] : []};
+    } else {
+      eObj = {[e.target.name]: e.target.value}
+    }
+
+    setSearchInfo({...searchInfo, ...eObj});
   }
 
   const handleSearch = (e: MouseEvent<HTMLElement>) => {
-    onSearch && onSearch(wordInfo);
+    getWordList();
   }
 
   return (
@@ -58,7 +67,7 @@ const SearchBar = (props: SearchProps) => {
                   >
                     품사
                   </label>
-                  <select name="part" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                  <select name="parts" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     <option value="">전체</option>
                     <option value="1">명사</option>
                     <option value="2">대명사</option>
