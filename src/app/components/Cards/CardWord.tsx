@@ -31,9 +31,6 @@ const CardWord = ({
                 {data?.means}
               </p>
           </div>
-          {/* <div className={`inline-flex items-center text-${size}`}>
-              <CardSentence word={data?.word || data?.read} />
-          </div> */}
         </div>
     </li>
     </>
