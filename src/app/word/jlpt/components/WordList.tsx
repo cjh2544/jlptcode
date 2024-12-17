@@ -1,4 +1,5 @@
 import CardWord from "@/app/components/Cards/CardWord"
+import HeaderListButton from "./headerListButton"
 
 type WordListProps = {
   title?: string,
@@ -19,7 +20,7 @@ const WordList = ({title, data, className}: WordListProps) => {
           {title && (
             <div className="rounded-t mb-0 px-4 py-3 border-0">
               <div className="flex flex-wrap items-center">
-                <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+                <div className="relative w-full px-4 max-w-full flex justify-between items-center">
                   <h3
                     className={
                       "font-semibold text-lg " +
@@ -28,6 +29,11 @@ const WordList = ({title, data, className}: WordListProps) => {
                   >
                     {title}
                   </h3>
+                  <div className='flex flex-col'>
+                    <HeaderListButton colName={'word'} />
+                    <HeaderListButton colName={'read'} />
+                    <HeaderListButton colName={'means'} />
+                  </div>
                 </div>
               </div>
             </div>

@@ -12,9 +12,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import WordCard from './WordCard';
-import { prevArrow, propTypesPrevArrow } from '@material-tailwind/react/types/components/carousel';
 import ModalFullScreen from '@/app/components/Modals/ModalFullScreen';
-import Loading from '@/app/components/Loading/loading';
 import { useWordStore } from '@/app/store/wordStore';
 import { isEmpty } from 'lodash';
 

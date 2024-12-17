@@ -1,18 +1,39 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
+import WordList from '../wordToday/components/wordList';
 
 const viewTypes = ["list", "slide"] as const;
 type ViewType = typeof viewTypes[number];
 const wordTypes = ["word", "todayWord", "todaySentence", "todayGrammar"] as const;
 type WordType = typeof wordTypes[number];
 
+type WordInfoType = {
+    type?: string;
+    level?: string;
+    word?: string;
+    read?: string;
+    means?: string;
+    parts?: Array<string>;
+    hideWord?: boolean,
+    hideRead?: boolean,
+    hideMeans?: boolean,
+}
+
+type HeaderVisibleType = {
+    [index: string]: boolean;
+    word: boolean;
+    read: boolean;
+    means: boolean;
+}
+
 type WordStore = {
+    hideAll: HeaderVisibleType,
     isLoading: boolean,
     viewType: ViewType,
     wordType: WordType,
     pageInfo?: Paginate,
-    searchInfo: Word,
-    wordList?: [Word],
+    searchInfo: WordInfoType,
+    wordList: Array<WordInfoType>,
     setViewType: (viewType: ViewType) => void,
     setWordType: (wordType: WordType) => void,
     setPageInfo: (pageInfo: any) => void,
@@ -20,6 +41,7 @@ type WordStore = {
     setWordList: (wordList: any) => void,
     getPageInfo: () => void,
     getWordList: () => void,
+    setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
 
@@ -28,6 +50,11 @@ const PAGE_PER_SIZE = 10
 export const useWordStore = create<WordStore>() (
     devtools(
         persist((set, get) => ({
+            hideAll: {
+                word: false,
+                read: false,
+                means: false
+            },
             isLoading: true,
             viewType: 'list',
             wordType: 'word',
@@ -43,7 +70,7 @@ export const useWordStore = create<WordStore>() (
                 level: "1",
                 parts: [],
             },
-            wordList: [{}],
+            wordList: [],
             setViewType: (viewType: ViewType) => set((state) => ({ viewType: viewType })),
             setWordType: (wordType: WordType) => set((state) => ({ wordType: wordType })),
             setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
@@ -81,6 +108,16 @@ export const useWordStore = create<WordStore>() (
                     wordList: resData,
                 });
             },
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+                hideAll: headerVisibleInfo,
+                wordList: state.wordList.map((data: WordInfoType) => {
+                    data.hideWord = headerVisibleInfo.word;
+                    data.hideRead = headerVisibleInfo.read;
+                    data.hideMeans = headerVisibleInfo.means;
+                    
+                    return data;
+                })
+            })),
             init: () => set({ 
                 pageInfo: {
                     total: 0, 
@@ -94,7 +131,12 @@ export const useWordStore = create<WordStore>() (
                     level: "1",
                     parts: [],
                 },
-                wordList: [{}]
+                wordList: [],
+                hideAll: {
+                    word: false,
+                    read: false,
+                    means: false
+                },
             })
         }),
         {
