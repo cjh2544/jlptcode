@@ -16,11 +16,19 @@ const JlptPage = () => {
   const pageInfo = useWordStore((state) => state.pageInfo);
   const getWordList = useWordStore((state) => state.getWordList);
   const setPageInfo = useWordStore((state) => state.setPageInfo);
+  const getPageInfo = useWordStore((state) => state.getPageInfo);
+  const init = useWordStore((state) => state.init);
   
   const handlePageChange = (page: number) => {
     setPageInfo({...pageInfo, currentPage: page});
     getWordList();
   }
+
+  useEffect(() => {
+    init();
+    getWordList();
+    getPageInfo();
+  }, [])
 
   return (
     <WordLayout>

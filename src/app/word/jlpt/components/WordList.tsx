@@ -1,5 +1,6 @@
 import CardWord from "@/app/components/Cards/CardWord"
 import HeaderListButton from "./headerListButton"
+import { useWordStore } from "@/app/store/wordStore";
 
 type WordListProps = {
   title?: string,
@@ -8,6 +9,15 @@ type WordListProps = {
 }
 
 const WordList = ({title, data, className}: WordListProps) => {
+  const wordList = useWordStore((state) => state.wordList);
+  const setWordList = useWordStore((state) => state.setWordList);
+
+  const handleClickVisible = (wordInfo: any, rowNum: number) => {
+    setWordList(
+      wordList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+    );
+  }
+  
   return (
     <div className={`flex flex-wrap mt-4 ${className}`}>
       <div className="w-full mb-4 px-4">
@@ -39,8 +49,8 @@ const WordList = ({title, data, className}: WordListProps) => {
             </div>
           )}
           <div className="block w-full overflow-x-auto"></div>
-          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {data && data.map((item, index) => <CardWord key={`word-${index}`} data={item} />)}
+          <ul className="divide-y divide-gray-200">
+            {data && data.map((item, index) => <CardWord key={`word-${index}`} data={item} onClick={(data: any) => handleClickVisible(data, index)} />)}
           </ul>
         </div>
       </div>
