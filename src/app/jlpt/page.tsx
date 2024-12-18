@@ -7,13 +7,13 @@ import { useJlptStore } from '@/app/store/jlptStore';
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
-  const jlptInfo =useJlptStore((state) => state.jlptInfo);
+  const searchInfo =useJlptStore((state) => state.searchInfo);
   
   const { data: session } = useSession();
 
   return (
     <JlptLayout>
-      <JlptList level={searchParams.get('level') || jlptInfo.level || 'N1'} />
+      <JlptList level={searchParams.get('level') || searchInfo.level || 'N1'} />
     </JlptLayout>
   )
 }

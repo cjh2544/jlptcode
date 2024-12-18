@@ -3,14 +3,16 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface JlptStore {
     isLoading: boolean,
-    jlptInfo: {
+    searchInfo: {
         level: string,
         classification: string,
         year: string,
         month: string,
     },
+    showAnswer: boolean,
     jlptList: Array<any>,
-    setJlptInfo: (jlptInfo: any) => void,
+    setSearchInfo: (searchInfo: any) => void,
+    setShowAnswer: (showAnswer: boolean) => void,
     setJlptList: (jlptList: any) => void,
     setJlptAnswer: (selectedData: any) => void,
     getJlptList: () => void,
@@ -21,25 +23,26 @@ export const useJlptStore = create<JlptStore>()(
     devtools(
         persist((set, get) => ({
             isLoading: false,
-            jlptInfo: {
+            searchInfo: {
                 level: '',
                 classification: '',
                 year: '',
                 month: '',
             },
+            showAnswer: false,
             jlptList: [],
-            setJlptInfo: (jlptInfo) => set((state) => ({ jlptInfo: jlptInfo })),
+            setSearchInfo: (searchInfo) => set((state) => ({ searchInfo: searchInfo })),
+            setShowAnswer: (showAnswer) => set((state) => ({ showAnswer: showAnswer })),
             setJlptList: (jlptList: Array<any>) => set((state) => ({ jlptList: jlptList })),
-            setJlptAnswer: (selectedData: any) => set((state) => {
-                state.jlptList = state.jlptList.map((data: any) => {
+            setJlptAnswer: (selectedData: any) => set((state) => ({
+                jlptList: state.jlptList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}
                     } else {
                         return data
                     }
-                });
-                return state;
-            }),
+                })
+            })),
             getJlptList: async () => {
                 set({ isLoading: true });
                 const response = await fetch('/api/jlpt/list', {
@@ -47,19 +50,20 @@ export const useJlptStore = create<JlptStore>()(
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({params: get().jlptInfo}),
+                    body: JSON.stringify({params: get().searchInfo}),
                 })
                 const resData = await response.json();
                 set({ jlptList: resData, isLoading: false });
             },
             init: () => set({ 
                 isLoading: false,
-                jlptInfo: {
+                searchInfo: {
                     level: '',
                     classification: '',
                     year: '',
                     month: '',
                 },
+                showAnswer: false,
                 jlptList: []
             }),
         }),

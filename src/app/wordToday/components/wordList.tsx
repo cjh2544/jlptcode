@@ -28,11 +28,6 @@ const WordList = ({className}: WordListProps) => {
     );
   }
 
-  //음성 변환 목소리 preload
-  useEffect(() => {
-    window.speechSynthesis.getVoices();
-  }, []);
-
   return (
     <div className={`mx-4 ${className}`}>
       <Card className="h-full w-full overflow-scroll">

@@ -1,5 +1,5 @@
 'use client';
-import React, {memo} from "react";
+import React, {memo, useEffect} from "react";
 import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
@@ -55,6 +55,10 @@ const WordInfo = (props:WordInfoProps) => {
   const handleGetSpeech = (read: string) => {
     playSpeech(read);
   }
+
+  useEffect(() => {
+    console.log(wordInfo)
+  }, [wordInfo])
 
   return (
     <>

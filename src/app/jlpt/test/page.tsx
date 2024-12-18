@@ -2,14 +2,18 @@
 import { useJlptStore } from '@/app/store/jlptStore';
 import JlptLayout from '@/app/components/Layout/JlptLayout'
 import Question from '../components/question';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import Loading from '@/app/components/Loading/loading';
 import { isEmpty } from 'lodash';
 import EmptyData from '@/app/components/Alert/EmptyData';
 
 const JlptTestPage = () => {
-  const { jlptInfo, jlptList, isLoading } = useJlptStore((state) => state);
+  const searchInfo = useJlptStore((state) => state.searchInfo);
+  const jlptList = useJlptStore((state) => state.jlptList);
+  const isLoading = useJlptStore((state) => state.isLoading);
+  const showAnswer = useJlptStore((state) => state.showAnswer);
+  const setShowAnswer = useJlptStore((state) => state.setShowAnswer);
 
   return <>
     <JlptLayout>
@@ -27,14 +31,20 @@ const JlptTestPage = () => {
                   grammar : "文法",
                   reading : "読解",
                   listening : "聴解",
-                }[jlptInfo.classification]
+                }[searchInfo.classification]
               }
               </h6>
-              <span
-                className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-              >
-                {`${jlptInfo.year}/${jlptInfo.month} - ${jlptInfo.level}`}
-              </span>
+              <div className='flex'>
+                <div className="flex items-center mr-1">
+                  <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setShowAnswer(!showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                  <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
+                </div>
+                <span
+                  className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                >
+                  {`${searchInfo.year}/${searchInfo.month} - ${searchInfo.level}`}
+                </span>
+              </div>
             </div>
           </div>
           <div className="flex-auto bg-white mt-2 sm:p-2 lg:px-10 p-10">
@@ -46,7 +56,7 @@ const JlptTestPage = () => {
               })}
           </div>
           <div className="rounded-b bg-white mb-0 border-t p-6 sticky bottom-0 z-50 uppercase">
-            <ModalAnswer title={`${jlptInfo.year}/${jlptInfo.month} - ${jlptInfo.level}`} />
+            <ModalAnswer title={`${searchInfo.year}/${searchInfo.month} - ${searchInfo.level}`} />
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 'use client';
 import React, {memo, useEffect} from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useJlptStore } from '@/app/store/jlptStore';
 import { useClassTypeList } from '@/app/swr/useJlpt';
@@ -18,26 +18,25 @@ const JlptList = (props: JlptListProps) => {
     level
   } = props
   
-  const pathname = usePathname();
   const router = useRouter();
-  const jlptInfo =useJlptStore((state) => state.jlptInfo);
-  const setJlptInfo = useJlptStore((state) => state.setJlptInfo);
+  const searchInfo =useJlptStore((state) => state.searchInfo);
+  const setSearchInfo = useJlptStore((state) => state.setSearchInfo);
   const getJlptList = useJlptStore((state) => state.getJlptList);
 
-  const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: jlptInfo.level || level}});
+  const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: searchInfo.level || level}});
 
   const handleClick = (selectedData: any) => {
-    setJlptInfo({...jlptInfo, ...selectedData});
+    setSearchInfo({...searchInfo, ...selectedData});
     getJlptList();
     router.push('/jlpt/test', {scroll:false});
   }
 
   const handleTabChange = (selectedData: any) => {
-    setJlptInfo({...jlptInfo, level: selectedData.level});
+    setSearchInfo({...searchInfo, level: selectedData.level});
   }
 
   useEffect(() => {
-    setJlptInfo({...jlptInfo, level: level});
+    setSearchInfo({...searchInfo, level: level});
   }, [level])
 
   return isLoading ?
