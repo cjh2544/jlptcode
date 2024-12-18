@@ -6,7 +6,8 @@ type TableCellProps = {
   align?: 'left' | 'center' | 'right',
   type?: 'string' | 'number' | 'array' | 'button',
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl',
-  onClick?: any
+  onClick?: any,
+  className?: string,
 }
 
 const CardWord = ({
@@ -14,7 +15,8 @@ const CardWord = ({
   align = 'left', 
   type = 'string', 
   size = 'md',
-  onClick
+  onClick,
+  className
 }: TableCellProps) => {
   
   const {
@@ -42,10 +44,10 @@ const CardWord = ({
 
   return (
     <>
-      <li className="px-6 py-3">
+      <li className={` ${className}`}>
         <div className="flex items-center">
-          <div className="flex-1 min-w-0">
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center`}>
+          <div className="flex-1 min-w-0 py-3">
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b`}>
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
@@ -53,7 +55,7 @@ const CardWord = ({
                 </button>
               </div>
             </div>
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center`}>
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b`}>
               <div className={`${hideRead ? 'invisible' : ''}`}>{read}</div>
               <div>
                 <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
@@ -61,7 +63,7 @@ const CardWord = ({
                 </button>
               </div>
             </div>
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center`}>
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6`}>
               <div className={`${hideMeans ? 'invisible' : ''}`}>{means}</div>
               <div>
                 <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">

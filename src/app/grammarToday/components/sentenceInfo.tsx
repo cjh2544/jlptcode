@@ -81,7 +81,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             <div className="flex flex-col">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center border-b">
                 <div className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence, 'sentence')}</div>
                 <p>
                   {/* <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
@@ -92,7 +92,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
                   </button>
                 </p>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center border-b">
                 <div className={`${hideSentenceRead ? 'invisible' : ''}`}>{parseHtml(sentence_read)}</div>
                 <button onClick={(e) => handleClick('sentence_read')} className="text-blue-500 focus:outline-none">
                   <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>

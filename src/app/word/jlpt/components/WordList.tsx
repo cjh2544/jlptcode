@@ -50,7 +50,7 @@ const WordList = ({title, data, className}: WordListProps) => {
           )}
           <div className="block w-full overflow-x-auto"></div>
           <ul className="divide-y divide-gray-200">
-            {data && data.map((item, index) => <CardWord key={`word-${index}`} data={item} onClick={(data: any) => handleClickVisible(data, index)} />)}
+            {data && data.map((item, index) => <CardWord className={`${index % 2 === 0 ? 'bg-blue-gray-50/50' : ''}`} key={`word-${index}`} data={item} onClick={(data: any) => handleClickVisible(data, index)} />)}
           </ul>
         </div>
       </div>
