@@ -1,5 +1,7 @@
 import { useWordStore } from '@/app/store/wordStore';
-import { ChangeEvent, MouseEvent } from 'react';
+import { useCommonCodeStore } from '@/app/store/commonCodeStore';
+import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
+import { isEmpty } from 'lodash';
 
 type SearchProps = {
   onSearch?: () => any,
@@ -17,6 +19,8 @@ const SearchBar = (props: SearchProps) => {
   const getWordList = useWordStore((state) => state.getWordList);
   const pageInfo = useWordStore((state) => state.pageInfo);
   const setPageInfo = useWordStore((state) => state.setPageInfo);
+  const getCodeList = useCommonCodeStore((state) => state.getCodeList);
+  const codeList = useCommonCodeStore((state) => state.codeList) || [];
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}
@@ -35,6 +39,14 @@ const SearchBar = (props: SearchProps) => {
     getWordList();
     getPageInfo();
   }
+
+  const getCodeDetailList = useCallback((code: string) => {
+    return codeList.find((data) => data.code === code)?.details || []
+  }, [codeList]);
+
+  useEffect(() => {
+    getCodeList(['level', 'parts']);
+  }, []);
 
   return (
     <>
@@ -56,11 +68,9 @@ const SearchBar = (props: SearchProps) => {
                     급수
                   </label>
                   <select name="level" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    <option value="1">N1</option>
-                    <option value="2">N2</option>
-                    <option value="3">N3</option>
-                    <option value="4">N4</option>
-                    <option value="5">N5</option>
+                    {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
+                      return (<option key={idx} value={data.key}>{data.value}</option>)
+                    })}
                   </select>
                 </div>
               </div>
@@ -74,16 +84,9 @@ const SearchBar = (props: SearchProps) => {
                   </label>
                   <select name="parts" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     <option value="">전체</option>
-                    <option value="1">명사</option>
-                    <option value="2">대명사</option>
-                    <option value="3">동사</option>
-                    <option value="4">조사</option>
-                    <option value="5">형용사</option>
-                    <option value="6">접사</option>
-                    <option value="7">부사</option>
-                    <option value="8">감동사</option>
-                    <option value="9">형용동사</option>
-                    <option value="10">기타</option>
+                    {getCodeDetailList('parts').map((data: CodeDetail, idx:number) => {
+                      return (<option key={idx} value={data.key}>{data.value}</option>)
+                    })}
                   </select>
                 </div>
               </div>

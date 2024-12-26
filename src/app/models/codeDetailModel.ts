@@ -8,7 +8,13 @@ const codeDetailSchema = new Schema({
     unique: true,
     index: true,
   },
-  name: {
+  key: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true,
+  },
+  value: {
     type: String,
     required: true,
     index: true,
@@ -17,8 +23,8 @@ const codeDetailSchema = new Schema({
     type: Number,
     required: false,
   },
-}, {timestamps: true})
+}, {timestamps: true, collection: 'code_detail'})
 
-const CodeDetail = models?.codeDetail || model('codeDetail', codeDetailSchema)
+const CodeDetail = models?.codeDetail || model('codeDetail', codeDetailSchema, 'code_detail')
 
 export default CodeDetail;

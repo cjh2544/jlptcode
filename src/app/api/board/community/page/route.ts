@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
 
   if(keyword) {
     conditions = {
+      ...conditions,
       $or: [ 
         { title: { $regex: keyword } },
         { contents: { $regex: keyword } }
@@ -28,11 +29,9 @@ export async function POST(request: NextRequest) {
 
   const boardCount = await BoardCommunity.count(conditions);
 
-  if(boardCount > 0) {
-    resultPageInfo.total = boardCount;
-    resultPageInfo.totalPage = Math.ceil(boardCount / resultPageInfo.pageSize);
-    resultPageInfo.currentPage = resultPageInfo.currentPage;
-  }
+  resultPageInfo.total = boardCount;
+  resultPageInfo.totalPage = Math.ceil(boardCount / resultPageInfo.pageSize);
+  resultPageInfo.currentPage = resultPageInfo.currentPage;
 
   return NextResponse.json(resultPageInfo)
 }

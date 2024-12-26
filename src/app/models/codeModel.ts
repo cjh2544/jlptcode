@@ -17,13 +17,9 @@ const codeSchema = new Schema({
   sort: {
     type: Number,
     required: false,
-  },
-  details: {
-    type: CodeDetail,
-    required: false,
-  },
-}, {timestamps: true})
+  }
+}, {timestamps: true, collection: 'code'})
 
-const Code = models?.code || model('code', codeSchema)
+const Code = models?.code || model('code', codeSchema, 'code')
 
 export default Code;
