@@ -45,14 +45,6 @@ export async function POST(request: NextRequest) {
       .limit(pageInfo.pageSize * 1)
       .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
       .exec();
-
-    wordList.map((data: any) => {
-      data.word = data.sentence;
-      data.read = data.sentence_read;
-      data.means = data.sentence_translate;
-
-      return data;
-    });
   } else if(wordType === '3') {
     wordList = await WordToday.find(wordSearchInfo)
       .limit(pageInfo.pageSize * 1)
