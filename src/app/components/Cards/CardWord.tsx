@@ -47,7 +47,7 @@ const CardWord = ({
       <li className={` ${className}`}>
         <div className="flex items-center">
           <div className="flex-1 min-w-0 py-3">
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b`}>
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b whitespace-normal`}>
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
@@ -55,7 +55,7 @@ const CardWord = ({
                 </button>
               </div>
             </div>
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b`}>
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b whitespace-normal`}>
               <div className={`${hideRead ? 'invisible' : ''}`}>{read}</div>
               <div>
                 <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
@@ -63,7 +63,7 @@ const CardWord = ({
                 </button>
               </div>
             </div>
-            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6`}>
+            <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 whitespace-normal`}>
               <div className={`${hideMeans ? 'invisible' : ''}`}>{means}</div>
               <div>
                 <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">

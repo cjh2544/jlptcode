@@ -14,6 +14,7 @@ type WordInfoType = {
     read?: string;
     means?: string;
     parts?: Array<string>;
+    wordType: string;
     hideWord?: boolean,
     hideRead?: boolean,
     hideMeans?: boolean,
@@ -30,12 +31,10 @@ type WordStore = {
     hideAll: HeaderVisibleType,
     isLoading: boolean,
     viewType: ViewType,
-    wordType: WordType,
     pageInfo?: Paginate,
     searchInfo: WordInfoType,
     wordList: Array<WordInfoType>,
     setViewType: (viewType: ViewType) => void,
-    setWordType: (wordType: WordType) => void,
     setPageInfo: (pageInfo: any) => void,
     setSearchInfo: (searchInfo: any) => void,
     setWordList: (wordList: any) => void,
@@ -68,16 +67,13 @@ export const useWordStore = create<WordStore>() (
             searchInfo: {
                 type: 'jlpt',
                 level: "1",
+                wordType: '1',
                 parts: [],
             },
             wordList: [],
             setViewType: (viewType: ViewType) => set((state) => ({ viewType: viewType })),
-            setWordType: (wordType: WordType) => set((state) => ({ wordType: wordType })),
             setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
-            setSearchInfo: (searchInfo) => set((state) => {
-                state.searchInfo = searchInfo
-                return state
-            }),
+            setSearchInfo: (searchInfo) => set((state) => ({searchInfo: searchInfo})),
             setWordList: (wordList) => set((state) => ({ wordList: wordList })),
             getPageInfo: async () => {
                 const response = await fetch('/api/word/page', {
@@ -129,6 +125,7 @@ export const useWordStore = create<WordStore>() (
                 searchInfo: {
                     type: 'jlpt',
                     level: "1",
+                    wordType: '1',
                     parts: [],
                 },
                 wordList: [],

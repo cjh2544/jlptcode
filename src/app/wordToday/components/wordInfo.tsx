@@ -57,14 +57,14 @@ const WordInfo = (props:WordInfoProps) => {
   }
 
   useEffect(() => {
-    console.log(wordInfo)
+    // console.log(wordInfo)
   }, [wordInfo])
 
   return (
     <>
       <tr className="even:bg-blue-gray-50/50">
         <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
+          <div className="font-normal uppercase">
             {year}
           </div> 
         </td>
