@@ -1,8 +1,9 @@
+import { useCommonCodeStore } from '@/app/store/commonCodeStore';
 import { useWordStore } from '@/app/store/wordStore';
-import { ChangeEvent, MouseEvent } from 'react';
+import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
 
 type SearchProps = {
-  onSearch: (data: any) => any,
+  onSearch?: (data: any) => any,
 }
 
 const SearchBar = (props: SearchProps) => {
@@ -12,8 +13,15 @@ const SearchBar = (props: SearchProps) => {
   } = props
 
   const searchInfo =useWordStore((state) => state.searchInfo);
+  const pageInfo = useWordStore((state) => state.pageInfo);
+  const codeList = useCommonCodeStore((state) => state.codeList) || [];
+  const yearCodeList = useCommonCodeStore((state) => state.yearCodeList) || [];
   const setSearchInfo = useWordStore((state) => state.setSearchInfo);
+  const getPageInfo = useWordStore((state) => state.getPageInfo);
   const getWordList = useWordStore((state) => state.getWordList);
+  const setPageInfo = useWordStore((state) => state.setPageInfo);
+  const getCodeList = useCommonCodeStore((state) => state.getCodeList);
+  const getYearCodeList = useCommonCodeStore((state) => state.getYearCodeList);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}
@@ -31,6 +39,19 @@ const SearchBar = (props: SearchProps) => {
     getWordList();
   }
 
+  const getCodeDetailList = useCallback((code: string) => {
+    return codeList.find((data) => data.code === code)?.details || []
+  }, [codeList]);
+
+  const getYearCodeDetailList = useCallback(() => {
+    return yearCodeList.find((data) => data.wordType === searchInfo.wordType && data.level === 'N' + searchInfo.level)?.details || []
+  }, [yearCodeList, searchInfo]);
+
+  useEffect(() => {
+    getCodeList(['level', 'parts', 'wordType']);
+    getYearCodeList(['word', 'sentence', 'grammar']);
+  }, []);
+
   return (
     <>
       <div className="px-4 mx-auto w-full m-10 mb-12">
@@ -40,50 +61,68 @@ const SearchBar = (props: SearchProps) => {
               <h6 className="text-blueGray-700 text-xl font-bold">검색</h6>
             </div>
           </div>
-          <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-            <div className="flex flex-wrap">
-              <div className="w-full lg:w-6/12 md:py-0 md:px-4 sm:py-0 sm:px-4">
-                <div className="relative w-full mb-3">
-                  <label
-                    className="block uppercase text-blueGray-600 font-bold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    급수
-                  </label>
-                  <select name="level" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    <option value="1">N1</option>
-                    <option value="2">N2</option>
-                    <option value="3">N3</option>
-                    <option value="4">N4</option>
-                    <option value="5">N5</option>
-                  </select>
-                </div>
-              </div>
-              <div className="w-full lg:w-6/12 pl-4 md:py-0 md:px-4 sm:py-0 sm:px-4">
-                <div className="relative w-full mb-3">
-                  <label
-                    className="block uppercase text-blueGray-600 font-bold mb-2"
-                    htmlFor="grid-password"
-                  >
-                    품사
-                  </label>
-                  <select name="parts" onChange={handleChange} className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    <option value="">전체</option>
-                    <option value="1">명사</option>
-                    <option value="2">대명사</option>
-                    <option value="3">동사</option>
-                    <option value="4">조사</option>
-                    <option value="5">형용사</option>
-                    <option value="6">접사</option>
-                    <option value="7">부사</option>
-                    <option value="8">감동사</option>
-                    <option value="9">형용동사</option>
-                    <option value="10">기타</option>
-                  </select>
-                </div>
-              </div>
+          <div className='grid grid-cols-2 gap-4 place-items-end p-4'>
+            <div className="w-full">
+              <label
+                className="block uppercase text-blueGray-600 mb-1"
+                htmlFor="level"
+              >
+                급수
+              </label>
+              <select id="level" name="level" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
+                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                })}
+              </select>
             </div>
-            <div className='md:py-0 md:px-4 sm:py-0 sm:px-4'>
+            <div className="w-full">
+              <label
+                className="block uppercase text-blueGray-600 mb-1"
+                htmlFor="wordType"
+              >
+                단어유형
+              </label>
+              <select id="wordType" name="wordType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                {getCodeDetailList('wordType').map((data: CodeDetail, idx:number) => {
+                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                })}
+              </select>
+            </div>
+            {/* 기본단어 일 경우 */}
+            {searchInfo.wordType === '1' && (
+              <div className="w-full">
+                <label
+                  className="block uppercase text-blueGray-600 mb-1"
+                  htmlFor="parts"
+                >
+                  품사
+                </label>
+                <select id="parts" name="parts" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                  <option value="">전체</option>
+                  {getCodeDetailList('parts').map((data: CodeDetail, idx:number) => {
+                    return (<option key={idx} value={data.key}>{data.value}</option>)
+                  })}
+                </select>
+              </div>
+            )}
+            {/* 기본단어 외 일 경우 */}
+            {searchInfo.wordType !== '1' && (
+              <div className="w-full">
+                <label
+                  className="block uppercase text-blueGray-600 mb-1"
+                  htmlFor="year"
+                >
+                  출제년도
+                </label>
+                <select id="year" name="year" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                  <option value="">전체</option>
+                  {getYearCodeDetailList().map((year: string, idx:number) => {
+                    return (<option key={idx} value={year}>{year}</option>)
+                  })}
+                </select>
+              </div>
+            )}
+            <div className="w-full">
               <button
                 className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
                 type="button"

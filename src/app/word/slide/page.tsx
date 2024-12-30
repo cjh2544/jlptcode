@@ -26,10 +26,10 @@ const SlidePage = () => {
 
   return (
     <WordLayout>
-      <SearchBar onSearch={(data: any) => handleSearch(data)} />
+      <SearchBar />
 
       <div onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()} className="w-full h-auto relatives">
-        <WordContent conditions={conditions} />
+        <WordContent />
       </div>
     </WordLayout>
   )

@@ -64,7 +64,7 @@ const SearchBar = (props: SearchProps) => {
               <h6 className="text-blueGray-700 text-xl font-bold">검색</h6>
             </div>
           </div>
-          <div className='grid grid-cols-3 gap-4 place-items-end p-4'>
+          <div className='grid grid-cols-2 gap-4 place-items-end p-4'>
             <div className="w-full">
               <label
                 className="block uppercase text-blueGray-600 mb-1"
