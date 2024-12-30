@@ -1,8 +1,8 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 // import useWord from '@/app/swr/useWord';
 import { Button, Card, CardBody, Carousel, IconButton, Typography } from '@material-tailwind/react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide, useSwiper } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -24,28 +24,51 @@ const WordContent = (props: WordTableProps) => {
 
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
   const wordList = useWordStore((state) => state.wordList);
+  const searchInfo =useWordStore((state) => state.searchInfo);
+  const showDelay =useWordStore((state) => state.showDelay);
+  const setStoreData =useWordStore((state) => state.setStoreData);
+
+  const swiperRef = useRef<any>();
+
+  // init Swiper:
+  const swiperOptions = {
+    className: "w-full word-swiper",
+    // spaceBetween={30}
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+    // autoplay: false,
+    pagination: {
+      clickable: true,
+    },
+    navigation: true,
+    modules: [Autoplay, Pagination, Navigation],
+    onSwiper: (swiper: any) => {
+      swiperRef.current = swiper;
+    },
+    onClick: () => {
+      swiperRef.current.slideNext();
+      setStoreData('showDelay', null);
+    }
+  }
 
   return (
     <>
       <ModalFullScreen visible={!isEmpty(wordList)} title='단어암기' onChange={setFullScreen}>
-        <Swiper
-          // spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="w-full"
-        >
+        <Swiper {...swiperOptions}>
           {wordList && wordList.map((wordInfo: any, index: number) => {
             return (
-              <SwiperSlide key={index}><WordCard fullScreen={isFullScreen} wordInfo={wordInfo} /></SwiperSlide>
+              <SwiperSlide key={index}>
+                <WordCard 
+                  fullScreen={isFullScreen} 
+                  wordInfo={wordInfo}
+                  wordShowType={searchInfo.wordShowType}
+                  showDelay={showDelay}
+                />
+              </SwiperSlide>
             )
           })}
         </Swiper>

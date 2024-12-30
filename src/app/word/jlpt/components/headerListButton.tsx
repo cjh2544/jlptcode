@@ -23,7 +23,7 @@ const HeaderListButton = ({colName}: HeaderButtonProps) => {
             {
               'word': '단어',
               'read': '읽기',
-              'means': '뜻',
+              'means': '의미',
             }[colName]
           }
         </span>

@@ -18,6 +18,7 @@ type WordInfoType = {
     hideWord?: boolean,
     hideRead?: boolean,
     hideMeans?: boolean,
+    wordShowType?: string,
 }
 
 type HeaderVisibleType = {
@@ -28,12 +29,14 @@ type HeaderVisibleType = {
 }
 
 type WordStore = {
+    showDelay: number,
     hideAll: HeaderVisibleType,
     isLoading: boolean,
     viewType: ViewType,
     pageInfo?: Paginate,
     searchInfo: WordInfoType,
     wordList: Array<WordInfoType>,
+    setStoreData: (code:any, value:any) => void,
     setViewType: (viewType: ViewType) => void,
     setPageInfo: (pageInfo: any) => void,
     setSearchInfo: (searchInfo: any) => void,
@@ -49,6 +52,7 @@ const PAGE_PER_SIZE = 10
 export const useWordStore = create<WordStore>() (
     devtools(
         persist((set, get) => ({
+            showDelay: 3000,
             hideAll: {
                 word: false,
                 read: false,
@@ -69,8 +73,12 @@ export const useWordStore = create<WordStore>() (
                 level: "1",
                 wordType: '1',
                 parts: [],
+                wordShowType: '1',
             },
             wordList: [],
+            setStoreData: ({key, value}) => set((state) => ({
+                [key]: value
+            })),
             setViewType: (viewType: ViewType) => set((state) => ({ viewType: viewType })),
             setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
             setSearchInfo: (searchInfo) => set((state) => ({searchInfo: searchInfo})),
@@ -115,6 +123,7 @@ export const useWordStore = create<WordStore>() (
                 })
             })),
             init: () => set({ 
+                showDelay: 3000,
                 pageInfo: {
                     total: 0, 
                     totalPage: 1, 
@@ -127,6 +136,7 @@ export const useWordStore = create<WordStore>() (
                     level: "1",
                     wordType: '1',
                     parts: [],
+                    wordShowType: '1'
                 },
                 wordList: [],
                 hideAll: {

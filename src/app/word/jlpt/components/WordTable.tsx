@@ -12,7 +12,7 @@ type WordTableProps = {
 const TABLE_HEAD = [
   { label: "단어", visibleBtn: true, code: 'word' },
   { label: "읽기", visibleBtn: true, code: 'read' },
-  { label: "뜻", visibleBtn: true, code: 'means' },
+  { label: "의미", visibleBtn: true, code: 'means' },
 ];
 
 const WordTable = ({title, data, className}: WordTableProps) => {

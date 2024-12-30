@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
   }
 
   unset(searchInfo, 'wordType');
+  unset(searchInfo, 'wordShowType');
 
   let wordList:any = [];
   let wordSearchInfo = {};
