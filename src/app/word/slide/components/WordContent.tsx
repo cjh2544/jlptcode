@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react';
 // import useWord from '@/app/swr/useWord';
-import { Button, Card, CardBody, Carousel, IconButton, Typography } from '@material-tailwind/react';
+import { Button, Card, CardBody, Carousel, IconButton, Slider, Typography } from '@material-tailwind/react';
 import { Swiper, SwiperRef, SwiperSlide, useSwiper } from 'swiper/react';
 
 // Import Swiper styles
@@ -26,6 +26,8 @@ const WordContent = (props: WordTableProps) => {
   const wordList = useWordStore((state) => state.wordList);
   const searchInfo =useWordStore((state) => state.searchInfo);
   const showDelay =useWordStore((state) => state.showDelay);
+  const speed =useWordStore((state) => state.speed);
+  const autoSlide =useWordStore((state) => state.autoSlide);
   const setStoreData =useWordStore((state) => state.setStoreData);
 
   const swiperRef = useRef<any>();
@@ -35,12 +37,11 @@ const WordContent = (props: WordTableProps) => {
     className: "w-full word-swiper",
     // spaceBetween={30}
     centeredSlides: true,
-    autoplay: {
-      delay: 2500,
+    autoplay: autoSlide ? {
+      delay: speed,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
-    },
-    // autoplay: false,
+    } : false,
     pagination: {
       clickable: true,
     },
@@ -49,10 +50,10 @@ const WordContent = (props: WordTableProps) => {
     onSwiper: (swiper: any) => {
       swiperRef.current = swiper;
     },
-    onClick: () => {
-      swiperRef.current.slideNext();
-      setStoreData('showDelay', null);
-    }
+    // onClick: () => {
+    //   swiperRef.current.slideNext();
+    //   setStoreData('showDelay', null);
+    // }
   }
 
   return (

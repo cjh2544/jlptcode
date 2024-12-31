@@ -27,7 +27,7 @@ const SlidePage = () => {
   return (
     <WordLayout>
       <SearchBar />
-
+    
       <div onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()} className="w-full h-auto relatives">
         <WordContent />
       </div>

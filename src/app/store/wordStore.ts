@@ -4,8 +4,12 @@ import WordList from '../wordToday/components/wordList';
 
 const viewTypes = ["list", "slide"] as const;
 type ViewType = typeof viewTypes[number];
+// 단어 유형
 const wordTypes = ["word", "todayWord", "todaySentence", "todayGrammar"] as const;
 type WordType = typeof wordTypes[number];
+// 단어보여주기 속도
+const speedTypes = [4000, 3000, 2000] as const;
+type SpeedType = typeof speedTypes[number];
 
 type WordInfoType = {
     type?: string;
@@ -29,6 +33,8 @@ type HeaderVisibleType = {
 }
 
 type WordStore = {
+    speed: SpeedType,
+    autoSlide: boolean,
     showDelay: number,
     hideAll: HeaderVisibleType,
     isLoading: boolean,
@@ -52,6 +58,8 @@ const PAGE_PER_SIZE = 10
 export const useWordStore = create<WordStore>() (
     devtools(
         persist((set, get) => ({
+            speed: speedTypes[0],
+            autoSlide: true,
             showDelay: 3000,
             hideAll: {
                 word: false,
@@ -123,6 +131,8 @@ export const useWordStore = create<WordStore>() (
                 })
             })),
             init: () => set({ 
+                speed: speedTypes[0],
+                autoSlide: true,
                 showDelay: 3000,
                 pageInfo: {
                     total: 0, 
