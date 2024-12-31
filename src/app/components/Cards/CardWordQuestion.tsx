@@ -46,8 +46,12 @@ const CardWordQuestion = (props:JlptContentProps) => {
         <CardBody>
           <div className="flex flex-wrap mb-2 font-normal mx-auto text-md">
             {parseHtml(question)}
-            <Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button>
-            <Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button>
+            {sentence_translate && (
+              <Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button>
+            )}
+            {sentence_read && (
+              <Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button>
+            )}
           </div>
           {openTranslate && (
             <div className="flex flex-wrap">
