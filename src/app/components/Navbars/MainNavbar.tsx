@@ -5,16 +5,8 @@ import SignInHeaderPage from "../SignIn/SignInHeader";
 
 const mainNavbarMenuList = [
   {
-    name: '今日の単語',
+    name: '今日の日本語',
     link: '/wordToday',
-  },
-  {
-    name: '今日の文章',
-    link: '/sentenceToday',
-  },
-  {
-    name: '今日の文法',
-    link: '/grammarToday',
   },
   {
     name: '레벨업(Level up)',
