@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 import React, {memo, useState} from "react";
-import { Card, CardBody, CardFooter, CardHeader, Radio, Typography } from "@material-tailwind/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Collapse, Radio, Typography } from "@material-tailwind/react";
 
 type WordQuestionType = {
   question: string,
@@ -9,15 +9,22 @@ type WordQuestionType = {
 }
 
 type JlptContentProps = {
-  questionInfo: WordQuestionType,
+  questionInfo: WordQuestionType
+  sentence_read?: string,
+  sentence_translate?: string,
 }
 
 const CardWordQuestion = (props:JlptContentProps) => {
-  const { questionInfo } = props;
+  const { questionInfo, sentence_read, sentence_translate } = props;
   const { question, choice, answer } = questionInfo;
   const [ showAnswer, setShowAnswer ] = useState(false);
   const [ selectedAnswer, setSelectedAnswer ] = useState(0);
   const [ collect, setCollect ] = useState(false);
+  const [openTranslate, setOpenTranslate] = useState(false);
+  const [openRead, setOpenRead] = useState(false);
+
+  const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
+  const toggleOpenRead = () => setOpenRead((cur) => !cur);
 
   const parseHtml = (html: string) => {
     return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
@@ -37,12 +44,40 @@ const CardWordQuestion = (props:JlptContentProps) => {
     <>
       <Card className="w-full">
         <CardBody>
-          <div className="mb-2 font-normal mx-auto text-md">
+          <div className="flex flex-wrap mb-2 font-normal mx-auto text-md">
             {parseHtml(question)}
+            <Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button>
+            <Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button>
           </div>
+          {openTranslate && (
+            <div className="flex flex-wrap">
+              <Collapse open={openTranslate} className="w-full mt-1 rounded">
+                <Card>
+                  <CardBody className="px-3 py-2 font-nanumGothic bg-gray-200">
+                    <Typography>
+                      {sentence_translate}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </div>
+          )}
+          {openRead && (
+            <div className="flex flex-wrap">
+              <Collapse open={openRead} className="w-full mt-1 rounded">
+                <Card>
+                  <CardBody className="px-3 py-2 font-nanumGothic bg-gray-200">
+                    <Typography>
+                      {sentence_read}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </div>
+          )}
           <div className="flex flex-col">
             {choice.map((item, idx) => {
-              return <Radio key={idx} onClick={(e) => handleClickAnswer(idx + 1)} name={question} color="blue" label={parseHtml(item)} />
+              return <Radio key={idx} onClick={(e) => handleClickAnswer(idx + 1)} name={question} color="blue" label={parseHtml(item) || ''} />
             })}
           </div>
         </CardBody>

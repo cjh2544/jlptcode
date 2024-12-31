@@ -120,7 +120,7 @@ const WordInfo = (props:WordInfoProps) => {
       {showQuestion && (
         <tr className="even:bg-blue-gray-50/50">
           <td colSpan={6} className="p-4 border-b border-blue-gray-50">
-            <CardWordQuestion questionInfo={question} />
+            <CardWordQuestion questionInfo={question} sentence_read={sentence_read} sentence_translate={sentence_translate} />
           </td>
         </tr>
       )}
