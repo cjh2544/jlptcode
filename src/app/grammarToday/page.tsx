@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useGrammarTodayStore } from '@/app/store/grammarTodayStore';
 import LevelList from "./components/levelList";
 import SentenceList from "./components/sentenceList";
-import SentenceTodayLayout from "../components/Layout/SentenceTodayLayout";
+import GrammarTodayLayout from "../components/Layout/GrammarTodayLayout";
 
 const GrammarTodayPage = () => {
   const wordTodayInfo =useGrammarTodayStore((state) => state.grammarTodayInfo);
@@ -11,10 +11,10 @@ const GrammarTodayPage = () => {
   const { data: session } = useSession();
 
   return (
-    <SentenceTodayLayout>
+    <GrammarTodayLayout>
       <LevelList level={wordTodayInfo.level || 'N1'} />
       <SentenceList />
-    </SentenceTodayLayout>
+    </GrammarTodayLayout>
   )
 }
 
