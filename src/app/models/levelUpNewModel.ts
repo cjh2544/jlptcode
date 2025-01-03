@@ -9,6 +9,8 @@ const ChoiceSchema = new Schema({
 // 문제 스키마
 const QuestionSchema = new Schema({
   content: String,
+  translate: String,
+  read: String,
   audio: {
     link: {type: String},
     name: {type: String}
@@ -19,7 +21,7 @@ const QuestionSchema = new Schema({
   }
 });
 
-const levelUpSchema = new Schema({
+const levelUpNewSchema = new Schema({
   // 년도
   year: {
     type: String,
@@ -82,10 +84,10 @@ const levelUpSchema = new Schema({
     type: Number,
     required: false,
   },
-}, {timestamps: true, collection: 'level_up'})
+}, {timestamps: true, collection: 'level_up_new'})
 
-levelUpSchema.index({ classification: 1, year: 1, month: 1, level: 1, sortNo: 1 }, { unique: true });
+levelUpNewSchema.index({ classification: 1, year: 1, month: 1, level: 1, sortNo: 1 }, { unique: true });
 
-const LevelUp = models?.levelUp || model('levelUp', levelUpSchema)
+const LevelUpNew = models?.levelUpNew || model('levelUpNew', levelUpNewSchema, 'level_up_new')
 
-export default LevelUp;
+export default LevelUpNew;

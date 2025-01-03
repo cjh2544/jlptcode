@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
             'levelArr': {'$addToSet' : '$level'}, 
             'classificationArr' : {'$addToSet' : '$classification'}, 
             'yearArr' : {'$addToSet' : '$year'}, 
-            'monthArr' : {'$addToSet' : '$month'}, 
+            // 'monthArr' : {'$addToSet' : '$month'}, 
         }
     },
   ])
