@@ -50,14 +50,9 @@ const WordContent = (props: WordTableProps) => {
     onSwiper: (swiper: any) => {
       swiperRef.current = swiper;
     },
-    onBeforeSlideChangeStart: (swiper: any) => {
-      console.log('onBeforeSlideChangeStart', swiper.realIndex);
-    },
-    onRealIndexChange: (swiper: any) => {
-      console.log('onRealIndexChange', swiper.realIndex);
-    },
     onSlideChange: (swiper: any) => {
       console.log('onSlideChange', swiper.realIndex);
+      // swiperRef.current.slideNext()
     },
     onDestroy: (swiper: any) => {
       console.log('onDestroy', swiper.realIndex);
