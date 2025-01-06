@@ -5,10 +5,11 @@ type ModalFullScreenProps = {
   visible: boolean,
   onChange?: (fullScreen: boolean) => void,
   children: any,
+  navInfo?: string,
 }
 
 const ModalFullScreen = (props: ModalFullScreenProps) => {
-  const {title, visible=false, onChange, children} = props;
+  const {title, visible=false, onChange, children, navInfo} = props;
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
 
   const handleChangeScreen = (size: string | undefined) => {
@@ -25,6 +26,7 @@ const ModalFullScreen = (props: ModalFullScreenProps) => {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className={`flex justify-between`}>
                 <h6 className="text-blueGray-700 text-xl font-bold">{title}</h6>
+                <h6 className="text-blueGray-700 text-xl font-bold">{navInfo}</h6>
                 <div className="flex">
                   {/* <div className="flex w-64 items-center gap-1">
                     <label htmlFor="steps-range" className="block text-sm font-medium text-gray-900">속도</label>
