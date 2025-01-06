@@ -50,10 +50,18 @@ const WordContent = (props: WordTableProps) => {
     onSwiper: (swiper: any) => {
       swiperRef.current = swiper;
     },
-    // onClick: () => {
-    //   swiperRef.current.slideNext();
-    //   setStoreData('showDelay', null);
-    // }
+    onBeforeSlideChangeStart: (swiper: any) => {
+      console.log('onBeforeSlideChangeStart', swiper.realIndex);
+    },
+    onRealIndexChange: (swiper: any) => {
+      console.log('onRealIndexChange', swiper.realIndex);
+    },
+    onSlideChange: (swiper: any) => {
+      console.log('onSlideChange', swiper.realIndex);
+    },
+    onDestroy: (swiper: any) => {
+      console.log('onDestroy', swiper.realIndex);
+    },
   }
 
   return (

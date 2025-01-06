@@ -36,14 +36,15 @@ const WordCard = (props: WordCardProps) => {
   // }, delay);
 
   // useEffect(() => {
-  //   if('1' === wordShowType) {
-  //     setShowArr([true, true, true]);
-  //   } else if('2' === wordShowType) {
-  //     setShowArr([true, true, false]);
-  //   } else if('3' === wordShowType) {
-  //     setShowArr([false, false, false]);
-  //   }
-  // }, [wordShowType])
+  //   // if('1' === wordShowType) {
+  //   //   setShowArr([true, true, true]);
+  //   // } else if('2' === wordShowType) {
+  //   //   setShowArr([true, true, false]);
+  //   // } else if('3' === wordShowType) {
+  //   //   setShowArr([false, false, false]);
+  //   // }
+  //   console.log(wordInfo.word);
+  // }, [wordInfo])
 
   return (
     <>
