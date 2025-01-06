@@ -42,22 +42,23 @@ const WordContent = (props: WordTableProps) => {
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     } : false,
-    pagination: {
-      clickable: true,
-    },
+    // pagination: {
+    //   clickable: true,
+    // },
     navigation: true,
     modules: [Autoplay, Pagination, Navigation],
     onSwiper: (swiper: any) => {
       swiperRef.current = swiper;
     },
     onSlideChange: (swiper: any) => {
-      console.log('onSlideChange', swiper.realIndex);
       // swiperRef.current.slideNext()
     },
-    onDestroy: (swiper: any) => {
-      console.log('onDestroy', swiper.realIndex);
-    },
+    onDestroy: (swiper: any) => {},
   }
+
+  useEffect(() => {
+    swiperRef.current.slideTo(0)
+  }, [wordList])
 
   return (
     <>

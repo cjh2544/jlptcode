@@ -61,6 +61,16 @@ const SearchBar = (props: SearchProps) => {
     getWordList();
   }
 
+  const handleChangePageInfo = (e: ChangeEvent<HTMLSelectElement>) => {
+    setPageInfo({
+      ...pageInfo,
+      [e.target.name]: e.target.value
+    });
+
+    getPageInfo();
+    getWordList();
+  }
+
   const getCodeDetailList = useCallback((code: string) => {
     return codeList.find((data) => data.code === code)?.details || []
   }, [codeList]);
@@ -70,7 +80,7 @@ const SearchBar = (props: SearchProps) => {
   }, [yearCodeList, searchInfo]);
 
   useEffect(() => {
-    getCodeList(['level', 'parts', 'wordType', 'wordShowType']);
+    getCodeList(['level', 'parts', 'wordType', 'wordShowType', 'pageSize']);
     getYearCodeList(['word', 'sentence', 'grammar']);
   }, []);
 
@@ -157,6 +167,32 @@ const SearchBar = (props: SearchProps) => {
                 })}
               </select>
             </div> */}
+            <div className='w-full'>
+              <label
+                className="block uppercase text-blueGray-600 mb-1"
+                htmlFor="wordShowType"
+              >
+                페이지별 노출수
+              </label>
+              <select id="pageSize" name="pageSize" onChange={handleChangePageInfo} className="w-full border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
+                {getCodeDetailList('pageSize').map((data: CodeDetail, idx:number) => {
+                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                })}
+              </select>
+            </div>
+            <div className="w-full">
+              <label
+                className="block uppercase text-blueGray-600 mb-1"
+                htmlFor="wordShowType"
+              >
+                페이지번호( 전체 : {pageInfo?.totalPage} )
+              </label>
+              <select id="currentPage" name="currentPage" onChange={handleChangePageInfo} className="w-full border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
+                {pageInfo?.totalPage && Array.from({length:pageInfo?.totalPage || 1}, (v,i) => {
+                  return (<option key={i} value={i + 1}>{i + 1}</option>)
+                })}
+              </select>
+            </div>
             <div className="w-full">
               <button
                 className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
