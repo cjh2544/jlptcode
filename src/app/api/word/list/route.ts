@@ -38,16 +38,19 @@ export async function POST(request: NextRequest) {
 
   if(wordType === '1') {
     wordList = await Word.find(searchInfo)
+      .sort({ read: 1 })
       .limit(pageInfo.pageSize * 1)
       .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
       .exec();
   } else if(wordType === '2') {
     wordList = await WordToday.find(wordSearchInfo)
+      .sort({ wordNo: 1 })
       .limit(pageInfo.pageSize * 1)
       .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
       .exec();
   } else if(wordType === '3') {
     wordList = await WordToday.find(wordSearchInfo)
+      .sort({ wordNo: 1 })
       .limit(pageInfo.pageSize * 1)
       .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
       .exec();
@@ -61,6 +64,7 @@ export async function POST(request: NextRequest) {
     });
   } else if(wordType === '4') {
     wordList = await GrammarToday.find(wordSearchInfo)
+      .sort({ sortNo: 1 })
       .limit(pageInfo.pageSize * 1)
       .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
       .exec();
