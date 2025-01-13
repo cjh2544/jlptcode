@@ -29,7 +29,7 @@ const WordList = ({className}: WordListProps) => {
   }
 
   return (
-    <div className={`mx-4 ${className}`}>
+    <div className={`mx-4 ${className}`} onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()}>
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full min-w-max table-auto text-left">
           <thead>

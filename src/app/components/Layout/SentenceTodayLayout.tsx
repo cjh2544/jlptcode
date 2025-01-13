@@ -4,7 +4,7 @@ import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
 export const metadata: Metadata = {
-  title: "JLPTCODE - 今日の文章",
+  title: "JLPTCODE - 오늘의 문장",
 };
 
 export default function SentenceTodayLayout({
@@ -17,7 +17,7 @@ export default function SentenceTodayLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="今日の文章" />
+        <HeaderTitle title="오늘의 문장" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}
