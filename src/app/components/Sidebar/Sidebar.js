@@ -79,7 +79,7 @@ export default function Sidebar() {
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              今日の日本語
+              오늘의 일본어
             </h6>
             {/* Navigation */}
 
@@ -87,19 +87,19 @@ export default function Sidebar() {
             <li className="items-center">
                 <Link scroll={false} href="/wordToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  今日の単語
+                  오늘이 단어
                 </Link>
               </li>
               <li className="items-center">
                 <Link scroll={false} href="/sentenceToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  今日の文章
+                  오늘의 문장
                 </Link>
               </li>
               <li className="items-center">
                 <Link scroll={false} href="/grammarToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  今日の文法
+                  오늘의 문법
                 </Link>
               </li>
             </ul>
@@ -204,7 +204,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link scroll={false} href="/word/slide" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-spell-check text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  マタダキ単語
+                  깜빡이 일본어
                 </Link>
               </li>
             </ul>

@@ -5,7 +5,7 @@ import SignInHeaderPage from "../SignIn/SignInHeader";
 
 const mainNavbarMenuList = [
   {
-    name: '今日の日本語',
+    name: '오늘의 일본어',
     link: '/wordToday',
   },
   {
