@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from 'next/navigation';
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
+import SignInUserList from "../SignIn/SignInUserList";
 
 // import NotificationDropdown from "@/app/components/Dropdowns/NotificationDropdown";
 // import UserDropdown from "@/app/components/Dropdowns/UserDropdown";
@@ -224,6 +225,7 @@ export default function Sidebar() {
                   문의 게시판
                 </Link>
               </li>
+              <SignInUserList />
             </ul>
           </div>
         </div>
