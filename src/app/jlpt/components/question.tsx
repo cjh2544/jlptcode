@@ -22,7 +22,7 @@ const Question = (props:QuestionProps) => {
   return (
     <>
       {questionType === 'group' && <CardJlptQuestion questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardJlptContent questionType={questionType} question={question} />}
+      {questionType === 'content' && <CardJlptContent questionType={questionType} question={question} sentence={sentence} />}
       {questionType === 'normal' && (
         <>
           <CardJlptQuestion questionType={questionType} question={question} sentence={sentence} id={`jlpt-question-${questionNo}`} />
