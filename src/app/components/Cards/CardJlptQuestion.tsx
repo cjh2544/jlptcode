@@ -43,7 +43,7 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
                   <Card>
                     <CardBody className="px-3 py-2 font-nanumGothic">
                       <Typography>
-                        {sentence?.translation}
+                        {parseHtml(sentence?.translation || '')}
                       </Typography>
                     </CardBody>
                   </Card>
@@ -54,9 +54,9 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
               <div className="flex flex-wrap">
                 <Collapse open={openRead} className="w-full mt-1">
                   <Card>
-                    <CardBody className="px-3 py-2 font-nanumGothic">
+                    <CardBody className="px-3 py-2">
                       <Typography>
-                        {sentence?.reading}
+                        {parseHtml(sentence?.reading || '')}
                       </Typography>
                     </CardBody>
                   </Card>
