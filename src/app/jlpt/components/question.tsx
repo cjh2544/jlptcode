@@ -25,7 +25,7 @@ const Question = (props:QuestionProps) => {
       {questionType === 'content' && <CardJlptContent questionType={questionType} question={question} sentence={sentence} />}
       {questionType === 'normal' && (
         <>
-          <CardJlptQuestion questionType={questionType} question={question} sentence={sentence} id={`jlpt-question-${questionNo}`} />
+          <CardJlptQuestion classification={classification} questionType={questionType} question={question} sentence={sentence} id={`jlpt-question-${questionNo}`} />
           <CardJlptAnswer showAnswer={showAnswer} onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} selectedAnswer={selectedAnswer} />
         </>
       )}

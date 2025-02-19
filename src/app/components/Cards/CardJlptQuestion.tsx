@@ -5,6 +5,7 @@ import CardImage from "./CardImage";
 import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
 
 type JlptQuestionProps = {
+  classification?: string,
   questionType?: string,
   question: any,
   id?: string,
@@ -12,7 +13,7 @@ type JlptQuestionProps = {
 }
 
 const CardJlptQuestion = (props:JlptQuestionProps) => {
-  const {questionType, question, id = '', sentence} = props;
+  const {classification, questionType, question, id = '', sentence} = props;
   const {content = '', audio = {}, image = {}} = question;
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
@@ -30,26 +31,17 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
           <div className={`flex-auto px-4 py-2 rounded-lg ${questionType === 'group' ? 'bg-green-400' : 'bg-green-100'}`}>
             <div className="flex flex-wrap" id={id}>
               {parseHtml(content || '')}
-              {sentence?.translation && (
-                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1">해석</Button></span>
-              )}
               {sentence?.reading && (
-                <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">읽기</Button></span>
+                <span>
+                  <Button onClick={toggleOpenRead} className="px-2 py-1">
+                    {classification === 'listening' ? '문장' : '읽기'}
+                  </Button>
+                </span>
+              )}
+              {sentence?.translation && (
+                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
               )}
             </div>
-            {openTranslate && (
-              <div className="flex flex-wrap">
-                <Collapse open={openTranslate} className="w-full mt-1">
-                  <Card>
-                    <CardBody className="px-3 py-2 font-nanumGothic">
-                      <Typography>
-                        {parseHtml(sentence?.translation || '')}
-                      </Typography>
-                    </CardBody>
-                  </Card>
-                </Collapse>
-              </div>
-            )}
             {openRead && (
               <div className="flex flex-wrap">
                 <Collapse open={openRead} className="w-full mt-1">
@@ -57,6 +49,19 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
                     <CardBody className="px-3 py-2">
                       <Typography>
                         {parseHtml(sentence?.reading || '')}
+                      </Typography>
+                    </CardBody>
+                  </Card>
+                </Collapse>
+              </div>
+            )}
+            {openTranslate && (
+              <div className="flex flex-wrap">
+                <Collapse open={openTranslate} className="w-full mt-1">
+                  <Card>
+                    <CardBody className="px-3 py-2 font-nanumGothic">
+                      <Typography>
+                        {parseHtml(sentence?.translation || '')}
                       </Typography>
                     </CardBody>
                   </Card>
