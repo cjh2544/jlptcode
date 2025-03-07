@@ -6,7 +6,7 @@ import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind
 
 type JlptContentProps = {
   questionType?: string,
-  question: any,
+  question?: any,
   sentence?: any,
 }
 
