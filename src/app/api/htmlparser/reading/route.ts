@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
         // Conversion
         let result = null;
-        console.log(fHtml);
+        
         if(fHtml) {
           result = await HTMLToJSON(fHtml.replaceAll('\t', ''), true);
         } else {
