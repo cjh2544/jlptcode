@@ -46,7 +46,7 @@ const TabDefault = (props: TabDefaultProps) => {
                     href={`#link${idx}`}
                     role="tablist"
                   >
-                    {item.title}
+                    {item?.displayName || item.title}
                   </a>
                 </li>
               )
