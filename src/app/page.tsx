@@ -114,7 +114,7 @@ export default function Home() {
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                     <i className="fas fa-list-ol"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">JLPT<br/>(2023~2010)</h6>
+                  <h6 className="text-xl font-semibold">JLPT<br/>(2024~2010)</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     과목별 기출문제를 테스트, 채점기능을 제공한다.
                   </p> */}
