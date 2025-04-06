@@ -28,7 +28,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link scroll={false} href={'/jlpt'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    JLPT(2023~2010)
+                    JLPT(2024~2010)
                   </Link>
                 </li>
                 <li>
