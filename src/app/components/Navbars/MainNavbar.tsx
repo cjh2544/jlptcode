@@ -13,7 +13,7 @@ const mainNavbarMenuList = [
     link: '/levelUp',
   },
   {
-    name: 'JLPT(2023~2010)',
+    name: 'JLPT(2024~2010)',
     link: '/jlpt',
   },
   {
