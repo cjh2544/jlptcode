@@ -34,14 +34,17 @@ type HeaderVisibleType = {
 interface WordTodayNewStore {
     wordTodayInfo: {
         level: string,
+        levels: [],
         idx: number,
     },
     hideAll: HeaderVisibleType,
     wordTodayList: Array<WordTodayNewInfoType>,
     setWordTodayInfo: (wordTodayInfo: any) => void,
+    setSpeakTodayInfo: (wordTodayInfo: any) => void,
     setWordTodayList: (wordTodayList: any) => void,
     setWordTodayAnswer: (selectedData: any) => void,
     getWordTodayList: () => void,
+    getSpeakTodayList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
@@ -51,7 +54,8 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
         persist((set, get) => ({
             wordTodayInfo: {
                 level: '',
-                idx: 1,
+                levels: [],
+                idx: 0,
             },
             hideAll: {
                 word: false,
@@ -67,6 +71,11 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                 state.getWordTodayList();
                 return state;
             }),
+            setSpeakTodayInfo: (wordTodayInfo) => set((state) => {
+                state.wordTodayInfo = wordTodayInfo;
+                state.getSpeakTodayList();
+                return state;
+            }),
             setWordTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
             setWordTodayAnswer: (selectedData: any) => set((state) => {
                 state.wordTodayList = state.wordTodayList.map((data: any) => {
@@ -80,6 +89,27 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
             }),
             getWordTodayList: async () => {
                 const response = await fetch('/api/wordTodayNew/list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().wordTodayInfo}),
+                })
+                const resData = await response.json();
+                set({ 
+                    wordTodayList: resData, 
+                    hideAll: {
+                        word: false,
+                        read: false,
+                        means: false,
+                        sentence: false,
+                        sentence_read: false,
+                        sentence_translate: false
+                    }
+                });
+            },
+            getSpeakTodayList: async () => {
+                const response = await fetch('/api/wordTodayNew/speakList', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -116,7 +146,8 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
             init: () => set({ 
                 wordTodayInfo: {
                     level: '',
-                    idx: 1,
+                    levels: [],
+                    idx: 0,
                 },
                 wordTodayList: [],
                 hideAll: {

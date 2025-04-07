@@ -30,6 +30,11 @@ const wordTodayNewSchema = new Schema({
     required: true,
     index: true,
   },
+  // 일수
+  day: {
+    type: Number,
+  },
+  // 단
   // 문제번호
   wordNo: {
     type: Number,
@@ -62,6 +67,11 @@ const wordTodayNewSchema = new Schema({
   sentence_translate: {
     type: String,
   },
+  // 키워드
+  keyword: {
+    type: String,
+  },
+  // 단
   // 문제
   question: {
     type: QuestionSchema,

@@ -1,7 +1,7 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useWordTodayNewStore } from '@/app/store/wordTodayNewStore';
-import WordTodayLayout from "../components/Layout/WordTodayLayout";
+import SpeakTodayLayout from "../components/Layout/SpeakTodayLayout";
 import LevelList from "./components/levelList";
 import WordList from "./components/wordList";
 
@@ -11,10 +11,10 @@ const WordTodayPage = () => {
   const { data: session } = useSession();
 
   return (
-    <WordTodayLayout>
-      <LevelList level={wordTodayInfo.level || 'N1'} selectedIdx={wordTodayInfo.idx || 1} />
+    <SpeakTodayLayout>
+      <LevelList levels={wordTodayInfo.levels.toString() || 'N5'} selectedIdx={wordTodayInfo.idx || 0} />
       <WordList />
-    </WordTodayLayout>
+    </SpeakTodayLayout>
   )
 }
 
