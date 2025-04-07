@@ -8,6 +8,7 @@ type WordTodayNewInfoType = {
     word: string;
     read: string; 
     means: string;
+    keyword: string;
     sentence: string; 
     sentence_read: string;
     sentence_translate: string;
@@ -19,6 +20,7 @@ type WordTodayNewInfoType = {
     hideSentence: boolean,
     hideSentenceRead: boolean
     hideSentenceTranslate: boolean,
+    hideKeyword: boolean,
 }
 
 type HeaderVisibleType = {
@@ -26,6 +28,7 @@ type HeaderVisibleType = {
     word: boolean;
     read: boolean;
     means: boolean;
+    keyword: boolean;
     sentence: boolean;
     sentence_read: boolean;
     sentence_translate: boolean;
@@ -63,7 +66,8 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                 means: false,
                 sentence: false,
                 sentence_read: false,
-                sentence_translate: false
+                sentence_translate: false,
+                keyword: false,
             },
             wordTodayList: [],
             setWordTodayInfo: (wordTodayInfo) => set((state) => {
@@ -104,7 +108,8 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                         means: false,
                         sentence: false,
                         sentence_read: false,
-                        sentence_translate: false
+                        sentence_translate: false,
+                        keyword: false
                     }
                 });
             },
@@ -118,14 +123,21 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                 })
                 const resData = await response.json();
                 set({ 
-                    wordTodayList: resData, 
+                    wordTodayList: resData.map((item: WordTodayNewInfoType) => ({
+                        ...item,
+                        hideSentence: true,
+                        hideSentenceRead: true,
+                        hideSentenceTranslate: false,
+                        hideKeyword: true,
+                    })), 
                     hideAll: {
                         word: false,
                         read: false,
                         means: false,
-                        sentence: false,
-                        sentence_read: false,
-                        sentence_translate: false
+                        sentence: true,
+                        sentence_read: true,
+                        sentence_translate: false,
+                        keyword: true
                     }
                 });
             },
@@ -139,6 +151,7 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                     data.hideSentence = headerVisibleInfo.sentence;
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;
+                    data.hideKeyword = headerVisibleInfo.keyword;
                     
                     return data;
                 })
@@ -156,7 +169,8 @@ export const useWordTodayNewStore = create<WordTodayNewStore>()(
                     means: false,
                     sentence: false,
                     sentence_read: false,
-                    sentence_translate: false
+                    sentence_translate: false,
+                    keyword: false
                 },
             }),
         }),
