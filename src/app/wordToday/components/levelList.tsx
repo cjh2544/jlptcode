@@ -43,6 +43,7 @@ const LevelList = (props: LevelListProps) => {
               (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                 return {
                   title: item,
+                  displayName: item === 'N0' ? '고득점' : item
                 };
               })} />
           </div>
