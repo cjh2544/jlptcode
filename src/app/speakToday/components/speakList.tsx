@@ -1,7 +1,6 @@
 'use client';
 import { useWordTodayNewStore } from '@/app/store/wordTodayNewStore';
 import { Button, Card, Typography } from "@material-tailwind/react";
-import WordInfo from './wordInfo';
 import { memo, Suspense, useEffect, useState } from 'react';
 import HeaderButton from './headerButton';
 import SpeakInfo from './speakInfo';
@@ -31,30 +30,6 @@ const SpeakList = ({className}: SpeakListProps) => {
           </ul>
         </div>
       </div>
-
-      {/* <Card className="h-full w-full overflow-scroll">
-        <table className="w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head: any, idx) => (
-                <th key={idx} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                  <div className="text-sm font-normal flex justify-between items-center">
-                    <label>{head?.label}</label>
-                    {head.visibleBtn && (
-                      <HeaderButton colName={head.code} />
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {wordTodayList.map((item, index) => (
-              <WordInfo key={index} wordInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
-            ))}
-          </tbody>
-        </table>
-      </Card> */}
     </div>
   )
 }

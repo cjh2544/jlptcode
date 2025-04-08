@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const levelList = await WordToday.aggregate([
     {
       $match: {
-        level: { $not: { $gt: 'N6' } }
+        level: { $nin: ['N6'] }
       },
     },
     { 
