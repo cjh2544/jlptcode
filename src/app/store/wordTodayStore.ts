@@ -8,6 +8,7 @@ type WordTodayInfoType = {
     word: string;
     read: string; 
     means: string;
+    keyword: string;
     sentence: string; 
     sentence_read: string;
     sentence_translate: string;
@@ -19,6 +20,7 @@ type WordTodayInfoType = {
     hideSentence: boolean,
     hideSentenceRead: boolean
     hideSentenceTranslate: boolean,
+    hideKeyword: boolean,
 }
 
 type HeaderVisibleType = {
@@ -26,6 +28,7 @@ type HeaderVisibleType = {
     word: boolean;
     read: boolean;
     means: boolean;
+    keyword: boolean;
     sentence: boolean;
     sentence_read: boolean;
     sentence_translate: boolean;
@@ -34,13 +37,17 @@ type HeaderVisibleType = {
 interface WordTodayStore {
     wordTodayInfo: {
         level: string,
+        levels: [],
+        idx: number,
     },
     hideAll: HeaderVisibleType,
     wordTodayList: Array<WordTodayInfoType>,
     setWordTodayInfo: (wordTodayInfo: any) => void,
+    setSpeakTodayInfo: (wordTodayInfo: any) => void,
     setWordTodayList: (wordTodayList: any) => void,
     setWordTodayAnswer: (selectedData: any) => void,
     getWordTodayList: () => void,
+    getSpeakTodayList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
@@ -50,6 +57,8 @@ export const useWordTodayStore = create<WordTodayStore>()(
         persist((set, get) => ({
             wordTodayInfo: {
                 level: '',
+                levels: [],
+                idx: 0,
             },
             hideAll: {
                 word: false,
@@ -57,12 +66,18 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 means: false,
                 sentence: false,
                 sentence_read: false,
-                sentence_translate: false
+                sentence_translate: false,
+                keyword: false,
             },
             wordTodayList: [],
             setWordTodayInfo: (wordTodayInfo) => set((state) => {
                 state.wordTodayInfo = wordTodayInfo;
                 state.getWordTodayList();
+                return state;
+            }),
+            setSpeakTodayInfo: (wordTodayInfo) => set((state) => {
+                state.wordTodayInfo = wordTodayInfo;
+                state.getSpeakTodayList();
                 return state;
             }),
             setWordTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
@@ -93,7 +108,36 @@ export const useWordTodayStore = create<WordTodayStore>()(
                         means: false,
                         sentence: false,
                         sentence_read: false,
-                        sentence_translate: false
+                        sentence_translate: false,
+                        keyword: false
+                    }
+                });
+            },
+            getSpeakTodayList: async () => {
+                const response = await fetch('/api/wordToday/speakList', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().wordTodayInfo}),
+                })
+                const resData = await response.json();
+                set({ 
+                    wordTodayList: resData.map((item: WordTodayInfoType) => ({
+                        ...item,
+                        hideSentence: true,
+                        hideSentenceRead: true,
+                        hideSentenceTranslate: false,
+                        hideKeyword: true,
+                    })), 
+                    hideAll: {
+                        word: false,
+                        read: false,
+                        means: false,
+                        sentence: true,
+                        sentence_read: true,
+                        sentence_translate: false,
+                        keyword: true
                     }
                 });
             },
@@ -107,6 +151,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     data.hideSentence = headerVisibleInfo.sentence;
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;
+                    data.hideKeyword = headerVisibleInfo.keyword;
                     
                     return data;
                 })
@@ -114,6 +159,8 @@ export const useWordTodayStore = create<WordTodayStore>()(
             init: () => set({ 
                 wordTodayInfo: {
                     level: '',
+                    levels: [],
+                    idx: 0,
                 },
                 wordTodayList: [],
                 hideAll: {
@@ -122,7 +169,8 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     means: false,
                     sentence: false,
                     sentence_read: false,
-                    sentence_translate: false
+                    sentence_translate: false,
+                    keyword: false
                 },
             }),
         }),

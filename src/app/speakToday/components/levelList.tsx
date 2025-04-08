@@ -1,8 +1,8 @@
 'use client';
 import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useWordTodayNewStore } from '@/app/store/wordTodayNewStore';
-import { useClassTypeListNew } from '@/app/swr/useWordToday';
+import { useWordTodayStore } from '@/app/store/wordTodayStore';
+import { useClassTypeList } from '@/app/swr/useWordToday';
 
 type LevelListProps = {
   levels?: string,
@@ -24,8 +24,8 @@ const LevelList = (props: LevelListProps) => {
     levels = 'N5', selectedIdx = 0
   } = props
   
-  const wordTodayInfo =useWordTodayNewStore((state) => state.wordTodayInfo);
-  const setSpeakTodayInfo = useWordTodayNewStore((state) => state.setSpeakTodayInfo);
+  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
+  const setSpeakTodayInfo = useWordTodayStore((state) => state.setSpeakTodayInfo);
 
   // const {data: levelInfos = [], isLoading, error} = useClassTypeListNew({params: {level: wordTodayInfo.level || level}});
 

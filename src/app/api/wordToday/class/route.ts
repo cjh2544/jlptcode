@@ -9,11 +9,11 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   
   const levelList = await WordToday.aggregate([
-    // {
-    //   $match: {
-    //     level: { $nin: ['N0', 'N6'] }
-    //   },
-    // },
+    {
+      $match: {
+        level: { $nin: ['N0', 'N6'] }
+      },
+    },
     { 
       '$group' : {
         _id: 0,

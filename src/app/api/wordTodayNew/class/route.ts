@@ -1,4 +1,4 @@
-import WordToday from "@/app/models/wordTodayNewModel";
+import WordToday from "@/app/models/wordTodayModel";
 import connectDB from "@/app/utils/database";
 import { NextRequest, NextResponse } from "next/server"
 

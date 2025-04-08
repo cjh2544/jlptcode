@@ -1,12 +1,12 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useWordTodayNewStore } from '@/app/store/wordTodayNewStore';
+import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import SpeakTodayLayout from "../components/Layout/SpeakTodayLayout";
 import LevelList from "./components/levelList";
 import SpeakList from "./components/speakList";
 
 const WordTodayPage = () => {
-  const wordTodayInfo =useWordTodayNewStore((state) => state.wordTodayInfo);
+  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
   
   const { data: session } = useSession();
 

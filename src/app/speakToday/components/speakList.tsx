@@ -1,5 +1,5 @@
 'use client';
-import { useWordTodayNewStore } from '@/app/store/wordTodayNewStore';
+import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { memo, Suspense, useEffect, useState } from 'react';
 import HeaderButton from './headerButton';
@@ -10,8 +10,8 @@ type SpeakListProps = {
 }
 
 const SpeakList = ({className}: SpeakListProps) => {
-  const wordTodayList = useWordTodayNewStore((state) => state.wordTodayList);
-  const setWordTodayList = useWordTodayNewStore((state) => state.setWordTodayList);
+  const wordTodayList = useWordTodayStore((state) => state.wordTodayList);
+  const setWordTodayList = useWordTodayStore((state) => state.setWordTodayList);
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(
