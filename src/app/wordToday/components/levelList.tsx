@@ -26,9 +26,9 @@ const LevelList = (props: LevelListProps) => {
     setWordTodayInfo({...wordTodayInfo, ...selectedData});
   }
 
-  useEffect(() => {
-    setWordTodayInfo({...wordTodayInfo, level, idx});
-  }, [level])
+  // useEffect(() => {
+  //   setWordTodayInfo({...wordTodayInfo, level, idx});
+  // }, [level])
 
   return (
     <>
