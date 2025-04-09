@@ -7,7 +7,7 @@ type ClassTypeProps = {
 }
 
 const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => {
-  const { data, error, isLoading, isValidating, mutate } = useSWR({url: '/api/wordToday/class', params: params}, config);
+  const { data, error, isLoading, isValidating, mutate } = useSWR({url: '/api/wordToday/class', params: params.params}, config);
 
   return {data, error, isLoading, isValidating, mutate};
 }

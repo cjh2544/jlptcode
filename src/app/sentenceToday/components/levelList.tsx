@@ -18,7 +18,7 @@ const LevelList = (props: LevelListProps) => {
   const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
   const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
 
-  const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {level: wordTodayInfo.level || level}});
+  const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N0', 'N6']}});
 
   const handleTabChange = (selectedData: any) => {
     setWordTodayInfo({...wordTodayInfo, ...selectedData});

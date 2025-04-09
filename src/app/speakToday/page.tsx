@@ -12,7 +12,7 @@ const WordTodayPage = () => {
 
   return (
     <SpeakTodayLayout>
-      <LevelList levels={wordTodayInfo.levels.toString() || 'N5'} selectedIdx={wordTodayInfo.idx || 0} />
+      <LevelList levels={(wordTodayInfo.levels || ['N5']).toString()} selectedIdx={wordTodayInfo.idx || 0} />
       <SpeakList />
     </SpeakTodayLayout>
   )

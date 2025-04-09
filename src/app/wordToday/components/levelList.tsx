@@ -18,7 +18,7 @@ const LevelList = (props: LevelListProps) => {
   const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
   const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
 
-  const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {level: wordTodayInfo.level || level}});
+  const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N0', 'N6']}});
 
   const handleTabChange = (selectedData: any) => {
     setWordTodayInfo({...wordTodayInfo, ...selectedData});
@@ -39,7 +39,7 @@ const LevelList = (props: LevelListProps) => {
             </div>
           </div>
           <div className="flex-auto lg:px-10 py-4">
-            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx || 0} data={
               (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                 return {
                   title: item,

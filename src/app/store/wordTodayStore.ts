@@ -37,7 +37,7 @@ type HeaderVisibleType = {
 interface WordTodayStore {
     wordTodayInfo: {
         level: string,
-        levels: [],
+        levels: string[],
         idx: number,
     },
     hideAll: HeaderVisibleType,
@@ -57,7 +57,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
         persist((set, get) => ({
             wordTodayInfo: {
                 level: '',
-                levels: [],
+                levels: ['N5'],
                 idx: 0,
             },
             hideAll: {
@@ -159,7 +159,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
             init: () => set({ 
                 wordTodayInfo: {
                     level: '',
-                    levels: [],
+                    levels: ['N5'],
                     idx: 0,
                 },
                 wordTodayList: [],

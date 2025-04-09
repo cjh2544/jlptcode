@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
   // 조회 문제 수
   let questionSize:any = {
+    N0: 10,
     N1: 10,
     N2: 10,
     N3: 10,
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
   // 1. 문제 랜덤 조회
   let questionList = await WordToday.aggregate([
     { $match: {level} },
-    { $sample: { size : questionSize[level] } }
+    { $sample: { size : 10 } }
   ]);
   
   return NextResponse.json(questionList)
