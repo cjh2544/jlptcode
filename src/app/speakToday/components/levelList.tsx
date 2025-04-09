@@ -33,9 +33,9 @@ const LevelList = (props: LevelListProps) => {
     setSpeakTodayInfo({...wordTodayInfo, ...selectedData, level: '', levels: selectedData.level.split(',')});
   }
 
-  // useEffect(() => {
-  //   setSpeakTodayInfo({...wordTodayInfo, level: '', levels: levels.split(','), idx});
-  // }, [levels])
+  useEffect(() => {
+    setSpeakTodayInfo({...wordTodayInfo, level: '', levels: levels.split(','), idx});
+  }, [])
 
   return (
     <>
