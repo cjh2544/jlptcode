@@ -12,7 +12,7 @@ const WordTodayPage = () => {
 
   return (
     <WordTodayLayout>
-      <LevelList level={wordTodayInfo.level || 'N1'} />
+      <LevelList level={wordTodayInfo.level || 'N0'} idx={wordTodayInfo.idx || 0} />
       <WordList />
     </WordTodayLayout>
   )

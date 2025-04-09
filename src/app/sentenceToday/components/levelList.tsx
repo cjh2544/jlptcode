@@ -1,22 +1,24 @@
 'use client';
 import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useWordTodayStore } from '@/app/store/wordTodayStore';
-import { useClassTypeList } from '@/app/swr/useWordToday';
+import { useSentenceTodayStore } from '@/app/store/sentenceTodayStore';
+import { useClassTypeList } from '@/app/swr/useSentenceToday';
 
 type LevelListProps = {
   level?: string,
+  idx?: number,
   onSearch?: (data: any) => any,
   onClick?: (data: any) => any,
 }
 
 const LevelList = (props: LevelListProps) => {
   const {
-    level
+    level,
+    idx = 0,
   } = props
   
-  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
-  const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
+  const wordTodayInfo =useSentenceTodayStore((state) => state.wordTodayInfo);
+  const setWordTodayInfo = useSentenceTodayStore((state) => state.setWordTodayInfo);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N0', 'N6']}});
 
@@ -25,7 +27,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setWordTodayInfo({...wordTodayInfo, level: level});
+    setWordTodayInfo({...wordTodayInfo, level, idx});
   }, [level])
 
   return (
@@ -39,7 +41,7 @@ const LevelList = (props: LevelListProps) => {
             </div>
           </div>
           <div className="flex-auto lg:px-10 py-4">
-            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx} data={
               (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                 return {
                   title: item,

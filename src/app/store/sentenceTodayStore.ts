@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
-type WordTodayInfoType = {
+type SentenceTodayInfoType = {
     level: string;
     year: string;
     wordNo: string;
@@ -34,14 +34,14 @@ type HeaderVisibleType = {
     sentence_translate: boolean;
 }
 
-interface WordTodayStore {
+interface SentenceTodayStore {
     wordTodayInfo: {
         level: string,
         levels: string[],
         idx: number,
     },
     hideAll: HeaderVisibleType,
-    wordTodayList: Array<WordTodayInfoType>,
+    wordTodayList: Array<SentenceTodayInfoType>,
     setWordTodayInfo: (wordTodayInfo: any) => void,
     setWordTodayList: (wordTodayList: any) => void,
     setWordTodayAnswer: (selectedData: any) => void,
@@ -50,7 +50,7 @@ interface WordTodayStore {
     init: () => void,
 }
 
-export const useWordTodayStore = create<WordTodayStore>()(
+export const useSentenceTodayStore = create<SentenceTodayStore>()(
     devtools(
         persist((set, get) => ({
             wordTodayInfo: {
@@ -85,7 +85,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 return state;
             }),
             getWordTodayList: async () => {
-                const response = await fetch('/api/wordToday/list', {
+                const response = await fetch('/api/sentenceToday/list', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
             }),
         }),
         {
-          name: 'wordtoday-storage', // persist key
+          name: 'sentencetoday-storage', // persist key
         }
       )
     )

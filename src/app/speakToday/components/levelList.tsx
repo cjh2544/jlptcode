@@ -1,12 +1,12 @@
 'use client';
 import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useWordTodayStore } from '@/app/store/wordTodayStore';
-import { useClassTypeList } from '@/app/swr/useWordToday';
+import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
+import { useClassTypeList } from '@/app/swr/useSpeakToday';
 
 type LevelListProps = {
   levels?: string,
-  selectedIdx?: number,
+  idx?: number,
   onSearch?: (data: any) => any,
   onClick?: (data: any) => any,
 }
@@ -21,11 +21,11 @@ const levelInfoList = [
 
 const LevelList = (props: LevelListProps) => {
   const {
-    levels = 'N5', selectedIdx = 0
+    levels = 'N5', idx = 0
   } = props
   
-  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
-  const setSpeakTodayInfo = useWordTodayStore((state) => state.setSpeakTodayInfo);
+  const wordTodayInfo =useSpeakTodayStore((state) => state.wordTodayInfo);
+  const setSpeakTodayInfo = useSpeakTodayStore((state) => state.setSpeakTodayInfo);
 
   // const {data: levelInfos = [], isLoading, error} = useClassTypeListNew({params: {level: wordTodayInfo.level || level}});
 
@@ -34,7 +34,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setSpeakTodayInfo({...wordTodayInfo, level: '', levels: levels.split(',')});
+    setSpeakTodayInfo({...wordTodayInfo, level: '', levels: levels.split(','), idx});
   }, [levels])
 
   return (
@@ -48,7 +48,7 @@ const LevelList = (props: LevelListProps) => {
             </div>
           </div>
           <div className="flex-auto lg:px-10 py-4">
-            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={selectedIdx} data={
+            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={idx} data={
               levelInfoList.map((item: any, idx: number) => {
                 return {
                   title: item.levels.toString(),

@@ -7,11 +7,11 @@ export async function GET(request: NextRequest) {
   await connectDB();
   
   const searchParams = request.nextUrl.searchParams;
-  
+
   const levelList = await WordToday.aggregate([
     {
       $match: {
-        level: { $nin: ['N6'] }
+        level: { $nin: ['N0', 'N6'] }
       },
     },
     { 

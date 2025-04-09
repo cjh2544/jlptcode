@@ -6,13 +6,15 @@ import { useClassTypeList } from '@/app/swr/useWordToday';
 
 type LevelListProps = {
   level?: string,
+  idx?: number,
   onSearch?: (data: any) => any,
   onClick?: (data: any) => any,
 }
 
 const LevelList = (props: LevelListProps) => {
   const {
-    level
+    level,
+    idx = 0,
   } = props
   
   const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
@@ -25,7 +27,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setWordTodayInfo({...wordTodayInfo, level: level});
+    setWordTodayInfo({...wordTodayInfo, level, idx});
   }, [level])
 
   return (

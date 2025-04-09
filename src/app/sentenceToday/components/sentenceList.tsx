@@ -1,5 +1,5 @@
 'use client';
-import { useWordTodayStore } from '@/app/store/wordTodayStore';
+import { useSentenceTodayStore } from '@/app/store/sentenceTodayStore';
 import { Card } from "@material-tailwind/react";
 import SentenceInfo from './sentenceInfo';
 import HeaderButton from './headerButton';
@@ -16,8 +16,8 @@ const TABLE_HEAD = [
 ];
 
 const SentenceList = ({className}: SentenceListProps) => {
-  const wordTodayList = useWordTodayStore((state) => state.wordTodayList);
-  const setWordTodayList = useWordTodayStore((state) => state.setWordTodayList);
+  const wordTodayList = useSentenceTodayStore((state) => state.wordTodayList);
+  const setWordTodayList = useSentenceTodayStore((state) => state.setWordTodayList);
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(

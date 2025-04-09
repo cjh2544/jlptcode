@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware';
 
-type WordTodayInfoType = {
+type SpeakTodayInfoType = {
     level: string;
     year: string;
     wordNo: string;
@@ -34,23 +34,22 @@ type HeaderVisibleType = {
     sentence_translate: boolean;
 }
 
-interface WordTodayStore {
+interface SpeakTodayStore {
     wordTodayInfo: {
         level: string,
         levels: string[],
         idx: number,
     },
     hideAll: HeaderVisibleType,
-    wordTodayList: Array<WordTodayInfoType>,
-    setWordTodayInfo: (wordTodayInfo: any) => void,
-    setWordTodayList: (wordTodayList: any) => void,
-    setWordTodayAnswer: (selectedData: any) => void,
-    getWordTodayList: () => void,
+    wordTodayList: Array<SpeakTodayInfoType>,
+    setSpeakTodayInfo: (wordTodayInfo: any) => void,
+    setSpeakTodayList: (wordTodayList: any) => void,
+    getSpeakTodayList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
 
-export const useWordTodayStore = create<WordTodayStore>()(
+export const useSpeakTodayStore = create<SpeakTodayStore>()(
     devtools(
         persist((set, get) => ({
             wordTodayInfo: {
@@ -68,24 +67,14 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setWordTodayInfo: (wordTodayInfo) => set((state) => {
+            setSpeakTodayInfo: (wordTodayInfo) => set((state) => {
                 state.wordTodayInfo = wordTodayInfo;
-                state.getWordTodayList();
+                state.getSpeakTodayList();
                 return state;
             }),
-            setWordTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
-            setWordTodayAnswer: (selectedData: any) => set((state) => {
-                state.wordTodayList = state.wordTodayList.map((data: any) => {
-                    if(data.questionNo === selectedData.questionNo) {
-                        return {...data, selectedAnswer: selectedData.selectedAnswer}
-                    } else {
-                        return data
-                    }
-                });
-                return state;
-            }),
-            getWordTodayList: async () => {
-                const response = await fetch('/api/wordToday/list', {
+            setSpeakTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
+            getSpeakTodayList: async () => {
+                const response = await fetch('/api/speakToday/list', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -94,15 +83,21 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 })
                 const resData = await response.json();
                 set({ 
-                    wordTodayList: resData, 
+                    wordTodayList: resData.map((item: SpeakTodayInfoType) => ({
+                        ...item,
+                        hideSentence: true,
+                        hideSentenceRead: true,
+                        hideSentenceTranslate: false,
+                        hideKeyword: true,
+                    })), 
                     hideAll: {
                         word: false,
                         read: false,
                         means: false,
-                        sentence: false,
-                        sentence_read: false,
+                        sentence: true,
+                        sentence_read: true,
                         sentence_translate: false,
-                        keyword: false
+                        keyword: true
                     }
                 });
             },
@@ -140,7 +135,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
             }),
         }),
         {
-          name: 'wordtoday-storage', // persist key
+          name: 'speaktoday-storage', // persist key
         }
       )
     )

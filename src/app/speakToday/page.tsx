@@ -1,18 +1,18 @@
 "use client"; // 필수!
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useWordTodayStore } from '@/app/store/wordTodayStore';
+import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
 import SpeakTodayLayout from "../components/Layout/SpeakTodayLayout";
 import LevelList from "./components/levelList";
 import SpeakList from "./components/speakList";
 
 const WordTodayPage = () => {
-  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
+  const wordTodayInfo =useSpeakTodayStore((state) => state.wordTodayInfo);
   
   const { data: session } = useSession();
 
   return (
     <SpeakTodayLayout>
-      <LevelList levels={(wordTodayInfo.levels || ['N5']).toString()} selectedIdx={wordTodayInfo.idx || 0} />
+      <LevelList levels={(wordTodayInfo.levels || ['N0']).toString()} />
       <SpeakList />
     </SpeakTodayLayout>
   )
