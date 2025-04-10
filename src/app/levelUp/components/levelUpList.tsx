@@ -36,9 +36,9 @@ const LevelUpList = (props: LevelUpListProps) => {
     setLevelUpInfo({...levelUpInfo, level: selectedData.level});
   }
 
-  useEffect(() => {
-    setLevelUpInfo({...levelUpInfo, level: level});
-  }, [level])
+  // useEffect(() => {
+  //   setLevelUpInfo({...levelUpInfo, level: level});
+  // }, [level])
 
   return isLoading ?
     (
@@ -56,7 +56,7 @@ const LevelUpList = (props: LevelUpListProps) => {
               </div>
             </div>
             <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-              <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+              <TabDefault onChange={handleTabChange} selectedIdx={Number(levelUpInfo.level?.substring(1,2)) - 1 || 0} data={
                 sortBy(classInfos[0]?.levelArr).map((item, idx) => {
                   return {
                     title: item,

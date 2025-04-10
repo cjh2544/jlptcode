@@ -25,7 +25,7 @@ const SentenceList = ({className}: SentenceListProps) => {
     );
   }
 
-  return (
+  return wordTodayList.length === 0 ? <></> : (
     <div className={`mx-4 ${className}`} onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()}>
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full table-auto text-left">

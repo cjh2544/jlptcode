@@ -3,6 +3,7 @@ import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { useClassTypeList } from '@/app/swr/useWordToday';
+import Loading from '@/app/components/Loading/loading';
 
 type LevelListProps = {
   level?: string,
@@ -41,13 +42,17 @@ const LevelList = (props: LevelListProps) => {
             </div>
           </div>
           <div className="flex-auto lg:px-10 py-4">
-            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx || 0} data={
-              (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
-                return {
-                  title: item,
-                  displayName: item === 'N0' ? '고득점' : item
-                };
-              })} />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx || 0} data={
+                (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
+                  return {
+                    title: item,
+                    displayName: item === 'N0' ? '고득점' : item
+                  };
+                })} />
+            )}
           </div>
         </div>
       </div>

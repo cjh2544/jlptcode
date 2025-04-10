@@ -3,6 +3,7 @@ import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSentenceTodayStore } from '@/app/store/sentenceTodayStore';
 import { useClassTypeList } from '@/app/swr/useSentenceToday';
+import Loading from '@/app/components/Loading/loading';
 
 type LevelListProps = {
   level?: string,
@@ -41,12 +42,16 @@ const LevelList = (props: LevelListProps) => {
             </div>
           </div>
           <div className="flex-auto lg:px-10 py-4">
-            <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx} data={
-              (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
-                return {
-                  title: item,
-                };
-              })} />
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={wordTodayInfo.idx} data={
+                (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
+                  return {
+                    title: item,
+                  };
+                })} />
+            )}
           </div>
         </div>
       </div>

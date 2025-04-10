@@ -35,9 +35,9 @@ const JlptList = (props: JlptListProps) => {
     setSearchInfo({...searchInfo, level: selectedData.level});
   }
 
-  useEffect(() => {
-    setSearchInfo({...searchInfo, level: level});
-  }, [level])
+  // useEffect(() => {
+  //   setSearchInfo({...searchInfo, level: level});
+  // }, [level])
 
   return isLoading ?
     (
@@ -54,7 +54,7 @@ const JlptList = (props: JlptListProps) => {
             </div>
           </div>
           <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-            <TabDefault onChange={handleTabChange} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
+            <TabDefault onChange={handleTabChange} selectedIdx={Number(searchInfo.level?.substring(1,2)) - 1 || 0} data={
               classInfos.map((item: any, idx: number) => {
                 return {
                   title: item.level,
