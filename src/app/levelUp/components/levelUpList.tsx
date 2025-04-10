@@ -36,9 +36,9 @@ const LevelUpList = (props: LevelUpListProps) => {
     setLevelUpInfo({...levelUpInfo, level: selectedData.level});
   }
 
-  // useEffect(() => {
-  //   setLevelUpInfo({...levelUpInfo, level: level});
-  // }, [level])
+  useEffect(() => {
+    setLevelUpInfo({...levelUpInfo, level: level});
+  }, [level])
 
   return isLoading ?
     (

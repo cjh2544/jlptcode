@@ -35,9 +35,9 @@ const JlptList = (props: JlptListProps) => {
     setSearchInfo({...searchInfo, level: selectedData.level});
   }
 
-  // useEffect(() => {
-  //   setSearchInfo({...searchInfo, level: level});
-  // }, [level])
+  useEffect(() => {
+    setSearchInfo({...searchInfo, level: level});
+  }, [level])
 
   return isLoading ?
     (
