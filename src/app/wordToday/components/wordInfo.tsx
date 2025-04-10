@@ -111,9 +111,11 @@ const WordInfo = (props:WordInfoProps) => {
         </td>
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
-            <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
-              [確認]
-            </button>
+            {question.question && (
+              <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
+                [確認]
+              </button>
+            )}
           </div>
         </td>
       </tr>
