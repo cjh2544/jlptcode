@@ -6,9 +6,8 @@ import '@/app/style/common.css'
 import { SWRProvider } from "./providers/SWRProvider";
 import VisitHistory from "./components/Visit/VisitHistory";
 import type { Metadata } from 'next'
-
-import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
 import { Suspense } from "react";
+import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
