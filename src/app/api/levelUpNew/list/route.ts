@@ -15,63 +15,110 @@ export async function POST(request: NextRequest) {
   let questionSize:any = {
     vocabulary: {
       N1: {
-        A: 3,
-        B: 3,
-        C: 2,
-        D: 2,
+        "A-1": 3,
+        "A-4": 3,
+        "A-5": 2,
+        "A-6": 2,
       },
       N2: {
-        A: 3,
-        B: 3,
-        C: 2,
-        D: 2,
+        "A-1": 2,
+        "A-2": 2,
+        "A-3": 1,
+        "A-4": 3,
+        "A-5": 1,
+        "A-6": 2,
       },
       N3: {
-        A: 3,
-        B: 3,
-        C: 2,
-        D: 2,
+        "A-1": 3,
+        "A-2": 2,
+        "A-4": 3,
+        "A-5": 1,
+        "A-6": 1,
       },
       N4: {
-        A: 3,
-        B: 3,
-        C: 2,
-        D: 2,
+        "A-1": 3,
+        "A-2": 2,
+        "A-4": 3,
+        "A-5": 1,
+        "A-6": 1,
       },
       N5: {
-        A: 3,
-        B: 3,
-        C: 2,
+        "A-1": 3,
+        "A-2": 3,
+        "A-4": 3,
+        "A-5": 1,
       }
     },
     grammar: {
       N1: {
-        A: 7,
-        B: 3,
+        "A-7": 7,
+        "A-8": 3,
       },
       N2: {
-        A: 7,
-        B: 3,
+        "A-7": 7,
+        "A-8": 3,
       },
       N3: {
-        A: 7,
-        B: 3,
+        "A-7": 7,
+        "A-8": 3,
       },
       N4: {
-        A: 7,
-        B: 3,
+        "A-7": 7,
+        "A-8": 3,
       },
       N5: {
-        A: 7,
-        B: 3,
+        "A-7": 7,
+        "A-8": 3,
       }
     },
     listening: {
-      N1: 5,
-      N2: 5,
-      N3: 5,
-      N4: 5,
-      N5: 5,
+      N1: {
+        "B-1": 1,
+        "B-2": 1,
+        "B-5": 3,
+      },
+      N2: {
+        "B-1": 1,
+        "B-2": 1,
+        "B-5": 3,
+      },
+      N3: {
+        "B-1": 1,
+        "B-2": 1,
+        "B-5": 3,
+      },
+      N4: {
+        "B-1": 1,
+        "B-2": 1,
+        "B-5": 3,
+      },
+      N5: {
+        "B-1": 1,
+        "B-2": 1,
+        "B-5": 3,
+      }
+    },
+    reading: {
+      N1: {
+        "A-10": 3,
+        "A-11": 1,
+      },
+      N2: {
+        "A-10": 3,
+        "A-11": 1,
+      },
+      N3: {
+        "A-10": 3,
+        "A-11": 1,
+      },
+      N4: {
+        "A-10": 3,
+        "A-11": 1,
+      },
+      N5: {
+        "A-10": 3,
+        "A-11": 1,
+      }
     }
   }
 
@@ -114,13 +161,33 @@ export async function POST(request: NextRequest) {
   } else if('listening' === classification) {
     questionSize = questionSize[classification][level];
 
-    // 1. GROUP 문제 조회
-    const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group'});
-    levelUpList.push(groupInfo);
+    for(const key in questionSizeInfo) {
+      // 1. GROUP 문제 조회
+      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group'});
+      levelUpList.push(groupInfo);
 
-    // 2. 문제 랜덤 조회
-    resultData = await LevelUp.aggregate([ { $match: {level, classification, questionType: 'normal'} } , { $sample: { size : questionSize } } ]);
-    levelUpList = [...levelUpList, ...resultData];
+      // 2. 문제 랜덤 조회
+      resultData = await LevelUp.aggregate([
+        { $match: {level, classification, questionType: 'normal'} },
+        { $sample: { size : questionSizeInfo[key] } 
+      }]);
+      levelUpList = [...levelUpList, ...resultData];
+    }
+  } else if('reading' === classification) {
+    questionSize = questionSize[classification][level];
+
+    for(const key in questionSizeInfo) {
+      // 1. GROUP 문제 조회
+      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group'});
+      levelUpList.push(groupInfo);
+
+      // 2. 문제 랜덤 조회
+      resultData = await LevelUp.aggregate([
+        { $match: {level, classification, questionType: 'normal'} },
+        { $sample: { size : questionSizeInfo[key] } 
+      }]);
+      levelUpList = [...levelUpList, ...resultData];
+    }
   }
 
   let questionNo = 0;
