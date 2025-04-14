@@ -2,6 +2,7 @@ import React, {memo} from "react";
 import { useLevelUpStore } from '@/app/store/levelUpNewStore';
 import CardLevelUpQuestion from "@/app/components/Cards/CardLevelUpQuestion";
 import CardLevelUpAnswer from "@/app/components/Cards/CardLevelUpAnswer";
+import CardLevelUpContent from "@/app/components/Cards/CardLevelUpContent";
 
 type QuestionProps = {
   questionInfo: any
@@ -21,7 +22,7 @@ const Question = (props:QuestionProps) => {
   return (
     <>
       {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} />}
-      {/* {questionType === 'content' && <CardLevelUpContent question={question} />} */}
+      {questionType === 'content' && <CardLevelUpContent question={question} />}
       {questionType === 'normal' && (
         <>
           <CardLevelUpQuestion questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} />

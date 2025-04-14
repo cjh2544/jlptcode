@@ -1,5 +1,6 @@
 import LevelUp from "@/app/models/levelUpNewModel";
 import connectDB from "@/app/utils/database";
+import { result } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -131,12 +132,12 @@ export async function POST(request: NextRequest) {
 
     for(const key in questionSizeInfo) {
       // 1. 문자/어휘 GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group', questionGroupType: key});
+      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       levelUpList.push(groupInfo);
 
       // 2. 문자/어휘 문제 랜덤 조회
       resultData = await LevelUp.aggregate([
-        { $match: {level, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } }
       ]);
 
@@ -147,46 +148,64 @@ export async function POST(request: NextRequest) {
 
     for(const key in questionSizeInfo) {
       // 1. 문법 GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group', questionGroupType: key});
+      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       levelUpList.push(groupInfo);
 
       // 2. 문법 문제 랜덤 조회
       resultData = await LevelUp.aggregate([
-        { $match: {level, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } }
       ]);
 
       levelUpList = [...levelUpList, ...resultData];
     }
   } else if('listening' === classification) {
-    questionSize = questionSize[classification][level];
+    questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
       // 1. GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group'});
+      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       levelUpList.push(groupInfo);
 
       // 2. 문제 랜덤 조회
       resultData = await LevelUp.aggregate([
-        { $match: {level, classification, questionType: 'normal'} },
+        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } 
       }]);
       levelUpList = [...levelUpList, ...resultData];
     }
   } else if('reading' === classification) {
-    questionSize = questionSize[classification][level];
+    questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
-      // 1. GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, classification, questionType: 'group'});
-      levelUpList.push(groupInfo);
+      if(key === 'A-10') {
+        // 1. GROUP 문제 조회
+        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        levelUpList.push(groupInfo);
 
-      // 2. 문제 랜덤 조회
-      resultData = await LevelUp.aggregate([
-        { $match: {level, classification, questionType: 'normal'} },
-        { $sample: { size : questionSizeInfo[key] } 
-      }]);
-      levelUpList = [...levelUpList, ...resultData];
+        // 2. 문제 랜덤 조회
+        resultData = await LevelUp.aggregate([
+          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+          { $sample: { size : questionSizeInfo[key] } 
+        }]);
+
+        levelUpList = [...levelUpList, ...resultData];
+      } else if (key === 'A-11') {
+        // 1. GROUP 문제 조회
+        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        levelUpList.push(groupInfo);
+
+        // 2. 문제 조회
+        resultData = await LevelUp.find({
+          level: groupInfo.level,
+          year: groupInfo.year,
+          classification: groupInfo.classification, 
+          questionType: { $nin: 'group' }, 
+          questionGroupType: key,
+        });
+
+        levelUpList = [...levelUpList, ...resultData];
+      }
     }
   }
 
