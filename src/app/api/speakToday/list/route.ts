@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   // 1. 문제 랜덤 조회
   let questionList = await WordToday.aggregate([
-    { $match: { level: { $in: levels }, day: { $ne: ''} } },
+    { $match: { level: { $in: levels } } },
     { $sample: { size : 10 } }
   ]);
   
