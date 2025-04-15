@@ -73,14 +73,14 @@ const SpeakInfo = (props:SpeakInfoProps) => {
               {parseHtml(sentence_translate)}
             </h4>
             <div className={`text-sm font-medium bg-blue-200 p-2 mr-3 text-gray-900 ${hideKeyword ? 'invisible' : ''}`}>
-              {parseHtml(`∎${keyword}`)}
+              {keyword && parseHtml(`∎${keyword}`)}
               <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
             </div>
             <div className={`text-sm font-medium bg-blue-100 p-2 mr-3 text-gray-900 ${hideSentence ? 'invisible' : ''}`}>
-              {parseHtml(sentence)}
+              {sentence && parseHtml(sentence)}
             </div>
             <div className={`text-sm font-medium bg-blue-50 p-2 mr-3 text-gray-900 ${hideSentenceRead ? 'invisible' : ''}`}>
-              {parseHtml(sentence_read)}
+              {sentence_read && parseHtml(sentence_read)}
             </div>
           </div>
           <div className="inline-flex items-center text-base font-semibold text-gray-900">
