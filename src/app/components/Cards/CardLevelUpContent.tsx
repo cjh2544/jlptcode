@@ -31,10 +31,10 @@ const CardLevelUpContent = (props:LevelUpContentProps) => {
           <div className="flex flex-wrap">
             <div className="bg-blueGray-200 rounded-lg p-4 flex-col">
               {parseHtml(content || '')}
-              {sentence?.translation && (
+              {translation && (
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1">해석</Button></span>
               )}
-              {sentence?.reading && (
+              {reading && (
                 <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">읽기</Button></span>
               )}
               {openTranslate && (
@@ -42,7 +42,7 @@ const CardLevelUpContent = (props:LevelUpContentProps) => {
                   <Collapse open={openTranslate} className="w-full mt-1">
                     <Card>
                       <CardBody className="px-3 py-2 font-nanumGothic">
-                        {parseHtml(sentence?.translation || '')}
+                        {parseHtml(translation || '')}
                       </CardBody>
                     </Card>
                   </Collapse>
@@ -53,7 +53,7 @@ const CardLevelUpContent = (props:LevelUpContentProps) => {
                   <Collapse open={openRead} className="w-full mt-1">
                     <Card>
                       <CardBody className="px-3 py-2 font-nanumGothic">
-                        {parseHtml(sentence?.reading || '')}
+                        {parseHtml(reading || '')}
                       </CardBody>
                     </Card>
                   </Collapse>

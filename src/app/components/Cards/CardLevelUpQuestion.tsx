@@ -9,11 +9,13 @@ type LevelUpQuestionProps = {
   question: any,
   id?: string
   questionNo?: number,
+  sentence?: any,
 }
 
 const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
-  const {questionType, question, id = '', questionNo} = props;
+  const {questionType, question, id = '', questionNo, sentence = {}} = props;
   const {content = '', audio = {}, image = {}, translate, read} = question;
+  const {translation, reading} = sentence;
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
   const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
@@ -30,10 +32,10 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
           <div className="flex flex-wrap" id={id}>
             <div className="mr-1">{`${questionNo ? questionNo + '.' : ''}`}</div>
             <div>{parseHtml(content || '')}</div>
-            {translate && (
+            {translation && (
               <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button></span>
             )}
-            {read && (
+            {reading && (
               <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button></span>
             )}
           </div>
@@ -43,7 +45,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
                 <Card>
                   <CardBody className="px-3 py-2 font-nanumGothic">
                     <Typography>
-                      {translate}
+                      {parseHtml(translation || '')}
                     </Typography>
                   </CardBody>
                 </Card>
@@ -56,7 +58,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
                 <Card>
                   <CardBody className="px-3 py-2 font-nanumGothic">
                     <Typography>
-                      {read}
+                      {parseHtml(reading || '')}
                     </Typography>
                   </CardBody>
                 </Card>
