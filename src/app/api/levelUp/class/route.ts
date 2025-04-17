@@ -1,4 +1,4 @@
-import LevelUp from "@/app/models/levelUpNewModel";
+import LevelUp from "@/app/models/levelUpModel";
 import connectDB from "@/app/utils/database";
 import { NextRequest, NextResponse } from "next/server"
 

@@ -1,4 +1,4 @@
-import LevelUp from "@/app/models/levelUpNewModel";
+import LevelUp from "@/app/models/levelUpModel";
 import connectDB from "@/app/utils/database";
 import { result } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
@@ -191,18 +191,33 @@ export async function POST(request: NextRequest) {
 
         levelUpList = [...levelUpList, ...resultData];
       } else if (key === 'A-11') {
-        // 1. GROUP 문제 조회
-        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        levelUpList.push(groupInfo);
+        // // 1. GROUP 문제 조회
+        // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        // levelUpList.push(groupInfo);
 
-        // 2. 문제 조회
-        resultData = await LevelUp.find({
-          level: groupInfo.level,
-          year: groupInfo.year,
-          classification: groupInfo.classification, 
-          questionType: { $nin: 'group' }, 
-          questionGroupType: key,
+        // // 2. 문제 조회
+        // resultData = await LevelUp.find({
+        //   level: groupInfo.level,
+        //   year: groupInfo.year,
+        //   classification: groupInfo.classification, 
+        //   questionType: { $nin: 'group' }, 
+        //   questionGroupType: key,
+        // });
+
+        const groupInfo = await LevelUp.findOne({
+          level,
+          year: { $nin: ['random'] }, 
+          classification,
+          questionGroupType: key
         });
+
+        // 2. 문제 조회(전체)
+        resultData = await LevelUp.find({
+          level, 
+          year: groupInfo.year, 
+          classification,
+          questionGroupType: key,
+        }).sort({sortNo: 1});
 
         levelUpList = [...levelUpList, ...resultData];
       }

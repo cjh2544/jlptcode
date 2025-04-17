@@ -191,16 +191,24 @@ export async function POST(request: NextRequest) {
 
         levelUpList = [...levelUpList, ...resultData];
       } else if (key === 'A-11') {
-        // 1. GROUP 문제 조회
-        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        levelUpList.push(groupInfo);
+        // // 1. GROUP 문제 조회
+        // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        // levelUpList.push(groupInfo);
 
-        // 2. 문제 조회
+        // // 2. 문제 조회
+        // resultData = await LevelUp.find({
+        //   level: groupInfo.level,
+        //   year: groupInfo.year,
+        //   classification: groupInfo.classification, 
+        //   questionType: { $nin: 'group' }, 
+        //   questionGroupType: key,
+        // });
+
+        // 2. 문제 조회(전체)
         resultData = await LevelUp.find({
-          level: groupInfo.level,
-          year: groupInfo.year,
-          classification: groupInfo.classification, 
-          questionType: { $nin: 'group' }, 
+          level, 
+          year: { $nin: ['random'] }, 
+          classification,
           questionGroupType: key,
         });
 
