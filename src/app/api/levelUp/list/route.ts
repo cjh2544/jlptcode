@@ -181,15 +181,33 @@ export async function POST(request: NextRequest) {
       if(key === 'A-10') {
         // 1. GROUP 문제 조회
         const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        
         levelUpList.push(groupInfo);
 
         // 2. 문제 랜덤 조회
         resultData = await LevelUp.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
-        levelUpList = [...levelUpList, ...resultData];
+        let qDataList = [];
+
+        for (const item of resultData) {
+          qDataList.push(item);
+
+          qDataList.push(
+            await LevelUp.findOne({
+              level: item.level,
+              year: item.year,
+              classification: item.classification,
+              questionGroupType: item.questionGroupType,
+              questionType: 'normal',
+              sortNo: Number(item.sortNo) + 1,
+            })
+          )
+        }
+        
+        levelUpList = [...levelUpList, ...qDataList];
       } else if (key === 'A-11') {
         // // 1. GROUP 문제 조회
         // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
@@ -216,7 +234,7 @@ export async function POST(request: NextRequest) {
           level, 
           year: groupInfo.year, 
           classification,
-          questionGroupType: key,
+          questionGroupType: groupInfo.questionGroupType,
         }).sort({sortNo: 1});
 
         levelUpList = [...levelUpList, ...resultData];
