@@ -47,7 +47,7 @@ const SearchBar = (props: SearchProps) => {
   }, [codeList]);
 
   const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data) => data.level === 'N' + searchInfo.level)?.details || []
+    return yearCodeList.find((data) => data.level === searchInfo.level)?.details || []
   }, [yearCodeList, searchInfo]);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const SearchBar = (props: SearchProps) => {
               </label>
               <select id="level" name="level" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
-                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                  return (<option key={idx} value={data.value}>{data.value}</option>)
                 })}
               </select>
             </div>
@@ -99,8 +99,7 @@ const SearchBar = (props: SearchProps) => {
                 문제유형
               </label>
               <select id="strategyType" name="strategyType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">전체</option>
-                {getCodeDetailList('strategyType').map((data: CodeDetail, idx:number) => {
+                {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(searchInfo.level)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>
@@ -113,7 +112,6 @@ const SearchBar = (props: SearchProps) => {
                 출제년도
               </label>
               <select id="year" name="year" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">전체</option>
                 {getYearCodeDetailList().map((year: string, idx:number) => {
                   return (<option key={idx} value={year}>{year}</option>)
                 })}
