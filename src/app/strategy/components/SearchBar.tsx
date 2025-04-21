@@ -112,7 +112,7 @@ const SearchBar = (props: SearchProps) => {
                 출제년도
               </label>
               <select id="year" name="year" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getYearCodeDetailList().map((year: string, idx:number) => {
+                {getYearCodeDetailList().filter((item: any) => ['N4', 'N5'].includes(searchInfo.level || '') ? item === 'random' : item).map((year: string, idx:number) => {
                   return (<option key={idx} value={year}>{year}</option>)
                 })}
               </select>
