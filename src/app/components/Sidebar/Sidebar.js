@@ -104,6 +104,13 @@ export default function Sidebar() {
                 </Link>
               </li>
               <li className="items-center">
+                <Link scroll={false} href="/readingToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  오늘의 독해
+                  <span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
+                </Link>
+              </li>
+              <li className="items-center">
                 <Link scroll={false} href="/speakToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
                   오늘의 회화학습
