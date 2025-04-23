@@ -32,11 +32,11 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
           <div className="flex flex-wrap" id={id}>
             <div className="mr-1">{`${questionNo ? questionNo + '.' : ''}`}</div>
             <div>{parseHtml(content || '')}</div>
-            {translation && (
-              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button></span>
-            )}
             {reading && (
               <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button></span>
+            )}
+            {translation && (
+              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button></span>
             )}
           </div>
           {openTranslate && (
