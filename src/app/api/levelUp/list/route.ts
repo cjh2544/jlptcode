@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
         "A-3": 1,
         "A-4": 3,
         "A-5": 1,
-        "A-6": 2,
+        "A-6": 1,
       },
       N3: {
         "A-1": 3,
