@@ -39,19 +39,6 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
               <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">해석</Button></span>
             )}
           </div>
-          {openTranslate && (
-            <div className="flex flex-wrap">
-              <Collapse open={openTranslate} className="w-full mt-1">
-                <Card>
-                  <CardBody className="px-3 py-2 font-nanumGothic">
-                    <Typography>
-                      {parseHtml(translation || '')}
-                    </Typography>
-                  </CardBody>
-                </Card>
-              </Collapse>
-            </div>
-          )}
           {openRead && (
             <div className="flex flex-wrap">
               <Collapse open={openRead} className="w-full mt-1">
@@ -59,6 +46,19 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
                   <CardBody className="px-3 py-2 font-nanumGothic">
                     <Typography>
                       {parseHtml(reading || '')}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </div>
+          )}
+          {openTranslate && (
+            <div className="flex flex-wrap">
+              <Collapse open={openTranslate} className="w-full mt-1">
+                <Card>
+                  <CardBody className="px-3 py-2 font-nanumGothic">
+                    <Typography>
+                      {parseHtml(translation || '')}
                     </Typography>
                   </CardBody>
                 </Card>
