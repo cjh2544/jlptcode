@@ -26,12 +26,6 @@ const levelUpSchema = new Schema({
     required: true,
     index: true,
   },
-  // 월
-  month: {
-    type: String,
-    required: true,
-    index: true,
-  },
   // 등급
   level: {
     type: String,
@@ -84,7 +78,7 @@ const levelUpSchema = new Schema({
   },
 }, {timestamps: true, collection: 'level_up'})
 
-levelUpSchema.index({ classification: 1, year: 1, month: 1, level: 1, sortNo: 1 }, { unique: true });
+levelUpSchema.index({ classification: 1, year: 1, level: 1, sortNo: 1 }, { unique: true });
 
 const LevelUp = models?.levelUp || model('levelUp', levelUpSchema)
 
