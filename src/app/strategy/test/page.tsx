@@ -1,19 +1,19 @@
 "use client"; // 필수!
-import { useLevelUpStore } from '@/app/store/levelUpStore';
+import { useStrategyStore } from '@/app/store/strategyStore';
 import Question from '../components/question';
 import { memo } from 'react';
 import ModalAnswer from '../components/modalAnswer';
-import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
+import StrategyLayout from '@/app/components/Layout/StrategyLayout';
 import Loading from '@/app/components/Loading/loading';
 import { useJlptStore } from '@/app/store/jlptStore';
 
-const LevelUpTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state) => state);
-  const showAnswer = useLevelUpStore((state) => state.showAnswer);
-  const setStoreData = useLevelUpStore((state) => state.setStoreData);
+const StrategyTestPage = () => {
+  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state) => state);
+  const showAnswer = useStrategyStore((state) => state.showAnswer);
+  const setStoreData = useStrategyStore((state) => state.setStoreData);
 
   return <>
-      <LevelUpLayout>
+      <StrategyLayout>
         {isLoading ? (
           <Loading />
         ) : (
@@ -21,7 +21,7 @@ const LevelUpTestPage = () => {
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6 shadow-lg">
               <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">레벨업 문제풀이</h6>
+                <h6 className="text-blueGray-700 text-xl font-bold">집중공략</h6>
                 <div className='flex'>
                   <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setStoreData('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
@@ -46,8 +46,8 @@ const LevelUpTestPage = () => {
           </div>
         </div>
         )}
-    </LevelUpLayout>
+    </StrategyLayout>
   </>
 }
 
-export default memo(LevelUpTestPage)
+export default memo(StrategyTestPage)

@@ -1,7 +1,8 @@
-import { useWordStore } from '@/app/store/wordStore';
+import { useStrategyStore } from '@/app/store/strategyStore';
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
 import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
 import { isEmpty } from 'lodash';
+import { useRouter } from 'next/navigation';
 
 type SearchProps = {
   onSearch?: () => any,
@@ -13,33 +14,26 @@ const SearchBar = (props: SearchProps) => {
     onSearch
   } = props
 
-  const searchInfo =useWordStore((state) => state.searchInfo);
-  const pageInfo = useWordStore((state) => state.pageInfo);
+  const router = useRouter();
+  const levelUpInfo =useStrategyStore((state) => state.levelUpInfo);
   const codeList = useCommonCodeStore((state) => state.codeList) || [];
   const yearCodeList = useCommonCodeStore((state) => state.yearCodeList) || [];
-  const setSearchInfo = useWordStore((state) => state.setSearchInfo);
-  const getPageInfo = useWordStore((state) => state.getPageInfo);
-  const getWordList = useWordStore((state) => state.getWordList);
-  const setPageInfo = useWordStore((state) => state.setPageInfo);
+  const setLevelUpInfo = useStrategyStore((state) => state.setLevelUpInfo);
+  const getLevelUpList = useStrategyStore((state) => state.getLevelUpList);
   const getCodeList = useCommonCodeStore((state) => state.getCodeList);
   const getYearCodeList = useCommonCodeStore((state) => state.getYearCodeList);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}
 
-    if(e.target.name === 'parts') {
-      eObj = {[e.target.name]: e.target.value ? [e.target.value] : []};
-    } else {
-      eObj = {[e.target.name]: e.target.value}
-    }
+    eObj = {[e.target.name]: e.target.value}
 
-    setSearchInfo({...searchInfo, ...eObj});
+    setLevelUpInfo({...levelUpInfo, ...eObj});
   }
 
   const handleSearch = (e: MouseEvent<HTMLElement>) => {
-    setPageInfo({...pageInfo, currentPage: 1});
-    getWordList();
-    getPageInfo();
+    getLevelUpList();
+    router.push('/strategy/test', { scroll :false });
   }
 
   const getCodeDetailList = useCallback((code: string) => {
@@ -47,8 +41,8 @@ const SearchBar = (props: SearchProps) => {
   }, [codeList]);
 
   const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data) => data.level === searchInfo.level)?.details || []
-  }, [yearCodeList, searchInfo]);
+    return yearCodeList.find((data) => data.level === levelUpInfo.level)?.details || []
+  }, [yearCodeList, levelUpInfo]);
 
   useEffect(() => {
     getCodeList(['level', 'classification', 'strategyType', 'wordType']);
@@ -94,12 +88,12 @@ const SearchBar = (props: SearchProps) => {
             <div className="w-full">
               <label
                 className="block uppercase text-blueGray-600 mb-1"
-                htmlFor="strategyType"
+                htmlFor="questionGroupType"
               >
                 문제유형
               </label>
-              <select id="strategyType" name="strategyType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(searchInfo.level)).map((data: CodeDetail, idx:number) => {
+              <select id="questionGroupType" name="questionGroupType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(levelUpInfo.level)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>
@@ -112,7 +106,7 @@ const SearchBar = (props: SearchProps) => {
                 출제년도
               </label>
               <select id="year" name="year" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getYearCodeDetailList().filter((item: any) => ['N4', 'N5'].includes(searchInfo.level || '') ? item === 'random' : item).map((year: string, idx:number) => {
+                {getYearCodeDetailList().filter((item: any) => ['N4', 'N5'].includes(levelUpInfo.level || '') ? item === 'random' : item).map((year: string, idx:number) => {
                   return (<option key={idx} value={year}>{year}</option>)
                 })}
               </select>

@@ -2,8 +2,8 @@
 import React, {memo, useEffect} from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
-import { useLevelUpStore } from '@/app/store/levelUpStore';
-import { useClassTypeList } from '@/app/swr/useLevelUp';
+import { useStrategyStore } from '@/app/store/strategyStore';
+import { useClassTypeList } from '@/app/swr/useStrategy';
 import { sortBy } from 'lodash';
 import Classification from './classification';
 import Loading from '@/app/components/Loading/loading';
@@ -20,9 +20,9 @@ const LevelUpList = (props: LevelUpListProps) => {
   } = props
   
   const router = useRouter();
-  const levelUpInfo =useLevelUpStore((state) => state.levelUpInfo);
-  const setLevelUpInfo = useLevelUpStore((state) => state.setLevelUpInfo);
-  const getLevelUpList = useLevelUpStore((state) => state.getLevelUpList);
+  const levelUpInfo =useStrategyStore((state) => state.levelUpInfo);
+  const setLevelUpInfo = useStrategyStore((state) => state.setLevelUpInfo);
+  const getLevelUpList = useStrategyStore((state) => state.getLevelUpList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: levelUpInfo.level || level}});
 

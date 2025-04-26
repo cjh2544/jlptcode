@@ -1,7 +1,7 @@
-import React, {memo, useMemo} from "react";
-import { useJlptStore } from '@/app/store/jlptStore';
-import { useLevelUpStore } from "@/app/store/levelUpStore";
+import React, {memo, MouseEvent, useMemo} from "react";
+import { useStrategyStore } from "@/app/store/strategyStore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type ModalAnswerProps = {
   title: String,
@@ -12,18 +12,31 @@ type ModalAnswerProps = {
 const ModalAnswer = (props:ModalAnswerProps) => {
   const {title, btnTitle = '정답확인', goQuestion} = props;
   const [showModal, setShowModal] = React.useState(false);
-  const levelUpList = useLevelUpStore((state) => state.levelUpList);
+  const levelUpList = useStrategyStore((state) => state.levelUpList);
+  const router = useRouter();
 
   const getCollectCnt = useMemo(() => (collectType: String) => {
+
     return levelUpList.filter((item) => item.answer && (collectType === 'collect' ? item.answer === item.selectedAnswer : item.answer !== item.selectedAnswer)).length;
   }, [levelUpList]);
+
+  const handleClickList = (e: MouseEvent<HTMLElement>) => {
+      router.back();
+    }
 
   return (
     <>
       <div className="flex justify-between">
-        <Link scroll={false} href={`/levelUp`} className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+        {/* <Link scroll={false} href={`/strategy`} className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
           목록
-        </Link>
+        </Link> */}
+        <button
+          className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleClickList}
+        >
+          목록
+        </button>
         <button
           className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
