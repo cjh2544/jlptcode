@@ -33,20 +33,15 @@ const SearchBar = (props: SearchProps) => {
 
   const handleSearch = (e: MouseEvent<HTMLElement>) => {
     getLevelUpList();
-    router.push('/strategy/test', { scroll :false });
+    // router.push('/strategy/test', { scroll :false });
   }
 
   const getCodeDetailList = useCallback((code: string) => {
     return codeList.find((data) => data.code === code)?.details || []
   }, [codeList]);
 
-  const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data) => data.level === levelUpInfo.level)?.details || []
-  }, [yearCodeList, levelUpInfo]);
-
   useEffect(() => {
     getCodeList(['level', 'classification', 'strategyType', 'wordType']);
-    getYearCodeList(['strategy']);
   }, []);
 
   return (
@@ -56,6 +51,7 @@ const SearchBar = (props: SearchProps) => {
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">검색</h6>
+              <strong className='text-red-700'>★ 점수가 부족한 부분을 집중적으로 학습하세요!!</strong>
             </div>
           </div>
           <div className='grid grid-cols-4 gap-4 place-items-end p-4 sm:grid-cols-2'>
@@ -80,6 +76,7 @@ const SearchBar = (props: SearchProps) => {
                 과목
               </label>
               <select id="classification" name="classification" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option value="">전체</option>
                 {getCodeDetailList('classification').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
@@ -90,24 +87,12 @@ const SearchBar = (props: SearchProps) => {
                 className="block uppercase text-blueGray-600 mb-1"
                 htmlFor="questionGroupType"
               >
-                문제유형
+                유형
               </label>
-              <select id="questionGroupType" name="questionGroupType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select disabled={!levelUpInfo.classification} id="questionGroupType" name="questionGroupType" onChange={handleChange} className="disabled:bg-gray-300 border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option value="">전체</option>
                 {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(levelUpInfo.level)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
-                })}
-              </select>
-            </div>
-            <div className="w-full">
-              <label
-                className="block uppercase text-blueGray-600 mb-1"
-                htmlFor="year"
-              >
-                출제년도
-              </label>
-              <select id="year" name="year" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getYearCodeDetailList().filter((item: any) => ['N4', 'N5'].includes(levelUpInfo.level || '') ? item === 'random' : item).map((year: string, idx:number) => {
-                  return (<option key={idx} value={year}>{year}</option>)
                 })}
               </select>
             </div>

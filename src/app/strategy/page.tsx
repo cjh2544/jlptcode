@@ -6,6 +6,7 @@ import LevelUpLayout from "../components/Layout/LevelUpLayout";
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import StrategyLayout from "../components/Layout/StrategyLayout";
 import SearchBar from "./components/SearchBar";
+import QuestionTest from "./components/questionTest";
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
@@ -16,6 +17,7 @@ const JlptPage = () => {
   return (
     <StrategyLayout>
       <SearchBar />
+      <QuestionTest />
       {/* <LevelUpList level={searchParams.get('level') || levelUpInfo.level || 'N1'} /> */}
     </StrategyLayout>
   )

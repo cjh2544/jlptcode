@@ -17,7 +17,7 @@ export default function StrategyLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="집중공략" />
+        <HeaderTitle title="JLPT 모의고사" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}

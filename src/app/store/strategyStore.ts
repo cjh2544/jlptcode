@@ -8,7 +8,6 @@ interface StrategyStore {
         level?: string;
         classification?: string;
         questionGroupType?: string;
-        year?: string;
     },
     levelUpList: Array<any>,
     setStoreData: (code: string, value: any) => void,
@@ -26,9 +25,8 @@ export const useStrategyStore = create<StrategyStore>()(
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
-                classification: 'vocabulary',
-                questionGroupType: 'A-1',
-                year: 'random',
+                classification: '',
+                questionGroupType: '',
             },
             levelUpList: [],
             setStoreData: (code, value) => set((state) => ({ [code]: value })),
@@ -60,9 +58,8 @@ export const useStrategyStore = create<StrategyStore>()(
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',
-                    classification: 'vocabulary',
-                    questionGroupType: 'A-1',
-                    year: 'random',
+                    classification: '',
+                    questionGroupType: '',
                 },
                 levelUpList: []
             }),
