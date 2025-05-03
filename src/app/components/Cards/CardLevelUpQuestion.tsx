@@ -22,7 +22,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
   const toggleOpenRead = () => setOpenRead((cur) => !cur);
   
   const parseHtml = (html: string) => {
-    return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
+    return html ? <div dangerouslySetInnerHTML={{ __html: html.toString().replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} /> : <></>;
   };
 
   return (

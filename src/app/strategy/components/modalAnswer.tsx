@@ -21,21 +21,29 @@ const ModalAnswer = (props:ModalAnswerProps) => {
   }, [levelUpList]);
 
   const handleClickList = (e: MouseEvent<HTMLElement>) => {
-      router.back();
+      // router.back();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
 
   return (
     <>
-      <div className="flex justify-end">
-        {/* <Link scroll={false} href={`/strategy`} className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-          목록
-        </Link> */}
-        <button
+      <div className="flex justify-between">
+        {/* <button
           className="hidden text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
           onClick={handleClickList}
         >
           목록
+        </button> */}
+        <button
+          className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+          type="button"
+          onClick={handleClickList}
+        >
+          <i className="fas fa-arrow-up"></i>
         </button>
         <button
           className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
