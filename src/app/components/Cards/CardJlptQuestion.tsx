@@ -47,9 +47,7 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
                 <Collapse open={openRead} className="w-full mt-1">
                   <Card>
                     <CardBody className="px-3 py-2">
-                      <Typography>
-                        {parseHtml(sentence?.reading || '')}
-                      </Typography>
+                      {parseHtml(sentence?.reading || '')}
                     </CardBody>
                   </Card>
                 </Collapse>
@@ -60,9 +58,7 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
                 <Collapse open={openTranslate} className="w-full mt-1">
                   <Card>
                     <CardBody className="px-3 py-2 font-nanumGothic">
-                      <Typography>
-                        {parseHtml(sentence?.translation || '')}
-                      </Typography>
+                      {parseHtml(sentence?.translation || '')}
                     </CardBody>
                   </Card>
                 </Collapse>

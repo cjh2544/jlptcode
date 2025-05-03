@@ -36,11 +36,11 @@ const QuestionTestPage = () => {
         </div>
         <div className="flex-auto bg-white mt-2 sm:p-2 lg:px-10 p-10">
             {levelUpList.map((questionInfo: any, idx: number) => {
-              return (<Question key={`levelUp-test-${idx}`} questionInfo={questionInfo} />)
+              return (<Question key={`strategy-test-${idx}`} questionInfo={questionInfo} />)
             })}
         </div>
         <div className="rounded-b bg-white mb-0 border-t p-6 sticky bottom-0 z-50">
-          <ModalAnswer title={`Level up - ${levelUpInfo.level}`} />
+          <ModalAnswer title={`JLPT 모의고사 - ${levelUpInfo.level}`} />
         </div>
       </div>
     </div>

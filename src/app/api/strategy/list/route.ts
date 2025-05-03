@@ -170,7 +170,7 @@ const getLevelupData = async (level: string, classification: string, questionGro
     questionSizeInfo = questionSize[classification][level];
     
     for(const key in questionSizeInfo) {
-      if(questionGroupType && questionGroupType !== key) continue;
+      if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
       // 1. 문자/어휘 GROUP 문제 조회
       const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
@@ -188,7 +188,7 @@ const getLevelupData = async (level: string, classification: string, questionGro
     questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
-      if(questionGroupType && questionGroupType !== key) continue;
+      if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
       // 1. 문법 GROUP 문제 조회
       const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
@@ -206,7 +206,7 @@ const getLevelupData = async (level: string, classification: string, questionGro
     questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
-      if(questionGroupType && questionGroupType !== key) continue;
+      if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
       // 1. GROUP 문제 조회
       const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
@@ -223,7 +223,7 @@ const getLevelupData = async (level: string, classification: string, questionGro
     questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
-      if(questionGroupType && questionGroupType !== key) continue;
+      if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
       if(key === 'A-10') {
         // 1. GROUP 문제 조회

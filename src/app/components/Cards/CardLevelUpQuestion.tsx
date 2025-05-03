@@ -44,9 +44,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
               <Collapse open={openRead} className="w-full mt-1">
                 <Card>
                   <CardBody className="px-3 py-2 font-nanumGothic">
-                    <Typography>
-                      {parseHtml(reading || '')}
-                    </Typography>
+                    {parseHtml(reading || '')}
                   </CardBody>
                 </Card>
               </Collapse>
@@ -57,9 +55,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
               <Collapse open={openTranslate} className="w-full mt-1">
                 <Card>
                   <CardBody className="px-3 py-2 font-nanumGothic">
-                    <Typography>
-                      {parseHtml(translation || '')}
-                    </Typography>
+                    {parseHtml(translation || '')}
                   </CardBody>
                 </Card>
               </Collapse>
