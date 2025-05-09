@@ -4,7 +4,7 @@ import HeaderTitle from "../Headers/HeaderTitle";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "게시판",
+  title: '게시판',
 };
 
 export default function BoardLayout({
