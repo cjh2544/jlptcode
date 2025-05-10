@@ -45,8 +45,13 @@ const SearchBar = (props: SearchProps) => {
     return codeList.find((data) => data.code === code)?.details || []
   }, [codeList]);
 
+  const getYearCodeDetailList = useCallback(() => {
+    return yearCodeList.find((data) => data.level === levelUpInfo.level)?.details || []
+  }, [yearCodeList, levelUpInfo]);
+
   useEffect(() => {
     getCodeList(['level', 'classification', 'strategyType', 'wordType']);
+    getYearCodeList(['strategy']);
   }, []);
 
   return (
@@ -70,6 +75,19 @@ const SearchBar = (props: SearchProps) => {
               <select id="level" name="level" value={levelUpInfo.level} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.value}>{data.value}</option>)
+                })}
+              </select>
+            </div>
+            <div className="w-full">
+              <label
+                className="block uppercase text-blueGray-600 mb-1"
+                htmlFor="year"
+              >
+                년도
+              </label>
+              <select id="year" name="year" onChange={handleChange} className="uppercase border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                {getYearCodeDetailList().map((year: string, idx:number) => {
+                  return (<option key={idx} value={year}>{year === 'random' ? '랜덤' : year}</option>)
                 })}
               </select>
             </div>
