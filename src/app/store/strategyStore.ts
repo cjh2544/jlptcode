@@ -6,6 +6,7 @@ interface StrategyStore {
     isLoading: boolean,
     levelUpInfo: {
         level?: string;
+        year?: string;
         classification?: string;
         questionGroupType?: string;
     },
@@ -25,6 +26,7 @@ export const useStrategyStore = create<StrategyStore>()(
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
+                year: '',
                 classification: '',
                 questionGroupType: '',
             },
@@ -58,6 +60,7 @@ export const useStrategyStore = create<StrategyStore>()(
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',
+                    year: '',
                     classification: '',
                     questionGroupType: '',
                 },

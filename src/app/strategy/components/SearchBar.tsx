@@ -86,6 +86,7 @@ const SearchBar = (props: SearchProps) => {
                 년도
               </label>
               <select id="year" name="year" onChange={handleChange} className="uppercase border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option value="">랜덤</option>
                 {getYearCodeDetailList().filter((year: string) => year !== 'random').map((year: string, idx:number) => {
                   return (<option key={idx} value={year}>{year}</option>)
                 })}
@@ -99,10 +100,10 @@ const SearchBar = (props: SearchProps) => {
                 과목
               </label>
               <select id="classification" name="classification" value={levelUpInfo.classification} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">전체</option>
                 {getCodeDetailList('classification').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
+                <option value="vocabulary,grammar,reading">언어지식(전체)</option>
               </select>
             </div>
             <div className="w-full">
