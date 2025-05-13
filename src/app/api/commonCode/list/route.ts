@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
 
   const result = await Code.aggregate([ 
     { $match: { code: { $in: codeList }}},
+    { $sort : { sort : 1 } },
     { 
       $lookup: { 
         from: 'code_detail', 
@@ -21,7 +22,17 @@ export async function POST(request: NextRequest) {
         as: 'details' 
       },
     },
-    { $sort : { sort : 1, "details.sort": -1} },
+    {
+      $project: {
+        _id: '$_id',
+        code: '$code',
+        name: '$name',
+        sort: '$sort',
+        details: {
+          $sortArray: { input: "$details", sortBy: { sort: 1 } }
+        }
+      }
+    },
   ]);
 
   return NextResponse.json(result)

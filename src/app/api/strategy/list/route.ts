@@ -329,140 +329,16 @@ const getLevelupDataByYear = async (level: string, year: string, classification:
   // 문자/어휘
   if('vocabulary' === classification) {
     resultData = await LevelUp.find(conditions).sort({sortNo: 1});
-
     levelUpList = [...levelUpList, ...resultData];
-
-    // questionSizeInfo = questionSize[classification][level];
-    
-    // for(const key in questionSizeInfo) {
-    //   if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
-
-    //   // // 1. 문자/어휘 GROUP 문제 조회
-    //   // const groupInfo = await LevelUp.findOne({level, year, classification, questionType: 'group', questionGroupType: key});
-    //   // levelUpList.push(groupInfo);
-
-    //   // 2. 문자/어휘 문제 랜덤 조회
-    //   resultData = await LevelUp.aggregate([
-    //     { $match: {level, year, classification, questionGroupType: key} },
-    //     // { $sample: { size : questionSizeInfo[key] } }
-    //     { $sort: { sortNo: 1 } }
-    //   ]);
-
-    //   levelUpList = [...levelUpList, ...resultData];
-    // }
   } else if('grammar' === classification) {
     resultData = await LevelUp.find(conditions).sort({sortNo: 1});
-
     levelUpList = [...levelUpList, ...resultData];
-
-    // questionSizeInfo = questionSize[classification][level];
-
-    // for(const key in questionSizeInfo) {
-    //   if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
-
-    //   // 1. 문법 GROUP 문제 조회
-    //   const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-    //   levelUpList.push(groupInfo);
-
-    //   // 2. 문법 문제 랜덤 조회
-    //   resultData = await LevelUp.aggregate([
-    //     { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
-    //     { $sample: { size : questionSizeInfo[key] } }
-    //   ]);
-
-    //   levelUpList = [...levelUpList, ...resultData];
-    // }
   } else if('listening' === classification) {
     resultData = await LevelUp.find(conditions).sort({sortNo: 1});
-
     levelUpList = [...levelUpList, ...resultData];
-    // questionSizeInfo = questionSize[classification][level];
-
-    // for(const key in questionSizeInfo) {
-    //   if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
-
-    //   // 1. GROUP 문제 조회
-    //   const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-    //   levelUpList.push(groupInfo);
-
-    //   // 2. 문제 랜덤 조회
-    //   resultData = await LevelUp.aggregate([
-    //     { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
-    //     { $sample: { size : questionSizeInfo[key] } 
-    //   }]);
-    //   levelUpList = [...levelUpList, ...resultData];
-    // }
   } else if('reading' === classification) {
     resultData = await LevelUp.find(conditions).sort({sortNo: 1});
-
     levelUpList = [...levelUpList, ...resultData];
-    // questionSizeInfo = questionSize[classification][level];
-
-    // for(const key in questionSizeInfo) {
-    //   if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
-
-    //   if(key === 'A-10') {
-    //     // 1. GROUP 문제 조회
-    //     const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        
-    //     levelUpList.push(groupInfo);
-
-    //     // 2. 문제 랜덤 조회
-    //     resultData = await LevelUp.aggregate([
-    //       { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
-    //       { $sample: { size : questionSizeInfo[key] } 
-    //     }]);
-
-    //     let qDataList = [];
-
-    //     for (const item of resultData) {
-    //       qDataList.push(item);
-
-    //       qDataList.push(
-    //         await LevelUp.findOne({
-    //           level: item.level,
-    //           year: item.year,
-    //           classification: item.classification,
-    //           questionGroupType: item.questionGroupType,
-    //           questionType: 'normal',
-    //           sortNo: Number(item.sortNo) + 1,
-    //         })
-    //       )
-    //     }
-        
-    //     levelUpList = [...levelUpList, ...qDataList];
-    //   } else if (key === 'A-11') {
-    //     // // 1. GROUP 문제 조회
-    //     // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-    //     // levelUpList.push(groupInfo);
-
-    //     // // 2. 문제 조회
-    //     // resultData = await LevelUp.find({
-    //     //   level: groupInfo.level,
-    //     //   year: groupInfo.year,
-    //     //   classification: groupInfo.classification, 
-    //     //   questionType: { $nin: 'group' }, 
-    //     //   questionGroupType: key,
-    //     // });
-
-    //     const groupInfo = await LevelUp.findOne({
-    //       level,
-    //       year: { $nin: ['random'] }, 
-    //       classification,
-    //       questionGroupType: key
-    //     });
-
-    //     // 2. 문제 조회(전체)
-    //     resultData = await LevelUp.find({
-    //       level, 
-    //       year: groupInfo.year, 
-    //       classification,
-    //       questionGroupType: groupInfo.questionGroupType,
-    //     }).sort({sortNo: 1});
-
-    //     levelUpList = [...levelUpList, ...resultData];
-    //   }
-    // }
   }
 
   let questionNo = 0;
