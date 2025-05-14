@@ -214,10 +214,29 @@ const getLevelupData = async (level: string, year: string, classification: strin
 
       // 2. 문제 랜덤 조회
       resultData = await LevelUp.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } 
       }]);
-      levelUpList = [...levelUpList, ...resultData];
+
+      let qDataList:any = [];
+
+      for (const item of resultData) {
+        qDataList.push(item);
+
+        qDataList = [
+          ...qDataList,
+          ...await LevelUp.find({
+            level: item.level,
+            year: item.year,
+            classification: item.classification,
+            questionGroupType: item.questionGroupType,
+            questionContentNo: item.sortNo,
+            sortNo: Number(item.sortNo) + 1,
+          })
+        ];
+      }
+      
+      levelUpList = [...levelUpList, ...qDataList];
     }
   } else if('reading' === classification) {
     questionSizeInfo = questionSize[classification][level];
@@ -225,7 +244,6 @@ const getLevelupData = async (level: string, year: string, classification: strin
     for(const key in questionSizeInfo) {
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
-      if(key === 'A-10') {
         // 1. GROUP 문제 조회
         const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
         
@@ -237,55 +255,25 @@ const getLevelupData = async (level: string, year: string, classification: strin
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
-        let qDataList = [];
+        let qDataList:any = [];
 
         for (const item of resultData) {
           qDataList.push(item);
 
-          qDataList.push(
-            await LevelUp.findOne({
+          qDataList = [
+            ...qDataList,
+            ...await LevelUp.find({
               level: item.level,
               year: item.year,
               classification: item.classification,
               questionGroupType: item.questionGroupType,
-              questionType: 'normal',
+              questionContentNo: item.sortNo,
               sortNo: Number(item.sortNo) + 1,
             })
-          )
+          ];
         }
         
         levelUpList = [...levelUpList, ...qDataList];
-      } else if (key === 'A-11') {
-        // // 1. GROUP 문제 조회
-        // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        // levelUpList.push(groupInfo);
-
-        // // 2. 문제 조회
-        // resultData = await LevelUp.find({
-        //   level: groupInfo.level,
-        //   year: groupInfo.year,
-        //   classification: groupInfo.classification, 
-        //   questionType: { $nin: 'group' }, 
-        //   questionGroupType: key,
-        // });
-
-        const groupInfo = await LevelUp.findOne({
-          level,
-          year: { $nin: ['random'] }, 
-          classification,
-          questionGroupType: key
-        });
-
-        // 2. 문제 조회(전체)
-        resultData = await LevelUp.find({
-          level, 
-          year: groupInfo.year, 
-          classification,
-          questionGroupType: groupInfo.questionGroupType,
-        }).sort({sortNo: 1});
-
-        levelUpList = [...levelUpList, ...resultData];
-      }
     }
   }
 
@@ -341,16 +329,19 @@ const getLevelupDataByYear = async (level: string, year: string, classification:
     levelUpList = [...levelUpList, ...resultData];
   }
 
-  let questionNo = 0;
 
-  levelUpList.forEach((item, idx) => {
-    item['sortNo'] = idx;
+  // if(year === 'random') {
+  //   let questionNo = 0;
 
-    if((item?.questionType || '') === 'normal') {
-      questionNo++;
-      item.questionNo = questionNo;
-    }
-  })
+  //   levelUpList.forEach((item, idx) => {
+  //     item['sortNo'] = idx;
+
+  //     if((item?.questionType || '') === 'normal') {
+  //       questionNo++;
+  //       item.questionNo = questionNo;
+  //     }
+  //   })
+  // }
 
   return levelUpList;
 }
@@ -370,32 +361,23 @@ export async function POST(request: NextRequest) {
     for(let idx in classificationList) {
       levelUpList = [...levelUpList, ...await getLevelupDataByYear(level, year, classificationList[idx], questionGroupType)];
     }
+  } else {
+    for(let idx in classificationList) {
+      levelUpList = [...levelUpList, ...await getLevelupData(level, year, classificationList[idx], questionGroupType)];
+    }
 
     let questionNo = 0;
-
+  
     levelUpList.forEach((item, idx) => {
       item['sortNo'] = idx;
-
+  
       if((item?.questionType || '') === 'normal') {
         questionNo++;
         item.questionNo = questionNo;
       }
     });
-  } else {
-    for(let idx in classificationList) {
-      levelUpList = [...levelUpList, ...await getLevelupData(level, year, classificationList[idx], questionGroupType)];
-    }
   }
 
-  // if(classification.indexOf(',') > -1) {
-  //   console.log(classificationList);
-
-  //   // for(let cls of classificationList) {
-  //   //   levelUpList = [...levelUpList, ...await getLevelupData(level, cls, '')]
-  //   // }
-  // } else {
-  //   levelUpList = [...levelUpList, ...await getLevelupData(level, classification, questionGroupType)];
-  // }
 
   return NextResponse.json(levelUpList)
 }
