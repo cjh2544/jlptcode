@@ -101,23 +101,23 @@ export async function POST(request: NextRequest) {
     },
     reading: {
       N1: {
-        "A-10": 3,
+        "A-10": 1,
         "A-11": 1,
       },
       N2: {
-        "A-10": 3,
+        "A-10": 1,
         "A-11": 1,
       },
       N3: {
-        "A-10": 3,
+        "A-10": 1,
         "A-11": 1,
       },
       N4: {
-        "A-10": 3,
+        "A-10": 1,
         "A-11": 1,
       },
       N5: {
-        "A-10": 3,
+        "A-10": 1,
         "A-11": 1,
       }
     }
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
     questionSizeInfo = questionSize[classification][level];
 
     for(const key in questionSizeInfo) {
-      if(key === 'A-10') {
+      // if(key === 'A-10') {
         // 1. GROUP 문제 조회
         const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
         
@@ -202,43 +202,12 @@ export async function POST(request: NextRequest) {
               classification: item.classification,
               questionGroupType: item.questionGroupType,
               questionType: 'normal',
-              sortNo: Number(item.sortNo) + 1,
+              questionContentNo: item.questionContentNo,
             })
           )
         }
         
         levelUpList = [...levelUpList, ...qDataList];
-      } else if (key === 'A-11') {
-        // // 1. GROUP 문제 조회
-        // const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        // levelUpList.push(groupInfo);
-
-        // // 2. 문제 조회
-        // resultData = await LevelUp.find({
-        //   level: groupInfo.level,
-        //   year: groupInfo.year,
-        //   classification: groupInfo.classification, 
-        //   questionType: { $nin: 'group' }, 
-        //   questionGroupType: key,
-        // });
-
-        const groupInfo = await LevelUp.findOne({
-          level,
-          year: { $nin: ['random'] }, 
-          classification,
-          questionGroupType: key
-        });
-
-        // 2. 문제 조회(전체)
-        resultData = await LevelUp.find({
-          level, 
-          year: groupInfo.year, 
-          classification,
-          questionGroupType: groupInfo.questionGroupType,
-        }).sort({sortNo: 1});
-
-        levelUpList = [...levelUpList, ...resultData];
-      }
     }
   }
 

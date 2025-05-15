@@ -14,6 +14,8 @@ const Question = (props:QuestionProps) => {
 
   const setLevelUpAnswer = useStrategyStore((state) => state.setLevelUpAnswer);
   const showAnswer = useStrategyStore((state) => state.showAnswer);
+  const showReadButton = useStrategyStore((state) => state.showReadButton);
+  const showTransButton = useStrategyStore((state) => state.showTransButton);
   const { year: searchYear } = useStrategyStore((state) => state.levelUpInfo);
 
   const handleClick = (selectedData: any) => {
@@ -34,7 +36,9 @@ const Question = (props:QuestionProps) => {
               }  
             }
             questionNo={searchYear ? '' : questionNo}
-            id={`levelup-question-${searchYear ? '' : questionNo}`} sentence={sentence} />
+            id={`levelup-question-${searchYear ? '' : questionNo}`} sentence={sentence}
+            showReadButton={showReadButton}
+            showTransButton={showTransButton} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
       )}

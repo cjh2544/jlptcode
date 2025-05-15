@@ -120,7 +120,7 @@ const SearchBar = (props: SearchProps) => {
                 })}
               </select>
             </div>
-            <div className="w-full">
+            <div className="w-full col-end-5">
               <button
                 className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
                 type="button"

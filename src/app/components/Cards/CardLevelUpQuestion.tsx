@@ -10,10 +10,12 @@ type LevelUpQuestionProps = {
   id?: string
   questionNo?: number,
   sentence?: any,
+  showReadButton?: boolean,
+  showTransButton?: boolean,
 }
 
 const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
-  const {questionType, question, id = '', questionNo, sentence = {}} = props;
+  const {questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true} = props;
   const {content = '', audio = {}, image = {}, translate, read} = question;
   const {translation, reading} = sentence;
   const [openTranslate, setOpenTranslate] = React.useState(false);
@@ -32,10 +34,10 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
           <div className="flex flex-wrap" id={id}>
             <div className="mr-1">{`${questionNo ? questionNo + '.' : ''}`}</div>
             <div>{parseHtml(content || '')}</div>
-            {reading && (
+            {showReadButton && reading && (
               <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline">읽기</Button></span>
             )}
-            {translation && (
+            {showTransButton && translation && (
               <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">해석</Button></span>
             )}
           </div>
