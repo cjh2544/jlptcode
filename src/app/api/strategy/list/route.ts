@@ -77,43 +77,43 @@ const questionSize:any = {
   reading: {
     N1: {
       "A-10": 4,
-      "A-11": 9,
-      "A-12": 4,
-      "A-13": 3,
-      "A-14": 4,
-      "A-15": 2,
+      "A-11": 3,
+      "A-12": 1,
+      "A-13": 1,
+      "A-14": 1,
+      "A-15": 1,
     },
     N2: {
       "A-10": 5,
-      "A-11": 9,
+      "A-11": 3,
       "A-12": 0,
-      "A-13": 2,
-      "A-14": 3,
-      "A-15": 2,
+      "A-13": 1,
+      "A-14": 1,
+      "A-15": 1,
     },
     N3: {
       "A-10": 4,
-      "A-11": 6,
-      "A-12": 4,
+      "A-11": 2,
+      "A-12": 1,
       "A-13": 0,
       "A-14": 0,
-      "A-15": 0,
+      "A-15": 1,
     },
     N4: {
-      "A-10": 4,
-      "A-11": 4,
+      "A-10": 1,
+      "A-11": 1,
       "A-12": 0,
       "A-13": 0,
       "A-14": 0,
-      "A-15": 0,
+      "A-15": 1,
     },
     N5: {
-      "A-10": 3,
-      "A-11": 2,
+      "A-10": 1,
+      "A-11": 1,
       "A-12": 0,
       "A-13": 0,
       "A-14": 0,
-      "A-15": 0,
+      "A-15": 1,
     }
   },
   listening: {
@@ -123,7 +123,7 @@ const questionSize:any = {
       "B-3": 6,
       "B-4": 0,
       "B-5": 14,
-      "B-6": 4,
+      "B-6": 1,
     },
     N2: {
       "B-1": 5,
@@ -131,7 +131,7 @@ const questionSize:any = {
       "B-3": 5,
       "B-4": 0,
       "B-5": 12,
-      "B-6": 4,
+      "B-6": 1,
     },
     N3: {
       "B-1": 6,
@@ -213,30 +213,41 @@ const getLevelupData = async (level: string, year: string, classification: strin
       levelUpList.push(groupInfo);
 
       // 2. 문제 랜덤 조회
-      resultData = await LevelUp.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
-        { $sample: { size : questionSizeInfo[key] } 
-      }]);
+      if(key === 'B-6') {
+        // 통합이해 일 경우
+        resultData = await LevelUp.aggregate([
+          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $sample: { size : questionSizeInfo[key] } 
+        }]);
 
-      let qDataList:any = [];
+        let qDataList:any = [];
 
-      for (const item of resultData) {
-        qDataList.push(item);
+        for (const item of resultData) {
+          qDataList.push(item);
 
-        qDataList = [
-          ...qDataList,
-          ...await LevelUp.find({
-            level: item.level,
-            year: item.year,
-            classification: item.classification,
-            questionGroupType: item.questionGroupType,
-            questionContentNo: item.sortNo,
-            sortNo: Number(item.sortNo) + 1,
-          })
-        ];
+          qDataList = [
+            ...qDataList,
+            ...await LevelUp.find({
+              level: item.level,
+              year: item.year,
+              classification: item.classification,
+              questionType: 'normal',
+              questionGroupType: item.questionGroupType,
+              questionContentNo: item.questionContentNo,
+            })
+          ];
+        }
+
+        levelUpList = [...levelUpList, ...qDataList];
+      } else {
+        resultData = await LevelUp.aggregate([
+          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+          { $sample: { size : questionSizeInfo[key] } }
+        ]);
+
+        levelUpList = [...levelUpList, ...resultData];
       }
       
-      levelUpList = [...levelUpList, ...qDataList];
     }
   } else if('reading' === classification) {
     questionSizeInfo = questionSize[classification][level];
@@ -266,10 +277,10 @@ const getLevelupData = async (level: string, year: string, classification: strin
               level: item.level,
               year: item.year,
               classification: item.classification,
+              questionType: 'normal',
               questionGroupType: item.questionGroupType,
-              questionContentNo: item.sortNo,
-              sortNo: Number(item.sortNo) + 1,
-            })
+              questionContentNo: item.questionContentNo,
+            }).sort({sortNo: 1})
           ];
         }
         

@@ -51,6 +51,18 @@ const levelUpSchema = new Schema({
     required: false,
     index: false,
   },
+  // 문제 그룹번호
+  questionGroupNo: {
+    type: Number,
+    required: false,
+    index: true,
+  },
+  // 문제 컨텐츠 그룹번호
+  questionContentNo: {
+    type: Number,
+    required: false,
+    index: true,
+  },
   // 문제
   question: {
     type: QuestionSchema,
