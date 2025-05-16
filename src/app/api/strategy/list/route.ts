@@ -200,6 +200,27 @@ const getLevelupData = async (level: string, year: string, classification: strin
         { $sample: { size : questionSizeInfo[key] } }
       ]);
 
+      // resultData = await LevelUp.aggregate([
+      //   { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+      //   { $sample: { size : questionSizeInfo[key] } 
+      // }]);
+
+      // let qDataList:any = [];
+
+      // for (const item of resultData) {
+      //   qDataList = [
+      //     ...qDataList,
+      //     ...await LevelUp.find({
+      //       level: item.level,
+      //       year: item.year,
+      //       classification: item.classification,
+      //       questionType: { $in: ['content', 'normal'] },
+      //       questionGroupType: item.questionGroupType,
+      //       questionContentNo: item.questionContentNo,
+      //     })
+      //   ];
+      // }
+
       levelUpList = [...levelUpList, ...resultData];
     }
   } else if('listening' === classification) {
@@ -216,22 +237,20 @@ const getLevelupData = async (level: string, year: string, classification: strin
       if(key === 'B-6') {
         // 통합이해 일 경우
         resultData = await LevelUp.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
         let qDataList:any = [];
 
         for (const item of resultData) {
-          qDataList.push(item);
-
           qDataList = [
             ...qDataList,
             ...await LevelUp.find({
               level: item.level,
               year: item.year,
               classification: item.classification,
-              questionType: 'normal',
+              questionType: { $in: ['content', 'normal'] },
               questionGroupType: item.questionGroupType,
               questionContentNo: item.questionContentNo,
             })
@@ -262,22 +281,20 @@ const getLevelupData = async (level: string, year: string, classification: strin
 
         // 2. 문제 랜덤 조회
         resultData = await LevelUp.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
         let qDataList:any = [];
 
         for (const item of resultData) {
-          qDataList.push(item);
-
           qDataList = [
             ...qDataList,
             ...await LevelUp.find({
               level: item.level,
               year: item.year,
               classification: item.classification,
-              questionType: 'normal',
+              questionType: { $in: ['content', 'normal'] },
               questionGroupType: item.questionGroupType,
               questionContentNo: item.questionContentNo,
             }).sort({sortNo: 1})
