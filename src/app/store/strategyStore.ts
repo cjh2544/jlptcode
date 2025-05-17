@@ -31,7 +31,7 @@ export const useStrategyStore = create<StrategyStore>()(
             levelUpInfo: {
                 level: 'N1',
                 year: '',
-                classification: '',
+                classification: 'vocabulary',
                 questionGroupType: '',
             },
             levelUpList: [],
@@ -67,7 +67,7 @@ export const useStrategyStore = create<StrategyStore>()(
                 levelUpInfo: {
                     level: 'N1',
                     year: '',
-                    classification: '',
+                    classification: 'vocabulary',
                     questionGroupType: '',
                 },
                 levelUpList: []
