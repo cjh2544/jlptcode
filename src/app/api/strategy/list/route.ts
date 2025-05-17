@@ -236,26 +236,35 @@ const getLevelupData = async (level: string, year: string, classification: strin
       // 2. 문제 랜덤 조회
       if(key === 'B-6') {
         // 통합이해 일 경우
-        resultData = await LevelUp.aggregate([
-          { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
-          { $sample: { size : questionSizeInfo[key] } 
-        }]);
+        // resultData = await LevelUp.aggregate([
+        //   { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+        //   { $sample: { size : questionSizeInfo[key] } 
+        // }]);
 
-        let qDataList:any = [];
+        // let qDataList:any = [];
 
-        for (const item of resultData) {
-          qDataList = [
-            ...qDataList,
-            ...await LevelUp.find({
-              level: item.level,
-              year: item.year,
-              classification: item.classification,
-              questionType: { $in: ['content', 'normal'] },
-              questionGroupType: item.questionGroupType,
-              questionContentNo: item.questionContentNo,
-            })
-          ];
-        }
+        // for (const item of resultData) {
+        //   qDataList = [
+        //     ...qDataList,
+        //     ...await LevelUp.find({
+        //       level: item.level,
+        //       year: item.year,
+        //       classification: item.classification,
+        //       questionType: { $in: ['content', 'normal'] },
+        //       questionGroupType: item.questionGroupType,
+        //       questionContentNo: item.questionContentNo,
+        //     })
+        //   ];
+        // }
+
+        let qDataList = 
+          await LevelUp.find({
+            level: groupInfo.level,
+            year: groupInfo.year,
+            classification: groupInfo.classification,
+            questionType: { $in: ['content', 'normal'] },
+            questionGroupNo: groupInfo.questionGroupNo,
+          }).sort({sortNo: 1});
 
         levelUpList = [...levelUpList, ...qDataList];
       } else {
