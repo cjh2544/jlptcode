@@ -76,24 +76,24 @@ const questionSize:any = {
   },
   reading: {
     N1: {
-      "A-10": 4,
-      "A-11": 3,
+      "A-10": 1,
+      "A-11": 1,
       "A-12": 1,
       "A-13": 1,
       "A-14": 1,
       "A-15": 1,
     },
     N2: {
-      "A-10": 5,
-      "A-11": 3,
+      "A-10": 1,
+      "A-11": 1,
       "A-12": 0,
       "A-13": 1,
       "A-14": 1,
       "A-15": 1,
     },
     N3: {
-      "A-10": 4,
-      "A-11": 2,
+      "A-10": 1,
+      "A-11": 1,
       "A-12": 1,
       "A-13": 0,
       "A-14": 0,
@@ -229,15 +229,11 @@ const getLevelupData = async (level: string, year: string, classification: strin
     for(const key in questionSizeInfo) {
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
-      // 1. GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-      levelUpList.push(groupInfo);
-
-      // 2. 문제 랜덤 조회
+      // 1. 그룹 문제 랜덤 조회
       if(key === 'B-6') {
         // 통합이해 일 경우
         resultData = await LevelUp.aggregate([
-          { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
@@ -250,9 +246,8 @@ const getLevelupData = async (level: string, year: string, classification: strin
               level: item.level,
               year: item.year,
               classification: item.classification,
-              questionType: { $in: ['content', 'normal'] },
               questionGroupType: item.questionGroupType,
-              questionContentNo: item.questionContentNo,
+              questionGroupNo: item.questionGroupNo,
             })
           ];
         }
@@ -275,13 +270,8 @@ const getLevelupData = async (level: string, year: string, classification: strin
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
         // 1. GROUP 문제 조회
-        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-        
-        levelUpList.push(groupInfo);
-
-        // 2. 문제 랜덤 조회
         resultData = await LevelUp.aggregate([
-          { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 
@@ -294,10 +284,9 @@ const getLevelupData = async (level: string, year: string, classification: strin
               level: item.level,
               year: item.year,
               classification: item.classification,
-              questionType: { $in: ['content', 'normal'] },
               questionGroupType: item.questionGroupType,
-              questionContentNo: item.questionContentNo,
-            }).sort({sortNo: 1})
+              questionGroupNo: item.questionGroupNo,
+            })
           ];
         }
         
