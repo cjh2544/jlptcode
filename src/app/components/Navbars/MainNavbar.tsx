@@ -20,10 +20,10 @@ const mainNavbarMenuList = [
     name: '단어 | 単語 | WORD',
     link: '/word/jlpt',
   },
-  {
-    name: '문의 게시판',
-    link: '/board/community/list',
-  },
+ //{
+ //   name: '문의 게시판',
+ //   link: '/board/community/list',
+  //},
 ];
 
 export default function MainNavbar() {
