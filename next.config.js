@@ -45,6 +45,16 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
   output: 'standalone',
+  async redirects() {
+    return [
+      // Basic redirect
+      {
+        source: '/board/:path*',
+        destination: '/',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
