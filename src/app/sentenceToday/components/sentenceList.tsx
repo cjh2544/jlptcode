@@ -12,7 +12,7 @@ const TABLE_HEAD = [
   { label: "STUDY", visibleBtn: false },
   { label: "番号", visibleBtn: false },
   { label: "文章", visibleBtn: true },
-  // { label: "出題問題", visibleBtn: false },
+  { label: "問題", visibleBtn: false },
 ];
 
 const SentenceList = ({className}: SentenceListProps) => {
@@ -33,7 +33,7 @@ const SentenceList = ({className}: SentenceListProps) => {
             <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
             <col className='sm:w-2/12 lg:w-1/12 w-1/12' />
             <col />
-            {/* <col className='sm:w-2/12 lg:w-2/12 w-1/12' /> */}
+            <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
           </colgroup>
           <thead>
             <tr>

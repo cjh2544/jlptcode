@@ -110,7 +110,7 @@ const WordInfo = (props:WordInfoProps) => {
             </div> 
           </div> 
         </td>
-        {/* <td className="p-4 border-b border-blue-gray-50">
+        <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             {level !== 'N0' && (
               <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
@@ -118,7 +118,7 @@ const WordInfo = (props:WordInfoProps) => {
               </button>
             )}
           </div>
-        </td> */}
+        </td>
       </tr>
       {showQuestion && (
         <tr className="even:bg-blue-gray-50/50">
