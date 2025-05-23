@@ -12,18 +12,18 @@ const mainNavbarMenuList = [
     name: '레벨업(Level up)',
     link: '/levelUp',
   },
-  {
-    name: 'JLPT(2024~2010)',
-    link: '/jlpt',
-  },
+  // {
+  //   name: 'JLPT(2024~2010)',
+  //   link: '/jlpt',
+  // },
   {
     name: '단어 | 単語 | WORD',
     link: '/word/jlpt',
   },
- //{
- //   name: '문의 게시판',
- //   link: '/board/community/list',
-  //},
+ {
+   name: '문의 게시판',
+   link: '/board/community/list',
+  },
 ];
 
 export default function MainNavbar() {

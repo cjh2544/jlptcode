@@ -49,7 +49,7 @@ const nextConfig = {
     return [
       // Basic redirect
       {
-        source: '/board/:path*',
+        source: '/jlpt/:path*',
         destination: '/',
         permanent: true,
       },

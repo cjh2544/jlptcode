@@ -10,12 +10,12 @@ type WordListProps = {
 }
 
 const TABLE_HEAD = [
-  { label: "出題年度", visibleBtn: false },
+  { label: "STUDY", visibleBtn: false },
   { label: "番号", visibleBtn: false },
   { label: "単語", visibleBtn: true, code: 'word' },
   { label: "読み方", visibleBtn: true, code: 'read' },
   { label: "意味", visibleBtn: true, code: 'means' },
-  { label: "出題問題", visibleBtn: false },
+  // { label: "出題問題", visibleBtn: false },
 ];
 
 const WordList = ({className}: WordListProps) => {

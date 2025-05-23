@@ -30,6 +30,12 @@ const grammarTodaySchema = new Schema({
     required: true,
     index: true,
   },
+  // 년도
+  study: {
+    type: String,
+    required: true,
+    index: true,
+  },
   // 문제번호
   sortNo: {
     type: Number,

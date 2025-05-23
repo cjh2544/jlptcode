@@ -30,6 +30,12 @@ const wordTodaySchema = new Schema({
     required: true,
     index: true,
   },
+  // 년도
+  study: {
+    type: String,
+    required: true,
+    index: true,
+  },
   // 일수
   day: {
     type: Number,

@@ -94,13 +94,13 @@ export default function Home() {
       <section className="pb-20 bg-blueGray-200 -mt-24">
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap">
-            <Link scroll={false} href={'/levelUp'} className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
+            <Link scroll={false} href={'/wordToday'} className="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                     <i className="fas fa-paper-plane"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">레벨업<br/>(LEVEL UP)</h6>
+                  <h6 className="text-xl font-semibold">오늘의<br/>일본어</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     과목별 문제를 테스트, 채점기능을 제공한다.
                   </p> */}
@@ -108,13 +108,13 @@ export default function Home() {
               </div>
             </Link>
 
-            <Link scroll={false} href={'/jlpt'} className="w-full md:w-4/12 px-4 text-center">
+            <Link scroll={false} href={'/levelUp'} className="w-full md:w-4/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                     <i className="fas fa-list-ol"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">JLPT<br/>(2024~2010)</h6>
+                  <h6 className="text-xl font-semibold">레벨업<br/>(LEVEL UP)</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     과목별 기출문제를 테스트, 채점기능을 제공한다.
                   </p> */}

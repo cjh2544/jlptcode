@@ -22,13 +22,13 @@ export default function Footer() {
             <div className="w-full md:w-8/12 px-4">
               <ul className="flex flex-wrap list-none md:justify-end  justify-center">
                 <li>
-                  <Link scroll={false} href={'/levelUp'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    레벨업(Level up)
+                  <Link scroll={false} href={'/wordToday'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    오늘의 일본어
                   </Link>
                 </li>
                 <li>
-                  <Link scroll={false} href={'/jlpt'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    JLPT(2024~2010)
+                  <Link scroll={false} href={'/levelUp'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    레벨업(Level up)
                   </Link>
                 </li>
                 <li>
