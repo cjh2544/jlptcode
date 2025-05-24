@@ -1,5 +1,5 @@
 'use client';
-import { useWordTodayStore } from '@/app/store/wordTodayStore';
+import { useSentenceTodayStore } from '@/app/store/sentenceTodayStore';
 import { Button } from "@material-tailwind/react";
 import { memo } from 'react';
 
@@ -8,8 +8,8 @@ type HeaderButtonProps = {
 }
 
 const HeaderButton = ({colName}: HeaderButtonProps) => {
-  const hideAll = useWordTodayStore(state => state.hideAll);
-  const setHideAllInfo = useWordTodayStore(state => state.setHideAllInfo);
+  const hideAll = useSentenceTodayStore(state => state.hideAll);
+  const setHideAllInfo = useSentenceTodayStore(state => state.setHideAllInfo);
 
   const handleClickHeader = (colName: string) => {
     setHideAllInfo({...hideAll, [colName]: !hideAll[colName]});
