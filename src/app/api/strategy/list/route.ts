@@ -51,27 +51,27 @@ const questionSize:any = {
     N1: {
       "A-7": 10,
       "A-8": 5,
-      "A-9": 5,
+      "A-9": 1,
     },
     N2: {
       "A-7": 12,
       "A-8": 5,
-      "A-9": 5,
+      "A-9": 1,
     },
     N3: {
       "A-7": 13,
       "A-8": 5,
-      "A-9": 5,
+      "A-9": 1,
     },
     N4: {
       "A-7": 15,
       "A-8": 5,
-      "A-9": 5,
+      "A-9": 1,
     },
     N5: {
       "A-7": 16,
       "A-8": 5,
-      "A-9": 5,
+      "A-9": 1,
     }
   },
   reading: {
@@ -190,38 +190,43 @@ const getLevelupData = async (level: string, year: string, classification: strin
     for(const key in questionSizeInfo) {
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
-      // 1. 문법 GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
-      levelUpList.push(groupInfo);
+      // 1. 그룹 문제 랜덤 조회
+      if(key === 'A-9') {
+        // 문장문법 일 경우
+        resultData = await LevelUp.aggregate([
+          { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
+          { $sample: { size : questionSizeInfo[key] } 
+        }]);
 
-      // 2. 문법 문제 랜덤 조회
-      resultData = await LevelUp.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
-        { $sample: { size : questionSizeInfo[key] } }
-      ]);
+        let qDataList:any = [];
 
-      // resultData = await LevelUp.aggregate([
-      //   { $match: { $expr: {$eq: ["$questionContentNo", "$sortNo"]}, level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
-      //   { $sample: { size : questionSizeInfo[key] } 
-      // }]);
+        for (const item of resultData) {
+          qDataList = [
+            ...qDataList,
+            ...await LevelUp.find({
+              level: item.level,
+              year: item.year,
+              classification: item.classification,
+              questionGroupType: item.questionGroupType,
+              questionGroupNo: item.questionGroupNo,
+            })
+          ];
+        }
 
-      // let qDataList:any = [];
+        levelUpList = [...levelUpList, ...qDataList];
+      } else {
+        // 1. 문법 GROUP 문제 조회
+        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        levelUpList.push(groupInfo);
 
-      // for (const item of resultData) {
-      //   qDataList = [
-      //     ...qDataList,
-      //     ...await LevelUp.find({
-      //       level: item.level,
-      //       year: item.year,
-      //       classification: item.classification,
-      //       questionType: { $in: ['content', 'normal'] },
-      //       questionGroupType: item.questionGroupType,
-      //       questionContentNo: item.questionContentNo,
-      //     })
-      //   ];
-      // }
+        // 2. 문법 문제 랜덤 조회
+        resultData = await LevelUp.aggregate([
+          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+          { $sample: { size : questionSizeInfo[key] } }
+        ]);
 
-      levelUpList = [...levelUpList, ...resultData];
+        levelUpList = [...levelUpList, ...resultData];
+      }
     }
   } else if('listening' === classification) {
     questionSizeInfo = questionSize[classification][level];
@@ -254,6 +259,10 @@ const getLevelupData = async (level: string, year: string, classification: strin
 
         levelUpList = [...levelUpList, ...qDataList];
       } else {
+        // 1. GROUP 문제 조회
+        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        levelUpList.push(groupInfo);
+
         resultData = await LevelUp.aggregate([
           { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } }
