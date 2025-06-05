@@ -12,28 +12,22 @@ const QuestionSchema = new Schema({
   audio: String
 });
 
+// 문장
+const SentenceSchema = new Schema({
+  translation: String,
+  reading: String
+});
+
 const jlptTestSchema = new Schema({
-  // 년도
-  year: {
-    type: Number,
-    required: true,
-    index: true,
-  },
-  // 월
-  month: {
-    type: String,
-    required: true,
-    index: true,
-  },
   // 등급
   level: {
     type: String,
     required: true,
     index: true,
   },
-  // 문제번호
-  sortNo: {
-    type: Number,
+  // 테스트 차수수
+  test: {
+    type: String,
     required: true,
     index: true,
   },
@@ -43,27 +37,33 @@ const jlptTestSchema = new Schema({
     enum: ['vocabulary', 'grammar ', 'reading', 'listening'],
     required: true,
   },
-  // 문제번호
-  questionNo: {
-    type: Number,
-    required: false,
-    index: false,
+  // 문제 구분
+  questionType: {
+    type: String,
+    enum: ['group', 'content', 'normal'],  // group: 그룹문제, content: 지문, normal: 일반문제
+    required: true,
   },
   // 문제
   question: {
     type: QuestionSchema,
     required: true,
   },
-  // 해석
-  translation: {
-    type: Array,
-    require: false,
-  },
-  // 문제 구분
-  questionType: {
-    type: String,
-    enum: ['group', 'content', 'normal'],  // group: 그룹문제, content: 지문, normal: 일반문제
+  // 문제번호
+  sortNo: {
+    type: Number,
     required: true,
+    index: true,
+  },
+  // 문제번호
+  questionNo: {
+    type: Number,
+    required: false,
+    index: false,
+  },
+  // 해석
+  sentence: {
+    type: SentenceSchema,
+    require: false,
   },
   // 선택지
   choices: {
