@@ -22,7 +22,9 @@ const QuestionSchema = new Schema({
 // 문장
 const SentenceSchema = new Schema({
   translation: String,
-  reading: String
+  reading: String,
+  en: String,
+  cn: String,
 });
 
 const jlptTestSchema = new Schema({
