@@ -113,7 +113,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                         return (
                           <tr key={`jlpt-question-answer-${idx}`} className="border-b">
                             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center bg-blueGray-50 text-gray-800">
-                              {item.questionNo}
+                              {item.classification === 'listening' ? item.questionNoLabel : item.questionNo}
                             </th>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center text-gray-800">
                               {item.selectedAnswer === item.answer ? (
