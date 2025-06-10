@@ -11,5 +11,11 @@ export async function POST(request: NextRequest) {
   
   // const userList = await User.find().select('-password');
 
+  jlptList.forEach((item, idx) => {
+    if((item?.classification || '') === 'listening') {
+      item.questionNo = item.questionNoLabel;
+    }
+  })
+
   return NextResponse.json(jlptList)
 }

@@ -69,6 +69,12 @@ const jlptTestSchema = new Schema({
     required: false,
     index: false,
   },
+  // 문제번호 라벨벨
+  questionNoLabel: {
+    type: String,
+    required: false,
+    index: false,
+  },
   // 해석
   sentence: {
     type: SentenceSchema,
@@ -86,7 +92,7 @@ const jlptTestSchema = new Schema({
   },
 }, {timestamps: true, collection: 'jlpt_test'})
 
-jlptTestSchema.index({ classification: 1, year: 1, month: 1, level: 1, sortNo: 1 }, { unique: true });
+jlptTestSchema.index({ classification: 1, test: 1, month: 1, level: 1, sortNo: 1 }, { unique: true });
 
 const JlptTest = models?.jlptTest || model('jlptTest', jlptTestSchema)
 
