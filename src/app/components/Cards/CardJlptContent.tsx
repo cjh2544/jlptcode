@@ -8,10 +8,12 @@ type JlptContentProps = {
   questionType?: string,
   question?: any,
   sentence?: any,
+  showReadButton?: boolean,
+  showTransButton?: boolean,
 }
 
 const CardJlptContent = (props:JlptContentProps) => {
-  const {questionType, question, sentence = {}} = props;
+  const {questionType, question, sentence = {}, showReadButton = true, showTransButton = true} = props;
   const {content = '', audio = {}, image = {}} = question;
   const {translation, reading} = sentence;
 
@@ -31,11 +33,11 @@ const CardJlptContent = (props:JlptContentProps) => {
           <div className="flex flex-wrap">
             <div className="bg-blueGray-200 rounded-lg p-4 flex-col">
               {parseHtml(content || '')}
-              {sentence?.translation && (
-                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1">해석</Button></span>
+              {showReadButton && sentence?.reading && (
+                <span><Button onClick={toggleOpenRead} className="px-2 py-1">읽기</Button></span>
               )}
-              {sentence?.reading && (
-                <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">읽기</Button></span>
+              {showTransButton && sentence?.translation && (
+                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
               )}
               {openTranslate && (
                 <div className="flex flex-wrap">

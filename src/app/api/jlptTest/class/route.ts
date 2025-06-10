@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
           $push: { 
             classification: '$_id.classification', 
             years: {
-              $sortArray: { input: "$tests", sortBy: -1 }
+              $sortArray: { input: "$tests", sortBy: 1 }
             },
             classificationNm: {
               $switch: {

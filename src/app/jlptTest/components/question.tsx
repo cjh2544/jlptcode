@@ -14,6 +14,8 @@ const Question = (props:QuestionProps) => {
 
   const setJlptAnswer = useJlptTestStore((state) => state.setJlptAnswer);
   const showAnswer = useJlptTestStore((state) => state.showAnswer);
+  const showReadButton = useJlptTestStore((state) => state.showReadButton);
+  const showTransButton = useJlptTestStore((state) => state.showTransButton);
 
   const handleClick = (selectedData: any) => {
     setJlptAnswer(selectedData);
@@ -21,11 +23,11 @@ const Question = (props:QuestionProps) => {
 
   return (
     <>
-      {questionType === 'group' && <CardJlptQuestion questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardJlptContent questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'group' && <CardJlptQuestion showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'content' && <CardJlptContent showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
       {questionType === 'normal' && (
         <>
-          <CardJlptQuestion classification={classification} questionType={questionType} question={question} sentence={sentence} id={`jlpt-question-${questionNo}`} />
+          <CardJlptQuestion showReadButton={showReadButton} showTransButton={showTransButton} classification={classification} questionType={questionType} question={question} sentence={sentence} id={`jlpt-question-${questionNo}`} />
           <CardJlptAnswer showAnswer={showAnswer} onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} selectedAnswer={selectedAnswer} />
         </>
       )}

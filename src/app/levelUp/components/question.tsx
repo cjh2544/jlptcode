@@ -17,6 +17,8 @@ const Question = (props:QuestionProps) => {
 
   const setLevelUpAnswer = useLevelUpStore((state) => state.setLevelUpAnswer);
   const showAnswer = useLevelUpStore((state) => state.showAnswer);
+  const showReadButton = useLevelUpStore((state) => state.showReadButton);
+    const showTransButton = useLevelUpStore((state) => state.showTransButton);
 
   const handleClick = (selectedData: any) => {
     setLevelUpAnswer(selectedData);
@@ -24,11 +26,11 @@ const Question = (props:QuestionProps) => {
 
   return (
     <>
-      {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardLevelUpContent questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'group' && <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'content' && <CardLevelUpContent showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
       {questionType === 'normal' && (
         <>
-          <CardLevelUpQuestion questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} sentence={sentence} />
+          <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} sentence={sentence} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
       )}

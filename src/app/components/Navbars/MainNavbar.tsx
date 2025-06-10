@@ -12,6 +12,10 @@ const mainNavbarMenuList = [
     name: '레벨업(Level up)',
     link: '/levelUp',
   },
+  {
+    name: 'JLPT TEST',
+    link: '/jlptTest',
+  },
   // {
   //   name: 'JLPT(2024~2010)',
   //   link: '/jlpt',

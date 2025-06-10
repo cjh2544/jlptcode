@@ -32,6 +32,11 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link scroll={false} href={'/jlptTest'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    JLPT TEST
+                  </Link>
+                </li>
+                <li>
                   <Link scroll={false} href={'/word/jlpt'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
                     단어 | 単語 | WORD
                   </Link>

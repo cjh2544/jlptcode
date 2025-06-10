@@ -3,6 +3,8 @@ import { devtools, persist } from 'zustand/middleware';
 
 interface LevelUpStore {
     showAnswer: boolean,
+    showReadButton: boolean,
+    showTransButton: boolean,
     isLoading: boolean,
     levelUpInfo: {
         level: string,
@@ -21,6 +23,8 @@ export const useLevelUpStore = create<LevelUpStore>()(
     devtools(
         persist((set, get) => ({
             showAnswer: false,
+            showReadButton: true,
+            showTransButton: true,
             isLoading: false,
             levelUpInfo: {
                 level: '',
@@ -53,6 +57,8 @@ export const useLevelUpStore = create<LevelUpStore>()(
             },
             init: () => set({ 
                 showAnswer: false,
+                showReadButton: true,
+                showTransButton: true,
                 isLoading: false,
                 levelUpInfo: {
                     level: '',

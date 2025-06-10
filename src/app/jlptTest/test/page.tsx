@@ -13,7 +13,10 @@ const JlptTestPage = () => {
   const jlptList = useJlptTestStore((state) => state.jlptList);
   const isLoading = useJlptTestStore((state) => state.isLoading);
   const showAnswer = useJlptTestStore((state) => state.showAnswer);
+  const showReadButton = useJlptTestStore((state) => state.showReadButton);
+  const showTransButton = useJlptTestStore((state) => state.showTransButton);
   const setShowAnswer = useJlptTestStore((state) => state.setShowAnswer);
+  const setStoreData = useJlptTestStore((state) => state.setStoreData);
 
   return <>
     <JlptTestLayout>
@@ -35,6 +38,14 @@ const JlptTestPage = () => {
               }
               </h6>
               <div className='flex'>
+                <div className="flex items-center mr-1">
+                  <input id="show-read-checkbox" type="checkbox" checked={showReadButton} onChange={() => setStoreData('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                  <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
+                </div>
+                <div className="flex items-center mr-1">
+                  <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => setStoreData('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                  <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
+                </div>
                 <div className="flex items-center mr-1">
                   <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setShowAnswer(!showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                   <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>

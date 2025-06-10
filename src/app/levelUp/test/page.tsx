@@ -10,6 +10,8 @@ import { useJlptStore } from '@/app/store/jlptStore';
 const LevelUpTestPage = () => {
   const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state) => state);
   const showAnswer = useLevelUpStore((state) => state.showAnswer);
+  const showReadButton = useLevelUpStore((state) => state.showReadButton);
+  const showTransButton = useLevelUpStore((state) => state.showTransButton);
   const setStoreData = useLevelUpStore((state) => state.setStoreData);
 
   return <>
@@ -23,6 +25,14 @@ const LevelUpTestPage = () => {
               <div className="text-center flex justify-between">
                 <h6 className="text-blueGray-700 text-xl font-bold">레벨업 문제풀이</h6>
                 <div className='flex'>
+                  <div className="flex items-center mr-1">
+                    <input id="show-read-checkbox" type="checkbox" checked={showReadButton} onChange={() => setStoreData('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
+                  </div>
+                  <div className="flex items-center mr-1">
+                    <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => setStoreData('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
+                  </div>
                   <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setStoreData('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>

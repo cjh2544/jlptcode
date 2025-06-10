@@ -10,10 +10,12 @@ type JlptQuestionProps = {
   question: any,
   id?: string,
   sentence?: any,
+  showReadButton?: boolean,
+  showTransButton?: boolean,
 }
 
 const CardJlptQuestion = (props:JlptQuestionProps) => {
-  const {classification, questionType, question, id = '', sentence} = props;
+  const {classification, questionType, question, id = '', sentence, showReadButton = true, showTransButton = true} = props;
   const {content = '', audio = {}, image = {}} = question;
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
@@ -31,14 +33,14 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
           <div className={`flex-auto px-4 py-2 rounded-lg ${questionType === 'group' ? 'bg-green-400' : 'bg-green-100'}`}>
             <div className="flex flex-wrap" id={id}>
               {parseHtml(content || '')}
-              {sentence?.reading && (
+              {showReadButton && sentence?.reading && (
                 <span>
                   <Button onClick={toggleOpenRead} className="px-2 py-1">
                     {classification === 'listening' ? '문장' : '읽기'}
                   </Button>
                 </span>
               )}
-              {sentence?.translation && (
+              {showTransButton && sentence?.translation && (
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
               )}
             </div>
