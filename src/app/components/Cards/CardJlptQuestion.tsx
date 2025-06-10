@@ -35,7 +35,7 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
               {parseHtml(content || '')}
               {showReadButton && sentence?.reading && (
                 <span>
-                  <Button onClick={toggleOpenRead} className="px-2 py-1">
+                  <Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">
                     {classification === 'listening' ? '문장' : '읽기'}
                   </Button>
                 </span>

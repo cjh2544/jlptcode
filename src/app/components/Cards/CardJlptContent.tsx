@@ -34,7 +34,7 @@ const CardJlptContent = (props:JlptContentProps) => {
             <div className="bg-blueGray-200 rounded-lg p-4 flex-col">
               {parseHtml(content || '')}
               {showReadButton && sentence?.reading && (
-                <span><Button onClick={toggleOpenRead} className="px-2 py-1">읽기</Button></span>
+                <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">읽기</Button></span>
               )}
               {showTransButton && sentence?.translation && (
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
