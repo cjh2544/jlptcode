@@ -34,11 +34,15 @@ const jlptTestSchema = new Schema({
     required: true,
     index: true,
   },
-  // 테스트 차수수
+  // 테스트 차수
   test: {
     type: String,
     required: true,
     index: true,
+  },
+  // 테스트 차수 순서서
+  testSortNo: {
+    type: Number,
   },
   // 분류(과목)
   classification: {
