@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
           level: "$level",
           classification: "$classification",
         },
-        'tests' : {'$addToSet' : { $concat: ['$test']}}
+        'tests' : {'$addToSet' : '$test'}
       }
     },
     { 
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
           $push: { 
             classification: '$_id.classification', 
             years: {
-              $sortArray: { input: "$tests", sortBy: 1 }
+              $sortArray: { input: "$tests", sortBy: -1 }
             },
             classificationNm: {
               $switch: {
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
                 ],
                 default: 4
               }
-            }
+            },
           } 
         }
       }
