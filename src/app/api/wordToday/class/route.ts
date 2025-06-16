@@ -7,11 +7,12 @@ export async function GET(request: NextRequest) {
   await connectDB();
   
   const searchParams = request.nextUrl.searchParams;
-  
+  const ignoreLevels = searchParams.get('ignoreLevels');
+
   const levelList = await WordToday.aggregate([
     {
       $match: {
-        level: { $nin: ['N6'] }
+        level: { $nin: ignoreLevels?.split(',') }
       },
     },
     { 

@@ -12,6 +12,12 @@ const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => 
   return {data, error, isLoading, isValidating, mutate};
 }
 
+const useStudyList = (params: ClassTypeProps, config?: SWRConfiguration) => {
+  const { data, error, isLoading, isValidating, mutate } = useSWR({url: '/api/wordToday/study', params: params.params}, config);
+
+  return {data, error, isLoading, isValidating, mutate};
+}
+
 const useWordList = (params: ClassTypeProps, config?: SWRConfiguration) => {
   // 자동갱신 비활성화
   const { data, error, isLoading, isValidating, mutate } = useSWRImmutable({url: '/api/wordToday/list', params: params, method: 'POST'}, config);
@@ -21,5 +27,6 @@ const useWordList = (params: ClassTypeProps, config?: SWRConfiguration) => {
 
 export {
   useClassTypeList,
+  useStudyList,
   useWordList,
 };
