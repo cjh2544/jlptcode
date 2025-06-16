@@ -62,12 +62,12 @@ const LevelList = (props: LevelListProps) => {
                       displayName: item === 'N0' ? '고득점' : item
                     };
                   })} />
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <span className="h-px flex-1 bg-gray-300"></span>
                   <span className="shrink-0 px-4 text-gray-900">or</span>
                   <span className="h-px flex-1 bg-gray-300"></span>
                 </div>
-                {/* <div className='flex items-center justify-center gap-2'>
+                <div className='flex items-center justify-center gap-2'>
                   <select id="level" name="level" value={''} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     {(levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                       return (<option key={idx} value={item}>{item === 'N0' ? '고득점' : item}</option>)
