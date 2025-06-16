@@ -33,7 +33,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link scroll={false} href={'/jlptTest'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    JLPT TEST
+                    모의고사(TEST)
                   </Link>
                 </li>
                 <li>

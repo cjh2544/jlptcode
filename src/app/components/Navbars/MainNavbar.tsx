@@ -13,7 +13,7 @@ const mainNavbarMenuList = [
     link: '/levelUp',
   },
   {
-    name: 'JLPT TEST',
+    name: '모의고사(TEST)',
     link: '/jlptTest',
   },
   // {

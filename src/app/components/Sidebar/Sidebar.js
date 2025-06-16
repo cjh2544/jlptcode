@@ -161,7 +161,7 @@ export default function Sidebar() {
               <li className="items-center">
                 <Link scroll={false} href="/strategy" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  모의고사 (집중공략)
+                  집중공략
                   <span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
                 </Link>
               </li>
@@ -171,7 +171,7 @@ export default function Sidebar() {
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              JLPT TEST<span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
+              모의고사(TEST)<span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
             </h6>
             {/* Navigation */}
 
