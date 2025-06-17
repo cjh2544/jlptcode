@@ -9,8 +9,9 @@ export async function POST(request: NextRequest) {
   const conditions = await request.json();
   const {level, study} = conditions.params || {}
 
+
   // 1. 단어 조회
-  let wordList = await WordToday.find({level, study}).sort({'wordNo': 1});
+  let wordList = await WordToday.find({level, study}).sort({ [level === 'N6' ? 'wordNo' : 'sortNo']: 1});
   
   return NextResponse.json(wordList)
 }

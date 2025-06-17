@@ -38,13 +38,15 @@ interface SpeakTodayStore {
     wordTodayInfo: {
         level: string,
         levels: string[],
+        study: string,
         idx: number,
     },
     hideAll: HeaderVisibleType,
     wordTodayList: Array<SpeakTodayInfoType>,
-    setSpeakTodayInfo: (wordTodayInfo: any) => void,
+    setSpeakTodayInfo: (wordTodayInfo: any, isSearch?: boolean) => void,
     setSpeakTodayList: (wordTodayList: any) => void,
     getSpeakTodayList: () => void,
+    getSpeakTodayAllList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
@@ -55,6 +57,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
             wordTodayInfo: {
                 level: '',
                 levels: ['N5'],
+                study: '',
                 idx: 0,
             },
             hideAll: {
@@ -67,14 +70,42 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setSpeakTodayInfo: (wordTodayInfo) => set((state) => {
+            setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state) => {
                 state.wordTodayInfo = wordTodayInfo;
-                state.getSpeakTodayList();
+                isSearch && state.getSpeakTodayList();
                 return state;
             }),
             setSpeakTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
             getSpeakTodayList: async () => {
                 const response = await fetch('/api/speakToday/list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().wordTodayInfo}),
+                })
+                const resData = await response.json();
+                set({ 
+                    wordTodayList: resData.map((item: SpeakTodayInfoType) => ({
+                        ...item,
+                        hideSentence: true,
+                        hideSentenceRead: true,
+                        hideSentenceTranslate: false,
+                        hideKeyword: true,
+                    })), 
+                    hideAll: {
+                        word: false,
+                        read: false,
+                        means: false,
+                        sentence: true,
+                        sentence_read: true,
+                        sentence_translate: false,
+                        keyword: true
+                    }
+                });
+            },
+            getSpeakTodayAllList: async () => {
+                const response = await fetch('/api/speakToday/listAll', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -120,6 +151,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                 wordTodayInfo: {
                     level: '',
                     levels: ['N5'],
+                    study: '',
                     idx: 0,
                 },
                 wordTodayList: [],

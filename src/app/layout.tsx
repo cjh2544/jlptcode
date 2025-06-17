@@ -7,21 +7,21 @@ import { SWRProvider } from "./providers/SWRProvider";
 import VisitHistory from "./components/Visit/VisitHistory";
 import { Metadata } from 'next'
 import { Suspense } from "react";
-import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
+// import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
 
-const nanumGothic = Nanum_Gothic({
-  preload: false,
-  weight: ["400", "700", "800"],
-  display: 'swap',
-  adjustFontFallback: false
-});
+// const nanumGothic = Nanum_Gothic({
+//   preload: false,
+//   weight: ["400", "700", "800"],
+//   display: 'swap',
+//   adjustFontFallback: false
+// });
 
-const notoSerifJP = Noto_Serif_JP({
-  preload: false,
-  weight: ["400", "700", "900"],
-  display: 'swap',
-  adjustFontFallback: false
-});
+// const notoSerifJP = Noto_Serif_JP({
+//   preload: false,
+//   weight: ["400", "700", "900"],
+//   display: 'swap',
+//   adjustFontFallback: false
+// });
 
 export const metadata: Metadata = {
   title: {
@@ -56,7 +56,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={`${nanumGothic.className} ${notoSerifJP.className}`}>
+      <body className={``}>
         <SessionProvider>
           <SWRProvider>
             <main>

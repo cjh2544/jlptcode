@@ -59,14 +59,14 @@ const LevelList = (props: LevelListProps) => {
                 <strong></strong>
             </div>
           </div>
-          <div className="flex-auto lg:px-10 py-4">
+          <div className="flex-auto lg:px-10 p-4">
             <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={Number(level?.substring(1,2)) - 1 || 0} data={
               (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                 return {
                   title: item,
                 };
               })} />
-            <div className="flex items-center">
+            <div className="flex items-center pb-3">
               <span className="h-px flex-1 bg-gray-300"></span>
               <span className="shrink-0 px-4 text-gray-900">or</span>
               <span className="h-px flex-1 bg-gray-300"></span>
@@ -84,7 +84,7 @@ const LevelList = (props: LevelListProps) => {
                 })}
               </select>
               <button
-                className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
+                className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
                 type="button"
                 onClick={(e) => handleSearch(e)}
               >

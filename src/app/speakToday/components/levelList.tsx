@@ -1,11 +1,12 @@
 'use client';
-import React, {memo, useEffect} from 'react';
+import React, {ChangeEvent, memo, MouseEvent, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
-import { useClassTypeList } from '@/app/swr/useSpeakToday';
+import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
 
 type LevelListProps = {
   levels?: string,
+  level?: string,
   idx?: number,
   onSearch?: (data: any) => any,
   onClick?: (data: any) => any,
@@ -19,22 +20,49 @@ const levelInfoList = [
   { name: 'TOTAL', levels: ['N1', 'N2', 'N3', 'N4', 'N5', 'N6'] },
 ];
 
+const studyLevelInfoList = [
+  { name: '초급1', level: 'N5' },
+  { name: '초급2', level: 'N4' },
+  { name: '중급', level: 'N3' },
+  { name: '고급1', level: 'N2' },
+  { name: '고급2', level: 'N1' },
+  { name: '드라마', level: 'N6' },
+];
+
 const LevelList = (props: LevelListProps) => {
   const {
-    levels = 'N5', idx = 0
+    levels = 'N5', level = 'N5', idx = 0
   } = props
   
   const wordTodayInfo =useSpeakTodayStore((state) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state) => state.setSpeakTodayInfo);
+  const getSpeakTodayAllList = useSpeakTodayStore((state) => state.getSpeakTodayAllList);
 
-  // const {data: levelInfos = [], isLoading, error} = useClassTypeListNew({params: {level: wordTodayInfo.level || level}});
+  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level || level}});
 
   const handleTabChange = (selectedData: any) => {
-    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, level: '', levels: selectedData.level.split(',')});
+    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(',')});
+  }
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    let eObj:any = {}
+    let isSearch = true;
+
+    eObj = {[e.target.name]: e.target.value};
+
+    if(e.target.name === 'study') {
+      isSearch = false;
+    }
+
+    setSpeakTodayInfo({...wordTodayInfo, ...eObj}, isSearch);
+  }
+
+  const handleSearch = (e: MouseEvent<HTMLElement>) => {
+    getSpeakTodayAllList();
   }
 
   useEffect(() => {
-    setSpeakTodayInfo({...wordTodayInfo, level: '', levels: levels.split(','), idx});
+    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels.split(','), idx});
   }, [])
 
   return (
@@ -47,7 +75,7 @@ const LevelList = (props: LevelListProps) => {
                 {/* <strong></strong> */}
             </div>
           </div>
-          <div className="flex-auto lg:px-10 py-4">
+          <div className="flex-auto lg:px-10 p-4">
             <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={idx} data={
               levelInfoList.map((item: any, idx: number) => {
                 return {
@@ -56,6 +84,31 @@ const LevelList = (props: LevelListProps) => {
                 };
               })
             }/>
+            <div className="flex items-center pb-3">
+              <span className="h-px flex-1 bg-gray-300"></span>
+              <span className="shrink-0 px-4 text-gray-900">or</span>
+              <span className="h-px flex-1 bg-gray-300"></span>
+            </div>
+            <div className='flex items-center justify-center gap-2'>
+              <select id="level" name="level" value={level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                {studyLevelInfoList.map((item: any, idx: number) => {
+                  return (<option key={item.level} value={item.level}>{item.name}</option>)
+                })}
+              </select>
+              <select id="study" name="study" onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option value="">선택</option>
+                {(studyList.find((item: any) => item.level === level)?.studies ?? []).map((studyNm: any, idx: number) => {
+                  return (<option key={idx} value={studyNm}>{studyNm}</option>)
+                })}
+              </select>
+              <button
+                className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
+                type="button"
+                onClick={(e) => handleSearch(e)}
+              >
+                <i className="fas fa-search"></i> 조회
+              </button>
+            </div>
           </div>
         </div>
       </div>
