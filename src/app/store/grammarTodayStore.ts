@@ -29,10 +29,11 @@ interface GrammarTodayStore {
     },
     hideAll: HeaderVisibleType,
     grammarTodayList: Array<GrammarTodayInfoType>,
-    setGrammarTodayInfo: (grammarTodayInfo: any) => void,
+    setGrammarTodayInfo: (grammarTodayInfo: any, isSearch?: boolean) => void,
     setGrammarTodayList: (grammarTodayList: any) => void,
     setGrammarTodayAnswer: (selectedData: any) => void,
     getGrammarTodayList: () => void,
+    getGrammarTodayAllList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
@@ -49,9 +50,9 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
                 sentence_translate: false
             },
             grammarTodayList: [],
-            setGrammarTodayInfo: (grammarTodayInfo) => set((state) => {
+            setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => set((state) => {
                 state.grammarTodayInfo = grammarTodayInfo;
-                state.getGrammarTodayList();
+                isSearch && state.getGrammarTodayList();
                 return state;
             }),
             setGrammarTodayList: (grammarTodayList: Array<any>) => set((state) => ({ grammarTodayList: grammarTodayList })),
@@ -67,6 +68,24 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
             }),
             getGrammarTodayList: async () => {
                 const response = await fetch('/api/grammarToday/list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().grammarTodayInfo}),
+                })
+                const resData = await response.json();
+                set({ 
+                    grammarTodayList: resData, 
+                    hideAll: {
+                        sentence: false,
+                        sentence_read: false,
+                        sentence_translate: false
+                    }
+                });
+            },
+            getGrammarTodayAllList: async () => {
+                const response = await fetch('/api/grammarToday/listAll', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

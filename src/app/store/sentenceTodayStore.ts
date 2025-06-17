@@ -42,10 +42,11 @@ interface SentenceTodayStore {
     },
     hideAll: HeaderVisibleType,
     wordTodayList: Array<SentenceTodayInfoType>,
-    setWordTodayInfo: (wordTodayInfo: any) => void,
+    setWordTodayInfo: (wordTodayInfo: any, isSearch?: boolean) => void,
     setWordTodayList: (wordTodayList: any) => void,
     setWordTodayAnswer: (selectedData: any) => void,
     getWordTodayList: () => void,
+    getWordTodayAllList: () => void,
     setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void,
     init: () => void,
 }
@@ -68,9 +69,9 @@ export const useSentenceTodayStore = create<SentenceTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setWordTodayInfo: (wordTodayInfo) => set((state) => {
+            setWordTodayInfo: (wordTodayInfo, isSearch = true) => set((state) => {
                 state.wordTodayInfo = wordTodayInfo;
-                state.getWordTodayList();
+                isSearch && state.getWordTodayList();
                 return state;
             }),
             setWordTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
@@ -86,6 +87,28 @@ export const useSentenceTodayStore = create<SentenceTodayStore>()(
             }),
             getWordTodayList: async () => {
                 const response = await fetch('/api/sentenceToday/list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().wordTodayInfo}),
+                })
+                const resData = await response.json();
+                set({ 
+                    wordTodayList: resData, 
+                    hideAll: {
+                        word: false,
+                        read: false,
+                        means: false,
+                        sentence: false,
+                        sentence_read: false,
+                        sentence_translate: false,
+                        keyword: false
+                    }
+                });
+            },
+            getWordTodayAllList: async () => {
+                const response = await fetch('/api/sentenceToday/listAll', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
