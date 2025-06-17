@@ -22,7 +22,7 @@ const LevelList = (props: LevelListProps) => {
   const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N6']}});
-  // const {data: studyList = []} = useStudyList({params: {ignoreLevels: ['N6']}});
+  const {data: studyList = []} = useStudyList({params: {ignoreLevels: ['N6']}});
 
   const handleTabChange = (selectedData: any) => {
     setWordTodayInfo({...wordTodayInfo, ...selectedData});
@@ -32,8 +32,13 @@ const LevelList = (props: LevelListProps) => {
       let eObj:any = {}
   
       eObj = {[e.target.name]: e.target.value};
+
+      if(e.target.name === 'level') {
+        console.log(levelInfos[0]?.levels.indexOf(wordTodayInfo.idx));
+        eObj = {...eObj, idx: levelInfos[0]?.levels.findIndex((level: string, index: number, arr: any) => level === e.target.value)}
+      }
   
-      // setLevelUpInfo({...levelUpInfo, ...eObj});
+      setWordTodayInfo({...wordTodayInfo, ...eObj});
     }
 
   useEffect(() => {
@@ -68,14 +73,14 @@ const LevelList = (props: LevelListProps) => {
                   <span className="h-px flex-1 bg-gray-300"></span>
                 </div>
                 <div className='flex items-center justify-center gap-2'>
-                  <select id="level" name="level" value={''} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                  <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     {(levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                       return (<option key={idx} value={item}>{item === 'N0' ? '고득점' : item}</option>)
                     })}
                   </select>
-                  <select id="level" name="level" value={''} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    {(levelInfos[0]?.levels || []).map((item: any, idx: number) => {
-                      return (<option key={idx} value={item}>{item === 'N0' ? '고득점' : item}</option>)
+                  <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                    {(studyList.find((item: any) => item.level === wordTodayInfo.level)?.studies ?? []).map((study: any, idx: number) => {
+                      return (<option key={idx} value={study}>{study}</option>)
                     })}
                   </select>
                   <button

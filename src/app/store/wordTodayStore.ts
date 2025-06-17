@@ -38,6 +38,7 @@ interface WordTodayStore {
     wordTodayInfo: {
         level: string,
         levels: string[],
+        study: string,
         idx: number,
     },
     hideAll: HeaderVisibleType,
@@ -56,6 +57,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
             wordTodayInfo: {
                 level: '',
                 levels: ['N5'],
+                study: '',
                 idx: 0,
             },
             hideAll: {
@@ -125,6 +127,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 wordTodayInfo: {
                     level: '',
                     levels: ['N5'],
+                    study: '',
                     idx: 0,
                 },
                 wordTodayList: [],
