@@ -50,7 +50,9 @@ const LevelList = (props: LevelListProps) => {
 
     eObj = {[e.target.name]: e.target.value};
 
-    if(e.target.name === 'study') {
+    if(e.target.name === 'level') {
+      isSearch = false;
+    } else if(e.target.name === 'study') {
       isSearch = false;
     }
 
@@ -62,7 +64,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels.split(','), idx});
+    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels.split(','), study: '', idx});
   }, [])
 
   return (

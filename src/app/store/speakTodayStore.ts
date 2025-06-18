@@ -55,7 +55,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
     devtools(
         persist((set, get) => ({
             wordTodayInfo: {
-                level: '',
+                level: 'N5',
                 levels: ['N5'],
                 study: '',
                 idx: 0,
@@ -149,7 +149,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
             })),
             init: () => set({ 
                 wordTodayInfo: {
-                    level: '',
+                    level: 'N5',
                     levels: ['N5'],
                     study: '',
                     idx: 0,

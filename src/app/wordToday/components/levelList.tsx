@@ -49,8 +49,8 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setWordTodayInfo({...wordTodayInfo, level, idx});
-  }, [])
+    setWordTodayInfo({...wordTodayInfo, level, study: '', idx});
+  }, [level])
 
   return (
     <>

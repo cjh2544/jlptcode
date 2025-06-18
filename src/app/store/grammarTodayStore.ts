@@ -26,6 +26,7 @@ type HeaderVisibleType = {
 interface GrammarTodayStore {
     grammarTodayInfo: {
         level: string,
+        study: string,
     },
     hideAll: HeaderVisibleType,
     grammarTodayList: Array<GrammarTodayInfoType>,
@@ -43,6 +44,7 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
         persist((set, get) => ({
             grammarTodayInfo: {
                 level: '',
+                study: '',
             },
             hideAll: {
                 sentence: false,
@@ -115,6 +117,7 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
             init: () => set({ 
                 grammarTodayInfo: {
                     level: '',
+                    study: '',
                 },
                 grammarTodayList: [],
                 hideAll: {

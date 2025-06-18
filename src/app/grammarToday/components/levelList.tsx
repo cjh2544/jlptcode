@@ -46,7 +46,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setGrammarTodayInfo({...grammarTodayInfo, level: level});
+    setGrammarTodayInfo({...grammarTodayInfo, level, study: ''});
   }, [level])
 
   return (
