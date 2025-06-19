@@ -1,6 +1,7 @@
 'use client';
 import React, {memo, MouseEvent, useEffect, useState} from "react";
 import { format } from "date-fns";
+import { PAYMENT_PERIOD } from "@/app/constants/constants";
 
 type MemberRowInfoProps = {
   userInfo: User,
@@ -58,12 +59,19 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
                             </button>
                         </div>
                         <div className="p-4 md:p-5 space-y-4">
-                            <p className="text-base leading-relaxed text-gray-500">
-                                With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                            </p>
-                            <p className="text-base leading-relaxed text-gray-500">
-                                The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                            </p>
+                            {PAYMENT_PERIOD.map((item: any, idx: number) =>{
+                                return (
+                                    // <div className="flex items-center mb-4">
+                                    //     <input id={`payment-period-${idx}`} type="radio" value={item.value} name={`payment-period-${idx}`} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
+                                    //     <label htmlFor={`payment-period-${idx}`} className="ms-2 text-sm font-medium text-gray-900">{item.name}</label>
+                                    // </div>
+
+                                    <label key={`payment-period-${idx}`}  className="flex items-center mb-4">
+                                        <input type="radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name={`payment-period`} value={item.value} />
+                                        <span className="ml-2">{item.name}</span>
+                                    </label>
+                                )
+                            })}
                         </div>
                         <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
                             <button onClick={() => handleSave('aaaaaaaaaaa')} data-modal-hide="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">적용</button>
