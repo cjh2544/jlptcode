@@ -61,11 +61,6 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
                         <div className="p-4 md:p-5 space-y-4">
                             {PAYMENT_PERIOD.map((item: any, idx: number) =>{
                                 return (
-                                    // <div className="flex items-center mb-4">
-                                    //     <input id={`payment-period-${idx}`} type="radio" value={item.value} name={`payment-period-${idx}`} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" />
-                                    //     <label htmlFor={`payment-period-${idx}`} className="ms-2 text-sm font-medium text-gray-900">{item.name}</label>
-                                    // </div>
-
                                     <label key={`payment-period-${idx}`}  className="flex items-center mb-4">
                                         <input type="radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name={`payment-period`} value={item.value} />
                                         <span className="ml-2">{item.name}</span>
