@@ -5,3 +5,9 @@ export const PAYMENT_PERIOD = [
   { name: '프리미엄회원', value: 'P' },
   { name: '평생회원', value: 'U' },
 ]
+
+// 회원구분
+export const USER_ROLE = {
+  USER: 'user',
+  ADMIN: 'admin',
+}

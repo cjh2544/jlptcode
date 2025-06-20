@@ -8,5 +8,6 @@ export const config = {
         '/board/community/write',
         '/board/community/modify',
         '/board/community/reply',
+        '/member/:path*',
     ],
 }
