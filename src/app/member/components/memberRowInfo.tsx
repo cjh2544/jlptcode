@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { PAYMENT_PERIOD } from "@/app/constants/constants";
 import { z } from "zod";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
-import { parseKorDateTime } from "@/app/utils/common";
+import { formatToSeoulTime } from "@/app/utils/common";
 
 type MemberRowInfoProps = {
   userInfo: User,
@@ -86,12 +86,12 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
           <p className="text-gray-900">
-              {format(userInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+            {format(userInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
           <p className="text-gray-900">
-              {format(userInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+              {/* {formatToSeoulTime(userInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')} */}
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
