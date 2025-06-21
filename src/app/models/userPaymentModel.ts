@@ -1,7 +1,8 @@
 import { Schema, model, models } from 'mongoose'
+import moment from 'moment-timezone';
 
 // 지출정보 스키마
-const PaymentInfo = new Schema({
+const paymentInfoSchema = new Schema({
   paymentType: {
     type: String,
     required: true,
@@ -14,7 +15,7 @@ const PaymentInfo = new Schema({
     type: Date,
     required: true,
   },
-});
+}, {timestamps: true});
 
 const userPaymentSchema = new Schema({
   email: {
@@ -22,9 +23,9 @@ const userPaymentSchema = new Schema({
     required: true,
     unique: true,
   },
-  payments: [PaymentInfo],
+  payments: [paymentInfoSchema],
 }, {timestamps: true, collection: 'user_payment'})
 
-const UserPayment = models?.userPayment || model('user_payment', userPaymentSchema, 'user_payment')
+const UserPayment = models?.userPayment || model('userPayment', userPaymentSchema, 'user_payment')
 
 export default UserPayment;

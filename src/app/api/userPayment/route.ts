@@ -66,9 +66,31 @@ export async function POST(req: NextRequest, res: NextResponse) {
     } else {
 
       // 회원 결제정보 조회
-      const userPayInfo:any = await UserPayment.find({
+      const userPayInfo:any = await UserPayment.findOne({
         email: userPaymentInfo.email
-      })
+      });
+
+      // 조건: 항목이 input 범위와 겹치면 포함
+      const filtered = userPayInfo.payments.filter((item:any) => {
+        const startDate = new Date(item.startDate);
+        const endDate = new Date(item.endDate);
+
+        const yyyyStart = startDate.getFullYear();
+        const mmStart = String(startDate.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작
+        const ddStart = String(startDate.getDate()).padStart(2, '0');
+
+        const formattedStart = `${yyyyStart}-${mmStart}-${ddStart}`;
+
+        const yyyyEnd = endDate.getFullYear();
+        const mmEnd = String(endDate.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작
+        const ddEnd = String(endDate.getDate()).padStart(2, '0');
+
+        const formattedEnd = `${yyyyEnd}-${mmEnd}-${ddEnd}`;
+
+        return formattedEnd >= '2025-05-21' && formattedStart <= '2025-04-20'
+      });
+
+      console.log(filtered);
       
       // 기간 계산
       let paymentInfo: any = {
@@ -86,19 +108,34 @@ export async function POST(req: NextRequest, res: NextResponse) {
         }
       }
 
-      const resultInsert = await UserPayment.create({
-        email: userPaymentInfo.email,
-        payments: [
-          ...userInfo.payments || [],
-          paymentInfo
-        ]
-      });
+      // 등록된 정보가 없을 경우
+      if(isEmpty(userPayInfo)) {
+        const resultInsert = await UserPayment.create({
+          email: userPaymentInfo.email,
+          payments: [
+            paymentInfo
+          ]
+        });
 
-      if(isEmpty(resultInsert)) {
-        resultInfo = { success: false, message: '처리되지 않았습니다.' };
+        if(isEmpty(resultInsert)) {
+          resultInfo = { success: false, message: '처리되지 않았습니다.' };
+        } else {
+          resultInfo = { success: true, message: '정상처리 되었습니다.' };
+        }
       } else {
-        resultInfo = { success: true, message: '정상처리 되었습니다.' };
+        const resultUpdate = await UserPayment.updateOne({
+          email: userPaymentInfo.email,
+        }, {
+          $push: { payments: paymentInfo }
+        });
+        
+        if(isEmpty(resultUpdate)) {
+          resultInfo = { success: false, message: '처리되지 않았습니다.' };
+        } else {
+          resultInfo = { success: true, message: '정상처리 되었습니다.' };
+        }
       }
+
     }
   } else {
     resultInfo = validation;
