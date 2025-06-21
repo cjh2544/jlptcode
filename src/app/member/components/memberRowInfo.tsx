@@ -39,7 +39,7 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
       })
 
       const data = await response.json();
-      
+      console.log(data);
       if(data.success) {
         // setUserPayInfo(Object.fromEntries(formData));
         setConfirmMsg(data.message);
