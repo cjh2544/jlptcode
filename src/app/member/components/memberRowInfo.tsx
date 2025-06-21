@@ -3,6 +3,7 @@ import React, {FormEvent, memo, MouseEvent, useEffect, useState} from "react";
 import { format } from "date-fns";
 import { PAYMENT_PERIOD } from "@/app/constants/constants";
 import { z } from "zod";
+import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 
 type MemberRowInfoProps = {
   userInfo: User,
@@ -17,6 +18,7 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
   const [errors, setErrors] = useState<Array<any> | null>(null)
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const [confirmMsg, setConfirmMsg] = useState<string>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
   const [isSuccess, setSuccess] = useState<boolean>(false)
   // const [userPayInfo, setUserPayInfo] = useState<any>({})
   const [showModal, setShowModal] = useState(false);
@@ -25,10 +27,15 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
     setShowModal(false);
   }
 
+  const handleCloseModal = async (visible: boolean) => {
+    setShowConfirm(visible);
+  }
+
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true)
     setErrors(null)
+    setConfirmType('info');
   
     try {
       const formData = new FormData(event.currentTarget);
@@ -39,7 +46,7 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
       })
 
       const data = await response.json();
-      console.log(data);
+      
       if(data.success) {
         // setUserPayInfo(Object.fromEntries(formData));
         setConfirmMsg(data.message);
@@ -49,6 +56,7 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
         if(data.error) {
           setErrors(data.error.issues);
         } else {
+          setConfirmType('warning');
           setConfirmMsg(data.message);
           setShowConfirm(true);
         }
@@ -87,6 +95,7 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
             <div className={`${showModal ? '' : 'hidden'} backdrop-blur-md drop-shadow-lg fixed inset-0 px-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]`}>
                 <div className="relative p-4 w-full max-w-2xl max-h-full">
                     <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+                        <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
                         <form onSubmit={onSubmit}>
                           <input type="hidden" name="email" value={userInfo?.email ?? ''} />
                           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
