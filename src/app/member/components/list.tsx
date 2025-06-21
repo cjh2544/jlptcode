@@ -68,6 +68,9 @@ const MmeberList = (props: BoardListProps) => {
                         등록일자
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        유료기간
+                    </th>
+                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         유료구분
                     </th>
                 </tr>
@@ -78,7 +81,7 @@ const MmeberList = (props: BoardListProps) => {
                   (
                     <>
                       <tr>
-                        <td colSpan={4}>
+                        <td colSpan={5}>
                           <LoadingSkeleton />
                         </td>
                       </tr>
@@ -87,7 +90,7 @@ const MmeberList = (props: BoardListProps) => {
                     isEmpty(userList) ? (
                       <>
                         <tr>
-                          <td colSpan={4}>
+                          <td colSpan={5}>
                             <EmptyData />
                           </td>
                         </tr>

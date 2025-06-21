@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 const parseContent = (content: any) => {
   if(!content) return '';
 
@@ -22,4 +24,11 @@ const parseContent = (content: any) => {
   return (qList || []).join('').trim();
 }
 
-export {parseContent}
+const parseKorDateTime = (date: Date | undefined, format: string = 'YYYY-MM-DD') => {
+  return moment.tz(date, 'UTC').tz('Asia/Seoul').format(format) ?? '';
+}
+
+export {
+  parseContent,
+  parseKorDateTime
+}
