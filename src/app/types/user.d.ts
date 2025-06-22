@@ -5,4 +5,6 @@ type User = {
   image?: string | null;
   createdAt?: string;
   updatedAt?: string;
+  lastPayment?: Array;
+  isValid?: boolean;
 }

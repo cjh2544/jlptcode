@@ -11,77 +11,100 @@ export async function POST(request: NextRequest) {
   
   const { keyword } = searchInfo;
   
-  let conditions:any = {};
+  const page = pageInfo.currentPage;           // 페이지 번호
+  const limit = pageInfo.pageSize;         // 한 페이지 당 문서 수
+  const skip = (page - 1) * limit;
 
-  if(keyword) {
-    conditions = {
-      ...conditions,
-      $or: [ 
-        { name: { $regex: keyword } },
-        { email: { $regex: keyword } }
-      ],
-    }
-  }
+  const pipeline:any = [
+    // 1. keyword 검색: name 또는 email
+    ...(keyword
+      ? [{
+          $match: {
+            $or: [
+              { name: { $regex: keyword, $options: 'i' } },
+              { email: { $regex: keyword, $options: 'i' } }
+            ]
+          }
+        }]
+      : []),
 
-  const userList = await User.find(conditions)
-  .limit(pageInfo.pageSize * 1)
-  .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
-  .sort({createdAt:-1, updatedAt:-1 })
-  .exec()
+    // 2. userPayment 조인
+    {
+      $lookup: {
+        from: 'user_payment',
+        localField: 'email',
+        foreignField: 'email',
+        as: 'paymentInfo'
+      }
+    },
 
-  // const userList = await User.aggregate([
-  //   // 1. 검색 조건 추가 (이 부분 중요!)
-  //   {
-  //     $match: {
-  //       $or: [
-  //         { name: { $regex: matchStage, $options: 'i' } },     // 대소문자 무시
-  //         { email: { $regex: matchStage, $options: 'i' } }
-  //       ]
-  //     }
-  //   },
+    // 3. 단일 paymentInfo 객체로
+    {
+      $addFields: {
+        paymentInfo: {
+          $ifNull: [{ $arrayElemAt: ['$paymentInfo', 0] }, {}]
+        }
+      }
+    },
 
-  //   // 2. userpayment 조인
-  //   {
-  //     $lookup: {
-  //       from: "userPayment",
-  //       localField: "email",
-  //       foreignField: "email",
-  //       as: "paymentInfo"
-  //     }
-  //   },
+    // 4. payments 배열이 null인 경우 대비
+    {
+      $addFields: {
+        paymentsArray: { $ifNull: ['$paymentInfo.payments', []] }
+      }
+    },
 
-  //   // 3. 조인 결과 평탄화
-  //   {
-  //     $unwind: {
-  //       path: "$paymentInfo",
-  //       preserveNullAndEmptyArrays: true
-  //     }
-  //   },
+    // 5. lastPayment 추출
+    {
+      $addFields: {
+        lastPayment: {
+          $cond: [
+            { $gt: [{ $size: '$paymentsArray' }, 0] },
+            { $arrayElemAt: ['$paymentsArray', -1] },
+            null
+          ]
+        }
+      }
+    },
 
-  //   // 4. 마지막 결제 내역 추출
-  //   {
-  //     $addFields: {
-  //       lastPayment: { $arrayElemAt: ["$paymentInfo.payments", -1] }
-  //     }
-  //   },
+    // 6. lastPayment 기준 isValid 계산 (오늘 날짜가 범위 안에 있는지)
+    {
+      $addFields: {
+        isValid: {
+          $cond: [
+            {
+              $and: [
+                { $lte: ['$lastPayment.startDate', '$$NOW'] },
+                { $gte: ['$lastPayment.endDate', '$$NOW'] }
+              ]
+            },
+            true,
+            false
+          ]
+        }
+      }
+    },
 
-  //   // 5. 필요한 필드만 반환
-  //   {
-  //     $project: {
-  //       _id: 0,
-  //       email: 1,
-  //       name: 1,
-  //       createdAt: 1,
-  //       updatedAt: 1,
-  //       lastPayment: 1
-  //     }
-  //   },
+    // 7. 필요한 필드 선택
+    {
+      $project: {
+        _id: 0,
+        email: 1,
+        name: 1,
+        createdAt: 1,
+        updatedAt: 1,
+        lastPayment: 1,
+        isValid: 1
+      }
+    },
 
-  //   // 6. 정렬, 페이징
-  //   { $sort: { createdAt: -1, updatedAt: -1 } },
-  //   { $skip: (pageInfo.currentPage - 1) * pageInfo.pageSize },
-  //   { $limit: pageInfo.pageSize * 1 }
-  // ]);
+    // 8. 정렬 + 페이징
+    { $sort: { createdAt: -1, updatedAt: -1 } },
+    { $skip: skip },
+    { $limit: limit }
+  ];
+
+  const userList = await User.aggregate(pipeline);
   
   return NextResponse.json(userList)
 }

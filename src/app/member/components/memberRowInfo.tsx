@@ -91,7 +91,8 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
           <p className="text-gray-900">
-              {/* {formatToSeoulTime(userInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')} */}
+              {userInfo?.lastPayment?.startDate && format(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd HH:mm:ss')}<br />
+              ~ {userInfo?.lastPayment?.endDate && format(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd HH:mm:ss')}
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
