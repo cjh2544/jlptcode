@@ -1,5 +1,4 @@
 import { Schema, model, models } from 'mongoose'
-import moment from 'moment-timezone';
 
 // 지출정보 스키마
 const paymentInfoSchema = new Schema({
