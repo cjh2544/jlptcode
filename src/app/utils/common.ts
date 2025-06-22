@@ -1,10 +1,6 @@
-import { format, isValid, parseISO } from 'date-fns';
-import { toZonedTime } from 'date-fns-tz';
-import { ko } from 'date-fns/locale'
+import { format, toZonedTime } from 'date-fns-tz';
 
-const TIME_ZONE = 'Asia/Seoul';
-
-const parseContent = (content: any) => {
+export const parseContent = (content: any) => {
   if(!content) return '';
 
   let qList = content.map((qItem: any) => {
@@ -28,32 +24,40 @@ const parseContent = (content: any) => {
   return (qList || []).join('').trim();
 }
 
-const formatToSeoulTime = (value: any, format: any = 'yyyy-MM-dd') => {
-  let date;
+/**
+ * 서울 시간대 상수
+ */
+const SEOUL_TIMEZONE = 'Asia/Seoul';
 
-  // 문자열일 경우
-  if (typeof value === 'string') {
-    // ISO 문자열 파싱 (2023-06-22 등)
-    date = parseISO(value);
-  } else if (value instanceof Date) {
-    date = value;
-  } else {
-    return 'Invalid input';
-  }
-
-  // 유효성 검사
-  if (!isValid(date)) {
-    return 'Invalid date';
-  }
-
-  // 서울 시간으로 변환
-  const zonedDate = toZonedTime(date, TIME_ZONE);
-
-  // 원하는 형식으로 포맷
-  return format(zonedDate, format, { locale: ko });
+/**
+ * 날짜를 서울 시간으로 포맷
+ * @param {Date | string} date
+ * @param {string} formatStr
+ * @returns {string}
+ */
+export function formatInSeoul(date: Date | string, formatStr = 'yyyy-MM-dd HH:mm:ss'): string {
+  const zonedDate = toZonedTime(date, SEOUL_TIMEZONE);
+  return format(zonedDate, formatStr, { timeZone: SEOUL_TIMEZONE });
 }
 
-export {
-  parseContent,
-  formatToSeoulTime
+/**
+ * 현재 시간(서울 기준) 반환
+ * @returns {Date}
+ */
+export function getNowInSeoul(): Date {
+  return toZonedTime(new Date(), SEOUL_TIMEZONE);
+}
+
+/**
+ * 특정 시간대의 시간을 서울 시간으로 변환
+ * @param {Date | string} date
+ * @param {string} fromTimeZone
+ * @returns {Date}
+ */
+export function convertToSeoul(date: Date | string, fromTimeZone: string): Date {
+  // 입력 날짜를 fromTimeZone 기준으로 ZonedTime으로 변환
+  const fromZonedTime = toZonedTime(date, fromTimeZone);
+  
+  // ZonedTime의 UTC timestamp를 기준으로 서울 시간대로 다시 ZonedTime 생성
+  return toZonedTime(fromZonedTime, SEOUL_TIMEZONE);
 }

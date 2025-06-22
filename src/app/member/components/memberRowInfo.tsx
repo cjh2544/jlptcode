@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { PAYMENT_PERIOD } from "@/app/constants/constants";
 import { z } from "zod";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
-import { formatToSeoulTime } from "@/app/utils/common";
+import { formatInSeoul } from "@/app/utils/common";
 
 type MemberRowInfoProps = {
   userInfo: User,
@@ -56,6 +56,9 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
       } else {
         if(data.error) {
           setErrors(data.error.issues);
+          setConfirmType('error');
+          setConfirmMsg(data.error.issues[0].message);
+          setShowConfirm(true);
         } else {
           setConfirmType('warning');
           setConfirmMsg(data.message);
@@ -90,9 +93,14 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-          <p className="text-gray-900">
-              {userInfo?.lastPayment?.startDate && format(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd HH:mm:ss')}<br />
-              ~ {userInfo?.lastPayment?.endDate && format(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd HH:mm:ss')}
+          <p className="text-gray-900 flex">
+              {userInfo?.lastPayment && (
+                <>
+                  <span className="">{formatInSeoul(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd')}</span>
+                  <span className="">~</span>
+                  <span className="">{formatInSeoul(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd')}</span>
+                </>
+              )}
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">

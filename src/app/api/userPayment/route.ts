@@ -14,8 +14,8 @@ import { PAYMENT_PERIOD, USER_ROLE } from "@/app/constants/constants";
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 const UserPaymentFormData = z.object({
-  paymentType: z.string(),
-  email: z.string().email("이메일 형식이 올바르지 않습니다.").max(100, "이메일은 최대 100자리까지 입력해 주세요."),
+  paymentType: z.string({ message: "유료구분이 선택되지 않았습니다." }),
+  email: z.string({ message: "이메일이 입력되지 않았습니다." }).email("이메일 형식이 올바르지 않습니다.").max(100, "이메일은 최대 100자리까지 입력해 주세요."),
 });
 
 const UserUpdateFormData = z.object({
@@ -85,11 +85,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
       // 결제구분
       if('M' === userPaymentInfo.paymentType) {
-        // 한달
-        eDate.setMonth(eDate.getMonth() + 1);
+        if(eDate < new Date('9999-12-31')) {
+          // 한달
+          eDate.setMonth(eDate.getMonth() + 1);
+        }
       } else if('Y' === userPaymentInfo.paymentType) {
-        // 1년
-        eDate.setFullYear(eDate.getFullYear() + 1);
+        if(eDate < new Date('9999-12-31')) {
+          // 1년
+          eDate.setFullYear(eDate.getFullYear() + 1);
+        }
       } else if('P' === userPaymentInfo.paymentType) {
         // 프리미엄
         eDate = new Date('9999-12-31');
