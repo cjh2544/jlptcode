@@ -89,22 +89,20 @@ const MemberRowInfo = (props:MemberRowInfoProps) => {
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
           <p className="text-gray-900">
-            {format(userInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+            {formatInSeoul(userInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')}
           </p>
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
           <p className="text-gray-900 flex">
               {userInfo?.lastPayment && (
                 <>
-                  <span className="">{formatInSeoul(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd')}</span>
-                  <span className="">~</span>
-                  <span className="">{formatInSeoul(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd')}</span>
+                  {formatInSeoul(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd')}
                 </>
               )}
           </p>
         </td>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-            <button onClick={() => setShowModal(!showModal)} data-modal-target="default-modal" data-modal-toggle="default-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
+        <td className="border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
+            <button onClick={() => setShowModal(!showModal)} data-modal-target="default-modal" data-modal-toggle="default-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center" type="button">
                 유료기간 적용
             </button>
             <div className={`${showModal ? '' : 'hidden'} backdrop-blur-md drop-shadow-lg fixed inset-0 px-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]`}>

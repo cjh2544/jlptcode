@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import CardBoardDetailInfo from "@/app/components/Cards/CardBoardDetailInfo";
 import { useBoardReplyInfo } from "@/app/swr/useBoardReply";
 import { isEmpty } from "lodash";
+import { formatInSeoul } from "@/app/utils/common";
 
 type BoardRowInfoProps = {
   boardInfo: Board,
@@ -62,7 +63,7 @@ const BoardRowInfo = (props:BoardRowInfoProps) => {
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
             <p className="text-gray-900">
-                {format(boardInfo.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
+                {formatInSeoul(boardInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')}
             </p>
         </td>
       </tr>

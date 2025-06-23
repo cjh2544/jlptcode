@@ -35,7 +35,9 @@ const SEOUL_TIMEZONE = 'Asia/Seoul';
  * @param {string} formatStr
  * @returns {string}
  */
-export function formatInSeoul(date: Date | string, formatStr = 'yyyy-MM-dd HH:mm:ss'): string {
+export function formatInSeoul(date: Date | string | undefined, formatStr = 'yyyy-MM-dd HH:mm:ss'): string {
+  if(!date) return '';
+  
   const zonedDate = toZonedTime(date, SEOUL_TIMEZONE);
   return format(zonedDate, formatStr, { timeZone: SEOUL_TIMEZONE });
 }
