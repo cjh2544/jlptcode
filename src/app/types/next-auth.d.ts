@@ -9,6 +9,7 @@ declare module "next-auth" {
     user?: {
       role: Array<string> | undefined;
     } & DefaultSession["user"];
+    paymentInfo?: UserPayment | undefined
   }
 
   interface User {

@@ -6,6 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/models/userModel'
 import connectDB from '@/app/utils/database'
 import bcrypt from "bcrypt";
+import UserPayment from '@/app/models/userPaymentModel'
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -82,6 +83,61 @@ export const options: NextAuthOptions = {
     },
     async session({ session, user, token }) {
       if(session.user) session.user.role = token.role;
+
+      // 결제 정보 조회
+      const userPayment = await UserPayment.aggregate([
+        {
+          $match: { email: token.email }
+        },
+        {
+          $unwind: {
+            path: "$payments",
+            preserveNullAndEmptyArrays: true
+          }
+        },
+        {
+          $addFields: {
+            "payments.isValid": {
+              $cond: {
+                if: {
+                  $and: [
+                    { $lte: ["$payments.startDate", new Date()] },
+                    { $gte: ["$payments.endDate", new Date()] }
+                  ]
+                },
+                then: true,
+                else: false
+              }
+            }
+          }
+        },
+        {
+          $match: {
+            "payments.isValid": true
+          }
+        },
+        {
+          $sort: {
+            "payments.endDate": -1
+          }
+        },
+        {
+          $limit: 1
+        },
+        {
+          $project: {
+            _id: 0,
+            email: 1,
+            startDate: "$payments.startDate",
+            endDate: "$payments.endDate",
+            createdAt: "$payments.createdAt",
+            updatedAt: "$payments.updatedAt",
+            isValid: "$payments.isValid"
+          }
+        }
+      ]);
+
+      session.paymentInfo = userPayment[0];
 
       return session;
     }
