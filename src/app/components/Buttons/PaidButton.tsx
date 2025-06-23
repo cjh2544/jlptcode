@@ -1,46 +1,30 @@
-import { getServerSession } from "next-auth"
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import React, {memo, MouseEvent} from "react";
+import { useSession } from "next-auth/react"
+import React, { memo, MouseEvent, MouseEventHandler } from "react";
 
-type PaidButtonProps = {
-  name: string,
-  type?: 'button' | 'submit' | 'reset',
-  className?: string,
-  iconClassName?: string,
-  onClick?: (e: MouseEvent<HTMLElement>) => void,
-}
+type Props = {
+  name?: string;
+  onClick?: () => void; // 클라이언트 클릭 핸들링용 JS 함수 이름
+};
 
-const PaidButton = async(props:PaidButtonProps) => {
+const PaidButton = async({ name = '조회', onClick }: Props) => {
+  const { data: session, status } = useSession()
 
-  const { name = '조회', type = 'button', className, iconClassName = 'fa-search', onClick } = props;
+  const isEnabled = session?.paymentInfo?.isValid;
 
-  const session = await getServerSession(options);
-
-  const handClick = (event: MouseEvent<HTMLElement>) => {
-  onClick && onClick(event);
-}
+  const handleClick = (e: MouseEvent<HTMLElement>) => {
+    onClick && onClick();
+  }
 
   return (
-    <>
-      {session && session?.paymentInfo?.isValid ? (
-        <button
-          className={`bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full ${className}`}
-          type={type}
-          onClick={handClick}
-        >
-          {iconClassName && <i className={`fas ${iconClassName} mr-1`}></i>} {name}
-        </button>
-      ) : (
-        <button
-          disabled={true}
-          className={`bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full ${className}`}
-          type={type}
-        >
-          {iconClassName && <i className={`fas ${iconClassName} mr-1`}></i>} 유료기능
-        </button>
-      )}
-      
-    </>
+    <button
+      disabled={!isEnabled}
+      onClick={handleClick}
+      className={`px-4 py-2 rounded text-white ${
+        isEnabled ? "bg-blue-600 hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+      }`}
+    >
+      {isEnabled ? name : '유료기능'}
+    </button>
   );
 }
 
