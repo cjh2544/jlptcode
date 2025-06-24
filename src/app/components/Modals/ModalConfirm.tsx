@@ -6,7 +6,7 @@ import CheckErrorIcon from "../Icons/CheckError";
 type ModalConfirmProps = {
   type?: 'info' | 'error' | 'warning',
   title?: string,
-  message: string,
+  message: any,
   visible: boolean,
   onClose: (visible: boolean) => void
 }

@@ -1,11 +1,13 @@
 'use client';
-import React, {memo, useEffect} from 'react';
+import React, {memo, ReactNode, useEffect, useState} from 'react';
 import { useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useJlptTestStore } from '@/app/store/jlptTestStore';
 import { useClassTypeList } from '@/app/swr/useJlptTest';
 import Classification from './classification';
 import Loading from '@/app/components/Loading/loading';
+import ModalConfirm from '@/app/components/Modals/ModalConfirm';
+import { useSession } from "next-auth/react";
 
 type JlptListProps = {
   level?: string,
@@ -17,7 +19,12 @@ const JlptList = (props: JlptListProps) => {
   const {
     level
   } = props
+
+  const { data: session } = useSession();
   
+  const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
+  const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const router = useRouter();
   const searchInfo =useJlptTestStore((state) => state.searchInfo);
   const setSearchInfo = useJlptTestStore((state) => state.setSearchInfo);
@@ -26,6 +33,14 @@ const JlptList = (props: JlptListProps) => {
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: searchInfo.level || level}});
 
   const handleClick = (selectedData: any) => {
+    if(!session?.paymentInfo?.isValid) {
+      if('test(1)' !== selectedData.test.toLowerCase()) {
+        setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+        setShowConfirm(true);
+        return;
+      }
+    }
+
     setSearchInfo({...searchInfo, ...selectedData});
     getJlptList();
     router.push('/jlptTest/test', {scroll:false});
@@ -63,6 +78,8 @@ const JlptList = (props: JlptListProps) => {
                   ),
                 };
               })} />
+
+              <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
           </div>
         </div>
       </div>
