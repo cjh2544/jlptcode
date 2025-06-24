@@ -1,4 +1,5 @@
 "use client"; // 필수!
+import { formatInSeoul } from "@/app/utils/common";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
@@ -38,6 +39,13 @@ const SignInSidebarListPage = () => {
                 {session.user?.name}님
               </a>
             </li>
+            {session?.paymentInfo?.isValid && (
+              <li>
+                <div className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-star mr-1" />유료기간<br /> {formatInSeoul(session?.paymentInfo?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(session?.paymentInfo?.endDate, 'yyyy-MM-dd')}
+                </div>
+              </li>
+            )}
           </ul>
         )
         :
