@@ -4,6 +4,7 @@ import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { useClassTypeList, useStudyList } from '@/app/swr/useWordToday';
 import Loading from '@/app/components/Loading/loading';
+import PaidButton from '@/app/components/Buttons/PaidButton';
 
 type LevelListProps = {
   level?: string,
@@ -79,7 +80,7 @@ const LevelList = (props: LevelListProps) => {
                   <span className="shrink-0 px-4 text-gray-900">or</span>
                   <span className="h-px flex-1 bg-gray-300"></span>
                 </div>
-                <div className='flex items-center justify-center gap-2'>
+                <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
                   <select id="level" name="level" value={level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     {(levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                       return (<option key={idx} value={item}>{item === 'N0' ? '고득점' : item}</option>)
@@ -91,13 +92,14 @@ const LevelList = (props: LevelListProps) => {
                       return (<option key={idx} value={studyNm}>{studyNm}</option>)
                     })}
                   </select>
-                  <button
+                  {/* <button
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
                     type="button"
                     onClick={(e) => handleSearch(e)}
                   >
                     <i className="fas fa-search"></i> 조회
-                  </button>
+                  </button> */}
+                  <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
                 </div>
               </>
             )}

@@ -2,10 +2,11 @@ import React, {memo, MouseEvent, useMemo} from "react";
 import { useStrategyStore } from "@/app/store/strategyStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PaidButton from "@/app/components/Buttons/PaidButton";
 
 type ModalAnswerProps = {
-  title: String,
-  btnTitle?: String,
+  title: string,
+  btnTitle?: string,
   goQuestion?: (questionId: string) => any,
 }
 
@@ -45,13 +46,14 @@ const ModalAnswer = (props:ModalAnswerProps) => {
         >
           <i className="fas fa-arrow-up"></i>
         </button>
-        <button
+        {/* <button
           className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
           type="button"
           onClick={() => {setShowModal(true)}}
         >
           {btnTitle}
-        </button>
+        </button> */}
+        <PaidButton name={btnTitle} color="pink" onClick={() => setShowModal(true)} />
       </div>
       {showModal ? (
         <>
