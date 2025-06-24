@@ -1,4 +1,5 @@
 "use client"; // 필수!
+import { formatInSeoul } from "@/app/utils/common";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const SignInSidebarPage = () => {
@@ -26,6 +27,13 @@ const SignInSidebarPage = () => {
             <div className="pt-1">
               <div className="z-10 absolute right-0 hidden border border-gray-300 group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-44">
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  {session?.paymentInfo?.isValid && (
+                    <li>
+                      <div className="block px-4 py-2">
+                        <i className="fas fa-star mr-1" />유료기간<br /> {formatInSeoul(session?.paymentInfo?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(session?.paymentInfo?.endDate, 'yyyy-MM-dd')}
+                      </div>
+                    </li>
+                  )}
                   <li>
                     <a href="/auth/modify" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                       <i className="fas fa-user mr-1" />회원정보 수정
