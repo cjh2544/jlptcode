@@ -25,7 +25,7 @@ const SignInSidebarPage = () => {
             </button>
 
             <div className="pt-1">
-              <div className="z-10 absolute right-0 hidden border border-gray-300 group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-44">
+              <div className="z-10 absolute right-0 hidden border border-gray-300 group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-64">
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
                   {session?.paymentInfo?.isValid && (
                     <li>
