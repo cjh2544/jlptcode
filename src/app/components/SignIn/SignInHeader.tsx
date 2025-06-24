@@ -26,11 +26,11 @@ const SignInHeaderPage = () => {
             </button>
 
             <div className="pt-1">
-              <div className="z-10 absolute hidden group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-64">
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+              <div className="z-10 absolute sm:right-0 hidden group-hover:block bg-white divide-y divide-gray-300 rounded-lg shadow w-64">
+                <ul className="py-2 text-sm text-gray-700">
                   {session?.paymentInfo?.isValid && (
                     <li>
-                      <div className="text-ligtBlue-700 block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                      <div className="block px-4 py-2 text-ligtBlue-700 ">
                         <i className="fas fa-star mr-1" />유료기간<br /> {formatInSeoul(session?.paymentInfo?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(session?.paymentInfo?.endDate, 'yyyy-MM-dd')}
                       </div>
                     </li>
