@@ -21,13 +21,6 @@ const SignInSidebarListPage = () => {
         ? 
         (
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            {session?.paymentInfo?.isValid && (
-              <li>
-                <div className="py-3 ">
-                  <i className="fas fa-star mr-1" />유료기간<br /> {formatInSeoul(session?.paymentInfo?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(session?.paymentInfo?.endDate, 'yyyy-MM-dd')}
-                </div>
-              </li>
-            )}
             <li>
               <Link scroll={false} href="/auth/modify" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
               <i className="fas fa-user mr-1" />
