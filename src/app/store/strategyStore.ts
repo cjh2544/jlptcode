@@ -25,8 +25,8 @@ export const useStrategyStore = create<StrategyStore>()(
     devtools(
         persist((set, get) => ({
             showAnswer: false,
-            showReadButton: true,
-            showTransButton: true,
+            showReadButton: false,
+            showTransButton: false,
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
@@ -61,8 +61,8 @@ export const useStrategyStore = create<StrategyStore>()(
             },
             init: () => set({ 
                 showAnswer: false,
-                showReadButton: true,
-                showTransButton: true,
+                showReadButton: false,
+                showTransButton: false,
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',
