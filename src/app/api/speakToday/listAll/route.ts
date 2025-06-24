@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
 
 
   // 1. 단어 조회
-  let wordList = await WordToday.find({level, study}).sort({ [level === 'N6' ? 'wordNo' : 'sortNo']: 1});
+  let wordList = await WordToday.find({level, study, keyword: { $ne : null }}).sort({ [level === 'N6' ? 'wordNo' : 'sortNo']: 1});
   
   return NextResponse.json(wordList)
 }
