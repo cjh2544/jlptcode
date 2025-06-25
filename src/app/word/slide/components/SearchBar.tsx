@@ -1,6 +1,8 @@
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
 import { useWordStore } from '@/app/store/wordStore';
-import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
+import { useSession } from "next-auth/react";
+import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 
 type SearchProps = {
   onSearch?: (data: any) => any,
@@ -12,6 +14,10 @@ const SearchBar = (props: SearchProps) => {
     onSearch
   } = props
 
+  const { data: session } = useSession();
+  const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
+  const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const searchInfo =useWordStore((state) => state.searchInfo);
   const pageInfo = useWordStore((state) => state.pageInfo);
   const codeList = useCommonCodeStore((state) => state.codeList) || [];
@@ -24,9 +30,19 @@ const SearchBar = (props: SearchProps) => {
   const setPageInfo = useWordStore((state) => state.setPageInfo);
   const getCodeList = useCommonCodeStore((state) => state.getCodeList);
   const getYearCodeList = useCommonCodeStore((state) => state.getYearCodeList);
+  const init = useWordStore((state) => state.init);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}
+
+    if(!session?.paymentInfo?.isValid) {
+      if('wordType' === e.target.name && '1' !== e.target.value) {
+        setSearchInfo({...searchInfo, [e.target.name]: '1'});
+        setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+        setShowConfirm(true);
+        return;
+      }
+    }
 
     if(e.target.name === 'parts') {
       eObj = {[e.target.name]: e.target.value ? [e.target.value] : []};
@@ -80,6 +96,7 @@ const SearchBar = (props: SearchProps) => {
   }, [yearCodeList, searchInfo]);
 
   useEffect(() => {
+    init();
     getCodeList(['level', 'parts', 'wordType', 'wordShowType', 'pageSize']);
     getYearCodeList(['word', 'sentence', 'grammar']);
   }, []);
@@ -114,11 +131,12 @@ const SearchBar = (props: SearchProps) => {
               >
                 단어유형
               </label>
-              <select id="wordType" name="wordType" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select id="wordType" name="wordType" value={searchInfo.wordType} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {getCodeDetailList('wordType').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>
+              <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
             </div>
             {/* 기본단어 일 경우 */}
             {searchInfo.wordType === '1' && (
