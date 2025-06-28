@@ -93,7 +93,7 @@ const LevelList = (props: LevelListProps) => {
               <span className="h-px flex-1 bg-gray-300"></span>
             </div>
             <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
-              <select id="level" name="level" value={level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select id="level" name="level" onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {studyLevelInfoList.map((item: any, idx: number) => {
                   return (<option key={item.level} value={item.level}>{item.name}</option>)
                 })}
