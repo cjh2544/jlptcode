@@ -9,11 +9,11 @@ import { isEmpty } from 'lodash';
 import EmptyData from '@/app/components/Alert/EmptyData';
 
 const JlptTestPage = () => {
-  const searchInfo = useJlptStore((state) => state.searchInfo);
-  const jlptList = useJlptStore((state) => state.jlptList);
-  const isLoading = useJlptStore((state) => state.isLoading);
-  const showAnswer = useJlptStore((state) => state.showAnswer);
-  const setShowAnswer = useJlptStore((state) => state.setShowAnswer);
+  const searchInfo = useJlptStore((state:any) => state.searchInfo);
+  const jlptList = useJlptStore((state:any) => state.jlptList);
+  const isLoading = useJlptStore((state:any) => state.isLoading);
+  const showAnswer = useJlptStore((state:any) => state.showAnswer);
+  const setShowAnswer = useJlptStore((state:any) => state.setShowAnswer);
 
   return <>
     <JlptLayout>

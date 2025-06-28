@@ -7,7 +7,7 @@ import { useLevelUpStore } from '@/app/store/levelUpNewStore';
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
-  const levelUpInfo =useLevelUpStore((state) => state.levelUpInfo);
+  const levelUpInfo =useLevelUpStore((state:any) => state.levelUpInfo);
   
   const { data: session } = useSession();
 

@@ -8,13 +8,13 @@ import { useSession } from "next-auth/react";
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 
 const QuestionTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state) => state);
-  const showReadButton = useStrategyStore((state) => state.showReadButton);
-  const showTransButton = useStrategyStore((state) => state.showTransButton);
-  const showAnswer = useStrategyStore((state) => state.showAnswer);
-  const setStoreData = useStrategyStore((state) => state.setStoreData);
-  const getLevelUpList = useStrategyStore((state) => state.getLevelUpList);
-  const init = useStrategyStore((state) => state.init);
+  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state:any) => state);
+  const showReadButton = useStrategyStore((state:any) => state.showReadButton);
+  const showTransButton = useStrategyStore((state:any) => state.showTransButton);
+  const showAnswer = useStrategyStore((state:any) => state.showAnswer);
+  const setStoreData = useStrategyStore((state:any) => state.setStoreData);
+  const getLevelUpList = useStrategyStore((state:any) => state.getLevelUpList);
+  const init = useStrategyStore((state:any) => state.init);
 
   const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
   const [confirmType, setConfirmType] = useState<any>('info')

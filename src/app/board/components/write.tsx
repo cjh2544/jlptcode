@@ -17,19 +17,19 @@ const BoardWrite = (props: BoardWriteProps) => {
   } = props
   
   const router = useRouter();
-  const isLoading = useBoardCommunityStore((state) => state.isLoading);
-  const errors = useBoardCommunityStore((state) => state.errors);
-  const showConfirm = useBoardCommunityStore((state) => state.showConfirm);
-  const confirmMsg = useBoardCommunityStore((state) => state.confirmMsg);
-  const messageType = useBoardCommunityStore((state) => state.messageType);
-  const success = useBoardCommunityStore((state) => state.success);
-  const setLoading = useBoardCommunityStore((state) => state.setLoading);
-  const setBoardInfo = useBoardCommunityStore((state) => state.setBoardInfo);
-  const setErrors = useBoardCommunityStore((state) => state.setErrors);
-  const setShowConfirm = useBoardCommunityStore((state) => state.setShowConfirm);
-  const setConfirmMsg = useBoardCommunityStore((state) => state.setConfirmMsg);
-  const setSuccess = useBoardCommunityStore((state) => state.setSuccess);
-  const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
+  const isLoading = useBoardCommunityStore((state:any) => state.isLoading);
+  const errors = useBoardCommunityStore((state:any) => state.errors);
+  const showConfirm = useBoardCommunityStore((state:any) => state.showConfirm);
+  const confirmMsg = useBoardCommunityStore((state:any) => state.confirmMsg);
+  const messageType = useBoardCommunityStore((state:any) => state.messageType);
+  const success = useBoardCommunityStore((state:any) => state.success);
+  const setLoading = useBoardCommunityStore((state:any) => state.setLoading);
+  const setBoardInfo = useBoardCommunityStore((state:any) => state.setBoardInfo);
+  const setErrors = useBoardCommunityStore((state:any) => state.setErrors);
+  const setShowConfirm = useBoardCommunityStore((state:any) => state.setShowConfirm);
+  const setConfirmMsg = useBoardCommunityStore((state:any) => state.setConfirmMsg);
+  const setSuccess = useBoardCommunityStore((state:any) => state.setSuccess);
+  const setMessageType = useBoardCommunityStore((state:any) => state.setMessageType);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

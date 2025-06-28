@@ -20,9 +20,9 @@ const LevelList = (props: LevelListProps) => {
     idx = 0,
   } = props
   
-  const wordTodayInfo =useSentenceTodayStore((state) => state.wordTodayInfo);
-  const setWordTodayInfo = useSentenceTodayStore((state) => state.setWordTodayInfo);
-  const getWordTodayAllList = useSentenceTodayStore((state) => state.getWordTodayAllList);
+  const wordTodayInfo =useSentenceTodayStore((state:any) => state.wordTodayInfo);
+  const setWordTodayInfo = useSentenceTodayStore((state:any) => state.setWordTodayInfo);
+  const getWordTodayAllList = useSentenceTodayStore((state:any) => state.getWordTodayAllList);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N0', 'N6']}});
   const {data: studyList = []} = useStudyList({params: {ignoreLevels: ['N0', 'N6']}});

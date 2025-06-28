@@ -47,12 +47,12 @@ export const useReadingTodayStore = create<ReadingTodayStore>()(
                 sentence_translate: false,
             },
             readingTodayList: [],
-            setReadingTodayInfo: (readingTodayInfo) => set((state) => {
+            setReadingTodayInfo: (readingTodayInfo) => set((state:any) => {
                 state.readingTodayInfo = readingTodayInfo;
                 state.getReadingTodayList();
                 return state;
             }),
-            setReadingTodayList: (readingTodayList: Array<any>) => set((state) => ({ readingTodayList: readingTodayList })),
+            setReadingTodayList: (readingTodayList: Array<any>) => set((state:any) => ({ readingTodayList: readingTodayList })),
             getReadingTodayList: async () => {
                 const response = await fetch('/api/readingToday/list', {
                     method: 'POST',
@@ -76,7 +76,7 @@ export const useReadingTodayStore = create<ReadingTodayStore>()(
                     }
                 });
             },
-            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
                 readingTodayList: state.readingTodayList.map((data) => {
                     data.hideSentence = headerVisibleInfo.sentence;

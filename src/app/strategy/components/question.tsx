@@ -12,11 +12,11 @@ const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
   const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer} = questionInfo;
 
-  const setLevelUpAnswer = useStrategyStore((state) => state.setLevelUpAnswer);
-  const showAnswer = useStrategyStore((state) => state.showAnswer);
-  const showReadButton = useStrategyStore((state) => state.showReadButton);
-  const showTransButton = useStrategyStore((state) => state.showTransButton);
-  const { year: searchYear } = useStrategyStore((state) => state.levelUpInfo);
+  const setLevelUpAnswer = useStrategyStore((state:any) => state.setLevelUpAnswer);
+  const showAnswer = useStrategyStore((state:any) => state.showAnswer);
+  const showReadButton = useStrategyStore((state:any) => state.showReadButton);
+  const showTransButton = useStrategyStore((state:any) => state.showTransButton);
+  const { year: searchYear } = useStrategyStore((state:any) => state.levelUpInfo);
 
   const handleClick = (selectedData: any) => {
     setLevelUpAnswer(selectedData);

@@ -18,10 +18,10 @@ const LevelList = (props: LevelListProps) => {
     idx = 0,
   } = props
   
-  const readingTodayInfo =useReadingTodayStore((state) => state.readingTodayInfo);
-  const readingTodayList =useReadingTodayStore((state) => state.readingTodayList);
-  const setReadingTodayInfo = useReadingTodayStore((state) => state.setReadingTodayInfo);
-  const setReadingTodayList = useReadingTodayStore((state) => state.setReadingTodayList);
+  const readingTodayInfo =useReadingTodayStore((state:any) => state.readingTodayInfo);
+  const readingTodayList =useReadingTodayStore((state:any) => state.readingTodayList);
+  const setReadingTodayInfo = useReadingTodayStore((state:any) => state.setReadingTodayInfo);
+  const setReadingTodayList = useReadingTodayStore((state:any) => state.setReadingTodayList);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({ params: {} });
 

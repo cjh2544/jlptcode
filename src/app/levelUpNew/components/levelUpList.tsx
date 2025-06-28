@@ -20,9 +20,9 @@ const LevelUpList = (props: LevelUpListProps) => {
   } = props
   
   const router = useRouter();
-  const levelUpInfo =useLevelUpStore((state) => state.levelUpInfo);
-  const setLevelUpInfo = useLevelUpStore((state) => state.setLevelUpInfo);
-  const getLevelUpList = useLevelUpStore((state) => state.getLevelUpList);
+  const levelUpInfo =useLevelUpStore((state:any) => state.levelUpInfo);
+  const setLevelUpInfo = useLevelUpStore((state:any) => state.setLevelUpInfo);
+  const getLevelUpList = useLevelUpStore((state:any) => state.getLevelUpList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: levelUpInfo.level || level}});
 

@@ -10,13 +10,13 @@ type HeaderSubTitleProps = {
 const MemberTitle = (props: HeaderSubTitleProps) => {
   const {title, visibleButton = false, buttonTitle = '글쓰기'} = props;
 
-  const searchInfo = useUserStore((state) => state.searchInfo);
-  const isLoading = useUserStore((state) => state.isLoading);
-  const setPageInfo = useUserStore((state) => state.setPageInfo);
-  const setSearchInfo = useUserStore((state) => state.setSearchInfo);
-  const getUserList = useUserStore((state) => state.getUserList);
-  const getPageInfo = useUserStore((state) => state.getPageInfo);
-  const setLoading = useUserStore((state) => state.setLoading);
+  const searchInfo = useUserStore((state:any) => state.searchInfo);
+  const isLoading = useUserStore((state:any) => state.isLoading);
+  const setPageInfo = useUserStore((state:any) => state.setPageInfo);
+  const setSearchInfo = useUserStore((state:any) => state.setSearchInfo);
+  const getUserList = useUserStore((state:any) => state.getUserList);
+  const getPageInfo = useUserStore((state:any) => state.getPageInfo);
+  const setLoading = useUserStore((state:any) => state.setLoading);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

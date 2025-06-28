@@ -16,8 +16,8 @@ const TABLE_HEAD = [
 ];
 
 const SentenceList = ({className}: SentenceListProps) => {
-  const grammarTodayList = useGrammarTodayStore((state) => state.grammarTodayList);
-  const setGrammarTodayList = useGrammarTodayStore((state) => state.setGrammarTodayList);
+  const grammarTodayList = useGrammarTodayStore((state:any) => state.grammarTodayList);
+  const setGrammarTodayList = useGrammarTodayStore((state:any) => state.setGrammarTodayList);
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setGrammarTodayList(

@@ -6,7 +6,7 @@ import SentenceList from "./components/sentenceList";
 import GrammarTodayLayout from "../components/Layout/GrammarTodayLayout";
 
 const GrammarTodayPage = () => {
-  const wordTodayInfo =useGrammarTodayStore((state) => state.grammarTodayInfo);
+  const wordTodayInfo =useGrammarTodayStore((state:any) => state.grammarTodayInfo);
   
   const { data: session } = useSession();
 

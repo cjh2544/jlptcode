@@ -6,7 +6,7 @@ import LevelList from "./components/levelList";
 import WordList from "./components/wordList";
 
 const WordTodayPage = () => {
-  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
+  const wordTodayInfo =useWordTodayStore((state:any) => state.wordTodayInfo);
   
   const { data: session } = useSession();
 

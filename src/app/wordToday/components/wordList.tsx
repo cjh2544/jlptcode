@@ -19,8 +19,8 @@ const TABLE_HEAD = [
 ];
 
 const WordList = ({className}: WordListProps) => {
-  const wordTodayList = useWordTodayStore((state) => state.wordTodayList);
-  const setWordTodayList = useWordTodayStore((state) => state.setWordTodayList);
+  const wordTodayList = useWordTodayStore((state:any) => state.wordTodayList);
+  const setWordTodayList = useWordTodayStore((state:any) => state.setWordTodayList);
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(

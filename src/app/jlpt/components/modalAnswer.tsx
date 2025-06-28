@@ -14,8 +14,8 @@ type ModalAnswerProps = {
 const ModalAnswer = (props:ModalAnswerProps) => {
   const {title, btnTitle = '정답확인', goQuestion} = props;
   const [showModal, setShowModal] = React.useState(false);
-  const jlptList = useJlptStore((state) => state.jlptList);
-  const setJlptAnswer = useJlptStore((state) => state.setJlptAnswer);
+  const jlptList = useJlptStore((state:any) => state.jlptList);
+  const setJlptAnswer = useJlptStore((state:any) => state.setJlptAnswer);
 
   const handleGoQuestion = (questionId: string) => {
     goQuestion && goQuestion(questionId);

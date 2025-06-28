@@ -10,7 +10,7 @@ type SearchWordStore = {
 
 export const useSearchWordStore = create(devtools<SearchWordStore>((set) => ({
     cart: 0,
-    add: (cnt) => set((state) => ({ cart: state.cart + cnt })),
-    remove: () => set((state) => ({ cart: state.cart - 1 })),
+    add: (cnt) => set((state:any) => ({ cart: state.cart + cnt })),
+    remove: () => set((state:any) => ({ cart: state.cart - 1 })),
     removeAll: () => set({ cart: 0 }),
 })));

@@ -19,9 +19,9 @@ const JlptList = (props: JlptListProps) => {
   } = props
   
   const router = useRouter();
-  const searchInfo =useJlptStore((state) => state.searchInfo);
-  const setSearchInfo = useJlptStore((state) => state.setSearchInfo);
-  const getJlptList = useJlptStore((state) => state.getJlptList);
+  const searchInfo =useJlptStore((state:any) => state.searchInfo);
+  const setSearchInfo = useJlptStore((state:any) => state.setSearchInfo);
+  const getJlptList = useJlptStore((state:any) => state.getJlptList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: searchInfo.level || level}});
 

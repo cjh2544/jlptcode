@@ -9,14 +9,14 @@ import EmptyData from '@/app/components/Alert/EmptyData';
 import JlptTestLayout from '@/app/components/Layout/JlptTestLayout';
 
 const JlptTestPage = () => {
-  const searchInfo = useJlptTestStore((state) => state.searchInfo);
-  const jlptList = useJlptTestStore((state) => state.jlptList);
-  const isLoading = useJlptTestStore((state) => state.isLoading);
-  const showAnswer = useJlptTestStore((state) => state.showAnswer);
-  const showReadButton = useJlptTestStore((state) => state.showReadButton);
-  const showTransButton = useJlptTestStore((state) => state.showTransButton);
-  const setShowAnswer = useJlptTestStore((state) => state.setShowAnswer);
-  const setStoreData = useJlptTestStore((state) => state.setStoreData);
+  const searchInfo = useJlptTestStore((state:any) => state.searchInfo);
+  const jlptList = useJlptTestStore((state:any) => state.jlptList);
+  const isLoading = useJlptTestStore((state:any) => state.isLoading);
+  const showAnswer = useJlptTestStore((state:any) => state.showAnswer);
+  const showReadButton = useJlptTestStore((state:any) => state.showReadButton);
+  const showTransButton = useJlptTestStore((state:any) => state.showTransButton);
+  const setShowAnswer = useJlptTestStore((state:any) => state.setShowAnswer);
+  const setStoreData = useJlptTestStore((state:any) => state.setStoreData);
 
   return <>
     <JlptTestLayout>

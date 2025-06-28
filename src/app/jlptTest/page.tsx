@@ -7,7 +7,7 @@ import JlptTestLayout from "../components/Layout/JlptTestLayout";
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
-  const searchInfo =useJlptTestStore((state) => state.searchInfo);
+  const searchInfo =useJlptTestStore((state:any) => state.searchInfo);
   
   const { data: session } = useSession();
 

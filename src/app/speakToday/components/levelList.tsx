@@ -35,9 +35,9 @@ const LevelList = (props: LevelListProps) => {
     levels = 'N5', level = 'N5', idx = 0
   } = props
   
-  const wordTodayInfo =useSpeakTodayStore((state) => state.wordTodayInfo);
-  const setSpeakTodayInfo = useSpeakTodayStore((state) => state.setSpeakTodayInfo);
-  const getSpeakTodayAllList = useSpeakTodayStore((state) => state.getSpeakTodayAllList);
+  const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
+  const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
+  const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
 
   const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level || level}});
 

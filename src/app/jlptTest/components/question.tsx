@@ -12,10 +12,10 @@ const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
   const {test, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer} = questionInfo;
 
-  const setJlptAnswer = useJlptTestStore((state) => state.setJlptAnswer);
-  const showAnswer = useJlptTestStore((state) => state.showAnswer);
-  const showReadButton = useJlptTestStore((state) => state.showReadButton);
-  const showTransButton = useJlptTestStore((state) => state.showTransButton);
+  const setJlptAnswer = useJlptTestStore((state:any) => state.setJlptAnswer);
+  const showAnswer = useJlptTestStore((state:any) => state.showAnswer);
+  const showReadButton = useJlptTestStore((state:any) => state.showReadButton);
+  const showTransButton = useJlptTestStore((state:any) => state.showTransButton);
 
   const handleClick = (selectedData: any) => {
     setJlptAnswer(selectedData);

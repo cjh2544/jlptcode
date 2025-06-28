@@ -9,8 +9,8 @@ type WordListProps = {
 }
 
 const WordList = ({title, data, className}: WordListProps) => {
-  const wordList = useWordStore((state) => state.wordList);
-  const setWordList = useWordStore((state) => state.setWordList);
+  const wordList = useWordStore((state:any) => state.wordList);
+  const setWordList = useWordStore((state:any) => state.setWordList);
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordList(

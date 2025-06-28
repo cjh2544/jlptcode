@@ -28,24 +28,24 @@ const BoardWrite = (props: BoardWriteProps) => {
   
   const { data: session } = useSession();
   const router = useRouter();
-  const boardInfo: Board = useBoardCommunityStore((state) => state.boardInfo);
-  const isLoading = useBoardCommunityStore((state) => state.isLoading);
-  const errors = useBoardCommunityStore((state) => state.errors);
-  const showConfirm = useBoardCommunityStore((state) => state.showConfirm);
-  const confirmMsg = useBoardCommunityStore((state) => state.confirmMsg);
-  const messageType = useBoardCommunityStore((state) => state.messageType);
-  const success = useBoardCommunityStore((state) => state.success);
-  const procType = useBoardCommunityStore((state) => state.procType);
-  const setLoading = useBoardCommunityStore((state) => state.setLoading);
-  const setBoardInfo = useBoardCommunityStore((state) => state.setBoardInfo);
-  const setErrors = useBoardCommunityStore((state) => state.setErrors);
-  const setShowConfirm = useBoardCommunityStore((state) => state.setShowConfirm);
-  const setConfirmMsg = useBoardCommunityStore((state) => state.setConfirmMsg);
-  const setSuccess = useBoardCommunityStore((state) => state.setSuccess);
-  const setMessageType = useBoardCommunityStore((state) => state.setMessageType);
-  const setProcType = useBoardCommunityStore((state) => state.setProcType);
-  const updateBoardInfo = useBoardCommunityStore((state) => state.updateBoardInfo);
-  const deleteBoardInfo = useBoardCommunityStore((state) => state.deleteBoardInfo);
+  const boardInfo: Board = useBoardCommunityStore((state:any) => state.boardInfo);
+  const isLoading = useBoardCommunityStore((state:any) => state.isLoading);
+  const errors = useBoardCommunityStore((state:any) => state.errors);
+  const showConfirm = useBoardCommunityStore((state:any) => state.showConfirm);
+  const confirmMsg = useBoardCommunityStore((state:any) => state.confirmMsg);
+  const messageType = useBoardCommunityStore((state:any) => state.messageType);
+  const success = useBoardCommunityStore((state:any) => state.success);
+  const procType = useBoardCommunityStore((state:any) => state.procType);
+  const setLoading = useBoardCommunityStore((state:any) => state.setLoading);
+  const setBoardInfo = useBoardCommunityStore((state:any) => state.setBoardInfo);
+  const setErrors = useBoardCommunityStore((state:any) => state.setErrors);
+  const setShowConfirm = useBoardCommunityStore((state:any) => state.setShowConfirm);
+  const setConfirmMsg = useBoardCommunityStore((state:any) => state.setConfirmMsg);
+  const setSuccess = useBoardCommunityStore((state:any) => state.setSuccess);
+  const setMessageType = useBoardCommunityStore((state:any) => state.setMessageType);
+  const setProcType = useBoardCommunityStore((state:any) => state.setProcType);
+  const updateBoardInfo = useBoardCommunityStore((state:any) => state.updateBoardInfo);
+  const deleteBoardInfo = useBoardCommunityStore((state:any) => state.deleteBoardInfo);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

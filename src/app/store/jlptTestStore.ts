@@ -34,11 +34,11 @@ export const useJlptTestStore = create<JlptTestStore>()(
             showReadButton: true,
             showTransButton: true,
             jlptList: [],
-            setStoreData: (code, value) => set((state) => ({ [code]: value })),
-            setSearchInfo: (searchInfo) => set((state) => ({ searchInfo: searchInfo })),
-            setShowAnswer: (showAnswer) => set((state) => ({ showAnswer: showAnswer })),
-            setJlptList: (jlptList: Array<any>) => set((state) => ({ jlptList: jlptList })),
-            setJlptAnswer: (selectedData: any) => set((state) => ({
+            setStoreData: (code, value) => set((state:any) => ({ [code]: value })),
+            setSearchInfo: (searchInfo) => set((state:any) => ({ searchInfo: searchInfo })),
+            setShowAnswer: (showAnswer) => set((state:any) => ({ showAnswer: showAnswer })),
+            setJlptList: (jlptList: Array<any>) => set((state:any) => ({ jlptList: jlptList })),
+            setJlptAnswer: (selectedData: any) => set((state:any) => ({
                 jlptList: state.jlptList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}

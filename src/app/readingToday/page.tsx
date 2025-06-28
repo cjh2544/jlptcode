@@ -6,7 +6,7 @@ import SentenceList from "./components/sentenceList";
 import ReadingTodayLayout from "../components/Layout/ReadingTodayLayout";
 
 const SentenceTodayPage = () => {
-  const wordTodayInfo =useSentenceTodayStore((state) => state.wordTodayInfo);
+  const wordTodayInfo =useSentenceTodayStore((state:any) => state.wordTodayInfo);
   
   const { data: session } = useSession();
 

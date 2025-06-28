@@ -9,9 +9,9 @@ import { useWordStore } from '@/app/store/wordStore';
 const SlidePage = () => {
   const { data: session } = useSession();
 
-  const init = useWordStore((state) => state.init);
-  const getWordList = useWordStore((state) => state.getWordList);
-  const getPageInfo = useWordStore((state) => state.getPageInfo);
+  const init = useWordStore((state:any) => state.init);
+  const getWordList = useWordStore((state:any) => state.getWordList);
+  const getPageInfo = useWordStore((state:any) => state.getPageInfo);
   const [conditions, setConditions] = useState({});
   
   const handleSearch = (data: any) => {

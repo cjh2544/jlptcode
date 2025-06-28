@@ -71,13 +71,13 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setWordTodayInfo: (wordTodayInfo, isSearch = true) => set((state) => {
+            setWordTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
                 state.wordTodayInfo = wordTodayInfo;
                 isSearch && state.getWordTodayList();
                 return state;
             }),
-            setWordTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
-            setWordTodayAnswer: (selectedData: any) => set((state) => {
+            setWordTodayList: (wordTodayList: Array<any>) => set((state:any) => ({ wordTodayList: wordTodayList })),
+            setWordTodayAnswer: (selectedData: any) => set((state:any) => {
                 state.wordTodayList = state.wordTodayList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}
@@ -131,7 +131,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     }
                 });
             },
-            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
                 wordTodayList: state.wordTodayList.map((data) => {
                     data.hideWord = headerVisibleInfo.word;

@@ -26,9 +26,9 @@ const JlptList = (props: JlptListProps) => {
   const [confirmType, setConfirmType] = useState<any>('info')
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const router = useRouter();
-  const searchInfo =useJlptTestStore((state) => state.searchInfo);
-  const setSearchInfo = useJlptTestStore((state) => state.setSearchInfo);
-  const getJlptList = useJlptTestStore((state) => state.getJlptList);
+  const searchInfo =useJlptTestStore((state:any) => state.searchInfo);
+  const setSearchInfo = useJlptTestStore((state:any) => state.setSearchInfo);
+  const getJlptList = useJlptTestStore((state:any) => state.getJlptList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: searchInfo.level || level}});
 

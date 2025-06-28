@@ -14,13 +14,13 @@ const BoardTitle = (props: HeaderSubTitleProps) => {
   const { data: session } = useSession();
   const router = useRouter();
 
-  const searchInfo = useBoardCommunityStore((state) => state.searchInfo);
-  const isLoading = useBoardCommunityStore((state) => state.isLoading);
-  const setPageInfo = useBoardCommunityStore((state) => state.setPageInfo);
-  const setSearchInfo = useBoardCommunityStore((state) => state.setSearchInfo);
-  const getBoardList = useBoardCommunityStore((state) => state.getBoardList);
-  const getPageInfo = useBoardCommunityStore((state) => state.getPageInfo);
-  const setLoading = useBoardCommunityStore((state) => state.setLoading);
+  const searchInfo = useBoardCommunityStore((state:any) => state.searchInfo);
+  const isLoading = useBoardCommunityStore((state:any) => state.isLoading);
+  const setPageInfo = useBoardCommunityStore((state:any) => state.setPageInfo);
+  const setSearchInfo = useBoardCommunityStore((state:any) => state.setSearchInfo);
+  const getBoardList = useBoardCommunityStore((state:any) => state.getBoardList);
+  const getPageInfo = useBoardCommunityStore((state:any) => state.getPageInfo);
+  const setLoading = useBoardCommunityStore((state:any) => state.setLoading);
 
   const handleClickWrite = () => {
     router.push('write', {scroll:false});

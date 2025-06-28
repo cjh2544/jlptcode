@@ -7,9 +7,9 @@ import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
 import Loading from '@/app/components/Loading/loading';
 
 const LevelUpTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state) => state);
-  const showAnswer = useLevelUpStore((state) => state.showAnswer);
-  const setStoreData = useLevelUpStore((state) => state.setStoreData);
+  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state:any) => state);
+  const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
+  const setStoreData = useLevelUpStore((state:any) => state.setStoreData);
 
   return <>
       <LevelUpLayout>

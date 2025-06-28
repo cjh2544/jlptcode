@@ -15,13 +15,13 @@ const SearchBar = (props: SearchProps) => {
   } = props
 
   const router = useRouter();
-  const levelUpInfo =useStrategyStore((state) => state.levelUpInfo);
-  const codeList = useCommonCodeStore((state) => state.codeList) || [];
-  const yearCodeList = useCommonCodeStore((state) => state.yearCodeList) || [];
-  const setLevelUpInfo = useStrategyStore((state) => state.setLevelUpInfo);
-  const getLevelUpList = useStrategyStore((state) => state.getLevelUpList);
-  const getCodeList = useCommonCodeStore((state) => state.getCodeList);
-  const getYearCodeList = useCommonCodeStore((state) => state.getYearCodeList);
+  const levelUpInfo =useStrategyStore((state:any) => state.levelUpInfo);
+  const codeList = useCommonCodeStore((state:any) => state.codeList) || [];
+  const yearCodeList = useCommonCodeStore((state:any) => state.yearCodeList) || [];
+  const setLevelUpInfo = useStrategyStore((state:any) => state.setLevelUpInfo);
+  const getLevelUpList = useStrategyStore((state:any) => state.getLevelUpList);
+  const getCodeList = useCommonCodeStore((state:any) => state.getCodeList);
+  const getYearCodeList = useCommonCodeStore((state:any) => state.getYearCodeList);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}

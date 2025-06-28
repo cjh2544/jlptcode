@@ -31,10 +31,10 @@ export const useJlptStore = create<JlptStore>()(
             },
             showAnswer: false,
             jlptList: [],
-            setSearchInfo: (searchInfo) => set((state) => ({ searchInfo: searchInfo })),
-            setShowAnswer: (showAnswer) => set((state) => ({ showAnswer: showAnswer })),
-            setJlptList: (jlptList: Array<any>) => set((state) => ({ jlptList: jlptList })),
-            setJlptAnswer: (selectedData: any) => set((state) => ({
+            setSearchInfo: (searchInfo) => set((state:any) => ({ searchInfo: searchInfo })),
+            setShowAnswer: (showAnswer) => set((state:any) => ({ showAnswer: showAnswer })),
+            setJlptList: (jlptList: Array<any>) => set((state:any) => ({ jlptList: jlptList })),
+            setJlptAnswer: (selectedData: any) => set((state:any) => ({
                 jlptList: state.jlptList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}

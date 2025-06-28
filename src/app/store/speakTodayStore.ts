@@ -70,12 +70,12 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state) => {
+            setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
                 state.wordTodayInfo = wordTodayInfo;
                 isSearch && state.getSpeakTodayList();
                 return state;
             }),
-            setSpeakTodayList: (wordTodayList: Array<any>) => set((state) => ({ wordTodayList: wordTodayList })),
+            setSpeakTodayList: (wordTodayList: Array<any>) => set((state:any) => ({ wordTodayList: wordTodayList })),
             getSpeakTodayList: async () => {
                 const response = await fetch('/api/speakToday/list', {
                     method: 'POST',
@@ -132,7 +132,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                     }
                 });
             },
-            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
                 wordTodayList: state.wordTodayList.map((data) => {
                     data.hideWord = headerVisibleInfo.word;

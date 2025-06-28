@@ -14,7 +14,7 @@ const BoardView = (props: BoardWriteProps) => {
   } = props
   
   const { data: session } = useSession();
-  const boardInfo: Board = useBoardCommunityStore((state) => state.boardInfo);
+  const boardInfo: Board = useBoardCommunityStore((state:any) => state.boardInfo);
 
   const handleLinkActive = (event: MouseEvent<HTMLAnchorElement>) => {
     if (session?.user?.email !== boardInfo.email) event.preventDefault();

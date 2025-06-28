@@ -16,9 +16,9 @@ const LevelList = (props: LevelListProps) => {
     level
   } = props
   
-  const grammarTodayInfo =useGrammarTodayStore((state) => state.grammarTodayInfo);
-  const setGrammarTodayInfo = useGrammarTodayStore((state) => state.setGrammarTodayInfo);
-  const getGrammarTodayAllList = useGrammarTodayStore((state) => state.getGrammarTodayAllList);
+  const grammarTodayInfo =useGrammarTodayStore((state:any) => state.grammarTodayInfo);
+  const setGrammarTodayInfo = useGrammarTodayStore((state:any) => state.setGrammarTodayInfo);
+  const getGrammarTodayAllList = useGrammarTodayStore((state:any) => state.getGrammarTodayAllList);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {level: grammarTodayInfo.level || level}});
   const {data: studyList = []} = useStudyList({params: {level: grammarTodayInfo.level || level}});

@@ -8,9 +8,9 @@ import Loading from '@/app/components/Loading/loading';
 import { useJlptStore } from '@/app/store/jlptStore';
 
 const StrategyTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state) => state);
-  const showAnswer = useStrategyStore((state) => state.showAnswer);
-  const setStoreData = useStrategyStore((state) => state.setStoreData);
+  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state:any) => state);
+  const showAnswer = useStrategyStore((state:any) => state.showAnswer);
+  const setStoreData = useStrategyStore((state:any) => state.setStoreData);
 
   return <>
       <StrategyLayout>

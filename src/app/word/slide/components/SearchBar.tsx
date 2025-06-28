@@ -18,19 +18,19 @@ const SearchBar = (props: SearchProps) => {
   const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
   const [confirmType, setConfirmType] = useState<any>('info')
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
-  const searchInfo =useWordStore((state) => state.searchInfo);
-  const pageInfo = useWordStore((state) => state.pageInfo);
-  const codeList = useCommonCodeStore((state) => state.codeList) || [];
-  const yearCodeList = useCommonCodeStore((state) => state.yearCodeList) || [];
-  const wordList = useWordStore((state) => state.wordList);
-  const setSearchInfo = useWordStore((state) => state.setSearchInfo);
-  const getPageInfo = useWordStore((state) => state.getPageInfo);
-  const getWordList = useWordStore((state) => state.getWordList);
-  const setWordList = useWordStore((state) => state.setWordList);
-  const setPageInfo = useWordStore((state) => state.setPageInfo);
-  const getCodeList = useCommonCodeStore((state) => state.getCodeList);
-  const getYearCodeList = useCommonCodeStore((state) => state.getYearCodeList);
-  const init = useWordStore((state) => state.init);
+  const searchInfo =useWordStore((state:any) => state.searchInfo);
+  const pageInfo = useWordStore((state:any) => state.pageInfo);
+  const codeList = useCommonCodeStore((state:any) => state.codeList) || [];
+  const yearCodeList = useCommonCodeStore((state:any) => state.yearCodeList) || [];
+  const wordList = useWordStore((state:any) => state.wordList);
+  const setSearchInfo = useWordStore((state:any) => state.setSearchInfo);
+  const getPageInfo = useWordStore((state:any) => state.getPageInfo);
+  const getWordList = useWordStore((state:any) => state.getWordList);
+  const setWordList = useWordStore((state:any) => state.setWordList);
+  const setPageInfo = useWordStore((state:any) => state.setPageInfo);
+  const getCodeList = useCommonCodeStore((state:any) => state.getCodeList);
+  const getYearCodeList = useCommonCodeStore((state:any) => state.getYearCodeList);
+  const init = useWordStore((state:any) => state.init);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}

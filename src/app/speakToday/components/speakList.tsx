@@ -10,8 +10,8 @@ type SpeakListProps = {
 }
 
 const SpeakList = ({className}: SpeakListProps) => {
-  const wordTodayList = useSpeakTodayStore((state) => state.wordTodayList);
-  const setWordTodayList = useSpeakTodayStore((state) => state.setSpeakTodayList);
+  const wordTodayList = useSpeakTodayStore((state:any) => state.wordTodayList);
+  const setWordTodayList = useSpeakTodayStore((state:any) => state.setSpeakTodayList);
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(

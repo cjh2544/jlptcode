@@ -19,9 +19,9 @@ const LevelList = (props: LevelListProps) => {
     idx = 0,
   } = props
   
-  const wordTodayInfo =useWordTodayStore((state) => state.wordTodayInfo);
-  const setWordTodayInfo = useWordTodayStore((state) => state.setWordTodayInfo);
-  const getWordTodayAllList = useWordTodayStore((state) => state.getWordTodayAllList);
+  const wordTodayInfo =useWordTodayStore((state:any) => state.wordTodayInfo);
+  const setWordTodayInfo = useWordTodayStore((state:any) => state.setWordTodayInfo);
+  const getWordTodayAllList = useWordTodayStore((state:any) => state.getWordTodayAllList);
 
   const {data: levelInfos = [], isLoading, error} = useClassTypeList({params: {ignoreLevels: ['N6']}});
   const {data: studyList = []} = useStudyList({params: {ignoreLevels: ['N6']}});

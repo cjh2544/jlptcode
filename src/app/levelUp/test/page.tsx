@@ -1,18 +1,34 @@
 "use client"; // 필수!
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import Question from '../components/question';
-import { memo } from 'react';
+import { memo, ReactNode, useState } from 'react';
 import ModalAnswer from '../components/modalAnswer';
 import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
 import Loading from '@/app/components/Loading/loading';
-import { useJlptStore } from '@/app/store/jlptStore';
+import { useSession } from 'next-auth/react';
+import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 
 const LevelUpTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state) => state);
-  const showAnswer = useLevelUpStore((state) => state.showAnswer);
-  const showReadButton = useLevelUpStore((state) => state.showReadButton);
-  const showTransButton = useLevelUpStore((state) => state.showTransButton);
-  const setStoreData = useLevelUpStore((state) => state.setStoreData);
+  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state:any) => state);
+  const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
+  const showReadButton = useLevelUpStore((state:any) => state.showReadButton);
+  const showTransButton = useLevelUpStore((state:any) => state.showTransButton);
+  const setStoreData = useLevelUpStore((state:any) => state.setStoreData);
+
+  const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
+  const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
+  const { data: session } = useSession();
+
+  const handleChangeCheck = (key: string, value: any) => {
+    if('showTransButton' === key && !session?.paymentInfo?.isValid) {
+      setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+      setShowConfirm(true);
+      return;
+    }
+
+    setStoreData(key, value)
+  }
 
   return <>
       <LevelUpLayout>
@@ -26,21 +42,22 @@ const LevelUpTestPage = () => {
                 <h6 className="text-blueGray-700 text-xl font-bold">레벨업 문제풀이</h6>
                 <div className='flex'>
                   <div className="flex items-center mr-1">
-                    <input id="show-read-checkbox" type="checkbox" checked={showReadButton} onChange={() => setStoreData('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <input id="show-read-checkbox" type="checkbox" checked={showReadButton} onChange={() => handleChangeCheck('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
                   </div>
                   <div className="flex items-center mr-1">
-                    <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => setStoreData('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => handleChangeCheck('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
                   </div>
                   <div className="flex items-center mr-1">
-                    <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setStoreData('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
                   </div>
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   >
                     {`${levelUpInfo.level}`}
+                    <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
                   </span>
                 </div>
               </div>

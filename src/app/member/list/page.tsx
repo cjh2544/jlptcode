@@ -8,7 +8,7 @@ import MemberTitle from "../components/memberTitle";
 
 const MemberListPage = () => {
   const { data: session } = useSession();
-  const pageInfo = useUserStore((state) => state.pageInfo);
+  const pageInfo = useUserStore((state:any) => state.pageInfo);
 
   const isAdmin = useCallback(() => {
     return session?.user?.role && session?.user?.role?.includes('admin');

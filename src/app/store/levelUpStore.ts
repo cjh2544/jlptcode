@@ -24,17 +24,17 @@ export const useLevelUpStore = create<LevelUpStore>()(
         persist((set, get) => ({
             showAnswer: false,
             showReadButton: true,
-            showTransButton: true,
+            showTransButton: false,
             isLoading: false,
             levelUpInfo: {
-                level: '',
+                level: 'N1',
                 classification: '',
             },
             levelUpList: [],
-            setStoreData: (code, value) => set((state) => ({ [code]: value })),
-            setLevelUpInfo: (levelUpInfo) => set((state) => ({ levelUpInfo: levelUpInfo })),
-            setLevelUpList: (levelUpList: Array<any>) => set((state) => ({ levelUpList: levelUpList })),
-            setLevelUpAnswer: (selectedData: any) => set((state) => ({
+            setStoreData: (code, value) => set((state:any) => ({ [code]: value })),
+            setLevelUpInfo: (levelUpInfo) => set((state:any) => ({ levelUpInfo: levelUpInfo })),
+            setLevelUpList: (levelUpList: Array<any>) => set((state:any) => ({ levelUpList: levelUpList })),
+            setLevelUpAnswer: (selectedData: any) => set((state:any) => ({
                 levelUpList: state.levelUpList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}
@@ -58,10 +58,10 @@ export const useLevelUpStore = create<LevelUpStore>()(
             init: () => set({ 
                 showAnswer: false,
                 showReadButton: true,
-                showTransButton: true,
+                showTransButton: false,
                 isLoading: false,
                 levelUpInfo: {
-                    level: '',
+                    level: 'N1',
                     classification: '',
                 },
                 levelUpList: []

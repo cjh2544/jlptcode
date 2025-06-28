@@ -13,7 +13,7 @@ type ModalAnswerProps = {
 const ModalAnswer = (props:ModalAnswerProps) => {
   const {title, btnTitle = '정답확인', goQuestion} = props;
   const [showModal, setShowModal] = React.useState(false);
-  const levelUpList = useStrategyStore((state) => state.levelUpList);
+  const levelUpList = useStrategyStore((state:any) => state.levelUpList);
   const router = useRouter();
 
   const getCollectCnt = useMemo(() => (collectType: String) => {

@@ -8,7 +8,7 @@ import QuestionTest from "./components/questionTest";
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
-  const levelUpInfo =useLevelUpStore((state) => state.levelUpInfo);
+  const levelUpInfo =useLevelUpStore((state:any) => state.levelUpInfo);
   
   const { data: session } = useSession();
 

@@ -35,10 +35,10 @@ export const useStrategyStore = create<StrategyStore>()(
                 questionGroupType: '',
             },
             levelUpList: [],
-            setStoreData: (code, value) => set((state) => ({ [code]: value })),
-            setLevelUpInfo: (levelUpInfo) => set((state) => ({ levelUpInfo: levelUpInfo })),
-            setLevelUpList: (levelUpList: Array<any>) => set((state) => ({ levelUpList: levelUpList })),
-            setLevelUpAnswer: (selectedData: any) => set((state) => ({
+            setStoreData: (code, value) => set((state:any) => ({ [code]: value })),
+            setLevelUpInfo: (levelUpInfo) => set((state:any) => ({ levelUpInfo: levelUpInfo })),
+            setLevelUpList: (levelUpList: Array<any>) => set((state:any) => ({ levelUpList: levelUpList })),
+            setLevelUpAnswer: (selectedData: any) => set((state:any) => ({
                 levelUpList: state.levelUpList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}

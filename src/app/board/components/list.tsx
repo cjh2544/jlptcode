@@ -20,14 +20,14 @@ const BoardList = (props: BoardListProps) => {
   } = props
   
   const router = useRouter();
-  const pageInfo = useBoardCommunityStore((state) => state.pageInfo);
-  const boardList = useBoardCommunityStore((state) => state.boardList);
-  const isLoading = useBoardCommunityStore((state) => state.isLoading);
-  const setPageInfo = useBoardCommunityStore((state) => state.setPageInfo);
-  const getPageInfo = useBoardCommunityStore((state) => state.getPageInfo);
-  const getBoardList = useBoardCommunityStore((state) => state.getBoardList);
-  const getBoardInfo = useBoardCommunityStore((state) => state.getBoardInfo);
-  const init = useBoardCommunityStore((state) => state.init);
+  const pageInfo = useBoardCommunityStore((state:any) => state.pageInfo);
+  const boardList = useBoardCommunityStore((state:any) => state.boardList);
+  const isLoading = useBoardCommunityStore((state:any) => state.isLoading);
+  const setPageInfo = useBoardCommunityStore((state:any) => state.setPageInfo);
+  const getPageInfo = useBoardCommunityStore((state:any) => state.getPageInfo);
+  const getBoardList = useBoardCommunityStore((state:any) => state.getBoardList);
+  const getBoardInfo = useBoardCommunityStore((state:any) => state.getBoardInfo);
+  const init = useBoardCommunityStore((state:any) => state.init);
 
   const handlePageChange = (newPageNo: number) => {
     setPageInfo({

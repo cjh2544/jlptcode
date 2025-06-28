@@ -12,7 +12,7 @@ const WordTableContent = (props: WordTableProps) => {
     conditions
   } = props
 
-  const wordList = useWordStore((state) => state.wordList);
+  const wordList = useWordStore((state:any) => state.wordList);
 
   return (
     <>

@@ -21,14 +21,14 @@ const MmeberList = (props: BoardListProps) => {
   } = props
   
   const router = useRouter();
-  const pageInfo = useUserStore((state) => state.pageInfo);
-  const userList = useUserStore((state) => state.userList);
-  const isLoading = useUserStore((state) => state.isLoading);
-  const setPageInfo = useUserStore((state) => state.setPageInfo);
-  const getPageInfo = useUserStore((state) => state.getPageInfo);
-  const getUserList = useUserStore((state) => state.getUserList);
-  const getUserInfo = useUserStore((state) => state.getUserInfo);
-  const init = useUserStore((state) => state.init);
+  const pageInfo = useUserStore((state:any) => state.pageInfo);
+  const userList = useUserStore((state:any) => state.userList);
+  const isLoading = useUserStore((state:any) => state.isLoading);
+  const setPageInfo = useUserStore((state:any) => state.setPageInfo);
+  const getPageInfo = useUserStore((state:any) => state.getPageInfo);
+  const getUserList = useUserStore((state:any) => state.getUserList);
+  const getUserInfo = useUserStore((state:any) => state.getUserInfo);
+  const init = useUserStore((state:any) => state.init);
 
   const handlePageChange = (newPageNo: number) => {
     setPageInfo({

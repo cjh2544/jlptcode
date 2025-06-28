@@ -12,8 +12,8 @@ const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
   const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer} = questionInfo;
 
-  const setJlptAnswer = useJlptStore((state) => state.setJlptAnswer);
-  const showAnswer = useJlptStore((state) => state.showAnswer);
+  const setJlptAnswer = useJlptStore((state:any) => state.setJlptAnswer);
+  const showAnswer = useJlptStore((state:any) => state.showAnswer);
 
   const handleClick = (selectedData: any) => {
     setJlptAnswer(selectedData);

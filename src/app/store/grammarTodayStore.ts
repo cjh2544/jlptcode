@@ -52,13 +52,13 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
                 sentence_translate: false
             },
             grammarTodayList: [],
-            setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => set((state) => {
+            setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => set((state:any) => {
                 state.grammarTodayInfo = grammarTodayInfo;
                 isSearch && state.getGrammarTodayList();
                 return state;
             }),
-            setGrammarTodayList: (grammarTodayList: Array<any>) => set((state) => ({ grammarTodayList: grammarTodayList })),
-            setGrammarTodayAnswer: (selectedData: any) => set((state) => {
+            setGrammarTodayList: (grammarTodayList: Array<any>) => set((state:any) => ({ grammarTodayList: grammarTodayList })),
+            setGrammarTodayAnswer: (selectedData: any) => set((state:any) => {
                 state.grammarTodayList = state.grammarTodayList.map((data: any) => {
                     if(data.questionNo === selectedData.questionNo) {
                         return {...data, selectedAnswer: selectedData.selectedAnswer}
@@ -104,7 +104,7 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
                     }
                 });
             },
-            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
                 grammarTodayList: state.grammarTodayList.map((data) => {
                     data.hideSentence = headerVisibleInfo.sentence;

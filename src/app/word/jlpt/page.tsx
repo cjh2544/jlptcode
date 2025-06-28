@@ -12,12 +12,12 @@ const JlptPage = () => {
   const { data: session } = useSession();
 
   const [conditions, setConditions] = useState({});
-  const searchInfo = useWordStore((state) => state.searchInfo);
-  const pageInfo = useWordStore((state) => state.pageInfo);
-  const getWordList = useWordStore((state) => state.getWordList);
-  const setPageInfo = useWordStore((state) => state.setPageInfo);
-  const getPageInfo = useWordStore((state) => state.getPageInfo);
-  const init = useWordStore((state) => state.init);
+  const searchInfo = useWordStore((state:any) => state.searchInfo);
+  const pageInfo = useWordStore((state:any) => state.pageInfo);
+  const getWordList = useWordStore((state:any) => state.getWordList);
+  const setPageInfo = useWordStore((state:any) => state.setPageInfo);
+  const getPageInfo = useWordStore((state:any) => state.getPageInfo);
+  const init = useWordStore((state:any) => state.init);
   
   const handlePageChange = (page: number) => {
     setPageInfo({...pageInfo, currentPage: page});

@@ -23,13 +23,13 @@ type WordTableProps = {
 const WordContent = (props: WordTableProps) => {
 
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
-  const pageInfo = useWordStore((state) => state.pageInfo);
-  const wordList = useWordStore((state) => state.wordList);
-  const searchInfo =useWordStore((state) => state.searchInfo);
-  const showDelay =useWordStore((state) => state.showDelay);
-  const speed =useWordStore((state) => state.speed);
-  const autoSlide =useWordStore((state) => state.autoSlide);
-  const setStoreData =useWordStore((state) => state.setStoreData);
+  const pageInfo = useWordStore((state:any) => state.pageInfo);
+  const wordList = useWordStore((state:any) => state.wordList);
+  const searchInfo =useWordStore((state:any) => state.searchInfo);
+  const showDelay =useWordStore((state:any) => state.showDelay);
+  const speed =useWordStore((state:any) => state.speed);
+  const autoSlide =useWordStore((state:any) => state.autoSlide);
+  const setStoreData =useWordStore((state:any) => state.setStoreData);
   const [realIndex, setRealIndex] = useState<number>(1);
 
   const swiperRef = useRef<any>();

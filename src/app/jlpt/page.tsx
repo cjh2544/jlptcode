@@ -7,7 +7,7 @@ import { useJlptStore } from '@/app/store/jlptStore';
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
-  const searchInfo =useJlptStore((state) => state.searchInfo);
+  const searchInfo =useJlptStore((state:any) => state.searchInfo);
   
   const { data: session } = useSession();
 

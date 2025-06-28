@@ -84,13 +84,13 @@ export const useWordStore = create<WordStore>() (
                 wordShowType: '1',
             },
             wordList: [],
-            setStoreData: ({key, value}) => set((state) => ({
+            setStoreData: ({key, value}) => set((state:any) => ({
                 [key]: value
             })),
-            setViewType: (viewType: ViewType) => set((state) => ({ viewType: viewType })),
-            setPageInfo: (pageInfo: Paginate) => set((state) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
-            setSearchInfo: (searchInfo) => set((state) => ({searchInfo: searchInfo})),
-            setWordList: (wordList) => set((state) => ({ wordList: wordList })),
+            setViewType: (viewType: ViewType) => set((state:any) => ({ viewType: viewType })),
+            setPageInfo: (pageInfo: Paginate) => set((state:any) => ({ pageInfo: {...state.pageInfo, ...pageInfo} })),
+            setSearchInfo: (searchInfo) => set((state:any) => ({searchInfo: searchInfo})),
+            setWordList: (wordList) => set((state:any) => ({ wordList: wordList })),
             getPageInfo: async () => {
                 const response = await fetch('/api/word/page', {
                     method: 'POST',
@@ -120,7 +120,7 @@ export const useWordStore = create<WordStore>() (
                     wordList: resData,
                 });
             },
-            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state) => ({
+            setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
                 wordList: state.wordList.map((data: WordInfoType) => {
                     data.hideWord = headerVisibleInfo.word;
