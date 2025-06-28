@@ -21,7 +21,7 @@ const WordTable = ({title, data, className}: WordTableProps) => {
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordList(
-      wordList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      wordList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
@@ -67,7 +67,7 @@ const WordTable = ({title, data, className}: WordTableProps) => {
                 </tr>
               </thead>
               <tbody>
-                {data && data.map((wordInfo, idx) => {
+                {data && data.map((wordInfo: any, idx: number) => {
                   return <WordInfo key={idx} wordInfo={wordInfo} onClick={(data: any) => handleClickVisible(data, idx)} />
                 })}
               </tbody>

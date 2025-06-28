@@ -106,7 +106,7 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
             },
             setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
-                grammarTodayList: state.grammarTodayList.map((data) => {
+                grammarTodayList: state.grammarTodayList.map((data: any) => {
                     data.hideSentence = headerVisibleInfo.sentence;
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;

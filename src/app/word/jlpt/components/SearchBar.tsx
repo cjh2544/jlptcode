@@ -59,11 +59,11 @@ const SearchBar = (props: SearchProps) => {
   }
 
   const getCodeDetailList = useCallback((code: string) => {
-    return codeList.find((data) => data.code === code)?.details || []
+    return codeList.find((data: any) => data.code === code)?.details || []
   }, [codeList]);
 
   const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data) => data.wordType === searchInfo.wordType && data.level === 'N' + searchInfo.level)?.details || []
+    return yearCodeList.find((data: any) => data.wordType === searchInfo.wordType && data.level === 'N' + searchInfo.level)?.details || []
   }, [yearCodeList, searchInfo]);
 
   useEffect(() => {

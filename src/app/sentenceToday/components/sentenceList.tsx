@@ -21,7 +21,7 @@ const SentenceList = ({className}: SentenceListProps) => {
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(
-      wordTodayList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      wordTodayList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
@@ -54,7 +54,7 @@ const SentenceList = ({className}: SentenceListProps) => {
             </tr>
           </thead>
           <tbody>
-            {wordTodayList.map((item, index) => (
+            {wordTodayList.map((item: any, index: number) => (
               <SentenceInfo key={index} wordInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
             ))}
           </tbody>

@@ -134,7 +134,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
             },
             setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
-                wordTodayList: state.wordTodayList.map((data) => {
+                wordTodayList: state.wordTodayList.map((data: any) => {
                     data.hideWord = headerVisibleInfo.word;
                     data.hideRead = headerVisibleInfo.read;
                     data.hideMeans = headerVisibleInfo.means;

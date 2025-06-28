@@ -42,11 +42,11 @@ const SearchBar = (props: SearchProps) => {
   }
 
   const getCodeDetailList = useCallback((code: string) => {
-    return codeList.find((data) => data.code === code)?.details || []
+    return codeList.find((data: any) => data.code === code)?.details || []
   }, [codeList]);
 
   const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data) => data.level === levelUpInfo.level)?.details || []
+    return yearCodeList.find((data: any) => data.level === levelUpInfo.level)?.details || []
   }, [yearCodeList, levelUpInfo]);
 
   useEffect(() => {

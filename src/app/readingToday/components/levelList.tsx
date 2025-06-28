@@ -28,7 +28,7 @@ const LevelList = (props: LevelListProps) => {
   const handleTabChange = (selectedData: any) => {
     setReadingTodayInfo({...readingTodayInfo, ...selectedData});
     setReadingTodayList(
-      readingTodayList.map((item, idx) => ({
+      readingTodayList.map((item: any, idx: number) => ({
         ...item, 
         hideSentence: false,
         hideSentenceRead: true,

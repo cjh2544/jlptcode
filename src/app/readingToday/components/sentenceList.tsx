@@ -21,14 +21,14 @@ const SentenceList = ({className}: SentenceListProps) => {
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setReadingTodayList(
-      readingTodayList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      readingTodayList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
   return readingTodayList.length === 0 ? <></> : (
     <div className={`mx-4 ${className}`} onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()}>
       <Card className="h-full w-full bg-white p-4">
-        {readingTodayList.map((item, index) => (
+        {readingTodayList.map((item: any, index: number) => (
           <SentenceInfo key={index} readingInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
         ))}
       </Card>

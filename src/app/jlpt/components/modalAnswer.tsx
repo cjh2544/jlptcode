@@ -22,7 +22,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
   }
 
   const getCollectCnt = useMemo(() => (collectType: String) => {
-    return jlptList.filter((item) => item.answer && (collectType === 'collect' ? item.answer === item.selectedAnswer : item.answer !== item.selectedAnswer)).length;
+    return jlptList.filter((item:any) => item.answer && (collectType === 'collect' ? item.answer === item.selectedAnswer : item.answer !== item.selectedAnswer)).length;
   }, [jlptList]);
 
   return (
@@ -71,7 +71,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                           全体(전체)<br />total
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          {(jlptList.filter((item) => item.answer) || []).length}
+                          {(jlptList.filter((item:any) => item.answer) || []).length}
                         </span>
                       </div>
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1 text-center">
@@ -112,7 +112,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {jlptList.filter((item) => item.answer).map((item, idx) => {
+                      {jlptList.filter((item:any) => item.answer).map((item:any, idx:number) => {
                         return (
                           <tr key={`jlpt-question-answer-${idx}`} className="border-b">
                             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center bg-blueGray-50 text-gray-800">

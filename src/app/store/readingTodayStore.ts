@@ -78,7 +78,7 @@ export const useReadingTodayStore = create<ReadingTodayStore>()(
             },
             setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => set((state:any) => ({
                 hideAll: headerVisibleInfo,
-                readingTodayList: state.readingTodayList.map((data) => {
+                readingTodayList: state.readingTodayList.map((data:any) => {
                     data.hideSentence = headerVisibleInfo.sentence;
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;

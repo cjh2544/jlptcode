@@ -14,7 +14,7 @@ const WordList = ({title, data, className}: WordListProps) => {
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordList(
-      wordList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      wordList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
   

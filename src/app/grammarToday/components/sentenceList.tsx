@@ -21,7 +21,7 @@ const SentenceList = ({className}: SentenceListProps) => {
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setGrammarTodayList(
-      grammarTodayList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      grammarTodayList.map((item:any, idx:number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
@@ -54,7 +54,7 @@ const SentenceList = ({className}: SentenceListProps) => {
             </tr>
           </thead>
           <tbody>
-            {grammarTodayList.map((item, index) => (
+            {grammarTodayList.map((item:any, index: number) => (
               <SentenceInfo key={index} sentenceInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
             ))}
           </tbody>

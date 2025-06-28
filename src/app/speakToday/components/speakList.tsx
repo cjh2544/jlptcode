@@ -15,7 +15,7 @@ const SpeakList = ({className}: SpeakListProps) => {
   
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordTodayList(
-      wordTodayList.map((item, idx) => idx === rowNum ? {...item, ...wordInfo} : item)
+      wordTodayList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
@@ -24,7 +24,7 @@ const SpeakList = ({className}: SpeakListProps) => {
       <div className="w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div className="flow-root">
           <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
-            {wordTodayList.map((item, index) => (
+            {wordTodayList.map((item: any, index: number) => (
               <SpeakInfo key={index} wordInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
             ))}
           </ul>

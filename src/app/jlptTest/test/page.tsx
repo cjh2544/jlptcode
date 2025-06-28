@@ -18,6 +18,21 @@ const JlptTestPage = () => {
   const setShowAnswer = useJlptTestStore((state:any) => state.setShowAnswer);
   const setStoreData = useJlptTestStore((state:any) => state.setStoreData);
 
+  // 1. 과목 키 타입 정의
+  type ClassificationKey  = "vocabulary" | "grammar" | "reading" | "listening";
+  
+  const classificationContentMap: Record<ClassificationKey, JSX.Element> = {
+    vocabulary: <p>文字語彙</p>,
+    grammar: <p>文法</p>,
+    reading: <p>読解</p>,
+    listening: <p>聴解</p>,
+  };
+
+  const isClassificationKey = (key: any): key is ClassificationKey =>
+    ['vocabulary', 'grammar', 'reading', 'listening'].includes(key);
+
+  const classification = searchInfo.classification;
+
   return <>
     <JlptTestLayout>
       {isLoading ? (
@@ -28,14 +43,7 @@ const JlptTestPage = () => {
           <div className="rounded-t bg-white mb-0 px-6 py-6 shadow-lg">
             <div className="text-center flex justify-between">
               <h6 className="text-blueGray-700 text-xl font-bold">
-              {
-                { 
-                  vocabulary : "文字語彙",
-                  grammar : "文法",
-                  reading : "読解",
-                  listening : "聴解",
-                }[searchInfo.classification]
-              }
+              {isClassificationKey(classification) && classificationContentMap[classification]}
               </h6>
               <div className='flex'>
                 <div className="flex items-center mr-1">
