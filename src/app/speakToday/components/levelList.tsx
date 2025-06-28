@@ -32,7 +32,7 @@ const studyLevelInfoList = [
 
 const LevelList = (props: LevelListProps) => {
   const {
-    levels = ['N5'], level = 'N5', idx = 0
+    levels = 'N5', level = 'N5', idx = 0
   } = props
   
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
@@ -42,7 +42,7 @@ const LevelList = (props: LevelListProps) => {
   const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level || level}});
 
   const handleTabChange = (selectedData: any) => {
-    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level});
+    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(',')});
   }
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -65,7 +65,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels, study: '', idx});
+    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels.split(','), study: '', idx});
   }, [])
 
   return (
