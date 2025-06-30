@@ -70,11 +70,18 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
-                state.wordTodayInfo = wordTodayInfo;
-                isSearch && state.getSpeakTodayList();
-                return state;
-            }),
+            // setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
+            //     state.wordTodayInfo = wordTodayInfo;
+            //     isSearch && state.getSpeakTodayList();
+            //     return state;
+            // }),
+            setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => {
+                set(() => ({
+                    wordTodayInfo: { ...wordTodayInfo },
+                }));
+
+                if (isSearch) get().getSpeakTodayList();
+            },
             setSpeakTodayList: (wordTodayList: Array<any>) => set((state:any) => ({ wordTodayList: wordTodayList })),
             getSpeakTodayList: async () => {
                 const response = await fetch('/api/speakToday/list', {

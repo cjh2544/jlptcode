@@ -32,14 +32,14 @@ const studyLevelInfoList = [
 
 const LevelList = (props: LevelListProps) => {
   const {
-    levels = 'N5', level, idx = 0
+    levels = 'N5', idx = 0
   } = props
   
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
   const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
 
-  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level || level}});
+  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level}});
 
   const handleTabChange = (selectedData: any) => {
     setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(',')});
@@ -53,6 +53,7 @@ const LevelList = (props: LevelListProps) => {
 
     if(e.target.name === 'level') {
       isSearch = false;
+      eObj = {...eObj, study: ''};
     } else if(e.target.name === 'study') {
       isSearch = false;
     }
@@ -65,7 +66,7 @@ const LevelList = (props: LevelListProps) => {
   }
 
   useEffect(() => {
-    setSpeakTodayInfo({...wordTodayInfo, level, levels: levels.split(','), study: '', idx});
+    setSpeakTodayInfo({...wordTodayInfo, level: wordTodayInfo.level, levels: levels.split(','), study: '', idx});
   }, [])
 
   return (
@@ -93,14 +94,14 @@ const LevelList = (props: LevelListProps) => {
               <span className="h-px flex-1 bg-gray-300"></span>
             </div>
             <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
-              <select id="level" name="level" value={level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {studyLevelInfoList.map((item: any, idx: number) => {
                   return (<option key={item.level} value={item.level}>{item.name}</option>)
                 })}
               </select>
-              <select id="study" name="study" onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 <option value="">선택</option>
-                {(studyList.find((item: any) => item.level === level)?.studies ?? []).map((studyNm: any, idx: number) => {
+                {(studyList.find((item: any) => item.level === wordTodayInfo.level)?.studies ?? []).map((studyNm: any, idx: number) => {
                   return (<option key={idx} value={studyNm}>{studyNm}</option>)
                 })}
               </select>
