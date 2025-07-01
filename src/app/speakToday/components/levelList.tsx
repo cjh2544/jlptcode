@@ -42,7 +42,8 @@ const LevelList = (props: LevelListProps) => {
   const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level}});
 
   const handleTabChange = (selectedData: any) => {
-    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(',')});
+
+    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(','), level: wordTodayInfo.level});
   }
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {

@@ -47,11 +47,18 @@ export const useReadingTodayStore = create<ReadingTodayStore>()(
                 sentence_translate: false,
             },
             readingTodayList: [],
-            setReadingTodayInfo: (readingTodayInfo) => set((state:any) => {
-                state.readingTodayInfo = readingTodayInfo;
-                state.getReadingTodayList();
-                return state;
-            }),
+            // setReadingTodayInfo: (readingTodayInfo) => set((state:any) => {
+            //     state.readingTodayInfo = readingTodayInfo;
+            //     state.getReadingTodayList();
+            //     return state;
+            // }),
+            setReadingTodayInfo: (readingTodayInfo) => {
+                set(() => ({
+                    readingTodayInfo: { ...readingTodayInfo },
+                }));
+
+                get().getReadingTodayList();
+            },
             setReadingTodayList: (readingTodayList: Array<any>) => set((state:any) => ({ readingTodayList: readingTodayList })),
             getReadingTodayList: async () => {
                 const response = await fetch('/api/readingToday/list', {

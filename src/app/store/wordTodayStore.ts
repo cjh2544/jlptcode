@@ -71,11 +71,18 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 keyword: false,
             },
             wordTodayList: [],
-            setWordTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
-                state.wordTodayInfo = wordTodayInfo;
-                isSearch && state.getWordTodayList();
-                return state;
-            }),
+            // setWordTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
+            //     state.wordTodayInfo = wordTodayInfo;
+            //     isSearch && state.getWordTodayList();
+            //     return state;
+            // }),
+            setWordTodayInfo: (wordTodayInfo, isSearch = true) => {
+                set(() => ({
+                    wordTodayInfo: { ...wordTodayInfo },
+                }));
+
+                if (isSearch) get().getWordTodayList();
+            },
             setWordTodayList: (wordTodayList: Array<any>) => set((state:any) => ({ wordTodayList: wordTodayList })),
             setWordTodayAnswer: (selectedData: any) => set((state:any) => {
                 state.wordTodayList = state.wordTodayList.map((data: any) => {

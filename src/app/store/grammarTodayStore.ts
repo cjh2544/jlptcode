@@ -52,11 +52,18 @@ export const useGrammarTodayStore = create<GrammarTodayStore>()(
                 sentence_translate: false
             },
             grammarTodayList: [],
-            setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => set((state:any) => {
-                state.grammarTodayInfo = grammarTodayInfo;
-                isSearch && state.getGrammarTodayList();
-                return state;
-            }),
+            // setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => set((state:any) => {
+            //     state.grammarTodayInfo = grammarTodayInfo;
+            //     isSearch && state.getGrammarTodayList();
+            //     return state;
+            // }),
+            setGrammarTodayInfo: (grammarTodayInfo, isSearch = true) => {
+                set(() => ({
+                    grammarTodayInfo: { ...grammarTodayInfo },
+                }));
+
+                if (isSearch) get().getGrammarTodayList();
+            },
             setGrammarTodayList: (grammarTodayList: Array<any>) => set((state:any) => ({ grammarTodayList: grammarTodayList })),
             setGrammarTodayAnswer: (selectedData: any) => set((state:any) => {
                 state.grammarTodayList = state.grammarTodayList.map((data: any) => {
