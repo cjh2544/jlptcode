@@ -5,6 +5,7 @@ import List from "../components/list";
 import { useUserStore } from "@/app/store/userStore";
 import { useCallback } from "react";
 import MemberTitle from "../components/memberTitle";
+import Speaker from "@/app/components/Audio/Speaker";
 
 const MemberListPage = () => {
   const { data: session } = useSession();
@@ -22,6 +23,7 @@ const MemberListPage = () => {
             <MemberLayout>
               <MemberTitle title={`회원목록 (${pageInfo?.total})`} visibleButton={true} buttonTitle="문의하기" />
               <List />
+              <Speaker />
             </MemberLayout>
           </>
         )
