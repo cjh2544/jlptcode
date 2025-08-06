@@ -4,11 +4,11 @@ type SpeakerProps = {
   fileId?: string,
 }
 
-const Speaker = ({fileId = '1d1uDO-UgLjp4EuxqwHJMpPuemTgCwx-o'}: SpeakerProps) => {
+const Speaker = ({fileId = '18U14TjZoj4pG6kBLWhi4RrkEbshx7aVZ'}: SpeakerProps) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const audioUrl = `https://docs.google.com/uc?export=download&id=${fileId}`;
+  const audioUrl = `https://docs.google.com/uc?export=open&id=${fileId}`;
 
   const togglePlayback = () => {
     const audio = audioRef.current;
@@ -30,7 +30,9 @@ const Speaker = ({fileId = '1d1uDO-UgLjp4EuxqwHJMpPuemTgCwx-o'}: SpeakerProps) =
       <button onClick={togglePlayback} className="text-2xl">
         {isPlaying ? '🔊' : '🔈'}
       </button>
-      <audio ref={audioRef} src={audioUrl} preload="auto" />
+      <audio ref={audioRef} preload="none">
+          <source src={audioUrl} type="audio/mp3" />
+      </audio>
     </div>
   );
 };
