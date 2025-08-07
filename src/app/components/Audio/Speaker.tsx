@@ -30,9 +30,7 @@ const Speaker = ({fileId = '18U14TjZoj4pG6kBLWhi4RrkEbshx7aVZ'}: SpeakerProps) =
       <button onClick={togglePlayback} className="text-2xl">
         {isPlaying ? '🔊' : '🔈'}
       </button>
-      <audio ref={audioRef} preload="none">
-          <source src={audioUrl} type="audio/mp3" />
-      </audio>
+      <audio ref={audioRef} src={audioUrl} preload="auto" />
     </div>
   );
 };
