@@ -9,6 +9,7 @@ interface JptStore {
     jptInfo: {
         level: string,
         classification: string,
+        part: string,
     },
     jptList: Array<any>,
     setStoreData: (code: string, value: any) => void,
@@ -16,6 +17,7 @@ interface JptStore {
     setJptList: (jptList: any) => void,
     setJptAnswer: (selectedData: any) => void,
     getJptList: () => void,
+    getJptRandomList: () => void,
     init: () => void,
 }
 
@@ -27,8 +29,9 @@ export const useJptStore = create<JptStore>()(
             showTransButton: false,
             isLoading: false,
             jptInfo: {
-                level: 'N1',
+                level: '고급(800)',
                 classification: '',
+                part: '',
             },
             jptList: [],
             setStoreData: (code, value) => set((state:any) => ({ [code]: value })),
@@ -55,20 +58,33 @@ export const useJptStore = create<JptStore>()(
                 const resData = await response.json();
                 set({ jptList: resData, isLoading: false });
             },
+            getJptRandomList: async () => {
+                set({ isLoading: true });
+                const response = await fetch('/api/jpt/random', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({params: get().jptInfo}),
+                })
+                const resData = await response.json();
+                set({ jptList: resData, isLoading: false });
+            },
             init: () => set({ 
                 showAnswer: false,
                 showReadButton: true,
                 showTransButton: false,
                 isLoading: false,
                 jptInfo: {
-                    level: 'N1',
+                    level: '고급(800)',
                     classification: '',
+                    part: '',
                 },
                 jptList: []
             }),
         }),
         {
-          name: 'levelup-storage', // persist key
+          name: 'jpt-storage', // persist key
         }
       )
     )

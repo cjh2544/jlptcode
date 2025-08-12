@@ -22,14 +22,14 @@ const JptList = (props: JptListProps) => {
   const router = useRouter();
   const jptInfo =useJptStore((state:any) => state.jptInfo);
   const setJptInfo = useJptStore((state:any) => state.setJptInfo);
-  const getJptList = useJptStore((state:any) => state.getJptList);
+  const getJptRandomList = useJptStore((state:any) => state.getJptRandomList);
 
   const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: jptInfo.level || level}});
 
   const handleClick = (selectedData: any) => {
     setJptInfo({...jptInfo, ...selectedData});
-    getJptList();
-    router.push('/jpt/test', {scroll:false});
+    getJptRandomList();
+    router.push('/jptLevelUp/test', {scroll:false});
   }
 
   const handleTabChange = (selectedData: any) => {
@@ -56,7 +56,7 @@ const JptList = (props: JptListProps) => {
               </div>
             </div>
             <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
-              <TabDefault onChange={handleTabChange} selectedIdx={Number(jptInfo.level?.substring(1,2)) - 1 || 0} data={
+              <TabDefault onChange={handleTabChange} selectedIdx={classInfos[0]?.levelArr.findIndex((lvl:string) => lvl === jptInfo.level)} data={
                 (classInfos[0]?.levelArr || []).map((item: any, idx: number) => {
                   return {
                     title: item,

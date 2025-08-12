@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   await connectDB();
   
   const jptConditions = await request.json();
-  const {level, classification} = jptConditions.params || {}
+  const {level, classification, part} = jptConditions.params || {}
   
   let jptList: any[] = [];
   let classNm = 'kangi';  // 과목
@@ -132,12 +132,12 @@ export async function POST(request: NextRequest) {
 
     for(const key in questionSizeInfo) {
       // 1. 문자/어휘 GROUP 문제 조회
-      const groupInfo = await Jpt.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+      const groupInfo = await Jpt.findOne({level, part: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       jptList.push(groupInfo);
 
       // 2. 문자/어휘 문제 랜덤 조회
       resultData = await Jpt.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, part: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } }
       ]);
 
@@ -148,12 +148,12 @@ export async function POST(request: NextRequest) {
 
     for(const key in questionSizeInfo) {
       // 1. 문법 GROUP 문제 조회
-      const groupInfo = await Jpt.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+      const groupInfo = await Jpt.findOne({level, part: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       jptList.push(groupInfo);
 
       // 2. 문법 문제 랜덤 조회
       resultData = await Jpt.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, part: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } }
       ]);
 
@@ -164,12 +164,12 @@ export async function POST(request: NextRequest) {
 
     for(const key in questionSizeInfo) {
       // 1. GROUP 문제 조회
-      const groupInfo = await Jpt.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+      const groupInfo = await Jpt.findOne({level, part: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
       jptList.push(groupInfo);
 
       // 2. 문제 랜덤 조회
       resultData = await Jpt.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        { $match: {level, part: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
         { $sample: { size : questionSizeInfo[key] } 
       }]);
       jptList = [...jptList, ...resultData];
@@ -180,13 +180,13 @@ export async function POST(request: NextRequest) {
     for(const key in questionSizeInfo) {
       // if(key === 'A-10') {
         // 1. GROUP 문제 조회
-        const groupInfo = await Jpt.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        const groupInfo = await Jpt.findOne({level, part: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
         
         jptList.push(groupInfo);
 
         // 2. 문제 랜덤 조회
         resultData = await Jpt.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
+          { $match: {level, part: { $nin: ['random'] }, classification, questionType: 'content', questionGroupType: key} },
           { $sample: { size : questionSizeInfo[key] } 
         }]);
 

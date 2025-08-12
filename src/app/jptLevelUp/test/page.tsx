@@ -1,5 +1,5 @@
 "use client"; // 필수!
-import { useLevelUpStore } from '@/app/store/levelUpStore';
+import { useJptStore } from '@/app/store/jptStore';
 import Question from '../components/question';
 import { memo, ReactNode, useState } from 'react';
 import ModalAnswer from '../components/modalAnswer';
@@ -9,11 +9,11 @@ import { useSession } from 'next-auth/react';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 
 const LevelUpTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useLevelUpStore((state:any) => state);
-  const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
-  const showReadButton = useLevelUpStore((state:any) => state.showReadButton);
-  const showTransButton = useLevelUpStore((state:any) => state.showTransButton);
-  const setStoreData = useLevelUpStore((state:any) => state.setStoreData);
+  const { jptInfo, jptList, isLoading } = useJptStore((state:any) => state);
+  const showAnswer = useJptStore((state:any) => state.showAnswer);
+  const showReadButton = useJptStore((state:any) => state.showReadButton);
+  const showTransButton = useJptStore((state:any) => state.showTransButton);
+  const setStoreData = useJptStore((state:any) => state.setStoreData);
 
   const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
   const [confirmType, setConfirmType] = useState<any>('info')
@@ -56,19 +56,19 @@ const LevelUpTestPage = () => {
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   >
-                    {`${levelUpInfo.level}`}
+                    {`${jptInfo.level}`}
                     <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
                   </span>
                 </div>
               </div>
             </div>
             <div className="flex-auto bg-white mt-2 sm:p-2 lg:px-10 p-10">
-                {levelUpList.map((questionInfo: any, idx: number) => {
+                {jptList.map((questionInfo: any, idx: number) => {
                   return (<Question key={`levelUp-test-${idx}`} questionInfo={questionInfo} />)
                 })}
             </div>
             <div className="rounded-b bg-white mb-0 border-t p-6 sticky bottom-0 z-50">
-              <ModalAnswer title={`Level up - ${levelUpInfo.level}`} />
+              <ModalAnswer title={`Level up - ${jptInfo.level}`} />
             </div>
           </div>
         </div>

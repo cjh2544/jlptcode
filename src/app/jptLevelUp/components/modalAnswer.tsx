@@ -21,7 +21,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
   return (
     <>
       <div className="flex justify-between">
-        <Link scroll={false} href={`/jpt`} className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+        <Link scroll={false} href={`/jptLevelUp`} className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
           목록
         </Link>
         <button
