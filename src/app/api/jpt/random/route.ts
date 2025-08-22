@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       "part4": 1,
       "part5": 5,
       "part6": 5,
-      "part7": 1,
+      "part7": 5,
       "part8": 1,
     },
     ['상급(650)']: {
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       "part4": 1,
       "part5": 5,
       "part6": 5,
-      "part7": 1,
+      "part7": 5,
       "part8": 1,
     },
     ['중급(500)']: {
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       "part4": 1,
       "part5": 5,
       "part6": 5,
-      "part7": 1,
+      "part7": 5,
       "part8": 1,
     },
     ['초급(400)']: {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       "part4": 1,
       "part5": 5,
       "part6": 5,
-      "part7": 1,
+      "part7": 5,
       "part8": 1,
     },
     ['기초']: {
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       "part4": 1,
       "part5": 5,
       "part6": 5,
-      "part7": 1,
+      "part7": 5,
       "part8": 1,
     }
   }
