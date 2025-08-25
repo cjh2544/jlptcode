@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation'
 import { useLevelUpStore } from '@/app/store/levelUpStore';
 import SearchBar from "./components/SearchBar";
 import JptStrategyLayout from "../components/Layout/JptStrategyLayout";
+import QuestionTest from "./components/questionTest";
 
 const JlptPage = () => {
   const searchParams = useSearchParams();
@@ -14,7 +15,7 @@ const JlptPage = () => {
   return (
     <JptStrategyLayout>
       <SearchBar />
-      {/* <QuestionTest /> */}
+      <QuestionTest />
       {/* <LevelUpList level={searchParams.get('level') || levelUpInfo.level || 'N1'} /> */}
     </JptStrategyLayout>
   )
