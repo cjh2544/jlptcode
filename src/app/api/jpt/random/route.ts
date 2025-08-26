@@ -75,31 +75,33 @@ export async function POST(request: NextRequest) {
     // 1. GROUP 문제 조회
     const groupInfo = await Jpt.findOne({part, questionType: 'group'});
     
-    levelUpList.push(groupInfo);
+    if(groupInfo) {
+      levelUpList.push(groupInfo);
 
-    // 2. 문제 랜덤 조회
-    resultData = await Jpt.aggregate([
-      { $match: {level, part, questionType: 'content'} },
-      { $sample: { size : questionSizeInfo } 
-    }]);
+      // 2. 문제 랜덤 조회
+      resultData = await Jpt.aggregate([
+        { $match: {level, part, questionType: 'content'} },
+        { $sample: { size : questionSizeInfo } 
+      }]);
 
-    let qDataList = [];
+      let qDataList = [];
 
-    for (const item of resultData) {
-      qDataList.push(item);
+      for (const item of resultData) {
+        qDataList.push(item);
 
-      qDataList.push(
-        await Jpt.findOne({
-          level: item.level,
-          year: item.year,
-          classification: item.classification,
-          questionGroupType: item.questionGroupType,
-          questionType: 'normal',
-          sortNo: Number(item.sortNo) + 1,
-        })
-      )
-      
-      levelUpList = [...levelUpList, ...qDataList];
+        qDataList.push(
+          await Jpt.findOne({
+            level: item.level,
+            year: item.year,
+            classification: item.classification,
+            questionGroupType: item.questionGroupType,
+            questionType: 'normal',
+            sortNo: Number(item.sortNo) + 1,
+          })
+        )
+        
+        levelUpList = [...levelUpList, ...qDataList];
+      }
     }
     
   } else {
@@ -107,15 +109,18 @@ export async function POST(request: NextRequest) {
 
     // 1. GROUP 문제 조회
     const groupInfo = await Jpt.findOne({part, questionType: 'group'});
-    levelUpList.push(groupInfo);
 
-    // 2. 문제 랜덤 조회
-    resultData = await Jpt.aggregate([
-      { $match: {level, part, questionType: 'normal'} },
-      { $sample: { size : questionSizeInfo } }
-    ]);
+    if(groupInfo) {
+      levelUpList.push(groupInfo);
 
-    levelUpList = [...levelUpList, ...resultData];
+      // 2. 문제 랜덤 조회
+      resultData = await Jpt.aggregate([
+        { $match: {level, part, questionType: 'normal'} },
+        { $sample: { size : questionSizeInfo } }
+      ]);
+
+      levelUpList = [...levelUpList, ...resultData];
+    }
   }
 
   let questionNo = 0;

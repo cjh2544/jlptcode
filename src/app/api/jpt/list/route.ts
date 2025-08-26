@@ -74,46 +74,60 @@ export async function POST(request: NextRequest) {
 
     // 1. GROUP 문제 조회
     const groupInfo = await Jpt.findOne({part, questionType: 'group'});
-    jptList.push(groupInfo);
 
-    // 2. 문제 랜덤 조회
-    resultData = await Jpt.aggregate([
-      { $match: {level, classification, part, questionType: 'normal'} },
-      { $sample: { size : questionSizeInfo } }
-    ]);
+    if(groupInfo) {
+      jptList.push(groupInfo);
 
-    jptList = [...jptList, ...resultData];
+      // 2. 문제 랜덤 조회
+      resultData = await Jpt.aggregate([
+        { $match: {level, classification, part, questionType: 'normal'} },
+        { $sample: { size : questionSizeInfo } }
+      ]);
+
+      jptList = [...jptList, ...resultData];
+    }
   } else if('reading' === classification) {
     questionSizeInfo = questionSize[level][part];
 
     // 1. GROUP 문제 조회
     const groupInfo = await Jpt.findOne({part, questionType: 'group'});
-    jptList.push(groupInfo);
 
-    // 2. 문제 랜덤 조회
-    if('part8' === part) {
-      resultData = await Jpt.aggregate([
-        { $match: {level, classification, part, questionType: 'content'} },
-        { $sample: { size : questionSizeInfo } 
-      }]);
+    if(groupInfo) {
+      jptList.push(groupInfo);
 
-      let qDataList = [];
+      // 2. 문제 랜덤 조회
+      if('part8' === part) {
+        resultData = await Jpt.aggregate([
+          { $match: {level, classification, part, questionType: 'content'} },
+          { $sample: { size : questionSizeInfo } 
+        }]);
 
-      for (const item of resultData) {
-        qDataList.push(item);
+        let qDataList = [];
 
-        qDataList.push(
-          await Jpt.findOne({
-            level: item.level,
-            classification: item.classification,
-            part: item.part,
-            questionGroupType: item.questionGroupType,
-            questionType: 'normal',
-            sortNo: Number(item.sortNo) + 1,
-          })
-        )
-        
-        jptList = [...jptList, ...qDataList];
+        for (const item of resultData) {
+          qDataList.push(item);
+
+          qDataList.push(
+            await Jpt.findOne({
+              level: item.level,
+              classification: 'vocabulary',
+              part: item.part,
+              questionGroupType: item.questionGroupType,
+              questionType: 'normal',
+              sortNo: Number(item.sortNo) + 1,
+            })
+          )
+          
+          jptList = [...jptList, ...qDataList];
+        }
+      } else {
+        // 2. 문제 랜덤 조회
+        resultData = await Jpt.aggregate([
+          { $match: {level, classification: 'vocabulary', part, questionType: 'normal'} },
+          { $sample: { size : questionSizeInfo } }
+        ]);
+
+        jptList = [...jptList, ...resultData];
       }
     } else {
       resultData = await Jpt.aggregate([

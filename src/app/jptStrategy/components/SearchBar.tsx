@@ -102,7 +102,7 @@ const SearchBar = (props: SearchProps) => {
               </label>
               <select id="part" name="part" value={jptInfo.part} onChange={handleChange} className="disabled:bg-gray-300 border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 <option value="">전체</option>
-                {getCodeDetailList('part-jpt').filter((item: any) => 'listening' === jptInfo.classification ? ['part1','part2','part3','part4'].includes(item.key) : ['part5','part6','part7','part8'].includes(item.key)).map((data: CodeDetail, idx:number) => {
+                {getCodeDetailList('part-jpt').filter((item: any) => 'listening' === jptInfo.classification ? ['part2','part3'].includes(item.key) : ['part5','part7','part8'].includes(item.key)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>
