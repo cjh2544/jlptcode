@@ -1,5 +1,5 @@
 "use client"; // 필수!
-import { useStrategyStore } from '@/app/store/strategyStore';
+import { useJptStore } from '@/app/store/jptStore';
 import Question from '../components/question';
 import { memo } from 'react';
 import ModalAnswer from '../components/modalAnswer';
@@ -8,9 +8,9 @@ import Loading from '@/app/components/Loading/loading';
 import { useJlptStore } from '@/app/store/jlptStore';
 
 const StrategyTestPage = () => {
-  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state:any) => state);
-  const showAnswer = useStrategyStore((state:any) => state.showAnswer);
-  const setStoreData = useStrategyStore((state:any) => state.setStoreData);
+  const { jptInfo, jptList, isLoading } = useJptStore((state:any) => state);
+  const showAnswer = useJptStore((state:any) => state.showAnswer);
+  const setStoreData = useJptStore((state:any) => state.setStoreData);
 
   return <>
       <StrategyLayout>
@@ -30,18 +30,18 @@ const StrategyTestPage = () => {
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                   >
-                    {`${levelUpInfo.level}`}
+                    {`${jptInfo.level}`}
                   </span>
                 </div>
               </div>
             </div>
             <div className="flex-auto bg-white mt-2 sm:p-2 lg:px-10 p-10">
-                {levelUpList.map((questionInfo: any, idx: number) => {
+                {jptList.map((questionInfo: any, idx: number) => {
                   return (<Question key={`levelUp-test-${idx}`} questionInfo={questionInfo} />)
                 })}
             </div>
             <div className="rounded-b bg-white mb-0 border-t p-6 sticky bottom-0 z-50">
-              <ModalAnswer title={`Level up - ${levelUpInfo.level}`} />
+              <ModalAnswer title={`Level up - ${jptInfo.level}`} />
             </div>
           </div>
         </div>

@@ -68,70 +68,53 @@ export async function POST(request: NextRequest) {
   let resultData: any[] = [];
   let questionSizeInfo: any = {};
 
-  // 청해
-  if('listening' === classification) {
+  // 독해
+  if('part8' === part) {
     questionSizeInfo = questionSize[level][part];
 
     // 1. GROUP 문제 조회
     const groupInfo = await Jpt.findOne({part, questionType: 'group'});
-
+    
     if(groupInfo) {
       jptList.push(groupInfo);
 
       // 2. 문제 랜덤 조회
       resultData = await Jpt.aggregate([
-        { $match: {level, classification, part, questionType: 'normal'} },
-        { $sample: { size : questionSizeInfo } }
-      ]);
+        { $match: {level, part, questionType: 'content'} },
+        { $sample: { size : questionSizeInfo } 
+      }]);
 
-      jptList = [...jptList, ...resultData];
-    }
-  } else if('reading' === classification) {
-    questionSizeInfo = questionSize[level][part];
+      let qDataList = [];
 
-    // 1. GROUP 문제 조회
-    const groupInfo = await Jpt.findOne({part, questionType: 'group'});
+      for (const item of resultData) {
+        qDataList.push(item);
 
-    if(groupInfo) {
-      jptList.push(groupInfo);
-
-      // 2. 문제 랜덤 조회
-      if('part8' === part) {
-        resultData = await Jpt.aggregate([
-          { $match: {level, classification, part, questionType: 'content'} },
-          { $sample: { size : questionSizeInfo } 
-        }]);
-
-        let qDataList = [];
-
-        for (const item of resultData) {
-          qDataList.push(item);
-
-          qDataList.push(
-            await Jpt.findOne({
-              level: item.level,
-              classification: 'vocabulary',
-              part: item.part,
-              questionGroupType: item.questionGroupType,
-              questionType: 'normal',
-              sortNo: Number(item.sortNo) + 1,
-            })
-          )
-          
-          jptList = [...jptList, ...qDataList];
-        }
-      } else {
-        // 2. 문제 랜덤 조회
-        resultData = await Jpt.aggregate([
-          { $match: {level, classification: 'vocabulary', part, questionType: 'normal'} },
-          { $sample: { size : questionSizeInfo } }
-        ]);
-
-        jptList = [...jptList, ...resultData];
+        qDataList.push(
+          ...await Jpt.find({
+            level: item.level,
+            part: item.part,
+            classification: item.classification,
+            questionGroupNo: item.questionGroupNo,
+            questionType: 'normal',
+          })
+        )
+    
+        jptList = [...jptList, ...qDataList];
       }
-    } else {
+    }
+    
+  } else {
+    questionSizeInfo = questionSize[level][part];
+
+    // 1. GROUP 문제 조회
+    const groupInfo = await Jpt.findOne({part, questionType: 'group'});
+
+    if(groupInfo) {
+      jptList.push(groupInfo);
+
+      // 2. 문제 랜덤 조회
       resultData = await Jpt.aggregate([
-        { $match: {level, classification, part, questionType: 'normal'} },
+        { $match: {level, part, questionType: 'normal'} },
         { $sample: { size : questionSizeInfo } }
       ]);
 
@@ -142,6 +125,7 @@ export async function POST(request: NextRequest) {
   let questionNo = 0;
 
   jptList.forEach((item, idx) => {
+
     item['sortNo'] = idx;
 
     if((item?.questionType || '') === 'normal') {
