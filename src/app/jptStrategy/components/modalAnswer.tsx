@@ -1,5 +1,5 @@
 import React, {memo, MouseEvent, useMemo} from "react";
-import { useStrategyStore } from "@/app/store/strategyStore";
+import { useJptStore } from "@/app/store/jptStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PaidButton from "@/app/components/Buttons/PaidButton";
@@ -13,13 +13,13 @@ type ModalAnswerProps = {
 const ModalAnswer = (props:ModalAnswerProps) => {
   const {title, btnTitle = '정답확인', goQuestion} = props;
   const [showModal, setShowModal] = React.useState(false);
-  const levelUpList = useStrategyStore((state:any) => state.levelUpList);
+  const jptList = useJptStore((state:any) => state.jptList);
   const router = useRouter();
 
   const getCollectCnt = useMemo(() => (collectType: String) => {
 
-    return levelUpList.filter((item: any) => item.answer && (collectType === 'collect' ? item.answer === item.selectedAnswer : item.answer !== item.selectedAnswer)).length;
-  }, [levelUpList]);
+    return jptList.filter((item: any) => item.answer && (collectType === 'collect' ? item.answer === item.selectedAnswer : item.answer !== item.selectedAnswer)).length;
+  }, [jptList]);
 
   const handleClickList = (e: MouseEvent<HTMLElement>) => {
       // router.back();
@@ -87,7 +87,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                           全体(전체)<br />total
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          {(levelUpList.filter((item: any) => item.answer) || []).length}
+                          {(jptList.filter((item: any) => item.answer) || []).length}
                         </span>
                       </div>
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1 text-center">
@@ -128,7 +128,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {levelUpList.filter((item: any) => item.answer).map((item: any, idx: number) => {
+                      {jptList.filter((item: any) => item.answer).map((item: any, idx: number) => {
                         return (
                           <tr key={`jlpt-question-answer-${idx}`} className="border-b">
                             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center bg-blueGray-50 text-gray-800">

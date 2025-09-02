@@ -84,21 +84,17 @@ export async function POST(request: NextRequest) {
         { $sample: { size : questionSizeInfo } 
       }]);
 
-      let qDataList = [];
+      for (let item of resultData) {
+        let qDataList = [item];
 
-      for (const item of resultData) {
-        qDataList.push(item);
+        qDataList.push(...await Jpt.find({
+          level: item.level,
+          part: item.part,
+          classification: item.classification,
+          questionGroupNo: Number(item.questionGroupNo),
+          questionType: 'normal',
+        }));
 
-        qDataList.push(
-          ...await Jpt.find({
-            level: item.level,
-            part: item.part,
-            classification: item.classification,
-            questionGroupNo: item.questionGroupNo,
-            questionType: 'normal',
-          })
-        )
-    
         jptList = [...jptList, ...qDataList];
       }
     }

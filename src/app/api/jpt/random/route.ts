@@ -84,10 +84,8 @@ export async function POST(request: NextRequest) {
         { $sample: { size : questionSizeInfo } 
       }]);
 
-      let qDataList = [];
-
       for (const item of resultData) {
-        qDataList.push(item);
+        let qDataList = [item];
 
         qDataList.push(
           await Jpt.findOne({
