@@ -1,5 +1,5 @@
 'use client';
-import { useWordStore } from '@/app/store/wordStore';
+import { useJptWordStore } from '@/app/store/jptWordStore';
 import { Button } from "@material-tailwind/react";
 import { memo } from 'react';
 
@@ -8,8 +8,8 @@ type HeaderButtonProps = {
 }
 
 const HeaderButton = ({colName}: HeaderButtonProps) => {
-  const hideAll = useWordStore(state => state.hideAll);
-  const setHideAllInfo = useWordStore(state => state.setHideAllInfo);
+  const hideAll = useJptWordStore(state => state.hideAll);
+  const setHideAllInfo = useJptWordStore(state => state.setHideAllInfo);
 
   const handleClickHeader = (colName: string) => {
     setHideAllInfo({...hideAll, [colName]: !hideAll[colName]});

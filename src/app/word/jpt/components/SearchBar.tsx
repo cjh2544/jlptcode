@@ -1,4 +1,4 @@
-import { useWordStore } from '@/app/store/wordStore';
+import { useJptWordStore } from '@/app/store/jptWordStore';
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
 import { ChangeEvent, MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useSession } from "next-auth/react";
@@ -19,17 +19,15 @@ const SearchBar = (props: SearchProps) => {
   const [confirmType, setConfirmType] = useState<any>('info')
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
 
-  const searchInfo =useWordStore((state:any) => state.searchInfo);
-  const pageInfo = useWordStore((state:any) => state.pageInfo);
+  const searchInfo =useJptWordStore((state:any) => state.searchInfo);
+  const pageInfo = useJptWordStore((state:any) => state.pageInfo);
   const codeList = useCommonCodeStore((state:any) => state.codeList) || [];
-  const yearCodeList = useCommonCodeStore((state:any) => state.yearCodeList) || [];
-  const setSearchInfo = useWordStore((state:any) => state.setSearchInfo);
-  const getPageInfo = useWordStore((state:any) => state.getPageInfo);
-  const getWordList = useWordStore((state:any) => state.getWordList);
-  const setPageInfo = useWordStore((state:any) => state.setPageInfo);
-  const init = useWordStore((state:any) => state.init);
+  const setSearchInfo = useJptWordStore((state:any) => state.setSearchInfo);
+  const getPageInfo = useJptWordStore((state:any) => state.getPageInfo);
+  const getWordList = useJptWordStore((state:any) => state.getWordList);
+  const setPageInfo = useJptWordStore((state:any) => state.setPageInfo);
+  const init = useJptWordStore((state:any) => state.init);
   const getCodeList = useCommonCodeStore((state:any) => state.getCodeList);
-  const getYearCodeList = useCommonCodeStore((state:any) => state.getYearCodeList);
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     let eObj:any = {}
@@ -62,14 +60,9 @@ const SearchBar = (props: SearchProps) => {
     return codeList.find((data: any) => data.code === code)?.details || []
   }, [codeList]);
 
-  const getYearCodeDetailList = useCallback(() => {
-    return yearCodeList.find((data: any) => data.wordType === searchInfo.wordType && data.level === 'N' + searchInfo.level)?.details || []
-  }, [yearCodeList, searchInfo]);
-
   useEffect(() => {
     init();
-    getCodeList(['level', 'parts', 'wordType']);
-    getYearCodeList(['word', 'sentence', 'grammar']);
+    getCodeList(['level-jpt']);
   }, []);
 
   return (
@@ -90,59 +83,12 @@ const SearchBar = (props: SearchProps) => {
                 급수
               </label>
               <select id="level" name="level" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
+                <option value={'고득점(900)'}>고득점(900)</option>
+                {getCodeDetailList('level-jpt').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>
             </div>
-            <div className="w-full">
-              <label
-                className="block uppercase text-blueGray-600 mb-1"
-                htmlFor="wordType"
-              >
-                단어유형
-              </label>
-              <select id="wordType" name="wordType" value={searchInfo.wordType} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getCodeDetailList('wordType').map((data: CodeDetail, idx:number) => {
-                  return (<option key={idx} value={data.key}>{data.value}</option>)
-                })}
-              </select>
-              <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
-            </div>
-            {/* 기본단어 일 경우 */}
-            {searchInfo.wordType === '1' && (
-              <div className="w-full">
-                <label
-                  className="block uppercase text-blueGray-600 mb-1"
-                  htmlFor="parts"
-                >
-                  품사
-                </label>
-                <select id="parts" name="parts" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                  <option value="">전체</option>
-                  {getCodeDetailList('parts').map((data: CodeDetail, idx:number) => {
-                    return (<option key={idx} value={data.key}>{data.value}</option>)
-                  })}
-                </select>
-              </div>
-            )}
-            {/* 기본단어 외 일 경우 */}
-            {searchInfo.wordType !== '1' && (
-              <div className="w-full">
-                <label
-                  className="block uppercase text-blueGray-600 mb-1"
-                  htmlFor="year"
-                >
-                  STUDY
-                </label>
-                <select id="study" name="study" onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                  <option value="">전체</option>
-                  {getYearCodeDetailList().map((year: string, idx:number) => {
-                    return (<option key={idx} value={year}>{year}</option>)
-                  })}
-                </select>
-              </div>
-            )}
             <div className="w-full">
               <button
                 className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"

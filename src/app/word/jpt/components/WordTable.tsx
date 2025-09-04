@@ -1,7 +1,7 @@
 import CardSentence from "@/app/components/Cards/CardSentence"
 import HeaderButton from "./headerButton";
 import WordInfo from "./wordInfo";
-import { useWordStore } from "@/app/store/wordStore";
+import { useJptWordStore } from "@/app/store/jptWordStore";
 
 type WordTableProps = {
   title?: string,
@@ -16,8 +16,8 @@ const TABLE_HEAD = [
 ];
 
 const WordTable = ({title, data, className}: WordTableProps) => {
-  const wordList = useWordStore((state:any) => state.wordList);
-  const setWordList = useWordStore((state:any) => state.setWordList);
+  const wordList = useJptWordStore((state:any) => state.wordList);
+  const setWordList = useJptWordStore((state:any) => state.setWordList);
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordList(

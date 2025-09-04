@@ -1,6 +1,6 @@
 import CardWord from "@/app/components/Cards/CardWord"
 import HeaderListButton from "./headerListButton"
-import { useWordStore } from "@/app/store/wordStore";
+import { useJptWordStore } from "@/app/store/jptWordStore";
 
 type WordListProps = {
   title?: string,
@@ -9,8 +9,8 @@ type WordListProps = {
 }
 
 const WordList = ({title, data, className}: WordListProps) => {
-  const wordList = useWordStore((state:any) => state.wordList);
-  const setWordList = useWordStore((state:any) => state.setWordList);
+  const wordList = useJptWordStore((state:any) => state.wordList);
+  const setWordList = useJptWordStore((state:any) => state.setWordList);
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setWordList(

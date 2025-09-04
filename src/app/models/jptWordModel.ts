@@ -29,7 +29,7 @@ const jptWordSchema = new Schema({
     type: Array,
     required: false,
   },
-}, {timestamps: true, collection: 'jptWord'})
+}, {timestamps: true, collection: 'jpt_word'})
 
 const JptWord = models?.jptWord || model('jptWord', jptWordSchema)
 
