@@ -100,7 +100,7 @@ export default function Home() {
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                     <i className="fas fa-paper-plane"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">오늘의<br/>일본어</h6>
+                  <h6 className="text-xl font-semibold">오늘의일본어</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     과목별 문제를 테스트, 채점기능을 제공한다.
                   </p> */}
@@ -108,13 +108,13 @@ export default function Home() {
               </div>
             </Link>
 
-            <Link scroll={false} href={'/levelUp'} className="w-full lg:w-3/12 px-4 text-center">
+            <Link scroll={false} href={'/speakToday'} className="w-full lg:w-3/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
-                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
-                    <i className="fas fa-list-ol"></i>
+                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
+                    <i className="fas fa-comment-dots"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">레벨업<br/>(LEVEL UP)</h6>
+                  <h6 className="text-xl font-semibold">일본어스피킹</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     과목별 기출문제를 테스트, 채점기능을 제공한다.
                   </p> */}
@@ -122,24 +122,24 @@ export default function Home() {
               </div>
             </Link>
 
-            <Link scroll={false} href={'/jlptTest'} className="w-full lg:w-3/12 px-4 text-center">
+            <Link scroll={false} href={'/levelUp?level=N1'} className="w-full lg:w-3/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
                   <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                     <i className="fas fa-list-ol"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">모의고사<br/>(TEST)</h6>
+                  <h6 className="text-xl font-semibold">JLPT</h6>
                 </div>
               </div>
             </Link>
 
-            <Link scroll={false} href={'/word/jlpt'} className="w-full lg:w-3/12 px-4 text-center">
+            <Link scroll={false} href={'/jptLevelUp'} className="w-full lg:w-3/12 px-4 text-center">
               <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
                 <div className="px-4 py-5 flex-auto">
-                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
-                    <i className="fas fa-spell-check"></i>
+                  <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
+                    <i className="fas fa-list-ol"></i>
                   </div>
-                  <h6 className="text-xl font-semibold">단어<br/>単語 | WORD</h6>
+                  <h6 className="text-xl font-semibold">JPT</h6>
                   {/* <p className="mt-2 mb-4 text-blueGray-500">
                     등급별, 품사별 단어 외우기 학습을 할수있다.
                   </p> */}

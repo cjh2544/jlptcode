@@ -17,7 +17,7 @@ export default function SpeakTodayLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="오늘의 회화학습" />
+        <HeaderTitle title="회화학습" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}

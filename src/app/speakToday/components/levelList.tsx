@@ -76,7 +76,7 @@ const LevelList = (props: LevelListProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">오늘의 회화학습</h6>
+                <h6 className="text-blueGray-700 text-xl font-bold">회화학습</h6>
                 <strong className='text-red-700'>★ 유료회원은 순서대로 학습 가능합니다.</strong>
             </div>
           </div>

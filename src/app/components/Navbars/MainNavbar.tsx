@@ -9,22 +9,18 @@ const mainNavbarMenuList = [
     link: '/wordToday',
   },
   {
-    name: '레벨업(Level up)',
-    link: '/levelUp',
+    name: '일본어스피킹',
+    link: '/speakToday',
   },
   {
-    name: '모의고사(TEST)',
-    link: '/jlptTest',
+    name: 'JLPT',
+    link: '/levelUp?level=N1',
   },
-  // {
-  //   name: 'JLPT(2024~2010)',
-  //   link: '/jlpt',
-  // },
   {
-    name: '단어 | 単語 | WORD',
-    link: '/word/jlpt',
+    name: 'JPT',
+    link: '/jptLevelUp',
   },
- {
+  {
    name: '문의 게시판',
    link: '/board/community/list',
   },

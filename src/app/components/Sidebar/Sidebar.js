@@ -75,8 +75,6 @@ export default function Sidebar() {
               </div>
             </div>
 
-            <SignInSidebarListPage />
-
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
@@ -85,7 +83,7 @@ export default function Sidebar() {
             {/* Navigation */}
 
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li className="items-center">
+              <li className="items-center">
                 <Link scroll={false} href="/wordToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
                   오늘의 단어
@@ -103,151 +101,70 @@ export default function Sidebar() {
                   오늘의 문법
                 </Link>
               </li>
-              {/* <li className="items-center">
-                <Link scroll={false} href="/readingToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  오늘의 독해
-                  <span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
-                </Link>
-              </li> */}
+            </ul>
+
+            <hr className="my-4 md:min-w-full" />
+            {/* Heading */}
+            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+              일본어스피킹
+              <span className="bg-red-500 text-white text-xs font-medium ml-2 p-1 rounded-sm">추천</span>
+            </h6>
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
               <li className="items-center">
                 <Link scroll={false} href="/speakToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  오늘의 회화학습
-                  <span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
+                  회화학습
                 </Link>
               </li>
             </ul>
 
-            {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              레벨업(Level up)
+              JLPT
             </h6>
-            {/* Navigation */}
-
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li className="items-center">
+              <li className="items-center">
                 <Link scroll={false} href="/levelUp?level=N1" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N1
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/levelUp?level=N2" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N2
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/levelUp?level=N3" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N3
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/levelUp?level=N4" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N4
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/levelUp?level=N5" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N5
+                  레벨업(LEVEL UP)
                 </Link>
               </li>
               <li className="items-center">
                 <Link scroll={false} href="/strategy" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
                   집중공략
-                  <span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
+                  <span className="bg-red-500 text-white text-xs font-medium ml-2 p-1 rounded-sm">추천</span>
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link scroll={false} href="/jlptTest?level=N1" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  모의고사(TEST)
                 </Link>
               </li>
             </ul>
 
-            {/* Divider */}
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              모의고사(TEST)<span className="bg-red-500 text-white text-xs font-medium ml-2 px-1 rounded-sm">N</span>
+              JPT
+              <span className="bg-red-500 text-white text-xs font-medium ml-2 p-1 rounded-sm">N</span>
             </h6>
-            {/* Navigation */}
-
             <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li className="items-center">
-                <Link scroll={false} href="/jlptTest?level=N1" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+              <li className="items-center">
+                <Link scroll={false} href="/jptLevelUp" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N1
+                  레벨업(LEVEL UP)
                 </Link>
               </li>
               <li className="items-center">
-                <Link scroll={false} href="/jlptTest?level=N2" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                <Link scroll={false} href="/jptStrategy" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N2
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlptTest?level=N3" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N3
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlptTest?level=N4" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N4
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlptTest?level=N5" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N5
+                  집중공략
                 </Link>
               </li>
             </ul>
-
-            {/* Divider */}
-            {/* <hr className="my-4 md:min-w-full" /> */}
-            {/* Heading */}
-            {/* <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              JLPT(2024~2010)
-            </h6> */}
-            {/* Navigation */}
-
-            {/* <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <Link scroll={false} href="/jlpt?level=N1" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N1
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlpt?level=N2" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N2
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlpt?level=N3" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N3
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlpt?level=N4" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N4
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/jlpt?level=N5" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  N5
-                </Link>
-              </li>
-            </ul> */}
 
             {/* Divider */}
             <hr className="my-4 md:min-w-full" />
@@ -287,8 +204,12 @@ export default function Sidebar() {
                   문의 게시판
                 </Link>
               </li>
-              <SignInUserList />
             </ul>
+            <SignInUserList />
+
+            <hr className="my-4 md:min-w-full" />
+            <SignInSidebarListPage />
+
           </div>
         </div>
       </nav>

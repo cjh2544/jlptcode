@@ -27,18 +27,23 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link scroll={false} href={'/levelUp'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    레벨업(Level up)
+                  <Link scroll={false} href={'/speakToday'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    일본어스피킹
                   </Link>
                 </li>
                 <li>
-                  <Link scroll={false} href={'/jlptTest'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    모의고사(TEST)
+                  <Link scroll={false} href={'/levelUp?level=N1'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    JLPT
                   </Link>
                 </li>
                 <li>
-                  <Link scroll={false} href={'/word/jlpt'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    단어 | 単語 | WORD
+                  <Link scroll={false} href={'/jptLevelUp'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    JPT
+                  </Link>
+                </li>
+                <li>
+                  <Link scroll={false} href={'/board/community/list'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
+                    문의 게시판
                   </Link>
                 </li>
               </ul>
