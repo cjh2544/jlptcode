@@ -26,12 +26,12 @@ export const useJptStore = create<JptStore>()(
         persist((set, get) => ({
             showAnswer: false,
             showReadButton: true,
-            showTransButton: false,
+            showTransButton: true,
             isLoading: false,
             jptInfo: {
                 level: '고급(800)',
-                classification: '',
-                part: '',
+                classification: 'listening',
+                part: 'part2',
             },
             jptList: [],
             setStoreData: (code, value) => set((state:any) => ({ [code]: value })),
@@ -73,12 +73,12 @@ export const useJptStore = create<JptStore>()(
             init: () => set({ 
                 showAnswer: false,
                 showReadButton: true,
-                showTransButton: false,
+                showTransButton: true,
                 isLoading: false,
                 jptInfo: {
                     level: '고급(800)',
-                    classification: '',
-                    part: '',
+                    classification: 'listening',
+                    part: 'part2',
                 },
                 jptList: []
             }),

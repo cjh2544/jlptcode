@@ -1,7 +1,7 @@
 import { useJptStore } from '@/app/store/jptStore';
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
 import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
-import { isEmpty, reverse } from 'lodash';
+import { isEmpty, reverse, sortBy } from 'lodash';
 import { useRouter } from 'next/navigation';
 
 type SearchProps = {
@@ -53,8 +53,8 @@ const SearchBar = (props: SearchProps) => {
     
     setJptInfo({
       level: '고급(800)',
-      classification: 'reading',
-      part: 'part5'
+      classification: 'listening',
+      part: 'part2'
     });
 
     getJptList();
@@ -92,7 +92,7 @@ const SearchBar = (props: SearchProps) => {
                 과목
               </label>
               <select id="classification" name="classification" value={jptInfo.classification} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                {getCodeDetailList('classification').map((data: CodeDetail, idx:number) => {
+                {sortBy(getCodeDetailList('classification'), 'key').map((data: CodeDetail, idx:number) => {
                   return ['listening', 'reading'].includes(data.key) ? (<option key={idx} value={data.key}>{data.value}</option>) : ''
                 })}
               </select>
@@ -104,7 +104,7 @@ const SearchBar = (props: SearchProps) => {
               >
                 유형
               </label>
-              <select id="part" name="part" value={jptInfo.part || 'part5'} onChange={handleChange} className="disabled:bg-gray-300 border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+              <select id="part" name="part" value={jptInfo.part} onChange={handleChange} className="disabled:bg-gray-300 border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 <option value="">선택</option>
                 {getCodeDetailList('part-jpt').filter((item: any) => 'listening' === jptInfo.classification ? ['part2','part3'].includes(item.key) : ['part5','part7','part8'].includes(item.key)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)

@@ -52,7 +52,6 @@ const JptList = (props: JptListProps) => {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
                   <h6 className="text-blueGray-700 text-xl font-bold">레벨업(Level up)</h6>
-                  <strong>★ 20000개의 문제를 매번 다양하게 학습할 수 있습니다.</strong>
               </div>
             </div>
             <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">
