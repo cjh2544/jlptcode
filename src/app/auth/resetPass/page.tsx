@@ -34,28 +34,28 @@ const SignInPage = () => {
   }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    event.currentTarget.reset();
+    // event.preventDefault();
+    // event.currentTarget.reset();
 
-    setIsLoading(true)
+    // setIsLoading(true)
  
-    const res:any = await signIn('credentials', {
-      email,
-      password,
-      csrfToken,
-      redirect: false,
-      callbackUrl: '/'
-    });
+    // const res:any = await signIn('credentials', {
+    //   email,
+    //   password,
+    //   csrfToken,
+    //   redirect: false,
+    //   callbackUrl: '/'
+    // });
 
-    setIsLoading(false);
+    // setIsLoading(false);
 
-    if(!res.ok) {
-      setConfirmMsg(res?.error);
-      setShowConfirm(true);
-      setConfirmType('warning');
-    } else {
-      router.push("/", {scroll:false})
-    }
+    // if(!res.ok) {
+    //   setConfirmMsg(res?.error);
+    //   setShowConfirm(true);
+    //   setConfirmType('warning');
+    // } else {
+    //   router.push("/", {scroll:false})
+    // }
   }
   const handleCloseModal = (visible: boolean) => {
     setShowConfirm(visible);
@@ -77,24 +77,20 @@ const SignInPage = () => {
             <div className="w-full bg-white rounded-lg shadow-lg sm:max-w-md xl:p-0">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                   <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                      로그인
+                      비밀번호 초기화
                   </h1>
                   <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
-                    {/* <SocialSigninButton providers={providers} onClick={(providerId) => handleClickSocialButton(providerId)} />
-                    
-                    <div className="my-6 flex items-center justify-center">
-                      <span className="block h-px w-full bg-blue-500"></span>
-                      <div className="block w-full min-w-fit bg-white px-3 text-center font-medium">
-                        회원 이메일 로그인
-                      </div>
-                      <span className="block h-px w-full bg-blue-500"></span>
-                    </div> */}
                     <div>
                         <label className={`block mb-2 text-sm font-bold`}>이메일</label>
-                        <input onChange={(e) => setEmail(e.currentTarget.value)} value={email} required={true} minLength={2} maxLength={100} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" />
+                        <div className="flex gap-1">
+                          <input onChange={(e) => setEmail(e.currentTarget.value)} value={email} required={true} minLength={2} maxLength={100} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="name@company.com" />
+                          <button type="button" className="w-3/6 bg-green-500 hover:bg-green-700 text-white font-bold rounded focus:outline-none">
+                            인증번호전송
+                          </button>
+                        </div>
                     </div>
                     <div>
-                        <label className={`block mb-2 text-sm font-bold`}>비밀번호 (6~20자리)</label>
+                        <label className={`block mb-2 text-sm font-bold`}>인증번호</label>
                         <input onChange={(e) => setPassword(e.currentTarget.value)} value={password} required={true} minLength={6} maxLength={20} type="password" name="password" id="password" placeholder="••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
                     </div>
                     {isLoading ? (
@@ -108,21 +104,15 @@ const SignInPage = () => {
                         </button>
                       </>
                     ) : (
-                      <>
-                        <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                      <div className="flex gap-1 text-center">
+                        <button type="button" className="w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
                           로그인
                         </button>
-                      </>
+                        <Link href="/auth/signin" className="w-1/2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
+                          취소
+                        </Link>
+                      </div>
                     )}
-                    <p className="text-sm font-light text-gray-500 flex gap-1">
-                      계정이 없나요?
-                      <Link href="/auth/signup" className="ml-1 text-blue-600 hover:underline">
-                      회원가입
-                      </Link>
-                      {/* <Link href="/auth/resetPass" className="ml-1 text-blue-600 hover:underline">
-                      비밀번호 초기화
-                      </Link> */}
-                    </p>
                   </form>
               </div>
             </div>
