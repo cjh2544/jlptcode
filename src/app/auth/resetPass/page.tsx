@@ -3,7 +3,6 @@ import { ClientSafeProvider, getCsrfToken, getProviders, signIn, useSession } fr
 import Link from "next/link";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
 import { FormEvent, useEffect, useState } from "react";
-import SocialSigninButton from "./SocialSigninButton";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import { useRouter } from 'next/navigation';
 

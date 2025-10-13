@@ -4,10 +4,11 @@ import React from "react";
 
 type HeaderTitleProps = {
   title?: string,
+  subTitle?: string,
 }
 
 export default function HeaderTitle(props: HeaderTitleProps) {
-  const {title} = props;
+  const {title, subTitle} = props;
 
   return (
     <>
@@ -22,6 +23,7 @@ export default function HeaderTitle(props: HeaderTitleProps) {
             <a href="#" className="flex items-center">
                 <span className="text-white text-sm uppercase lg:inline-block font-semibold">{title}</span>
             </a>
+            <p className="text-white text-sm uppercase lg:inline-block font-semibold">{subTitle}</p>
           </div>
         </nav>
       </header>
