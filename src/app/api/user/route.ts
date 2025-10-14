@@ -99,7 +99,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
         password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
       });
       
-      if(isEmpty(resultUpdate) || isEmpty(resultUpdate.modifiedCount === 0)) {
+      if(isEmpty(resultUpdate) || resultUpdate.modifiedCount === 0) {
         resultInfo = { success: false, message: '처리 되지 않았습니다.' };
       } else {
         resultInfo = { success: true, message: '회원정보가 수정 되었습니다.' };
