@@ -69,12 +69,14 @@ const SpeakInfo = (props:SpeakInfoProps) => {
   return (
     <>
       <li className="py-3 sm:py-4">
+        <div>
+          <h4 className="text-lg font-bold text-gray-800">
+            {parseHtml(sentence_translate)}
+          </h4>
+          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
+        </div>
         <div className="flex items-center">
-          <div className="flex-1 min-w-0 ms-4">
-            <h4 className="text-lg font-bold text-gray-800">
-              {parseHtml(sentence_translate)}
-            </h4>
-            {speaker && <div className="py-1 mr-3"><CardAudio audio={{name: '', link: speaker}} /></div>}
+          <div className="flex-1 min-w-0">
             <div className={`text-sm font-medium bg-blue-200 p-2 mr-3 text-gray-900 ${hideKeyword ? 'invisible' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
               <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
