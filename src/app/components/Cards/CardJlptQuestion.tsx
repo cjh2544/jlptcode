@@ -12,10 +12,11 @@ type JlptQuestionProps = {
   sentence?: any,
   showReadButton?: boolean,
   showTransButton?: boolean,
+  speaker?: string,
 }
 
 const CardJlptQuestion = (props:JlptQuestionProps) => {
-  const {classification, questionType, question, id = '', sentence, showReadButton = true, showTransButton = true} = props;
+  const {classification, questionType, question, id = '', sentence, showReadButton = true, showTransButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}} = question;
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
@@ -44,6 +45,7 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
               )}
             </div>
+            {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
             {openRead && (
               <div className="flex flex-wrap">
                 <Collapse open={openRead} className="w-full mt-1">

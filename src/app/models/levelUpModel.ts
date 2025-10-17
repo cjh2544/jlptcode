@@ -89,6 +89,10 @@ const levelUpSchema = new Schema({
     type: Number,
     required: false,
   },
+  // 스피커
+  speaker: {
+    type: String,
+  },
 }, {timestamps: true, collection: 'level_up'})
 
 levelUpSchema.index({ classification: 1, year: 1, level: 1, sortNo: 1 }, { unique: true });

@@ -21,6 +21,7 @@ type SpeakTodayInfoType = {
     hideSentenceRead: boolean
     hideSentenceTranslate: boolean,
     hideKeyword: boolean,
+    speaker: string,
 }
 
 type HeaderVisibleType = {

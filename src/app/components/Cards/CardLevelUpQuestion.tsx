@@ -12,10 +12,11 @@ type LevelUpQuestionProps = {
   sentence?: any,
   showReadButton?: boolean,
   showTransButton?: boolean,
+  speaker?: string,
 }
 
 const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
-  const {questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true} = props;
+  const {questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}, translate, read} = question;
   const {translation, reading} = sentence;
   const [openTranslate, setOpenTranslate] = React.useState(false);
@@ -41,6 +42,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
               <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">해석</Button></span>
             )}
           </div>
+          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
           {openRead && (
             <div className="flex flex-wrap">
               <Collapse open={openRead} className="w-full mt-1">

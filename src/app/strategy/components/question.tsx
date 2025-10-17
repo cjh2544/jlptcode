@@ -10,7 +10,7 @@ type QuestionProps = {
 
 const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
-  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer} = questionInfo;
+  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker} = questionInfo;
 
   const setLevelUpAnswer = useStrategyStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useStrategyStore((state:any) => state.showAnswer);
@@ -38,7 +38,8 @@ const Question = (props:QuestionProps) => {
             questionNo={searchYear ? '' : questionNo}
             id={`levelup-question-${searchYear ? '' : questionNo}`} sentence={sentence}
             showReadButton={showReadButton}
-            showTransButton={showTransButton} />
+            showTransButton={showTransButton}
+            speaker={speaker} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
       )}

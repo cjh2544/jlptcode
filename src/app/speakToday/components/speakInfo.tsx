@@ -5,6 +5,7 @@ import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";
 import GoogleTts from "@/app/components/Audio/GoogleTTS";
+import CardAudio from "@/app/components/Cards/CardAudio";
 
 type SpeakInfoProps = {
   wordInfo: any
@@ -34,6 +35,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
     hideSentenceRead = true,
     hideSentenceTranslate = false,
     hideKeyword = false,
+    speaker,
   } = wordInfo;
 
   const handleClick = (colType: string) => {
@@ -72,6 +74,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
             <h4 className="text-lg font-bold text-gray-800">
               {parseHtml(sentence_translate)}
             </h4>
+            {speaker && <div className="py-1 mr-3"><CardAudio audio={{name: '', link: speaker}} /></div>}
             <div className={`text-sm font-medium bg-blue-200 p-2 mr-3 text-gray-900 ${hideKeyword ? 'invisible' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
               <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>

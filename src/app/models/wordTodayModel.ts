@@ -82,6 +82,10 @@ const wordTodaySchema = new Schema({
   question: {
     type: QuestionSchema,
   },
+  // 스피커
+  speaker: {
+    type: String,
+  },
 }, {timestamps: true, collection: 'word_today'})
 
 const WordToday = models?.wordToday || model('wordToday', wordTodaySchema, 'word_today')
