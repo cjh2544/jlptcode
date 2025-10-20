@@ -42,7 +42,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
               <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">해석</Button></span>
             )}
           </div>
-          {/* {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>} */}
+          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
           {openRead && (
             <div className="flex flex-wrap">
               <Collapse open={openRead} className="w-full mt-1">
