@@ -73,7 +73,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
           <h4 className="text-lg font-bold text-gray-800">
             {parseHtml(sentence_translate)}
           </h4>
-          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
+          {/* {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>} */}
         </div>
         <div className="flex items-center">
           <div className="flex-1 min-w-0">
