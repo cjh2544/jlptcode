@@ -33,7 +33,7 @@ const QuestionTestPage = () => {
 
   useEffect(() => {
     init();
-    getLevelUpList();
+    // getLevelUpList();
   }, [])
 
   return <>

@@ -1,8 +1,11 @@
 import { useStrategyStore } from '@/app/store/strategyStore';
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
-import { ChangeEvent, MouseEvent, useCallback, useEffect } from 'react';
+import { ChangeEvent, MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import ModalConfirm from '@/app/components/Modals/ModalConfirm';
+import PaidButton from '@/app/components/Buttons/PaidButton';
 
 type SearchProps = {
   onSearch?: () => any,
@@ -14,6 +17,10 @@ const SearchBar = (props: SearchProps) => {
     onSearch
   } = props
 
+  const { data: session } = useSession();
+  const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
+  const [confirmType, setConfirmType] = useState<any>('info')
+  const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const router = useRouter();
   const levelUpInfo =useStrategyStore((state:any) => state.levelUpInfo);
   const codeList = useCommonCodeStore((state:any) => state.codeList) || [];
@@ -37,6 +44,13 @@ const SearchBar = (props: SearchProps) => {
   }
 
   const handleSearch = (e: MouseEvent<HTMLElement>) => {
+
+    if(!session?.paymentInfo?.isValid) {
+      setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+      setShowConfirm(true);
+      return;
+    }
+
     getLevelUpList();
     // router.push('/strategy/test', { scroll :false });
   }
@@ -121,13 +135,15 @@ const SearchBar = (props: SearchProps) => {
               </select>
             </div>
             <div className="w-full">
-              <button
+              {/* <button
                 className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150 w-full"
                 type="button"
                 onClick={(e) => handleSearch(e)}
               >
                 <i className="fas fa-search"></i> 조회
-              </button>
+              </button> */}
+              <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
+              <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
             </div>
           </div>
         </div>
