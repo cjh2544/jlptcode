@@ -20,6 +20,7 @@ type WordTodayInfoType = {
     hideSentence: boolean,
     hideSentenceRead: boolean
     hideSentenceTranslate: boolean,
+    hideSpeaker: boolean,
     hideKeyword: boolean,
 }
 
@@ -32,6 +33,7 @@ type HeaderVisibleType = {
     sentence: boolean;
     sentence_read: boolean;
     sentence_translate: boolean;
+    speaker: boolean,
 }
 
 interface WordTodayStore {
@@ -68,6 +70,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                 sentence: false,
                 sentence_read: false,
                 sentence_translate: false,
+                speaker: false,
                 keyword: false,
             },
             wordTodayList: [],
@@ -112,6 +115,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                         sentence: false,
                         sentence_read: false,
                         sentence_translate: false,
+                        speaker: false,
                         keyword: false
                     }
                 });
@@ -134,6 +138,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                         sentence: false,
                         sentence_read: false,
                         sentence_translate: false,
+                        speaker: false,
                         keyword: false
                     }
                 });
@@ -148,6 +153,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     data.hideSentence = headerVisibleInfo.sentence;
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;
+                    data.hideSpeaker = headerVisibleInfo.speaker;
                     data.hideKeyword = headerVisibleInfo.keyword;
                     
                     return data;
@@ -168,6 +174,7 @@ export const useWordTodayStore = create<WordTodayStore>()(
                     sentence: false,
                     sentence_read: false,
                     sentence_translate: false,
+                    speaker: false,
                     keyword: false
                 },
             }),

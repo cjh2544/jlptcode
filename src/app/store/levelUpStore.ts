@@ -5,6 +5,7 @@ interface LevelUpStore {
     showAnswer: boolean,
     showReadButton: boolean,
     showTransButton: boolean,
+    showSpeakButton: boolean,
     isLoading: boolean,
     levelUpInfo: {
         level: string,
@@ -25,6 +26,7 @@ export const useLevelUpStore = create<LevelUpStore>()(
             showAnswer: false,
             showReadButton: true,
             showTransButton: false,
+            showSpeakButton: false,
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
@@ -59,6 +61,7 @@ export const useLevelUpStore = create<LevelUpStore>()(
                 showAnswer: false,
                 showReadButton: true,
                 showTransButton: false,
+                showSpeakButton: false,
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',

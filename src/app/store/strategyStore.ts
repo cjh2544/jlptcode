@@ -5,6 +5,7 @@ interface StrategyStore {
     showAnswer: boolean,
     showReadButton: boolean,
     showTransButton: boolean,
+    showSpeakButton: boolean,
     isLoading: boolean,
     levelUpInfo: {
         level?: string;
@@ -27,6 +28,7 @@ export const useStrategyStore = create<StrategyStore>()(
             showAnswer: false,
             showReadButton: false,
             showTransButton: false,
+            showSpeakButton: false,
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
@@ -63,6 +65,7 @@ export const useStrategyStore = create<StrategyStore>()(
                 showAnswer: false,
                 showReadButton: false,
                 showTransButton: false,
+                showSpeakButton: false,
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',

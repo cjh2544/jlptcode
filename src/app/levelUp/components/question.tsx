@@ -18,7 +18,8 @@ const Question = (props:QuestionProps) => {
   const setLevelUpAnswer = useLevelUpStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
   const showReadButton = useLevelUpStore((state:any) => state.showReadButton);
-    const showTransButton = useLevelUpStore((state:any) => state.showTransButton);
+  const showTransButton = useLevelUpStore((state:any) => state.showTransButton);
+  const showSpeakButton = useLevelUpStore((state:any) => state.showSpeakButton);
 
   const handleClick = (selectedData: any) => {
     setLevelUpAnswer(selectedData);
@@ -26,11 +27,11 @@ const Question = (props:QuestionProps) => {
 
   return (
     <>
-      {questionType === 'group' && <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardLevelUpContent showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'group' && <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'content' && <CardLevelUpContent showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} sentence={sentence} />}
       {questionType === 'normal' && (
         <>
-          <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} sentence={sentence} speaker={speaker} />
+          <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} sentence={sentence} speaker={speaker} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
       )}

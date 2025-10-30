@@ -48,15 +48,15 @@ const QuestionTestPage = () => {
             <div className='flex'>
               <div className="flex items-center mr-1">
                 <input id="show-read-checkbox" type="checkbox" checked={!showReadButton} onChange={() => handleChangeCheck('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기표시 숨김</label>
+                <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
               </div>
               <div className="flex items-center mr-1">
                 <input id="show-trans-checkbox" type="checkbox" checked={!showTransButton} onChange={() => handleChangeCheck('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석표시 숨김</label>
+                <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
               </div>
               <div className="flex items-center mr-1">
                 <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
+                <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답</label>
               </div>
             </div>
             <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />

@@ -5,16 +5,16 @@ import SignInHeaderPage from "../SignIn/SignInHeader";
 
 const mainNavbarMenuList = [
   {
-    name: '오늘의 일본어',
-    link: '/wordToday',
-  },
-  {
     name: '일본어스피킹',
     link: '/speakToday',
   },
   {
     name: 'JLPT',
     link: '/levelUp?level=N1',
+  },
+  {
+    name: '오늘의 일본어',
+    link: '/wordToday',
   },
   {
     name: 'JPT',

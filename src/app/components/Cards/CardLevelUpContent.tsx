@@ -10,17 +10,21 @@ type LevelUpContentProps = {
   sentence?: any,
   showReadButton?: boolean,
   showTransButton?: boolean,
+  showSpeakButton?: boolean,
+  speaker?: string,
 }
 
 const CardLevelUpContent = (props:LevelUpContentProps) => {
-  const {questionType, question, sentence = {}, showReadButton = true, showTransButton = true} = props;
+  const {questionType, question, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}} = question;
   const {translation, reading} = sentence;
 
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
+  const [openSpeaker, setOpenSpeaker] = React.useState(false);
   const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
   const toggleOpenRead = () => setOpenRead((cur) => !cur);
+  const toggleOpenSpeaker = () => setOpenSpeaker((cur) => !cur);
 
   const parseHtml = (html: string) => {
     return html ? <div dangerouslySetInnerHTML={{ __html: html.toString().replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} /> : <></>;
@@ -38,6 +42,9 @@ const CardLevelUpContent = (props:LevelUpContentProps) => {
               )}
               {showTransButton && translation && (
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
+              )}
+              {showSpeakButton && speaker && (
+                <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">발음</Button></span>
               )}
               {openTranslate && (
                 <div className="flex flex-wrap">
@@ -61,6 +68,17 @@ const CardLevelUpContent = (props:LevelUpContentProps) => {
                   </Collapse>
                 </div>
               )}
+              {openSpeaker && (
+                  <div className="flex flex-wrap">
+                    <Collapse open={openSpeaker} className="w-full mt-1">
+                      <Card>
+                        <CardBody className="p-0 rounded">
+                          {speaker && <CardAudio audio={{name: '', link: speaker}} />}
+                        </CardBody>
+                      </Card>
+                    </Collapse>
+                  </div>
+                )}
             </div>
           </div>
         </div>

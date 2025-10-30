@@ -13,6 +13,7 @@ const LevelUpTestPage = () => {
   const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
   const showReadButton = useLevelUpStore((state:any) => state.showReadButton);
   const showTransButton = useLevelUpStore((state:any) => state.showTransButton);
+  const showSpeakButton = useLevelUpStore((state:any) => state.showSpeakButton);
   const setStoreData = useLevelUpStore((state:any) => state.setStoreData);
 
   const [confirmMsg, setConfirmMsg] = useState<ReactNode>('')
@@ -50,8 +51,12 @@ const LevelUpTestPage = () => {
                     <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
                   </div>
                   <div className="flex items-center mr-1">
+                    <input id="show-trans-checkbox" type="checkbox" checked={showSpeakButton} onChange={() => handleChangeCheck('showSpeakButton', !showSpeakButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                    <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">발음</label>
+                  </div>
+                  <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
+                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답</label>
                   </div>
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"

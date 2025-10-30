@@ -1,6 +1,6 @@
 import { useStrategyStore } from '@/app/store/strategyStore';
 import { useCommonCodeStore } from '@/app/store/commonCodeStore';
-import { ChangeEvent, MouseEvent, ReactNode, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, MouseEvent, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -23,8 +23,15 @@ const SearchBar = (props: SearchProps) => {
   const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
   const router = useRouter();
   const levelUpInfo =useStrategyStore((state:any) => state.levelUpInfo);
-  const codeList = useCommonCodeStore((state:any) => state.codeList) || [];
-  const yearCodeList = useCommonCodeStore((state:any) => state.yearCodeList) || [];
+
+  // 1️⃣ Zustand 스토어에서 codeList 구독
+  const codeListFromStore = useCommonCodeStore((state: any) => state.codeList);
+  const yearCodeListFromStore = useCommonCodeStore((state: any) => state.yearCodeList);
+
+  // 2️⃣ 안전하게 useMemo로 감싸기 (undefined 대비)
+  const codeList = useMemo(() => codeListFromStore || [], [codeListFromStore]);
+  const yearCodeList = useMemo(() => yearCodeListFromStore || [], [yearCodeListFromStore]);
+  
   const setLevelUpInfo = useStrategyStore((state:any) => state.setLevelUpInfo);
   const getLevelUpList = useStrategyStore((state:any) => state.getLevelUpList);
   const getCodeList = useCommonCodeStore((state:any) => state.getCodeList);

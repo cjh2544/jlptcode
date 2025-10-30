@@ -26,6 +26,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     sentence, 
     sentence_read, 
     sentence_translate,
+    speaker,
     question,
     showQuestion = false,
     hideSentence = false,
@@ -116,7 +117,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
       {showQuestion && (
         <tr className="even:bg-blue-gray-50/50">
           <td colSpan={4} className="p-4 border-b border-blue-gray-50">
-            <CardWordQuestion questionInfo={question} />
+            <CardWordQuestion questionInfo={question} speaker={speaker} sentence_read={sentence_read} sentence_translate={sentence_translate} />
           </td>
         </tr>
       )}

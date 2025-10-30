@@ -78,34 +78,6 @@ export default function Sidebar() {
             <hr className="my-4 md:min-w-full" />
             {/* Heading */}
             <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-              오늘의 일본어
-            </h6>
-            {/* Navigation */}
-
-            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-              <li className="items-center">
-                <Link scroll={false} href="/wordToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  오늘의 단어
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/sentenceToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  오늘의 문장
-                </Link>
-              </li>
-              <li className="items-center">
-                <Link scroll={false} href="/grammarToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
-                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
-                  오늘의 문법
-                </Link>
-              </li>
-            </ul>
-
-            <hr className="my-4 md:min-w-full" />
-            {/* Heading */}
-            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
               일본어스피킹
               <span className="bg-red-500 text-white text-xs font-medium ml-2 p-1 rounded-sm">추천</span>
             </h6>
@@ -147,6 +119,34 @@ export default function Sidebar() {
                 <Link scroll={false} href="/jlptTest?level=N1" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
                   <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
                   모의고사(TEST)
+                </Link>
+              </li>
+            </ul>
+
+            <hr className="my-4 md:min-w-full" />
+            {/* Heading */}
+            <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
+              오늘의 일본어
+            </h6>
+            {/* Navigation */}
+
+            <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+              <li className="items-center">
+                <Link scroll={false} href="/wordToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  오늘의 단어
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link scroll={false} href="/sentenceToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  오늘의 문장
+                </Link>
+              </li>
+              <li className="items-center">
+                <Link scroll={false} href="/grammarToday" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  오늘의 문법
                 </Link>
               </li>
             </ul>

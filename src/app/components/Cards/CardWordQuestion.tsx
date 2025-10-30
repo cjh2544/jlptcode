@@ -1,6 +1,7 @@
 import { isEmpty } from "lodash";
 import React, {memo, useState} from "react";
 import { Button, Card, CardBody, CardFooter, CardHeader, Collapse, Radio, Typography } from "@material-tailwind/react";
+import CardAudio from "./CardAudio";
 
 type WordQuestionType = {
   question: string,
@@ -12,19 +13,22 @@ type JlptContentProps = {
   questionInfo: WordQuestionType
   sentence_read?: string,
   sentence_translate?: string,
+  speaker?: string,
 }
 
 const CardWordQuestion = (props:JlptContentProps) => {
-  const { questionInfo, sentence_read, sentence_translate } = props;
+  const { questionInfo, sentence_read, sentence_translate, speaker } = props;
   const { question, choice, answer } = questionInfo;
   const [ showAnswer, setShowAnswer ] = useState(false);
   const [ selectedAnswer, setSelectedAnswer ] = useState(0);
   const [ collect, setCollect ] = useState(false);
   const [openTranslate, setOpenTranslate] = useState(false);
   const [openRead, setOpenRead] = useState(false);
+  const [openSpeaker, setOpenSpeaker] = useState(false);
 
   const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
   const toggleOpenRead = () => setOpenRead((cur) => !cur);
+  const toggleOpenSpeaker = () => setOpenSpeaker((cur) => !cur);
 
   const parseHtml = (html: string) => {
     return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
@@ -52,6 +56,9 @@ const CardWordQuestion = (props:JlptContentProps) => {
             {sentence_read && (
               <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button></span>
             )}
+            {speaker && (
+              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">발음</Button></span>
+            )}
           </div>
           {openTranslate && (
             <div className="flex flex-wrap">
@@ -74,6 +81,17 @@ const CardWordQuestion = (props:JlptContentProps) => {
                     <Typography>
                       {sentence_read}
                     </Typography>
+                  </CardBody>
+                </Card>
+              </Collapse>
+            </div>
+          )}
+          {openSpeaker && (
+            <div className="flex flex-wrap">
+              <Collapse open={openSpeaker} className="w-full mt-1 rounded">
+                <Card>
+                  <CardBody className="p-0">
+                    {speaker && <CardAudio audio={{name: '', link: speaker}} />}
                   </CardBody>
                 </Card>
               </Collapse>

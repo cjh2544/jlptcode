@@ -7,6 +7,7 @@ import LevelUpLayout from '@/app/components/Layout/LevelUpLayout';
 import Loading from '@/app/components/Loading/loading';
 import { useSession } from 'next-auth/react';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
+import JptLevelUpLayout from '@/app/components/Layout/JptLevelUpLayout';
 
 const LevelUpTestPage = () => {
   const { jptInfo, jptList, isLoading } = useJptStore((state:any) => state);
@@ -31,7 +32,7 @@ const LevelUpTestPage = () => {
   }
 
   return <>
-      <LevelUpLayout>
+      <JptLevelUpLayout>
         {isLoading ? (
           <Loading />
         ) : (
@@ -51,7 +52,7 @@ const LevelUpTestPage = () => {
                   </div>
                   <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
+                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답</label>
                   </div>
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
@@ -73,7 +74,7 @@ const LevelUpTestPage = () => {
           </div>
         </div>
         )}
-    </LevelUpLayout>
+    </JptLevelUpLayout>
   </>
 }
 

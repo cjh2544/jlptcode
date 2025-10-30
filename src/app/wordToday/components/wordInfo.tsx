@@ -28,11 +28,13 @@ const WordInfo = (props:WordInfoProps) => {
     sentence, 
     sentence_read, 
     sentence_translate,
+    speaker,
     question,
     showQuestion = false,
     hideWord = false,
     hideRead = false,
     hideMeans = false
+
   } = wordInfo;
 
   const handleClick = (colType: string) => {
@@ -123,7 +125,7 @@ const WordInfo = (props:WordInfoProps) => {
       {showQuestion && (
         <tr className="even:bg-blue-gray-50/50">
           <td colSpan={6} className="p-4 border-b border-blue-gray-50">
-            <CardWordQuestion questionInfo={question} sentence_read={sentence_read} sentence_translate={sentence_translate} />
+            <CardWordQuestion questionInfo={question} speaker={speaker} sentence_read={sentence_read} sentence_translate={sentence_translate} />
           </td>
         </tr>
       )}

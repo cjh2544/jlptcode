@@ -16,6 +16,7 @@ const Question = (props:QuestionProps) => {
   const showAnswer = useStrategyStore((state:any) => state.showAnswer);
   const showReadButton = useStrategyStore((state:any) => state.showReadButton);
   const showTransButton = useStrategyStore((state:any) => state.showTransButton);
+  const showSpeakButton = useStrategyStore((state:any) => state.showSpeakButton);
   const { year: searchYear } = useStrategyStore((state:any) => state.levelUpInfo);
 
   const handleClick = (selectedData: any) => {
@@ -24,8 +25,14 @@ const Question = (props:QuestionProps) => {
 
   return (
     <>
-      {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardLevelUpContent questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
+            showTransButton={showTransButton}
+            showSpeakButton={showSpeakButton}
+            speaker={speaker} />}
+      {questionType === 'content' && <CardLevelUpContent questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
+            showTransButton={showTransButton}
+            showSpeakButton={showSpeakButton}
+            speaker={speaker} />}
       {questionType === 'normal' && (
         <>
           <CardLevelUpQuestion questionType={questionType}
@@ -39,6 +46,7 @@ const Question = (props:QuestionProps) => {
             id={`levelup-question-${searchYear ? '' : questionNo}`} sentence={sentence}
             showReadButton={showReadButton}
             showTransButton={showTransButton}
+            showSpeakButton={showSpeakButton}
             speaker={speaker} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
