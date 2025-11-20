@@ -5,7 +5,7 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import User from '@/app/models/userModel'
 import connectDB from '@/app/utils/database'
-import bcrypt from "bcrypt";
+import { compareSync } from "bcrypt-ts";
 import UserPayment from '@/app/models/userPaymentModel'
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
@@ -50,7 +50,7 @@ export const options: NextAuthOptions = {
           throw new Error("회원정보가 없습니다.");
         }
 
-        const isMatch = await bcrypt.compareSync(
+        const isMatch = await compareSync(
           credentials.password,
           user.password
         );

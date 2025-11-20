@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
-import bcrypt from "bcrypt";
+import { compareSync, hashSync } from "bcrypt-ts";
 import { getServerSession } from "next-auth";
 import { signOut } from "next-auth/react";
 
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if(isEmpty(existUserInfo)) {
       const resultInsert = await User.create({
         ...userInfo,
-        password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
+        password: hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
       });
 
       if(isEmpty(resultInsert)) {
@@ -96,7 +96,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
       }, 
       {
         ...userInfo,
-        password: bcrypt.hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
+        password: hashSync(userInfo.password as string, Number(BCRYPT_SALT_ROUNDS))
       });
       
       if(isEmpty(resultUpdate) || resultUpdate.modifiedCount === 0) {
@@ -135,7 +135,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
       if(isEmpty(existUserInfo)) {
         resultInfo = { success: false, message: '회원정보가 없습니다.' };
       } else {
-        const matchPassword = bcrypt.compareSync(userInfo.password as string
+        const matchPassword = compareSync(userInfo.password as string
           , existUserInfo.password)
         
         if(matchPassword) {

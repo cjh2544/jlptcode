@@ -4,7 +4,6 @@ import { isEmpty } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
-import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
 import BoardReply from "@/app/models/boardReplyModel";
 
