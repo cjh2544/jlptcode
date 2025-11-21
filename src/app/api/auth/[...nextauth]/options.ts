@@ -10,6 +10,7 @@ import UserPayment from '@/app/models/userPaymentModel'
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
+
 export const options: NextAuthOptions = {
   providers: [
     KakaoProvider({
