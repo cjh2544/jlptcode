@@ -7,7 +7,7 @@ const SignInSidebarListPage = () => {
   const { data: session } = useSession();
 
   const handleClickSignout = () => {
-    signOut({ callbackUrl: process.env.NEXT_PUBLIC_BASE_URL });
+    signOut();
   };
 
   const handleClickUserModify = () => {
