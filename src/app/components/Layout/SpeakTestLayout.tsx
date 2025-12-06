@@ -4,10 +4,10 @@ import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
 export const metadata: Metadata = {
-  title: "JLPTCODE - 회화학습",
+  title: "JLPTCODE - 스피킹 테스트",
 };
 
-export default function SpeakTodayLayout({
+export default function SpeakTestLayout({
   children,
 }: {
   children: React.ReactNode
@@ -17,7 +17,7 @@ export default function SpeakTodayLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="회화학습" />
+        <HeaderTitle title="스피킹 테스트" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}

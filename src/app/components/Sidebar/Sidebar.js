@@ -94,6 +94,12 @@ export default function Sidebar() {
                   스피킹 완전정복 100일
                 </Link>
               </li>
+              {/* <li className="items-center">
+                <Link scroll={false} href="/speakTest" className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block">
+                  <i className="fas fa-paper-plane text-blueGray-400 mr-2 text-sm"></i>{" "}
+                  스피킹 테스트
+                </Link>
+              </li> */}
             </ul>
 
             <hr className="my-4 md:min-w-full" />

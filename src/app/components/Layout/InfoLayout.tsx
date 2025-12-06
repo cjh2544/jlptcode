@@ -1,15 +1,10 @@
-import Sidebar from "@/app/components/Sidebar/Sidebar";
-import Footer from "@/app/components/Footers/Footer";
-import HeaderTitle from "../Headers/HeaderTitle";
-import maingBg from 'images/main_bg.png'
-import Image from "next/image";
 
 export const metadata = {
-  title: "회원가입",
-  description: "회원가입, 로그인",
+  title: "안내",
+  description: "안내",
 };
 
-export default function SignUpLayout({
+export default function InfoLayout({
   children,
 }: {
   children: React.ReactNode
