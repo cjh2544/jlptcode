@@ -50,10 +50,12 @@ const LevelUpTestPage = () => {
                     <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => handleChangeCheck('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
                   </div>
-                  <div className="flex items-center mr-1">
-                    <input id="show-trans-checkbox" type="checkbox" checked={showSpeakButton} onChange={() => handleChangeCheck('showSpeakButton', !showSpeakButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">발음</label>
-                  </div>
+                  {'vocabulary' === levelUpInfo.classification && (
+                    <div className="flex items-center mr-1">
+                      <input id="show-trans-checkbox" type="checkbox" checked={showSpeakButton} onChange={() => handleChangeCheck('showSpeakButton', !showSpeakButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                      <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">발음</label>
+                    </div>
+                  )}
                   <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
                     <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답</label>
