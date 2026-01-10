@@ -12,6 +12,7 @@ type SpeakTodayInfoType = {
     sentence: string; 
     sentence_read: string;
     sentence_translate: string;
+    speaker: string,
     question: any;
     showQuestion: boolean;
     hideWord: boolean,
@@ -21,7 +22,7 @@ type SpeakTodayInfoType = {
     hideSentenceRead: boolean
     hideSentenceTranslate: boolean,
     hideKeyword: boolean,
-    speaker: string,
+    hideSpeaker: boolean,
 }
 
 type HeaderVisibleType = {
@@ -33,6 +34,7 @@ type HeaderVisibleType = {
     sentence: boolean;
     sentence_read: boolean;
     sentence_translate: boolean;
+    speak: boolean;
 }
 
 interface SpeakTodayStore {
@@ -69,6 +71,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                 sentence_read: false,
                 sentence_translate: false,
                 keyword: false,
+                speak: false,
             },
             wordTodayList: [],
             // setSpeakTodayInfo: (wordTodayInfo, isSearch = true) => set((state:any) => {
@@ -100,6 +103,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         hideSentenceRead: true,
                         hideSentenceTranslate: false,
                         hideKeyword: true,
+                        hideSpeaker: true,
                     })), 
                     hideAll: {
                         word: false,
@@ -108,7 +112,8 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         sentence: true,
                         sentence_read: true,
                         sentence_translate: false,
-                        keyword: true
+                        keyword: true,
+                        speak: true
                     }
                 });
             },
@@ -128,6 +133,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         hideSentenceRead: true,
                         hideSentenceTranslate: false,
                         hideKeyword: true,
+                        hideSpeaker: true,
                     })), 
                     hideAll: {
                         word: false,
@@ -136,7 +142,8 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         sentence: true,
                         sentence_read: true,
                         sentence_translate: false,
-                        keyword: true
+                        keyword: true,
+                        speak: true,
                     }
                 });
             },
@@ -151,6 +158,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                     data.hideSentenceRead = headerVisibleInfo.sentence_read;
                     data.hideSentenceTranslate = headerVisibleInfo.sentence_translate;
                     data.hideKeyword = headerVisibleInfo.keyword;
+                    data.hideSpeaker = headerVisibleInfo.speak;
                     
                     return data;
                 })
@@ -170,7 +178,8 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                     sentence: false,
                     sentence_read: false,
                     sentence_translate: false,
-                    keyword: false
+                    keyword: false,
+                    speak: false,
                 },
             }),
         }),

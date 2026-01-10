@@ -29,13 +29,14 @@ const SpeakInfo = (props:SpeakInfoProps) => {
     sentence, 
     sentence_read, 
     sentence_translate,
+    speaker,
     question,
     showQuestion = false,
     hideSentence = true,
     hideSentenceRead = true,
     hideSentenceTranslate = false,
     hideKeyword = false,
-    speaker,
+    hideSpeaker = false,
   } = wordInfo;
 
   const handleClick = (colType: string) => {
@@ -73,32 +74,21 @@ const SpeakInfo = (props:SpeakInfoProps) => {
           <h4 className="text-lg font-bold text-gray-800">
             {parseHtml(sentence_translate)}
           </h4>
-          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
         </div>
         <div className="flex items-center">
-          <div className="flex-1 min-w-0">
-            <div className={`text-sm font-medium bg-blue-200 p-2 mr-3 text-gray-900 ${hideKeyword ? 'invisible' : ''}`}>
+          <div className="flex-1 min-w-0 mt-1">
+            <div className={`${hideSpeaker ? 'hidden' : ''}`}>
+              <CardAudio audio={{name: '', link: speaker}} />
+            </div>
+            <div className={`text-sm font-medium bg-blue-200 p-2 text-gray-900 ${hideKeyword ? 'hidden' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
               <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
             </div>
-            <div className={`text-sm font-medium bg-blue-100 p-2 mr-3 text-gray-900 ${hideSentence ? 'invisible' : ''}`}>
+            <div className={`text-sm font-medium bg-blue-100 p-2 text-gray-900 ${hideSentence ? 'hidden' : ''}`}>
               {sentence && parseHtml(sentence)}
             </div>
-            <div className={`text-sm font-medium bg-blue-50 p-2 mr-3 text-gray-900 ${hideSentenceRead ? 'invisible' : ''}`}>
+            <div className={`text-sm font-medium bg-blue-50 p-2 text-gray-900 ${hideSentenceRead ? 'hidden' : ''}`}>
               {sentence_read && parseHtml(sentence_read)}
-            </div>
-          </div>
-          <div className="inline-flex items-center text-base font-semibold text-gray-900">
-            <div className="max-w-xs flex flex-col rounded-lg shadow-2xs">
-              <button type="button" onClick={(e) => handleClick('keyword')} className="py-3 px-4 inline-flex items-center gap-x-2 rounded-t-md text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideKeyword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>키워드
-              </button>
-              <button type="button" onClick={(e) => handleClick('sentence')} className="-mt-px py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>문장
-              </button>
-              <button type="button" onClick={(e) => handleClick('sentence_read')} className="-mt-px py-3 px-4 inline-flex items-center gap-x-2 rounded-b-md text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>읽기
-              </button>
             </div>
           </div>
         </div>

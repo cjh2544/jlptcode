@@ -29,12 +29,11 @@ const LevelList = (props: LevelListProps) => {
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
   const getSpeakTodayList = useSpeakTodayStore((state:any) => state.getSpeakTodayList);
+  const hideAll = useSpeakTodayStore((state:any) => state.hideAll);
+  const setHideAllInfo = useSpeakTodayStore(state => state.setHideAllInfo);
 
-  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level}});
-
-  const handleTabChange = (selectedData: any) => {
-
-    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(','), level: wordTodayInfo.level});
+  const handleClickHeader = (colName: string) => {
+    setHideAllInfo({...hideAll, [colName]: !hideAll[colName]});
   }
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -70,36 +69,38 @@ const LevelList = (props: LevelListProps) => {
                 <strong className='text-red-700'>★ 유료회원은 스피킹 완전정복100일에서 순서대로 학습 가능합니다.</strong>
             </div>
           </div>
-          <div className="flex lg:px-10 p-4 gap-2">
-            <select id="levels" name="levels" value={setSpeakTodayInfo.levels} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
-                {levelInfoList.map((item: any, idx: number) => {
-                  return (<option key={idx} value={item.levels.toString()}>{item.name}</option>)
-                })}
-            </select>
-            <button onClick={handleSearch} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
-              <i className={`fas fa-search`}></i> 조회
-            </button>
-            <button onClick={handleSearch} className="bg-green-500 text-white active:bg-green-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
-              <i className={`fas fa-play`}></i> 시작
-            </button>
-            {/* <div className='flex'>
+          <div className="flex justify-between lg:px-10 p-4">
+            <div className='flex gap-2'>
+              <select id="levels" name="levels" value={setSpeakTodayInfo.levels} onChange={handleChange} className="border-0 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
+                  {levelInfoList.map((item: any, idx: number) => {
+                    return (<option key={idx} value={item.levels.toString()}>{item.name}</option>)
+                  })}
+              </select>
+              <button onClick={handleSearch} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
+                <i className={`fas fa-search`}></i> 조회
+              </button>
+              <button onClick={handleSearch} className="bg-green-500 text-white active:bg-green-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
+                <i className={`fas fa-play`}></i> 시작
+              </button>
+            </div>
+            <div className='flex'>
               <div className="flex items-center mr-1">
-                <input id="show-read-checkbox" type="checkbox" checked={showReadButton} onChange={() => handleChangeCheck('showReadButton', !showReadButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-read-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
+                <input id="show-speak-checkbox" type="checkbox" checked={!hideAll.speak} onChange={() => handleClickHeader('speak')} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                <label htmlFor="show-speak-checkbox" className="ms-2 text-sm font-medium text-gray-900">발음</label>
               </div>
               <div className="flex items-center mr-1">
-                <input id="show-trans-checkbox" type="checkbox" checked={showTransButton} onChange={() => handleChangeCheck('showTransButton', !showTransButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">해석</label>
+                <input id="show-keyword-checkbox" type="checkbox" checked={!hideAll.keyword} onChange={() => handleClickHeader('keyword')} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                <label htmlFor="show-keyword-checkbox" className="ms-2 text-sm font-medium text-gray-900">키워드</label>
               </div>
               <div className="flex items-center mr-1">
-                <input id="show-trans-checkbox" type="checkbox" checked={showSpeakButton} onChange={() => handleChangeCheck('showSpeakButton', !showSpeakButton)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-trans-checkbox" className="ms-2 text-sm font-medium text-gray-900">발음</label>
+                <input id="show-sentence-checkbox" type="checkbox" checked={!hideAll.sentence} onChange={() => handleClickHeader('sentence')} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                <label htmlFor="show-sentence-checkbox" className="ms-2 text-sm font-medium text-gray-900">문장</label>
               </div>
               <div className="flex items-center mr-1">
-                <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => handleChangeCheck('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답</label>
+                <input id="show-sentenceread-checkbox" type="checkbox" checked={!hideAll.sentence_read} onChange={() => handleClickHeader('sentence_read')} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
+                <label htmlFor="show-sentenceread-checkbox" className="ms-2 text-sm font-medium text-gray-900">읽기</label>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
