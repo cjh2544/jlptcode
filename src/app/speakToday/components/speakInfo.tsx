@@ -77,14 +77,14 @@ const SpeakInfo = (props:SpeakInfoProps) => {
         </div>
         <div className="flex items-center">
           <div className="flex-1 min-w-0">
-            <div className={`text-sm font-bold bg-[#CBD83B] p-2 mr-3 text-white ${hideKeyword ? 'invisible' : ''}`}>
+            <div className={`text-sm font-bold bg-black p-2 mr-3 text-white ${hideKeyword ? 'invisible' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
-              <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
+              <p className="text-yellow-500 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
             </div>
-            <div className={`text-sm font-bold bg-[#A88AED] p-2 mr-3 text-white ${hideSentence ? 'invisible' : ''}`}>
+            <div className={`text-sm font-bold bg-black p-2 mr-3 text-white ${hideSentence ? 'invisible' : ''}`}>
               {sentence && parseHtml(sentence)}
             </div>
-            <div className={`text-sm font-bold bg-[#FFFEEC] p-2 mr-3 text-[#A88AED] ${hideSentenceRead ? 'invisible' : ''}`}>
+            <div className={`text-sm font-bold bg-black p-2 mr-3 text-white ${hideSentenceRead ? 'invisible' : ''}`}>
               {sentence_read && parseHtml(sentence_read)}
             </div>
           </div>

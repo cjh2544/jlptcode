@@ -29,14 +29,20 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link scroll={false} href="/" passHref legacyBehavior>
-            <a
-              href="#"
-              className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-            >
-              JLPTCODE
+          <div className="flex p-4 px-0 md:pb-2 items-center">
+            <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block mr-2 whitespace-no-wrap uppercase text-red-500"
+              href="/" target="_blank" rel="noopener noreferrer">
+              <i className="fa-brands fa-youtube text-red-500"></i>
             </a>
-          </Link>
+            <Link scroll={false} href="/" passHref legacyBehavior>
+              <a
+                href="#"
+                className="md:block text-left text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold"
+              >
+                JLPTCODE
+              </a>
+            </Link>
+          </div>
           {/* User */}
           <ul className="md:hidden items-center flex flex-wrap list-none">
             <li className="inline-block relative">
@@ -53,7 +59,11 @@ export default function Sidebar() {
             {/* Collapse header */}
             <div className="md:min-w-full md:hidden block">
               <div className="flex flex-wrap">
-                <div className="w-6/12">
+                <div className="w-6/12 flex items-center">
+                  <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block mr-2 whitespace-no-wrap uppercase text-red-500"
+                    href="/" target="_blank" rel="noopener noreferrer">
+                    <i className="fa-brands fa-youtube text-red-500"></i>
+                  </a>
                   <Link scroll={false} href="/" passHref legacyBehavior>
                     <a
                       href="#"

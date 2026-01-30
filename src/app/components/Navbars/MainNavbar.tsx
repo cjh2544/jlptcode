@@ -46,10 +46,16 @@ export default function MainNavbar() {
       <nav className="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg">
         <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
           <div className="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
-            <a className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-no-wrap uppercase text-white"
-              href="/">
-              JLPTCODE
-            </a>
+            <div className="mr-4">
+              <a className="text-lg font-bold leading-relaxed inline-block mr-2 py-2 whitespace-no-wrap uppercase text-red-500"
+                href="/" target="_blank" rel="noopener noreferrer">
+                <i className="fa-brands fa-youtube text-red-500"></i>
+              </a>
+              <a className="text-lg font-bold leading-relaxed inline-block py-2 whitespace-no-wrap uppercase text-white"
+                href="/">
+                  JLPTCODE
+              </a>
+            </div>
             <div className="flex items-center">
               <div className="lg:hidden"><SignInHeaderPage /></div>
               <button onClick={(e) => handleClickMenuBtn(e)} className="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button">
