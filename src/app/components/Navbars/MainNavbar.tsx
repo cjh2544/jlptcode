@@ -48,7 +48,7 @@ export default function MainNavbar() {
           <div className="w-full relative flex justify-between lg:w-auto  px-4 lg:static lg:block lg:justify-start">
             <div className="mr-4">
               <a className="text-lg font-bold leading-relaxed inline-block mr-2 py-2 whitespace-no-wrap uppercase text-red-500"
-                href="/" target="_blank" rel="noopener noreferrer">
+                href="https://www.youtube.com/@JLPTCODE" target="_blank" rel="noopener noreferrer">
                 <i className="fa-brands fa-youtube text-red-500"></i>
               </a>
               <a className="text-lg font-bold leading-relaxed inline-block py-2 whitespace-no-wrap uppercase text-white"
