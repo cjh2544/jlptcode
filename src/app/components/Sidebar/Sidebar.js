@@ -30,10 +30,6 @@ export default function Sidebar() {
           </button>
           {/* Brand */}
           <div className="flex p-4 px-0 md:pb-2 items-center">
-            <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block mr-2 whitespace-no-wrap uppercase text-red-500"
-              href="https://www.youtube.com/@JLPTCODE" target="_blank" rel="noopener noreferrer">
-              <i className="fa-brands fa-youtube text-red-500"></i>
-            </a>
             <Link scroll={false} href="/" passHref legacyBehavior>
               <a
                 href="#"
@@ -42,6 +38,10 @@ export default function Sidebar() {
                 JLPTCODE
               </a>
             </Link>
+            <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block ml-2 whitespace-no-wrap uppercase text-red-500"
+              href="https://www.youtube.com/@JLPTCODE" target="_blank" rel="noopener noreferrer">
+              <i className="fa-brands fa-youtube text-red-500"></i>
+            </a>
           </div>
           {/* User */}
           <ul className="md:hidden items-center flex flex-wrap list-none">
@@ -60,10 +60,6 @@ export default function Sidebar() {
             <div className="md:min-w-full md:hidden block">
               <div className="flex flex-wrap">
                 <div className="w-6/12 flex items-center">
-                  <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block mr-2 whitespace-no-wrap uppercase text-red-500"
-                    href="https://www.youtube.com/@JLPTCODE" target="_blank" rel="noopener noreferrer">
-                    <i className="fa-brands fa-youtube text-red-500"></i>
-                  </a>
                   <Link scroll={false} href="/" passHref legacyBehavior>
                     <a
                       href="#"
@@ -72,6 +68,10 @@ export default function Sidebar() {
                       JLPTCODE
                     </a>
                   </Link>
+                  <a passHref legacyBehavior className="text-lg font-bold leading-relaxed inline-block ml-2 whitespace-no-wrap uppercase text-red-500"
+                    href="https://www.youtube.com/@JLPTCODE" target="_blank" rel="noopener noreferrer">
+                    <i className="fa-brands fa-youtube text-red-500"></i>
+                  </a>
                 </div>
                 <div className="w-6/12 flex justify-end">
                   <button

@@ -21,8 +21,8 @@ const SignInHeaderPage = () => {
         ? <>
           <div className="group relative">
             <button className="rounded-lg border border-white px-3 py-2 flex items-center text-xs font-bold leading-snug text-white hover:opacity-75" type="button">
-              {session.user?.name}님
-              <i className="fas fa-right-from-bracket ml-1" />
+              <span className="xs:hidden mr-1">{session.user?.name}님</span>
+              <i className="fas fa-right-from-bracket" />
             </button>
 
             <div className="pt-1">
@@ -58,8 +58,8 @@ const SignInHeaderPage = () => {
         </>
         : <>
           <button onClick={() => signIn()} className="rounded-lg border border-white px-3 py-2 flex items-center text-xs font-bold leading-snug text-white hover:opacity-75" type="button">
-            로그인
-            <i className="fas fa-right-to-bracket ml-1" />
+            <span className="xs:hidden mr-1">로그인</span>
+            <i className="fas fa-right-to-bracket" />
           </button>
         </>
       }
