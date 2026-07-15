@@ -9,9 +9,10 @@ import VisitHistory from "./components/Visit/VisitHistory";
 import { Metadata } from 'next'
 import { Suspense } from "react";
 import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
 
 const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || '';
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
@@ -74,8 +75,7 @@ export default function RootLayout({
         </SessionProvider>
 
         {/* <VisitHistory /> */}
-        {/* <GoogleAnalytics gaId={GA_MEASUREMENT_ID} /> */}
-        {GTM_MEASUREMENT_ID && <GoogleTagManager gtmId={GTM_MEASUREMENT_ID} />}
+        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
         <GoogleTagManager gtmId={GTM_MEASUREMENT_ID} />
         {/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9988307876390058" crossOrigin="anonymous">
         </script> */}
