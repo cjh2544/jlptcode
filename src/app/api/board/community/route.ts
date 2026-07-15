@@ -1,7 +1,6 @@
 import User from "@/app/models/userModel";
 import connectDB from "@/app/utils/database";
 import { isEmpty } from "lodash";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import { getServerSession } from "next-auth";
@@ -23,7 +22,7 @@ export async function GET(request: NextRequest) {
   return NextResponse.json(communityList)
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   await connectDB();
   const body = await req.formData();
   const boardInfo = Object.fromEntries(body.entries());
@@ -55,7 +54,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   return NextResponse.json(resultInfo)
 }  
 
-export async function PATCH(req: NextRequest, res: NextResponse) {
+export async function PATCH(req: NextRequest) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
@@ -94,7 +93,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   return NextResponse.json(resultInfo)
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse) {
+export async function DELETE(req: NextRequest) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();

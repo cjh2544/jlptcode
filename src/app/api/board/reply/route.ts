@@ -1,7 +1,6 @@
 import User from "@/app/models/userModel";
 import connectDB from "@/app/utils/database";
 import { isEmpty } from "lodash";
-import { NextApiRequest, NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import { getServerSession } from "next-auth";
@@ -11,7 +10,7 @@ const ReplyFormData = z.object({
   contents: z.string().min(2, "내용은 2자이상 입력해 주세요.").max(5000, "내용은 최대 5000자리까지 입력해 주세요."),
 });
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   await connectDB();
   const replyInfo = await req.json();
   const validation = ReplyFormData.safeParse(replyInfo);
@@ -42,7 +41,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   return NextResponse.json(resultInfo)
 }  
 
-export async function PATCH(req: NextRequest, res: NextResponse) {
+export async function PATCH(req: NextRequest) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();
@@ -80,7 +79,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
   return NextResponse.json(resultInfo)
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse) {
+export async function DELETE(req: NextRequest) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
 
   const session = await getServerSession();

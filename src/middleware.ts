@@ -1,4 +1,11 @@
-export { default } from 'next-auth/middleware'
+import { withAuth, type NextRequestWithAuth } from 'next-auth/middleware'
+import type { NextFetchEvent } from 'next/server'
+
+const authMiddleware = withAuth({})
+
+export function middleware(request: NextRequestWithAuth, event: NextFetchEvent) {
+    return authMiddleware(request, event)
+}
 
 // 인증이 필요한 페이지
 export const config = {

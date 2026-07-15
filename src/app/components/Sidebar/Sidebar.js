@@ -43,8 +43,6 @@ export default function Sidebar() {
             </Link>
             <LanguageSwitcher variant="sidebar" />
             <a
-              passHref
-              legacyBehavior
               className="text-lg font-bold leading-relaxed inline-block whitespace-no-wrap uppercase text-red-500"
               href="https://www.youtube.com/@JLPTCODE"
               target="_blank"
@@ -76,8 +74,6 @@ export default function Sidebar() {
                     </a>
                   </Link>
                   <a
-                    passHref
-                    legacyBehavior
                     className="text-lg font-bold leading-relaxed inline-block ml-2 whitespace-no-wrap uppercase text-red-500"
                     href="https://www.youtube.com/@JLPTCODE"
                     target="_blank"
