@@ -1,0 +1,15 @@
+---
+description: Custom i18n messages and LanguageSwitcher conventions
+globs: src/i18n/**/*.{ts,tsx,json},src/app/providers/I18nProvider.tsx,src/app/components/Navbars/**
+alwaysApply: false
+---
+
+# i18n
+
+- Locales: `ko`, `ja`, `en`, `zh`, `my` (`src/i18n/config.ts`)
+- Messages: `src/i18n/messages/{locale}.json` — add the **same key to all five** files
+- Client: `const { t, locale, setLocale } = useTranslations()`
+- Lookup: `t("nav.speakToday")` (dot paths)
+- Persist locale via cookie/localStorage key `jlptcode-locale`
+- Language UI: `LanguageSwitcher` in MainNavbar (select + flag), transparent styling per existing CSS
+- When adding nav/home labels, update JSON keys and `NAV_LINKS` / home card constants together

@@ -1,0 +1,16 @@
+---
+description: jlptcode 핵심 코딩 표준 (React, TypeScript, Tailwind, 폴더 구조)
+alwaysApply: true
+---
+
+# jlptcode Core
+
+- Stack: Next.js 14 App Router, React 18, TypeScript, Tailwind, Material Tailwind
+- Path alias: `@/*` → `src/*`
+- Functional components + hooks only; keep components small and reusable
+- Style with Tailwind; follow existing Material Tailwind usage
+- Prefer existing patterns over new abstractions; minimal diffs
+- Feature layout: `src/app/{feature}/`, `api/`, `store/`, `swr/`, `models/`, `components/Layout/`
+- Client pages that use hooks/session/store: add `"use client"` at top
+- UI strings: use `useTranslations()` + `src/i18n/messages/*.json` (ko, ja, en, zh, my) — no hard-coded user-facing copy
+- Paid features: gate with `session?.paymentInfo?.isValid` and `PaidButton`

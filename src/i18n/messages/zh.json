@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "speakToday": "日语口语",
+    "jlpt": "JLPT",
+    "wordToday": "今日日语",
+    "jpt": "JPT",
+    "community": "咨询论坛"
+  },
+  "home": {
+    "speakToday": "日语口语",
+    "jlpt": "JLPT",
+    "wordToday": "今日日语",
+    "jpt": "JPT"
+  },
+  "auth": {
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "editProfile": "修改会员信息",
+    "deleteAccount": "注销会员",
+    "paidPeriod": "付费期间",
+    "userSuffix": ""
+  },
+  "sidebar": {
+    "recommended": "推荐",
+    "speakConversation": "会话学习",
+    "speakMaster100": "口语100天精通",
+    "levelUp": "升级",
+    "strategy": "重点攻略",
+    "mockTest": "模拟考试",
+    "todayWord": "今日单词",
+    "todaySentence": "今日句子",
+    "todayGrammar": "今日语法",
+    "wordSection": "单词",
+    "jlptWord": "JLPT(N1~N5)",
+    "flashWord": "闪卡日语",
+    "board": "论坛",
+    "memberInfo": "会员信息",
+    "memberList": "会员列表"
+  }
+}

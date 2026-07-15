@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "speakToday": "日本語スピーキング",
+    "jlpt": "JLPT",
+    "wordToday": "今日の日本語",
+    "jpt": "JPT",
+    "community": "お問い合わせ掲示板"
+  },
+  "home": {
+    "speakToday": "日本語スピーキング",
+    "jlpt": "JLPT",
+    "wordToday": "今日の日本語",
+    "jpt": "JPT"
+  },
+  "auth": {
+    "signIn": "ログイン",
+    "signOut": "ログアウト",
+    "editProfile": "会員情報修正",
+    "deleteAccount": "退会",
+    "paidPeriod": "有料期間",
+    "userSuffix": "さん"
+  },
+  "sidebar": {
+    "recommended": "おすすめ",
+    "speakConversation": "会話学習",
+    "speakMaster100": "スピーキング完全攻略100日",
+    "levelUp": "レベルアップ",
+    "strategy": "集中攻略",
+    "mockTest": "模擬試験",
+    "todayWord": "今日の単語",
+    "todaySentence": "今日の文",
+    "todayGrammar": "今日の文法",
+    "wordSection": "単語 | WORD",
+    "jlptWord": "JLPT(N1~N5)",
+    "flashWord": "フラッシュ日本語",
+    "board": "掲示板",
+    "memberInfo": "会員情報",
+    "memberList": "会員一覧"
+  }
+}

@@ -1,0 +1,24 @@
+---
+description: SWR hooks and Zustand store conventions
+globs: src/app/{store,swr}/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# State & Data Fetching
+
+## SWR (`src/app/swr/`)
+
+- Fetcher key: `{ url, params, method? }` via `SWRProvider`
+- Export hooks returning `{ data, error, isLoading, isValidating, mutate }`
+- Use `useSWRImmutable` for quiz/list payloads (no auto-revalidate)
+- Reference: `src/app/swr/useGrammarToday.ts`
+
+## Zustand (`src/app/store/`)
+
+```typescript
+create<T>()(devtools(persist((set, get) => ({ ... }), { name: "featureStore" })))
+```
+
+- Hold filters (`level`, `study`), item lists, UI toggles
+- List fetch via store actions calling API `fetch` when matching existing stores
+- Do not duplicate metadata that already lives in SWR hooks

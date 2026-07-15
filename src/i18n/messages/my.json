@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "speakToday": "ဂျပန်စကားပြော",
+    "jlpt": "JLPT",
+    "wordToday": "ယနေ့ဂျပန်ဘာသာ",
+    "jpt": "JPT",
+    "community": "မေးမြန်းရန်ဖိုရမ်"
+  },
+  "home": {
+    "speakToday": "ဂျပန်စကားပြော",
+    "jlpt": "JLPT",
+    "wordToday": "ယနေ့ဂျပန်ဘာသာ",
+    "jpt": "JPT"
+  },
+  "auth": {
+    "signIn": "ဝင်ရောက်ရန်",
+    "signOut": "ထွက်ရန်",
+    "editProfile": "အဖွဲ့ဝင်အချက်အလက်ပြင်ဆင်ရန်",
+    "deleteAccount": "အဖွဲ့ဝင်မှထွက်ရန်",
+    "paidPeriod": "ငွေပေးချေထားသောကာလ",
+    "userSuffix": ""
+  },
+  "sidebar": {
+    "recommended": "အကြံပြု",
+    "speakConversation": "စကားပြောလေ့လာမှု",
+    "speakMaster100": "စကားပြော ၁၀၀ ရက်",
+    "levelUp": "Level Up",
+    "strategy": "ဗဟိုတိုက်ခိုက်",
+    "mockTest": "စမ်းသပ်စာမေးများ",
+    "todayWord": "ယနေ့စကားလုံး",
+    "todaySentence": "ယနေ့စာကြောင်း",
+    "todayGrammar": "ယနေ့သဒ္ဒါ",
+    "wordSection": "စကားလုံး",
+    "jlptWord": "JLPT(N1~N5)",
+    "flashWord": "Flash Japanese",
+    "board": "ဖိုရမ်",
+    "memberInfo": "အဖွဲ့ဝင်အချက်အလက်",
+    "memberList": "အဖွဲ့ဝင်စာရင်း"
+  }
+}

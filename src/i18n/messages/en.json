@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "speakToday": "Japanese Speaking",
+    "jlpt": "JLPT",
+    "wordToday": "Today's Japanese",
+    "jpt": "JPT",
+    "community": "Community Board"
+  },
+  "home": {
+    "speakToday": "Japanese Speaking",
+    "jlpt": "JLPT",
+    "wordToday": "Today's Japanese",
+    "jpt": "JPT"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "editProfile": "Edit Profile",
+    "deleteAccount": "Delete Account",
+    "paidPeriod": "Subscription",
+    "userSuffix": ""
+  },
+  "sidebar": {
+    "recommended": "Recommended",
+    "speakConversation": "Conversation",
+    "speakMaster100": "Speaking Mastery 100 Days",
+    "levelUp": "Level Up",
+    "strategy": "Focus Strategy",
+    "mockTest": "Mock Test",
+    "todayWord": "Today's Words",
+    "todaySentence": "Today's Sentences",
+    "todayGrammar": "Today's Grammar",
+    "wordSection": "Words",
+    "jlptWord": "JLPT (N1–N5)",
+    "flashWord": "Flash Japanese",
+    "board": "Board",
+    "memberInfo": "Members",
+    "memberList": "Member List"
+  }
+}

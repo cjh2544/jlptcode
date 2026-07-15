@@ -1,7 +1,25 @@
+"use client";
+
+import { useTranslations } from "@/app/providers/I18nProvider";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
+
+const FOOTER_LINKS = [
+  { key: "nav.speakToday", link: "/speakToday" },
+  { key: "nav.jlpt", link: "/levelUp?level=N1" },
+  { key: "nav.wordToday", link: "/wordToday" },
+  { key: "nav.jpt", link: "/jptLevelUp" },
+  { key: "nav.community", link: "/board/community/list" },
+] as const;
 
 export default function Footer() {
+  const { t } = useTranslations();
+
+  const links = useMemo(
+    () => FOOTER_LINKS.map((item) => ({ name: t(item.key), link: item.link })),
+    [t],
+  );
+
   return (
     <>
       <footer className="block py-4">
@@ -21,31 +39,17 @@ export default function Footer() {
             </div>
             <div className="w-full md:w-8/12 px-4">
               <ul className="flex flex-wrap list-none md:justify-end  justify-center">
-                <li>
-                  <Link scroll={false} href={'/speakToday'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    일본어스피킹
-                  </Link>
-                </li>
-                <li>
-                  <Link scroll={false} href={'/levelUp?level=N1'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    JLPT
-                  </Link>
-                </li>
-                <li>
-                  <Link scroll={false} href={'/wordToday'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    오늘의 일본어
-                  </Link>
-                </li>
-                <li>
-                  <Link scroll={false} href={'/jptLevelUp'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    JPT
-                  </Link>
-                </li>
-                <li>
-                  <Link scroll={false} href={'/board/community/list'} className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75">
-                    문의 게시판
-                  </Link>
-                </li>
+                {links.map((item, idx) => (
+                  <li key={`footer-link-${idx}`}>
+                    <Link
+                      scroll={false}
+                      href={item.link}
+                      className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug hover:opacity-75"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

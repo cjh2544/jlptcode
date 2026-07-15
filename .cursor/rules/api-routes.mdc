@@ -1,0 +1,30 @@
+---
+description: App Router API route conventions (connectDB, Mongoose, list vs listAll)
+globs: src/app/api/**/*.ts
+alwaysApply: false
+---
+
+# API Routes
+
+1. Always `await connectDB()` from `@/app/utils/database` before queries
+2. Import the matching Mongoose model from `@/app/models/`
+3. GET → `request.nextUrl.searchParams`; POST → `await request.json()`
+4. Return `NextResponse.json(data)`
+
+POST body convention:
+
+```typescript
+const { params } = await request.json();
+const { level, study } = params || {};
+```
+
+*Today endpoints:
+
+| Path | Role |
+|------|------|
+| `class/route.ts` | GET — metadata (levels) |
+| `study/route.ts` | GET — study units |
+| `list/route.ts` | POST — `$sample` random (free) |
+| `listAll/route.ts` | POST — full sorted list (paid) |
+
+Reference: `src/app/api/grammarToday/list/route.ts`

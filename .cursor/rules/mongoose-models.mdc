@@ -1,0 +1,17 @@
+---
+description: Mongoose model and collection naming conventions
+globs: src/app/models/**/*.ts
+alwaysApply: false
+---
+
+# Mongoose Models
+
+```typescript
+const schema = new Schema({ ... }, { timestamps: true, collection: "grammar_today" });
+const Model = models?.grammarToday || model("grammarToday", schema, "grammar_today");
+```
+
+- Collection names: snake_case
+- Always use `models?.name || model(...)` for hot-reload safety
+- Prefer aggregation (`$match`, `$sample`, `$group`) in API routes like existing code
+- Connection only via `connectDB` — never open a second mongoose connection in models

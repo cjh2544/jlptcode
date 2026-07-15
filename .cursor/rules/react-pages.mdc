@@ -1,0 +1,25 @@
+---
+description: Feature page and component patterns for App Router client UIs
+globs: src/app/**/*.tsx
+alwaysApply: false
+---
+
+# React Pages & Components
+
+- Pages under `src/app/{feature}/page.tsx`; feature UI in `{feature}/components/`
+- Shared UI in `src/app/components/` (Layout, Cards, Navbars, Modals, Buttons)
+- Wrap feature pages with `{Feature}Layout` from `components/Layout/`
+
+Typical *Today page:
+
+```tsx
+"use client";
+import { useSession } from "next-auth/react";
+import { useGrammarTodayStore } from "@/app/store/grammarTodayStore";
+import GrammarTodayLayout from "../components/Layout/GrammarTodayLayout";
+// LevelList + SentenceList inside layout
+```
+
+- SWR hooks for metadata/tabs; Zustand for filters, quiz lists, hide/show toggles
+- Do not invent a new data layer — mirror `grammarToday` when adding modules
+- Reference: `src/app/grammarToday/page.tsx`

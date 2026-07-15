@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "speakToday": "일본어스피킹",
+    "jlpt": "JLPT",
+    "wordToday": "오늘의 일본어",
+    "jpt": "JPT",
+    "community": "문의 게시판"
+  },
+  "home": {
+    "speakToday": "일본어스피킹",
+    "jlpt": "JLPT",
+    "wordToday": "오늘의일본어",
+    "jpt": "JPT"
+  },
+  "auth": {
+    "signIn": "로그인",
+    "signOut": "로그아웃",
+    "editProfile": "회원정보 수정",
+    "deleteAccount": "회원탈퇴",
+    "paidPeriod": "유료기간",
+    "userSuffix": "님"
+  },
+  "sidebar": {
+    "recommended": "추천",
+    "speakConversation": "회화학습",
+    "speakMaster100": "스피킹 완전정복 100일",
+    "levelUp": "레벨업(LEVEL UP)",
+    "strategy": "집중공략",
+    "mockTest": "모의고사(TEST)",
+    "todayWord": "오늘의 단어",
+    "todaySentence": "오늘의 문장",
+    "todayGrammar": "오늘의 문법",
+    "wordSection": "단어 | 単語 | WORD",
+    "jlptWord": "JLPT(N1~N5)",
+    "flashWord": "깜빡이 일본어",
+    "board": "게시판",
+    "memberInfo": "회원정보",
+    "memberList": "회원목록"
+  }
+}

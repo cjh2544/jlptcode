@@ -1,8 +1,6 @@
 import Sidebar from "@/app/components/Sidebar/Sidebar";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
-import maingBg from 'images/main_bg.png'
-import Image from "next/image";
 
 export const metadata = {
   title: "회원가입",
