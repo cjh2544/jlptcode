@@ -4,12 +4,14 @@ import { filter, includes, remove } from 'lodash';
 import { ClientSafeProvider, signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { FormEvent, MouseEvent } from 'react';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type SocialSigninButtonProps = {
   providers: Record<string, ClientSafeProvider> | undefined,
   onClick: (providerId: string) => {}
 }
 export default function SocialSigninButton({ providers, onClick }: SocialSigninButtonProps) {
+  const { t } = useTranslations();
   const handleClickSocialButton = (providerId: string) => (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
     onClick && onClick(providerId)
@@ -23,11 +25,11 @@ export default function SocialSigninButton({ providers, onClick }: SocialSigninB
           <img src={`https://authjs.dev/img/providers/${provider['id']}.svg`} height={20} width={20}/>
           { 
             { 
-              google : '구글',
-              naver : '네이버',
-              kakao : '카카오'
+              google : t('auth.google'),
+              naver : t('auth.naver'),
+              kakao : t('auth.kakao')
             }[provider['id'] as string]
-          } 로그인
+          } {t('auth.signIn')}
         </a>
       ))}
     </div>

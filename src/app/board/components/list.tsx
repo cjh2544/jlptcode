@@ -7,6 +7,7 @@ import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
 import BoardRowInfo from './boardRowInfo';
 import { isEmpty } from 'lodash';
 import EmptyData from '@/app/components/Alert/EmptyData';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type BoardListProps = {
   level?: string,
@@ -15,6 +16,7 @@ type BoardListProps = {
 }
 
 const BoardList = (props: BoardListProps) => {
+  const { t } = useTranslations();
   const {
     level
   } = props
@@ -58,13 +60,13 @@ const BoardList = (props: BoardListProps) => {
             <thead>
                 <tr>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        제목
+                        {t('board.subject')}
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        작성자
+                        {t('board.author')}
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        등록일자
+                        {t('board.createdAt')}
                     </th>
                 </tr>
             </thead>

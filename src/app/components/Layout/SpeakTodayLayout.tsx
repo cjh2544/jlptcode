@@ -4,7 +4,8 @@ import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
 export const metadata: Metadata = {
-  title: "JLPTCODE - 회화학습",
+  title: "회화학습",
+  description: "일본어 회화 학습으로 말하기 실력을 키워보세요.",
 };
 
 export default function SpeakTodayLayout({
@@ -17,7 +18,7 @@ export default function SpeakTodayLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="회화학습" />
+        <HeaderTitle titleKey="layout.speakToday" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}

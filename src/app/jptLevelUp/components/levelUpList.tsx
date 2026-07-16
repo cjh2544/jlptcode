@@ -7,6 +7,7 @@ import { useClassTypeList } from '@/app/swr/useJpt';
 import { sortBy } from 'lodash';
 import Classification from './classification';
 import Loading from '@/app/components/Loading/loading';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type JptListProps = {
   level?: string,
@@ -15,6 +16,7 @@ type JptListProps = {
 }
 
 const JptList = (props: JptListProps) => {
+  const { t } = useTranslations();
   const {
     level
   } = props
@@ -51,7 +53,7 @@ const JptList = (props: JptListProps) => {
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6">
               <div className="text-center flex justify-between">
-                  <h6 className="text-blueGray-700 text-xl font-bold">레벨업(Level up)</h6>
+                  <h6 className="text-blueGray-700 text-xl font-bold">{t('levelUp.title')}</h6>
               </div>
             </div>
             <div className="flex-auto mt-3 lg:px-10 py-10 pt-0">

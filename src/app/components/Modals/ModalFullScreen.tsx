@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useState } from "react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type ModalFullScreenProps = {
   title?: string,
@@ -11,6 +14,7 @@ type ModalFullScreenProps = {
 const ModalFullScreen = (props: ModalFullScreenProps) => {
   const {title, visible=false, onChange, children, navInfo} = props;
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
+  const { t } = useTranslations();
 
   const handleChangeScreen = (size: string | undefined) => {
     const isFull = (size === 'full');
@@ -37,7 +41,7 @@ const ModalFullScreen = (props: ModalFullScreenProps) => {
                     type="button"
                     onClick={() => handleChangeScreen(isFullScreen ? '' : 'full')}
                   >
-                    전체화면 {isFullScreen ? '취소' : ''}
+                    {isFullScreen ? t('modal.exitFullscreen') : t('modal.fullscreen')}
                   </button>
                 </div>
               </div>

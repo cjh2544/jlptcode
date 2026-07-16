@@ -3,6 +3,7 @@ import { useJptStore } from "@/app/store/jptStore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import PaidButton from "@/app/components/Buttons/PaidButton";
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type ModalAnswerProps = {
   title: string,
@@ -11,7 +12,8 @@ type ModalAnswerProps = {
 }
 
 const ModalAnswer = (props:ModalAnswerProps) => {
-  const {title, btnTitle = '정답확인', goQuestion} = props;
+  const { t } = useTranslations();
+  const {title, btnTitle = t('quiz.checkAnswer'), goQuestion} = props;
   const [showModal, setShowModal] = React.useState(false);
   const jptList = useJptStore((state:any) => state.jptList);
   const router = useRouter();
@@ -37,7 +39,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
           type="button"
           onClick={handleClickList}
         >
-          목록
+          {t('common.list')}
         </button> */}
         <button
           className="text-blueGray-500 bg-transparent border border-solid border-blueGray-500 active:bg-blueGray-600 font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -84,7 +86,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                     <div className="flex flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1 text-center">
                         <h5 className="text-blueGray-400 uppercase font-bold text-xs">
-                          全体(전체)<br />total
+                          {t('quiz.total')}<br />total
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
                           {(jptList.filter((item: any) => item.answer) || []).length}
@@ -92,7 +94,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                       </div>
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1 text-center">
                         <h5 className="text-blueGray-400 uppercase font-bold text-xs">
-                          正解(정답)<br />correct answer
+                          {t('quiz.correct')}<br />correct answer
                         </h5>
                         <span className="font-semibold text-xl text-lightBlue-500">
                           {getCollectCnt('collect')}
@@ -100,7 +102,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                       </div>
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1 text-center">
                         <h5 className="text-blueGray-400 uppercase font-bold text-xs">
-                          誤答(오답)<br />wrong answer
+                          {t('quiz.wrong')}<br />wrong answer
                         </h5>
                         <span className="font-semibold text-xl text-red-500">
                           {getCollectCnt('uncollect')}
@@ -114,13 +116,13 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                     <thead>
                       <tr>
                         <th className="px-6 bg-blueGray-50 text-gray-800 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
-                          番号(번호)<br />No
+                          {t('quiz.number')}<br />No
                         </th>
                         <th className="px-6 bg-blueGray-50 text-gray-800 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
-                          選択(선택)<br />Choice
+                          {t('quiz.choice')}<br />Choice
                         </th>
                         <th className="px-6 bg-blueGray-50 text-gray-800 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
-                          正解(정답)<br />Answer
+                          {t('quiz.correctShort')}<br />Answer
                         </th>
                         <th className="px-6 bg-blueGray-50 text-gray-800 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-center">
                           問題確認<br />Check
@@ -137,11 +139,11 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center text-gray-800">
                               {item.selectedAnswer === item.answer ? (
                                 <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-lightBlue-600 bg-lightBlue-200 uppercase last:mr-0 mr-1">
-                                  {item.selectedAnswer}: 正解
+                                  {item.selectedAnswer}: {t('quiz.correctShort')}
                                 </span>
                               ) : (
                                 <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-pink-600 bg-pink-200 uppercase last:mr-0 mr-1">
-                                  {item.selectedAnswer}: 誤答
+                                  {item.selectedAnswer}: {t('quiz.wrongShort')}
                                 </span>
                               )}
                             </td>
@@ -150,7 +152,7 @@ const ModalAnswer = (props:ModalAnswerProps) => {
                             </td>
                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-center text-gray-800">
                               {/* <button onClick={() => handleGoQuestion(`jlpt-question-${item.questionNo}`)} className="bg-lightBlue-500 text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-                                바로가기
+                                {t('quiz.goTo')}
                               </button> */}
                               <a href={`#levelup-question-${item.questionNo}`} className="bg-lightBlue-500 text-white active:bg-blueGray-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
                                 見る

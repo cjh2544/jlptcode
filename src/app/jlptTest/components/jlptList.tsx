@@ -8,6 +8,7 @@ import Classification from './classification';
 import Loading from '@/app/components/Loading/loading';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 import { useSession } from "next-auth/react";
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type JlptListProps = {
   level?: string,
@@ -16,6 +17,7 @@ type JlptListProps = {
 }
 
 const JlptList = (props: JlptListProps) => {
+  const { t } = useTranslations();
   const {
     level
   } = props
@@ -35,7 +37,7 @@ const JlptList = (props: JlptListProps) => {
   const handleClick = (selectedData: any) => {
     if(!session?.paymentInfo?.isValid) {
       if('test(1)' !== selectedData.test.toLowerCase()) {
-        setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+        setConfirmMsg(<>{t("common.paidOnly")}<br />{t("common.paidOnlyHint")}</>);
         setShowConfirm(true);
         return;
       }

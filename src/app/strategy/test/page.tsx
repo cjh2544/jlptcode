@@ -6,8 +6,10 @@ import ModalAnswer from '../components/modalAnswer';
 import StrategyLayout from '@/app/components/Layout/StrategyLayout';
 import Loading from '@/app/components/Loading/loading';
 import { useJlptStore } from '@/app/store/jlptStore';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 const StrategyTestPage = () => {
+  const { t } = useTranslations();
   const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state:any) => state);
   const showAnswer = useStrategyStore((state:any) => state.showAnswer);
   const setStoreData = useStrategyStore((state:any) => state.setStoreData);
@@ -21,11 +23,11 @@ const StrategyTestPage = () => {
           <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
             <div className="rounded-t bg-white mb-0 px-6 py-6 shadow-lg">
               <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">집중공략</h6>
+                <h6 className="text-blueGray-700 text-xl font-bold">{t('strategy.title')}</h6>
                 <div className='flex'>
                   <div className="flex items-center mr-1">
                     <input id="show-answer-checkbox" type="checkbox" checked={showAnswer} onChange={() => setStoreData('showAnswer', !showAnswer)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2" />
-                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">정답 바로보기</label>
+                    <label htmlFor="show-answer-checkbox" className="ms-2 text-sm font-medium text-gray-900">{t('common.showAnswer')}</label>
                   </div>
                   <span
                     className="bg-blueGray-700 active:bg-blueGray-600 text-white font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"

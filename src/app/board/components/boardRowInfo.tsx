@@ -5,6 +5,7 @@ import CardBoardDetailInfo from "@/app/components/Cards/CardBoardDetailInfo";
 import { useBoardReplyInfo } from "@/app/swr/useBoardReply";
 import { isEmpty } from "lodash";
 import { formatInSeoul } from "@/app/utils/common";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type BoardRowInfoProps = {
   boardInfo: Board,
@@ -13,6 +14,7 @@ type BoardRowInfoProps = {
 }
 
 const BoardRowInfo = (props:BoardRowInfoProps) => {
+  const { t } = useTranslations();
   const { 
     boardInfo, 
     onClickDetail
@@ -46,12 +48,12 @@ const BoardRowInfo = (props:BoardRowInfoProps) => {
             </p>
             {boardInfo?.noticeYn === 'Y' && (
               <span className="focus:outline-none text-xs bg-red-500 text-white font-bold py-1 px-2 rounded-md">
-                공지
+                {t('board.notice')}
               </span>
             )}
             {!isEmpty(replyInfo) && (
               <button type="button" onClick={() => setShowReply(!showReply)} className="focus:outline-none text-xs bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded-md">
-                답변완료
+                {t('board.replied')}
               </button>
             )}
           </div>

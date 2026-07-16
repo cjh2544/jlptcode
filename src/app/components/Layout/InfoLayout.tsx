@@ -1,7 +1,7 @@
 
 export const metadata = {
   title: "안내",
-  description: "안내",
+  description: "JLPTCODE 이용 안내입니다.",
 };
 
 export default function InfoLayout({

@@ -1,7 +1,10 @@
+"use client";
+
 import React, { memo, useMemo } from "react";
 import CheckInfoIcon from "../Icons/CheckInfo";
 import CheckWarningIcon from "../Icons/CheckWarning";
 import CheckErrorIcon from "../Icons/CheckError";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type ModalConfirmProps = {
   type?: 'info' | 'error' | 'warning',
@@ -13,6 +16,7 @@ type ModalConfirmProps = {
 
 const ModalConfirm = (props: ModalConfirmProps) => {
   const {type = 'info', title, message, visible=false, onClose} = props;
+  const { t } = useTranslations();
 
   const colorInfo = useMemo(
     () => {
@@ -42,11 +46,11 @@ const ModalConfirm = (props: ModalConfirmProps) => {
               }
 
               <div className="mt-12">
-                  <h3 className="text-gray-800 text-2xl font-bold flex-1">{title || '확인!'}</h3>
+                  <h3 className="text-gray-800 text-2xl font-bold flex-1">{title || t('modal.confirmTitle')}</h3>
                   <p className="text-sm text-gray-600 mt-3">{message}</p>
 
                   <button onClick={() => handleClose()} type="button"
-                      className={`px-6 py-2.5 mt-8 w-full rounded-md text-white text-sm font-semibold tracking-wide border-none outline-none bg-${colorInfo}-500 hover:bg-${colorInfo}-600`}>확인</button>
+                      className={`px-6 py-2.5 mt-8 w-full rounded-md text-white text-sm font-semibold tracking-wide border-none outline-none bg-${colorInfo}-500 hover:bg-${colorInfo}-600`}>{t('common.confirm')}</button>
               </div>
           </div>
       </div>

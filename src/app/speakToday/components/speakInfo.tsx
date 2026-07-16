@@ -6,6 +6,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";
 import GoogleTts from "@/app/components/Audio/GoogleTTS";
 import CardAudio from "@/app/components/Cards/CardAudio";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SpeakInfoProps = {
   wordInfo: any
@@ -13,6 +14,7 @@ type SpeakInfoProps = {
 }
 
 const SpeakInfo = (props:SpeakInfoProps) => {
+  const { t } = useTranslations();
   const { 
     wordInfo, 
     onClick
@@ -79,7 +81,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
           <div className="flex-1 min-w-0">
             <div className={`text-sm font-bold bg-black p-2 mr-3 text-white ${hideKeyword ? 'invisible' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
-              <p className="text-yellow-500 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
+              <p className="text-yellow-500 font-bold mt-2">{t("speak.tipKeyword")}</p>
             </div>
             <div className={`text-sm font-bold bg-black p-2 mr-3 text-white ${hideSentence ? 'invisible' : ''}`}>
               {sentence && parseHtml(sentence)}
@@ -91,13 +93,13 @@ const SpeakInfo = (props:SpeakInfoProps) => {
           <div className="inline-flex items-center text-base font-semibold text-gray-900">
             <div className="max-w-xs flex flex-col rounded-lg shadow-2xs">
               <button type="button" onClick={(e) => handleClick('keyword')} className="py-3 px-4 inline-flex items-center gap-x-2 rounded-t-md text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideKeyword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>키워드
+                <i className={`${hideKeyword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>{t("common.keyword")}
               </button>
               <button type="button" onClick={(e) => handleClick('sentence')} className="-mt-px py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>문장
+                <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>{t("common.sentence")}
               </button>
               <button type="button" onClick={(e) => handleClick('sentence_read')} className="-mt-px py-3 px-4 inline-flex items-center gap-x-2 rounded-b-md text-sm font-medium focus:z-10 border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none">
-                <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>읽기
+                <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>{t("common.read")}
               </button>
             </div>
           </div>

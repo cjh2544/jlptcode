@@ -2,12 +2,14 @@
 import { useWordStore } from '@/app/store/wordStore';
 import { Button } from "@material-tailwind/react";
 import { memo } from 'react';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type HeaderButtonProps = {
   colName: string,
 }
 
 const HeaderListButton = ({colName}: HeaderButtonProps) => {
+  const { t } = useTranslations();
   const hideAll = useWordStore(state => state.hideAll);
   const setHideAllInfo = useWordStore(state => state.setHideAllInfo);
 
@@ -21,9 +23,9 @@ const HeaderListButton = ({colName}: HeaderButtonProps) => {
         <span className='mr-1'>
           {
             {
-              'word': '단어',
-              'read': '읽기',
-              'means': '의미',
+              'word': t('word.word'),
+              'read': t('word.reading'),
+              'means': t('word.meaning'),
             }[colName]
           }
         </span>

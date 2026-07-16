@@ -1,8 +1,11 @@
+"use client";
+
 import { isEmpty } from "lodash";
 import React, {memo} from "react";
 import { Card, CardBody, CardFooter, Typography } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { formatInSeoul } from "@/app/utils/common";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type BoardDetailProps = {
   boardInfo: Board,
@@ -11,6 +14,7 @@ type BoardDetailProps = {
 
 const CardBoardDetailInfo = (props:BoardDetailProps) => {
   const { boardInfo, replyInfo } = props;
+  const { t } = useTranslations();
 
   return (
     <>
@@ -27,7 +31,7 @@ const CardBoardDetailInfo = (props:BoardDetailProps) => {
         {!isEmpty(replyInfo) && (
           <CardFooter className={`border-t`}>
             <Typography variant="h6" color="blue-gray" className="mb-2 flex gap-2 justify-between items-center">
-              <span>답변</span>
+              <span>{t('board.reply')}</span>
               <span className="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-sm font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">
                 {formatInSeoul(replyInfo?.updatedAt ||  replyInfo?.createdAt as string, 'yyyy-MM-dd HH:mm:ss')}
               </span>

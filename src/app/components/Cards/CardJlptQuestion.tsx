@@ -1,8 +1,11 @@
+"use client";
+
 import { isEmpty } from "lodash";
 import React, {memo} from "react";
 import CardAudio from "./CardAudio";
 import CardImage from "./CardImage";
 import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type JlptQuestionProps = {
   classification?: string,
@@ -18,6 +21,7 @@ type JlptQuestionProps = {
 const CardJlptQuestion = (props:JlptQuestionProps) => {
   const {classification, questionType, question, id = '', sentence, showReadButton = true, showTransButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}} = question;
+  const { t } = useTranslations();
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
   const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
@@ -37,12 +41,12 @@ const CardJlptQuestion = (props:JlptQuestionProps) => {
               {showReadButton && sentence?.reading && (
                 <span>
                   <Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">
-                    {classification === 'listening' ? '문장' : '읽기'}
+                    {classification === 'listening' ? t('common.sentence') : t('common.read')}
                   </Button>
                 </span>
               )}
               {showTransButton && sentence?.translation && (
-                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
+                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">{t('common.translation')}</Button></span>
               )}
             </div>
             {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}

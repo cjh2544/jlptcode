@@ -1,20 +1,22 @@
-import { Spinner, Typography } from "@material-tailwind/react";
+"use client";
+
+import { useTranslations } from "@/app/providers/I18nProvider";
 import { memo } from "react";
 
 type LoadingProps = {
-    text?: string,
-    className?: string
-}
+  text?: string;
+  className?: string;
+};
 
-const EmptyData = (props:LoadingProps) => {
+const EmptyData = (props: LoadingProps) => {
+  const { text, className } = props;
+  const { t } = useTranslations();
 
-    const { text, className } = props;
+  return (
+    <div className={`p-4 text-sm bg-white ${className}`}>
+      {text || t("common.empty")}
+    </div>
+  );
+};
 
-    return (
-        <div className={`p-4 text-sm bg-white ${className}`}>
-            {text || '등록된 정보가 없습니다.'}
-        </div>
-    );
-}
-
-export default memo(EmptyData)
+export default memo(EmptyData);

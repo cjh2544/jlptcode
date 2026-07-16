@@ -6,6 +6,7 @@ import { useClassTypeList } from '@/app/swr/useSentenceToday';
 import Loading from '@/app/components/Loading/loading';
 import { useStudyList } from '@/app/swr/useWordToday';
 import PaidButton from '@/app/components/Buttons/PaidButton';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type LevelListProps = {
   level?: string,
@@ -15,6 +16,7 @@ type LevelListProps = {
 }
 
 const LevelList = (props: LevelListProps) => {
+  const { t } = useTranslations();
   const {
     level,
     idx = 0,
@@ -60,8 +62,8 @@ const LevelList = (props: LevelListProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">오늘의 문장</h6>
-                <strong className='text-red-700'>★ 유료회원은 순서대로 학습 가능합니다.</strong>
+                <h6 className="text-blueGray-700 text-xl font-bold">{t('layout.sentenceToday')}</h6>
+                <strong className='text-red-700'>{t('speak.tipPaidOrder')}</strong>
             </div>
           </div>
           <div className="flex-auto lg:px-10 p-4">
@@ -84,11 +86,11 @@ const LevelList = (props: LevelListProps) => {
                 <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
                   <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                     {(levelInfos[0]?.levels || []).map((item: any, idx: number) => {
-                      return (<option key={idx} value={item}>{item === 'N0' ? '고득점' : item}</option>)
+                      return (<option key={idx} value={item}>{item === 'N0' ? t('common.highScore') : item}</option>)
                     })}
                   </select>
                   <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                    <option value="">선택</option>
+                    <option value="">{t('common.select')}</option>
                     {(studyList.find((item: any) => item.level === wordTodayInfo.level)?.studies ?? []).map((studyNm: any, idx: number) => {
                       return (<option key={idx} value={studyNm}>{studyNm}</option>)
                     })}
@@ -98,7 +100,7 @@ const LevelList = (props: LevelListProps) => {
                     type="button"
                     onClick={(e) => handleSearch(e)}
                   >
-                    <i className="fas fa-search"></i> 조회
+                    <i className="fas fa-search"></i> {t('common.query')}
                   </button> */}
                   <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
                 </div>

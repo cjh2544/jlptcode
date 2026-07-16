@@ -1,5 +1,8 @@
+"use client";
+
 import useOpenAI from "@/app/swr/useOpenAI";
 import React, { memo, useState } from "react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SentenceProps = {
   word: string,
@@ -8,6 +11,7 @@ type SentenceProps = {
 const CardSentence = (props: SentenceProps) => {
 
   const { word = '' } = props;
+  const { t } = useTranslations();
 
   const [showModal, setShowModal] = React.useState(false);
   const [conditions, setConditions] = useState<SentenceProps>({word: word});
@@ -20,7 +24,7 @@ const CardSentence = (props: SentenceProps) => {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        예문
+        {t('common.example')}
       </button>
       {showModal ? (
         <>
@@ -34,7 +38,7 @@ const CardSentence = (props: SentenceProps) => {
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-semibold">
-                    [{word}] 예문
+                    [{word}] {t('common.example')}
                   </h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -58,7 +62,7 @@ const CardSentence = (props: SentenceProps) => {
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
-                    확인
+                    {t('common.confirm')}
                   </button>
                 </div>
               </div>

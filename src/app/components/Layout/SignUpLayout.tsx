@@ -4,7 +4,7 @@ import HeaderTitle from "../Headers/HeaderTitle";
 
 export const metadata = {
   title: "회원가입",
-  description: "회원가입, 로그인",
+  description: "JLPTCODE 회원가입으로 일본어 학습을 시작하세요.",
 };
 
 export default function SignUpLayout({

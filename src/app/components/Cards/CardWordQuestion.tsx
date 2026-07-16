@@ -1,7 +1,10 @@
+"use client";
+
 import { isEmpty } from "lodash";
 import React, {memo, useState} from "react";
 import { Button, Card, CardBody, CardFooter, CardHeader, Collapse, Radio, Typography } from "@material-tailwind/react";
 import CardAudio from "./CardAudio";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type WordQuestionType = {
   question: string,
@@ -19,6 +22,7 @@ type JlptContentProps = {
 const CardWordQuestion = (props:JlptContentProps) => {
   const { questionInfo, sentence_read, sentence_translate, speaker } = props;
   const { question, choice, answer } = questionInfo;
+  const { t } = useTranslations();
   const [ showAnswer, setShowAnswer ] = useState(false);
   const [ selectedAnswer, setSelectedAnswer ] = useState(0);
   const [ collect, setCollect ] = useState(false);
@@ -51,13 +55,13 @@ const CardWordQuestion = (props:JlptContentProps) => {
           <div className="flex flex-wrap mb-2 font-normal mx-auto text-md">
             {parseHtml(question)}
             {sentence_translate && (
-              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">해석</Button></span>
+              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">{t('common.translation')}</Button></span>
             )}
             {sentence_read && (
-              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">읽기</Button></span>
+              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">{t('common.read')}</Button></span>
             )}
             {speaker && (
-              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">발음</Button></span>
+              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">{t('common.pronunciation')}</Button></span>
             )}
           </div>
           {openTranslate && (
@@ -105,7 +109,7 @@ const CardWordQuestion = (props:JlptContentProps) => {
         </CardBody>
         <CardFooter className={`pt-0 ${showAnswer ? '' : 'hidden'}`}>
           <div className={`relative w-full flex items-center bg-${collect ? 'green' : 'red'}-500 text-white text-sm font-bold px-4 py-3 rounded-md`} role="alert">
-            <p>{collect ? '正解(정답)' : '誤答(오답)'}</p>
+            <p>{collect ? t('quiz.correctShort') : t('quiz.wrongShort')}</p>
             <button onClick={(e) => handleClickAnswerClose()} className="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>

@@ -4,6 +4,7 @@ import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
 import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
 import PaidButton from '@/app/components/Buttons/PaidButton';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type LevelListProps = {
   levels?: string,
@@ -13,28 +14,21 @@ type LevelListProps = {
   onClick?: (data: any) => any,
 }
 
-const levelInfoList = [
-  { name: '초급', levels: ['N5'] },
-  { name: '중급', levels: ['N3', 'N4'] },
-  { name: '고급', levels: ['N1', 'N2'] },
-  { name: '드라마', levels: ['N6'] },
-  { name: 'TOTAL', levels: ['N1', 'N2', 'N3', 'N4', 'N5', 'N6'] },
-];
-
-const studyLevelInfoList = [
-  { name: '초급1', level: 'N5' },
-  { name: '초급2', level: 'N4' },
-  { name: '중급', level: 'N3' },
-  { name: '고급1', level: 'N2' },
-  { name: '고급2', level: 'N1' },
-  { name: '드라마', level: 'N6' },
-];
-
 const LevelList = (props: LevelListProps) => {
+  const { t } = useTranslations();
   const {
     levels = 'N5', idx = 0
   } = props
-  
+
+  const studyLevelInfoList = [
+    { name: t('speak.beginner1'), level: 'N5' },
+    { name: t('speak.beginner2'), level: 'N4' },
+    { name: t('speak.intermediate'), level: 'N3' },
+    { name: t('speak.advanced1'), level: 'N2' },
+    { name: t('speak.advanced2'), level: 'N1' },
+    { name: t('speak.drama'), level: 'N6' },
+  ];
+
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
   const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
@@ -77,8 +71,8 @@ const LevelList = (props: LevelListProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">스피킹 완전정복 100일</h6>
-                <strong className='text-red-700'>★ 스피킹은 단어 문법 청해, 모두를 향상 시킵니다.</strong>
+                <h6 className="text-blueGray-700 text-xl font-bold">{t('layout.speakMaster')}</h6>
+                <strong className='text-red-700'>{t('speak.tipMaster')}</strong>
             </div>
           </div>
           <div className="flex-auto lg:px-10 p-4">
@@ -89,7 +83,7 @@ const LevelList = (props: LevelListProps) => {
                 })}
               </select>
               <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="border-0 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">선택</option>
+                <option value="">{t('common.select')}</option>
                 {(studyList.find((item: any) => item.level === wordTodayInfo.level)?.studies ?? []).map((studyNm: any, idx: number) => {
                   return (<option key={idx} value={studyNm}>{studyNm}</option>)
                 })}
@@ -99,7 +93,7 @@ const LevelList = (props: LevelListProps) => {
                 type="button"
                 onClick={(e) => handleSearch(e)}
               >
-                <i className="fas fa-search"></i> 조회
+                <i className="fas fa-search"></i> {t('common.query')}
               </button> */}
               <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
             </div>

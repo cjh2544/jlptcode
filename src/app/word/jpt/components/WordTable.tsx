@@ -2,6 +2,7 @@ import CardSentence from "@/app/components/Cards/CardSentence"
 import HeaderButton from "./headerButton";
 import WordInfo from "./wordInfo";
 import { useJptWordStore } from "@/app/store/jptWordStore";
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type WordTableProps = {
   title?: string,
@@ -9,13 +10,13 @@ type WordTableProps = {
   className?: string,
 }
 
-const TABLE_HEAD = [
-  { label: "단어", visibleBtn: true, code: 'word' },
-  { label: "읽기", visibleBtn: true, code: 'read' },
-  { label: "의미", visibleBtn: true, code: 'means' },
-];
-
 const WordTable = ({title, data, className}: WordTableProps) => {
+  const { t } = useTranslations();
+  const TABLE_HEAD = [
+    { label: t('word.word'), visibleBtn: true, code: 'word' },
+    { label: t('word.reading'), visibleBtn: true, code: 'read' },
+    { label: t('word.meaning'), visibleBtn: true, code: 'means' },
+  ];
   const wordList = useJptWordStore((state:any) => state.wordList);
   const setWordList = useJptWordStore((state:any) => state.setWordList);
 

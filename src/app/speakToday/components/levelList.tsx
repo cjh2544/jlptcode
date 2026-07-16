@@ -4,6 +4,7 @@ import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
 import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
 import PaidButton from '@/app/components/Buttons/PaidButton';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type LevelListProps = {
   levels?: string,
@@ -13,28 +14,20 @@ type LevelListProps = {
   onClick?: (data: any) => any,
 }
 
-const levelInfoList = [
-  { name: '초급', levels: ['N5'] },
-  { name: '중급', levels: ['N3', 'N4'] },
-  { name: '고급', levels: ['N1', 'N2'] },
-  { name: '드라마', levels: ['N6'] },
-  { name: 'TOTAL', levels: ['N1', 'N2', 'N3', 'N4', 'N5', 'N6'] },
-];
-
-const studyLevelInfoList = [
-  { name: '초급1', level: 'N5' },
-  { name: '초급2', level: 'N4' },
-  { name: '중급', level: 'N3' },
-  { name: '고급1', level: 'N2' },
-  { name: '고급2', level: 'N1' },
-  { name: '드라마', level: 'N6' },
-];
-
 const LevelList = (props: LevelListProps) => {
+  const { t } = useTranslations();
   const {
     levels = 'N5', idx = 0
   } = props
-  
+
+  const levelInfoList = [
+    { name: t('speak.beginner'), levels: ['N5'] },
+    { name: t('speak.intermediate'), levels: ['N3', 'N4'] },
+    { name: t('speak.advanced'), levels: ['N1', 'N2'] },
+    { name: t('speak.drama'), levels: ['N6'] },
+    { name: 'TOTAL', levels: ['N1', 'N2', 'N3', 'N4', 'N5', 'N6'] },
+  ];
+
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
   const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
@@ -76,8 +69,8 @@ const LevelList = (props: LevelListProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">회화학습</h6>
-                <strong className='text-red-700'>★ 유료회원은 스피킹 완전정복100일에서 순서대로 학습 가능합니다.</strong>
+                <h6 className="text-blueGray-700 text-xl font-bold">{t('sidebar.speakConversation')}</h6>
+                <strong className='text-red-700'>{t('speak.tipPaid')}</strong>
             </div>
           </div>
           <div className="flex-auto lg:px-10 p-4">

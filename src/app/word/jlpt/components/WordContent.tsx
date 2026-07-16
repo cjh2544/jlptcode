@@ -1,12 +1,14 @@
 import WordTable from './WordTable';
 import WordList from './WordList';
 import { useWordStore } from '@/app/store/wordStore';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type WordTableProps = {
   conditions: any,
 }
 
 const WordTableContent = (props: WordTableProps) => {
+  const { t } = useTranslations();
 
   const {
     conditions
@@ -17,10 +19,10 @@ const WordTableContent = (props: WordTableProps) => {
   return (
     <>
       <div className='xs:hidden sm:hidden'>
-        <WordTable title='JLPT 단어외우기' data={wordList} />
+        <WordTable title={t('word.jlptTitle')} data={wordList} />
       </div>
       <div className='md:hidden lg:hidden xl:hidden 2xl:hidden'>
-        <WordList title='JLPT 단어외우기' data={wordList} />
+        <WordList title={t('word.jlptTitle')} data={wordList} />
       </div>
     </>
   )

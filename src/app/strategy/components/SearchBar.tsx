@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 import PaidButton from '@/app/components/Buttons/PaidButton';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type SearchProps = {
   onSearch?: () => any,
 }
 
 const SearchBar = (props: SearchProps) => {
+  const { t } = useTranslations();
 
   const {
     onSearch
@@ -53,7 +55,7 @@ const SearchBar = (props: SearchProps) => {
   const handleSearch = (e: MouseEvent<HTMLElement>) => {
 
     if(!session?.paymentInfo?.isValid) {
-      setConfirmMsg(<>유료회원만이 이용가능합니다.<br />문의게시판에 “유료회원안내”을 확인해 주세요.</>);
+      setConfirmMsg(<>{t("common.paidOnly")}<br />{t("common.paidOnlyHint")}</>);
       setShowConfirm(true);
       return;
     }
@@ -81,8 +83,8 @@ const SearchBar = (props: SearchProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-              <h6 className="text-blueGray-700 text-xl font-bold">검색</h6>
-              <strong className='text-red-700'>★ 점수가 부족한 부분을 집중적으로 학습하세요!!</strong>
+              <h6 className="text-blueGray-700 text-xl font-bold">{t('common.search')}</h6>
+              <strong className='text-red-700'>{t('strategy.tip')}</strong>
             </div>
           </div>
           <div className='grid grid-cols-4 gap-4 place-items-end p-4 sm:grid-cols-2'>
@@ -91,7 +93,7 @@ const SearchBar = (props: SearchProps) => {
                 className="block uppercase text-blueGray-600 mb-1"
                 htmlFor="level"
               >
-                급수
+                {t('common.level')}
               </label>
               <select id="level" name="level" value={levelUpInfo.level} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {getCodeDetailList('level').map((data: CodeDetail, idx:number) => {
@@ -118,13 +120,13 @@ const SearchBar = (props: SearchProps) => {
                 className="block uppercase text-blueGray-600 mb-1"
                 htmlFor="classification"
               >
-                과목
+                {t('common.subject')}
               </label>
               <select id="classification" name="classification" value={levelUpInfo.classification} onChange={handleChange} className="border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
                 {getCodeDetailList('classification').map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
-                <option value="vocabulary,grammar,reading">언어지식(전체)</option>
+                <option value="vocabulary,grammar,reading">{t('strategy.langAll')}</option>
               </select>
             </div>
             <div className="w-full">
@@ -132,10 +134,10 @@ const SearchBar = (props: SearchProps) => {
                 className="block uppercase text-blueGray-600 mb-1"
                 htmlFor="questionGroupType"
               >
-                유형
+                {t('common.type')}
               </label>
               <select disabled={!levelUpInfo.classification} id="questionGroupType" name="questionGroupType" value={levelUpInfo.questionGroupType} onChange={handleChange} className="disabled:bg-gray-300 border-0 px-3 py-2 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
-                <option value="">전체</option>
+                <option value="">{t('common.all')}</option>
                 {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(levelUpInfo.level) && item.classification === levelUpInfo.classification).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
@@ -147,7 +149,7 @@ const SearchBar = (props: SearchProps) => {
                 type="button"
                 onClick={(e) => handleSearch(e)}
               >
-                <i className="fas fa-search"></i> 조회
+                <i className="fas fa-search"></i> {t('common.query')}
               </button> */}
               <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
               <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />

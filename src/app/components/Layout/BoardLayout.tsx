@@ -4,7 +4,8 @@ import HeaderTitle from "../Headers/HeaderTitle";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: '게시판',
+  title: "게시판",
+  description: "JLPTCODE 문의 게시판에서 궁금한 점을 남겨주세요.",
 };
 
 export default function BoardLayout({
@@ -17,7 +18,7 @@ export default function BoardLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100 font-nanumGothic">
         {/* Header */}
-        <HeaderTitle title="게시판" />
+        <HeaderTitle titleKey="layout.board" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           <div className="px-4 mx-auto w-full m-10">

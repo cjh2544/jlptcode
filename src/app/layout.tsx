@@ -1,85 +1,57 @@
 import SessionProvider from "@/app/providers/SessionProvider";
 import I18nProvider from "@/app/providers/I18nProvider";
-import '@/app/globals.css'
+import "@/app/globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import '@/app/style/tailwind.css'
-import '@/app/style/common.css'
+import "@/app/style/tailwind.css";
+import "@/app/style/common.css";
 import { SWRProvider } from "./providers/SWRProvider";
-import VisitHistory from "./components/Visit/VisitHistory";
-import { Metadata } from 'next'
 import { Suspense } from "react";
 import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
-import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
+import { rootMetadata } from "@/app/seo/siteConfig";
+import JsonLd from "@/app/components/Seo/JsonLd";
 
-const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || '';
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '';
+const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || "";
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "";
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
   weight: ["400", "700", "800"],
-  display: 'swap',
-  adjustFontFallback: false
+  display: "swap",
+  adjustFontFallback: false,
 });
 
 const notoSerifJP = Noto_Serif_JP({
   preload: false,
   weight: ["400", "700", "900"],
-  display: 'swap',
-  adjustFontFallback: false
+  display: "swap",
+  adjustFontFallback: false,
 });
 
-export const metadata: Metadata = {
-  title: {
-    template: 'JLPTCODE - %s',
-    default: 'JLPTCODE',
-  },
-  authors: [{ name: 'JLPTCODE' }],
-  description: "일본어능력시험, 일본어 등급별, 년도별, 과목별 기출문제 풀이와 단어외우기를 학습할수 있고, 해석기능과 채점기능을 제공합니다.",
-  keywords: [
-    '일본어능력시험', 
-    '일본어', 
-    'JLPT', 
-    'JPT', 
-    '일본어 기출문제', 
-    '기출문제 풀이', 
-    '일본어 단어', 
-    '단어외우기', 
-    '모쿠모쿠 일본어', 
-    '일본', 
-    '일본여행', 
-    '동경', 
-    '오사카', 
-    '나고야', 
-    '일본친구',
-  ]
-};
+export const metadata = rootMetadata;
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="ko">
       <body className={`${nanumGothic.className} ${notoSerifJP.className}`}>
+        <JsonLd />
         <SessionProvider>
           <I18nProvider>
             <SWRProvider>
               <main>
-                <Suspense fallback={<></>}>
-                  {children}
-                </Suspense>
+                <Suspense fallback={<></>}>{children}</Suspense>
               </main>
             </SWRProvider>
           </I18nProvider>
         </SessionProvider>
 
-        {/* <VisitHistory /> */}
         <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
         <GoogleTagManager gtmId={GTM_MEASUREMENT_ID} />
-        {/* <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9988307876390058" crossOrigin="anonymous">
-        </script> */}
       </body>
     </html>
-  )
+  );
 }

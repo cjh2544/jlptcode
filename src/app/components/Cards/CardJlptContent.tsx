@@ -1,8 +1,11 @@
+"use client";
+
 import { isEmpty } from "lodash";
 import React, {memo} from "react";
 import CardAudio from "./CardAudio";
 import CardImage from "./CardImage";
 import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type JlptContentProps = {
   questionType?: string,
@@ -16,6 +19,7 @@ const CardJlptContent = (props:JlptContentProps) => {
   const {questionType, question, sentence = {}, showReadButton = true, showTransButton = true} = props;
   const {content = '', audio = {}, image = {}} = question;
   const {translation, reading} = sentence;
+  const { t } = useTranslations();
 
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
@@ -34,10 +38,10 @@ const CardJlptContent = (props:JlptContentProps) => {
             <div className="bg-blueGray-200 rounded-lg p-4 flex-col">
               {parseHtml(content || '')}
               {showReadButton && sentence?.reading && (
-                <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">읽기</Button></span>
+                <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">{t('common.read')}</Button></span>
               )}
               {showTransButton && sentence?.translation && (
-                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">해석</Button></span>
+                <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">{t('common.translation')}</Button></span>
               )}
               {openTranslate && (
                 <div className="flex flex-wrap">

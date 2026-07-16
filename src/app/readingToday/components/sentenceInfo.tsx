@@ -4,6 +4,7 @@ import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SentenceInfoProps = {
   readingInfo: any
@@ -11,6 +12,7 @@ type SentenceInfoProps = {
 }
 
 const SentenceInfo = (props:SentenceInfoProps) => {
+  const { t } = useTranslations();
   const { 
     readingInfo, 
     onClick
@@ -62,10 +64,10 @@ const SentenceInfo = (props:SentenceInfoProps) => {
       <div className="mb-4 border-b border-gray-200">
           <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
               <li className="me-2" role="presentation">
-                  <button onClick={(e) => handleClick('sentence')} className={`inline-block p-4 rounded-t-lg ${hideSentence ? 'hover:text-gray-600 hover:border-gray-300' : 'border-blue-600 border-b-2'}`} id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">문장</button>
+                  <button onClick={(e) => handleClick('sentence')} className={`inline-block p-4 rounded-t-lg ${hideSentence ? 'hover:text-gray-600 hover:border-gray-300' : 'border-blue-600 border-b-2'}`} id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">{t('common.sentence')}</button>
               </li>
               <li className="me-2" role="presentation">
-                  <button onClick={(e) => handleClick('sentence_translate')} className={`inline-block p-4 rounded-t-lg ${hideSentenceTranslate ? 'hover:text-gray-600 hover:border-gray-300' : 'border-blue-600 border-b-2'}`} id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">해석</button>
+                  <button onClick={(e) => handleClick('sentence_translate')} className={`inline-block p-4 rounded-t-lg ${hideSentenceTranslate ? 'hover:text-gray-600 hover:border-gray-300' : 'border-blue-600 border-b-2'}`} id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">{t('common.translation')}</button>
               </li>
           </ul>
       </div>

@@ -1,8 +1,11 @@
+"use client";
+
 import React, {memo} from "react";
 import CardAudio from "./CardAudio";
 import CardImage from "./CardImage";
 import { isEmpty } from "lodash";
 import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type LevelUpQuestionProps = {
   questionType?: string,
@@ -20,6 +23,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
   const {questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}, translate, read} = question;
   const {translation, reading} = sentence;
+  const { t } = useTranslations();
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
   const [openSpeaker, setOpenSpeaker] = React.useState(false);
@@ -39,13 +43,13 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
             <div className="mr-1">{`${questionNo ? questionNo + '.' : ''}`}</div>
             <div>{parseHtml(content || '')}</div>
             {showReadButton && reading && (
-              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline">읽기</Button></span>
+              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline">{t('common.read')}</Button></span>
             )}
             {showTransButton && translation && (
-              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">해석</Button></span>
+              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">{t('common.translation')}</Button></span>
             )}
             {showSpeakButton && speaker && (
-              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">발음</Button></span>
+              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">{t('common.pronunciation')}</Button></span>
             )}
           </div>
           {openRead && (

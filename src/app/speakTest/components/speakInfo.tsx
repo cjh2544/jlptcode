@@ -6,6 +6,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";
 import GoogleTts from "@/app/components/Audio/GoogleTTS";
 import CardAudio from "@/app/components/Cards/CardAudio";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SpeakInfoProps = {
   wordInfo: any
@@ -13,6 +14,7 @@ type SpeakInfoProps = {
 }
 
 const SpeakInfo = (props:SpeakInfoProps) => {
+  const { t } = useTranslations();
   const { 
     wordInfo, 
     onClick
@@ -82,7 +84,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
             </div>
             <div className={`text-sm font-medium bg-blue-200 p-2 text-gray-900 ${hideKeyword ? 'hidden' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
-              <p className="text-red-800 font-bold mt-2">※ 키워드를 활용해서 최대한 일본어로 말해 보세요.</p>
+              <p className="text-red-800 font-bold mt-2">{t("speak.tipKeyword")}</p>
             </div>
             <div className={`text-sm font-medium bg-blue-100 p-2 text-gray-900 ${hideSentence ? 'hidden' : ''}`}>
               {sentence && parseHtml(sentence)}

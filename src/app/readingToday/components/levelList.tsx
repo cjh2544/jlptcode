@@ -4,6 +4,7 @@ import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useReadingTodayStore } from '@/app/store/readingTodayStore';
 import { useClassTypeList } from '@/app/swr/useReadingToday';
 import Loading from '@/app/components/Loading/loading';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type LevelListProps = {
   level?: string,
@@ -13,6 +14,7 @@ type LevelListProps = {
 }
 
 const LevelList = (props: LevelListProps) => {
+  const { t } = useTranslations();
   const {
     level,
     idx = 0,
@@ -47,7 +49,7 @@ const LevelList = (props: LevelListProps) => {
         <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
           <div className="rounded-t bg-white mb-0 px-6 py-6">
             <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">오늘의 독해</h6>
+                <h6 className="text-blueGray-700 text-xl font-bold">{t('layout.readingToday')}</h6>
                 <strong></strong>
             </div>
           </div>
@@ -59,7 +61,7 @@ const LevelList = (props: LevelListProps) => {
                 (levelInfos[0]?.levels || []).map((item: any, idx: number) => {
                   return {
                     title: item,
-                    displayName: item === 'N0' ? '고급' : item
+                    displayName: item === 'N0' ? t('speak.advanced') : item
                   };
                 })} />
             )}

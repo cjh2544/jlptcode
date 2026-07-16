@@ -4,7 +4,8 @@ import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
 export const metadata: Metadata = {
-  title: "JLPTCODE - 스피킹 테스트",
+  title: "스피킹 테스트",
+  description: "일본어 스피킹 실력을 테스트하고 점검하세요.",
 };
 
 export default function SpeakTestLayout({
@@ -17,7 +18,7 @@ export default function SpeakTestLayout({
       <Sidebar />
       <div className="relative md:ml-64 bg-blueGray-100">
         {/* Header */}
-        <HeaderTitle title="스피킹 테스트" />
+        <HeaderTitle titleKey="layout.speakTest" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}

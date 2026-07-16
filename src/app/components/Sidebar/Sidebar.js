@@ -1,7 +1,6 @@
 'use client';
 import React from "react";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
 import { useTranslations } from "@/app/providers/I18nProvider";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
@@ -18,7 +17,6 @@ function RecommendedBadge({ label }) {
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
-  const pathname = usePathname();
   const { t } = useTranslations();
 
   return (
@@ -33,13 +31,12 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
           <div className="flex flex-wrap p-4 px-0 md:pb-2 items-center gap-2">
-            <Link scroll={false} href="/" passHref legacyBehavior>
-              <a
-                href="#"
-                className="md:block text-left text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold"
-              >
-                JLPTCODE
-              </a>
+            <Link
+              scroll={false}
+              href="/"
+              className="md:block text-left text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold"
+            >
+              JLPTCODE
             </Link>
             <LanguageSwitcher variant="sidebar" />
             <a
@@ -65,13 +62,12 @@ export default function Sidebar() {
             <div className="md:min-w-full md:hidden block">
               <div className="flex flex-wrap">
                 <div className="w-6/12 flex items-center">
-                  <Link scroll={false} href="/" passHref legacyBehavior>
-                    <a
-                      href="#"
-                      className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-                    >
-                      JLPTCODE
-                    </a>
+                  <Link
+                    scroll={false}
+                    href="/"
+                    className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
+                  >
+                    JLPTCODE
                   </Link>
                   <a
                     className="text-lg font-bold leading-relaxed inline-block ml-2 whitespace-no-wrap uppercase text-red-500"

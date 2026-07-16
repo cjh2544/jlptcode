@@ -6,8 +6,10 @@ import { useUserStore } from "@/app/store/userStore";
 import { useCallback } from "react";
 import MemberTitle from "../components/memberTitle";
 import Speaker from "@/app/components/Audio/Speaker";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 const MemberListPage = () => {
+  const { t } = useTranslations();
   const { data: session } = useSession();
   const pageInfo = useUserStore((state:any) => state.pageInfo);
 
@@ -21,7 +23,7 @@ const MemberListPage = () => {
         isAdmin() && (
           <>
             <MemberLayout>
-              <MemberTitle title={`회원목록 (${pageInfo?.total})`} visibleButton={true} buttonTitle="문의하기" />
+              <MemberTitle title={`${t('member.listTitle')} (${pageInfo?.total})`} visibleButton={true} buttonTitle={t('board.ask')} />
               <List />
               <Speaker />
             </MemberLayout>

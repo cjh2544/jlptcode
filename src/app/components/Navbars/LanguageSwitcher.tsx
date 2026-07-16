@@ -164,7 +164,7 @@ type LanguageSwitcherProps = {
 export default function LanguageSwitcher({
   variant = "navbar",
 }: LanguageSwitcherProps) {
-  const { locale, setLocale } = useTranslations();
+  const { locale, setLocale, t } = useTranslations();
   const CurrentFlag = FlagIcon[locale];
   const isSidebar = variant === "sidebar";
 
@@ -180,7 +180,7 @@ export default function LanguageSwitcher({
       <select
         value={locale}
         onChange={handleChange}
-        aria-label="언어 선택"
+        aria-label={t("common.languageSelect")}
         className={[
           "language-switcher-select appearance-none cursor-pointer rounded bg-transparent py-1.5 pl-9 pr-7 text-xs font-semibold transition focus:outline-none min-w-[7.5rem] sm:min-w-[8.5rem]",
           isSidebar

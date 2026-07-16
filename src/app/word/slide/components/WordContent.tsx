@@ -15,12 +15,14 @@ import WordCard from './WordCard';
 import ModalFullScreen from '@/app/components/Modals/ModalFullScreen';
 import { useWordStore } from '@/app/store/wordStore';
 import { isEmpty } from 'lodash';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type WordTableProps = {
   conditions?: any,
 }
 
 const WordContent = (props: WordTableProps) => {
+  const { t } = useTranslations();
 
   const [isFullScreen, setFullScreen] = useState<boolean>(false);
   const pageInfo = useWordStore((state:any) => state.pageInfo);
@@ -68,7 +70,7 @@ const WordContent = (props: WordTableProps) => {
   return (
     <>
       <ModalFullScreen visible={!isEmpty(wordList)}
-        title={`단어암기`}
+        title={t('word.slideTitle')}
         navInfo={`${realIndex} / ${pageInfo?.pageSize}`}
         onChange={setFullScreen}>
         <Swiper {...swiperOptions}>
