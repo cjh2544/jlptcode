@@ -3,8 +3,8 @@ import React, {ChangeEvent, memo, MouseEvent, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
 import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
-import PaidButton from '@/app/components/Buttons/PaidButton';
 import { useTranslations } from '@/app/providers/I18nProvider';
+import { Button } from '@/components/ui/button';
 
 type LevelListProps = {
   levels?: string,
@@ -64,26 +64,39 @@ const LevelList = (props: LevelListProps) => {
   return (
     <>
       <div className="px-4 mx-auto w-full m-10 sticky top-0">
-        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
-          <div className="rounded-t bg-white mb-0 px-6 py-6">
-            <div className="text-center flex justify-between">
-                <h6 className="text-blueGray-700 text-xl font-bold">{t('layout.speakTest')}</h6>
-                <strong className='text-red-700'>{t('speak.tipPaid')}</strong>
+        <div className="app-panel w-full mb-6">
+          <div className="app-panel-header">
+            <div className="flex justify-between items-center gap-4">
+                <h6 className="text-lg font-bold">{t('layout.speakTest')}</h6>
+                <strong className='app-panel-tip'>{t('speak.tipPaid')}</strong>
             </div>
           </div>
           <div className="flex justify-between lg:px-10 p-4">
             <div className='flex gap-2'>
-              <select id="levels" name="levels" value={setSpeakTodayInfo.levels} onChange={handleChange} className="border-0 placeholder-blueGray-300 text-blueGray-600 bg-white rounded shadow focus:outline-none focus:ring ease-linear transition-all duration-150">
+              <select id="levels" name="levels" value={setSpeakTodayInfo.levels} onChange={handleChange} className="app-select">
                   {levelInfoList.map((item: any, idx: number) => {
                     return (<option key={idx} value={item.levels.toString()}>{item.name}</option>)
                   })}
               </select>
-              <button onClick={handleSearch} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
-                <i className={`fas fa-search`}></i> {t('common.query')}
-              </button>
-              <button onClick={handleSearch} className="bg-green-500 text-white active:bg-green-600 font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 px-3 py-2" type="button">
-                <i className={`fas fa-play`}></i> {t('common.start')}
-              </button>
+              <Button
+                type="button"
+                size="lg"
+                className="h-10 gap-2 font-semibold uppercase tracking-wide"
+                onClick={handleSearch}
+              >
+                <i className="fas fa-search" aria-hidden />
+                {t('common.query')}
+              </Button>
+              <Button
+                type="button"
+                size="lg"
+                variant="secondary"
+                className="h-10 gap-2 font-semibold uppercase tracking-wide"
+                onClick={handleSearch}
+              >
+                <i className="fas fa-play" aria-hidden />
+                {t('common.start')}
+              </Button>
             </div>
             <div className='flex'>
               <div className="flex items-center mr-1">

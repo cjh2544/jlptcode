@@ -1,4 +1,4 @@
-import Sidebar from "@/app/components/Sidebar/Sidebar";
+import AppSidebarLayout from "@/app/components/Layout/AppSidebarLayout";
 import HeaderTitle from "../Headers/HeaderTitle";
 import Footer from "@/app/components/Footers/Footer";
 import { Metadata } from "next";
@@ -14,9 +14,7 @@ export default function JlptLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+    <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.jlpt" />
         {/* <HeaderStats /> */}
@@ -24,7 +22,6 @@ export default function JlptLayout({
           {children}
           <Footer />
         </div>
-      </div>
-    </>
+    </AppSidebarLayout>
   )
 }

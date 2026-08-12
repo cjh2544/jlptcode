@@ -1,9 +1,8 @@
 'use client';
 import React, {memo} from "react";
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-import { playSpeech } from "@/app/utils/openai";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SentenceInfoProps = {
   wordInfo: any
@@ -11,20 +10,16 @@ type SentenceInfoProps = {
 }
 
 const SentenceInfo = (props:SentenceInfoProps) => {
-  const { 
-    wordInfo, 
+  const { t } = useTranslations();
+  const {
+    wordInfo,
     onClick
   } = props;
-  const { 
-    level, 
-    year, 
+  const {
     study,
-    wordNo, 
-    word, 
-    read, 
-    means, 
-    sentence, 
-    sentence_read, 
+    wordNo,
+    sentence,
+    sentence_read,
     sentence_translate,
     speaker,
     question,
@@ -52,76 +47,74 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
-  const handleGetSpeech = (read: string) => {
-    playSpeech(read);
-  }
-
   const parseHtml = (html: string) => {
     if(html) {
       return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
-    } else {
-      return <></>;
     }
+    return <span>{'\u00A0'}</span>;
   };
 
+  const renderField = (
+    label: string,
+    content: React.ReactNode,
+    hidden: boolean,
+    colType: string,
+  ) => (
+    <div className="app-today-field">
+      <span className="app-today-field-label">{label}</span>
+      <div
+        className={`app-today-field-value ${hidden ? 'app-today-field-value--masked' : ''}`}
+        aria-hidden={hidden}
+      >
+        {hidden ? '••••••••••••' : content}
+      </div>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon-sm"
+        onClick={() => handleClick(colType)}
+        title={hidden ? t('today.show') : t('today.hide')}
+        aria-label={hidden ? t('today.show') : t('today.hide')}
+      >
+        <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+      </Button>
+    </div>
+  );
+
   return (
-    <>
-      <tr className="even:bg-blue-gray-50/50">
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal uppercase">
-            {study}
-          </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            {wordNo}
-          </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <div className="flex flex-col">
-              <div className="flex justify-between items-center border-b">
-                <div className={`${hideSentence ? 'invisible' : ''}`}>{parseHtml(sentence)}</div>
-                <p>
-                  {/* <button onClick={(e) => handleGetSpeech(sentence_read)} className="text-blue-500 focus:outline-none mr-1">
-                    <i className="fa-solid fa-volume-high"></i>
-                  </button> */}
-                  <button onClick={(e) => handleClick('sentence')} className="text-blue-500 focus:outline-none">
-                    <i className={`${hideSentence ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-                  </button>
-                </p>
-              </div>
-              <div className="flex justify-between items-center border-b">
-                <div className={`${hideSentenceRead ? 'invisible' : ''}`}>{parseHtml(sentence_read)}</div>
-                <button onClick={(e) => handleClick('sentence_read')} className="text-blue-500 focus:outline-none">
-                  <i className={`${hideSentenceRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-                </button>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className={`${hideSentenceTranslate ? 'invisible' : ''}`}>{parseHtml(sentence_translate)}</div>
-                <button onClick={(e) => handleClick('sentence_translate')} className="text-blue-500 focus:outline-none">
-                  <i className={`${hideSentenceTranslate ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-                </button>
-              </div>
-            </div> 
-          </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
-              [確認]
-            </button>
-          </div>
-        </td>
-      </tr>
+    <article className="app-today-item">
+      <div className="app-today-item-header">
+        <div className="app-today-item-meta">
+          {study && <span className="app-today-badge">{study}</span>}
+          <span className="app-today-no">
+            {t('today.number')} {wordNo}
+          </span>
+        </div>
+        <Button
+          type="button"
+          variant={showQuestion ? 'secondary' : 'outline'}
+          size="sm"
+          onClick={handleShowQuestion}
+        >
+          {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+        </Button>
+      </div>
+      <div className="app-today-item-body">
+        {renderField(t('common.sentence'), parseHtml(sentence), hideSentence, 'sentence')}
+        {renderField(t('common.read'), parseHtml(sentence_read), hideSentenceRead, 'sentence_read')}
+        {renderField(t('common.translation'), parseHtml(sentence_translate), hideSentenceTranslate, 'sentence_translate')}
+      </div>
       {showQuestion && (
-        <tr className="even:bg-blue-gray-50/50">
-          <td colSpan={4} className="p-4 border-b border-blue-gray-50">
-            <CardWordQuestion questionInfo={question} speaker={speaker} sentence_read={sentence_read} sentence_translate={sentence_translate} />
-          </td>
-        </tr>
+        <div className="app-today-item-question app-reveal">
+          <CardWordQuestion
+            questionInfo={question}
+            speaker={speaker}
+            sentence_read={sentence_read}
+            sentence_translate={sentence_translate}
+          />
+        </div>
       )}
-    </>
+    </article>
   );
 }
 

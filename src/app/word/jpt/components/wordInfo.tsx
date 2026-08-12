@@ -1,10 +1,5 @@
 'use client';
 import React, {memo} from "react";
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
-import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-import { playSpeech } from "@/app/utils/openai";
-import GoogleTts from "@/app/components/Audio/GoogleTTS";
 
 type WordInfoProps = {
   wordInfo: any
@@ -51,7 +46,7 @@ const WordInfo = (props:WordInfoProps) => {
             <div className="flex justify-between items-center">
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
-                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
+                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
                   <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>
@@ -62,7 +57,7 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideRead ? 'invisible' : ''}`}>{read}</p>
-              <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
+              <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-hidden">
                 <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
               </button>
             </div> 
@@ -72,7 +67,7 @@ const WordInfo = (props:WordInfoProps) => {
           <div className="font-normal">
             <div className="flex justify-between items-center">
               <p className={`${hideMeans ? 'invisible' : ''}`}>{means}</p>
-              <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">
+              <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-hidden">
                 <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
               </button>
             </div> 

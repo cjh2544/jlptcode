@@ -20,6 +20,8 @@ const boardReplySchema = new Schema({
   },
 }, {timestamps: true, collection: 'boardReply'})
 
+boardReplySchema.index({ board_id: 1 })
+
 const BoardReply = models?.boardReply || model('boardReply', boardReplySchema, 'board_reply')
 
 export default BoardReply;

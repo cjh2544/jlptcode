@@ -1,6 +1,5 @@
 'use client';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
-import { Button, Card, Typography } from "@material-tailwind/react";
 import { memo, Suspense, useEffect, useState } from 'react';
 import HeaderButton from './headerButton';
 import SpeakInfo from './speakInfo';

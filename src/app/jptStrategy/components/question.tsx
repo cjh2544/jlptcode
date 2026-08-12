@@ -3,9 +3,6 @@ import { useJptStore } from '@/app/store/jptStore';
 import CardLevelUpQuestion from "@/app/components/Cards/CardLevelUpQuestion";
 import CardLevelUpContent from "@/app/components/Cards/CardLevelUpContent";
 import CardLevelUpAnswer from "@/app/components/Cards/CardLevelUpAnswer";
-import CardAudio from "@/app/components/Cards/CardAudio";
-import CardImage from "@/app/components/Cards/CardImage";
-import { useJlptStore } from "@/app/store/jlptStore";
 
 type QuestionProps = {
   questionInfo: any

@@ -1,47 +1,45 @@
 'use client'
 import React, {memo} from 'react';
 import { MouseEvent } from 'react';
-import { sortBy } from 'lodash';
 import { useTranslations } from '@/app/providers/I18nProvider';
 
 type ClassificationProps = {
-  classData: any,
+  classData?: any,
   onClick?: (data: any) => any,
 }
 
 const Classification = (props: ClassificationProps) => {
   const { t } = useTranslations();
-
-  const {
-    classData,
-    onClick
-  } = props
+  const { onClick } = props;
 
   const handleClick = (selectedData: any) => (e: MouseEvent<HTMLElement>) => {
     onClick && onClick(selectedData);
   }
 
+  const items = [
+    { part: 'part2', label: 'PART2', sub: t('levelUp.qa') },
+    { part: 'part3', label: 'PART3', sub: t('levelUp.conversation') },
+    { part: 'part5', label: 'PART5', sub: t('levelUp.findAnswer') },
+    { part: 'part7', label: 'PART7', sub: t('levelUp.fillBlank') },
+    { part: 'part8', label: 'PART8', sub: t('levelUp.reading') },
+  ];
+
   return (
-    <>
-      <div className="grid grid-cols-4 gap-4 sm:grid-cols-2">
-        <button onClick={handleClick({part: 'part2'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          PART2<br/>{t('levelUp.qa')}
+    <div className="grid grid-cols-4 gap-3 sm:grid-cols-2">
+      {items.map((item) => (
+        <button
+          key={item.part}
+          onClick={handleClick({ part: item.part })}
+          className="app-year-btn text-center leading-snug"
+          type="button"
+        >
+          {item.label}
+          <br />
+          {item.sub}
         </button>
-        <button onClick={handleClick({part: 'part3'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          PART3<br/>{t('levelUp.conversation')}
-        </button>
-        <button onClick={handleClick({part: 'part5'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          PART5<br/>{t('levelUp.findAnswer')}
-        </button>
-        <button onClick={handleClick({part: 'part7'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          PART7<br/>{t('levelUp.fillBlank')}
-        </button>
-        <button onClick={handleClick({part: 'part8'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          PART8<br/>{t('levelUp.reading')}
-        </button>
-      </div>
-    </>
-  )
+      ))}
+    </div>
+  );
 }
 
 export default memo(Classification)

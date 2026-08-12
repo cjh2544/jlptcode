@@ -3,9 +3,6 @@ import { useLevelUpStore } from '@/app/store/levelUpStore';
 import CardLevelUpQuestion from "@/app/components/Cards/CardLevelUpQuestion";
 import CardLevelUpContent from "@/app/components/Cards/CardLevelUpContent";
 import CardLevelUpAnswer from "@/app/components/Cards/CardLevelUpAnswer";
-import CardAudio from "@/app/components/Cards/CardAudio";
-import CardImage from "@/app/components/Cards/CardImage";
-import { useJlptStore } from "@/app/store/jlptStore";
 
 type QuestionProps = {
   questionInfo: any
@@ -13,7 +10,7 @@ type QuestionProps = {
 
 const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
-  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker} = questionInfo;
+  const {classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker} = questionInfo;
 
   const setLevelUpAnswer = useLevelUpStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
@@ -25,14 +22,48 @@ const Question = (props:QuestionProps) => {
     setLevelUpAnswer(selectedData);
   }
 
+  const sharedProps = {
+    classification,
+    showReadButton,
+    showTransButton,
+    showSpeakButton,
+    speaker,
+    sentence,
+    question,
+  };
+
   return (
     <>
-      {questionType === 'group' && <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} sentence={sentence} />}
-      {questionType === 'content' && <CardLevelUpContent showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} sentence={sentence} />}
+      {questionType === 'group' && (
+        <CardLevelUpQuestion
+          {...sharedProps}
+          questionType={questionType}
+        />
+      )}
+      {questionType === 'content' && (
+        <CardLevelUpContent
+          {...sharedProps}
+          questionType={questionType}
+        />
+      )}
       {questionType === 'normal' && (
         <>
-          <CardLevelUpQuestion showReadButton={showReadButton} showTransButton={showTransButton} showSpeakButton={showSpeakButton} questionType={questionType} question={question} id={`levelup-question-${questionNo}`} questionNo={questionNo} sentence={sentence} speaker={speaker} />
-          {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
+          <CardLevelUpQuestion
+            {...sharedProps}
+            questionType={questionType}
+            id={`levelup-question-${questionNo}`}
+            questionNo={questionNo}
+          />
+          {choices && (
+            <CardLevelUpAnswer
+              onClick={handleClick}
+              questionNo={questionNo}
+              choices={choices}
+              answer={answer}
+              showAnswer={showAnswer}
+              selectedAnswer={selectedAnswer}
+            />
+          )}
         </>
       )}
     </>

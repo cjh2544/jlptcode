@@ -1,40 +1,76 @@
-import User from "@/app/models/userModel";
 import connectDB from "@/app/utils/database";
-import { isEmpty } from "lodash";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server";
 import BoardCommunity from "@/app/models/boardCommunityModel";
+import BoardReply from "@/app/models/boardReplyModel";
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
 
 export async function POST(request: NextRequest) {
   await connectDB();
 
-  const {pageInfo, searchInfo} = await request.json();
-  
-  const { keyword } = searchInfo;
-  
-  let conditions:any = {};
-  
-  // 공지사항 조회
-  conditions = { noticeYn: 'Y' };
-  const communityNoticeList = await BoardCommunity.find(conditions).sort({createdAt:-1, updatedAt:-1 })
+  const { pageInfo, searchInfo = {} } = await request.json();
+  const keyword = typeof searchInfo?.keyword === "string" ? searchInfo.keyword.trim() : "";
 
-  conditions = {...conditions, noticeYn: 'N' };
+  const pageSize = Math.max(Number(pageInfo?.pageSize) || 10, 1);
+  let currentPage = Math.max(Number(pageInfo?.currentPage) || 1, 1);
 
-  if(keyword) {
-    conditions = {
-      ...conditions,
-      $or: [ 
-        { title: { $regex: keyword } },
-        { contents: { $regex: keyword } }
-      ],
-    }
+  const listConditions: Record<string, unknown> = { noticeYn: "N" };
+  if (keyword) {
+    const regex = new RegExp(escapeRegex(keyword), "i");
+    listConditions.$or = [{ title: regex }, { contents: regex }];
   }
 
-  const communityList = await BoardCommunity.find(conditions)
-  .limit(pageInfo.pageSize * 1)
-  .skip((pageInfo.currentPage - 1) * pageInfo.pageSize)
-  .sort({createdAt:-1, updatedAt:-1 })
-  .exec()
-  
-  return NextResponse.json([...communityNoticeList, ...communityList])
+  const boardCount = await BoardCommunity.countDocuments(listConditions);
+  const totalPage = Math.max(Math.ceil(boardCount / pageSize), 1);
+  if (currentPage > totalPage) currentPage = totalPage;
+
+  const [noticeList, communityList] = await Promise.all([
+    BoardCommunity.find({ noticeYn: "Y" })
+      .select("name email title contents noticeYn createdAt updatedAt")
+      .sort({ createdAt: -1 })
+      .lean(),
+    BoardCommunity.find(listConditions)
+      .select("name email title contents noticeYn createdAt updatedAt")
+      .sort({ createdAt: -1 })
+      .skip((currentPage - 1) * pageSize)
+      .limit(pageSize)
+      .lean(),
+  ]);
+
+  const boards = [...noticeList, ...communityList];
+  const boardIds = boards.map((board) => String(board._id));
+
+  const replyList =
+    boardIds.length > 0
+      ? await BoardReply.find({ board_id: { $in: boardIds } })
+          .select("board_id name email contents createdAt updatedAt")
+          .lean()
+      : [];
+
+  const replyMap = new Map(
+    replyList.map((reply) => [String(reply.board_id), reply]),
+  );
+
+  const list = boards.map((board) => {
+    const replyInfo = replyMap.get(String(board._id));
+    return {
+      ...board,
+      _id: String(board._id),
+      hasReply: Boolean(replyInfo),
+      replyInfo: replyInfo || null,
+    };
+  });
+
+  return NextResponse.json({
+    list,
+    pageInfo: {
+      ...pageInfo,
+      pageSize,
+      total: boardCount,
+      totalPage,
+      currentPage,
+    },
+  });
 }

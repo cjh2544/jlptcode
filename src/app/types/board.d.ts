@@ -7,4 +7,6 @@ type Board = {
   noticeYn?: string;
   createdAt?: string;
   updatedAt?: string;
+  hasReply?: boolean;
+  replyInfo?: BoardReply | null;
 }

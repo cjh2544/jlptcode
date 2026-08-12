@@ -25,6 +25,8 @@ const boardCommunitySchema = new Schema({
   },
 }, {timestamps: true, collection: 'boardCommunity'})
 
+boardCommunitySchema.index({ noticeYn: 1, createdAt: -1 })
+
 const BoardCommunity = models?.boardCommunity || model('boardCommunity', boardCommunitySchema, 'board_community')
 
 export default BoardCommunity;

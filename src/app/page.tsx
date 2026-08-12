@@ -8,10 +8,34 @@ import MainBackgroundTitle from "./components/Images/MainBackgroundTitle";
 import Link from "next/link";
 
 const HOME_CARDS = [
-  { key: "home.speakToday", link: "/speakToday", icon: "fas fa-comment-dots", color: "bg-emerald-400" },
-  { key: "home.jlpt", link: "/levelUp?level=N1", icon: "fas fa-list-ol", color: "bg-lightBlue-400" },
-  { key: "home.wordToday", link: "/wordToday", icon: "fas fa-paper-plane", color: "bg-red-400" },
-  { key: "home.jpt", link: "/jptLevelUp", icon: "fas fa-list-ol", color: "bg-lightBlue-400" },
+  {
+    key: "home.speakToday",
+    link: "/speakToday",
+    icon: "fas fa-comment-dots",
+    gradient: "from-emerald-500 to-teal-600",
+    descKey: "home.speakTodayDesc",
+  },
+  {
+    key: "home.jlpt",
+    link: "/levelUp?level=N1",
+    icon: "fas fa-list-ol",
+    gradient: "from-brand-500 to-brand-700",
+    descKey: "home.jlptDesc",
+  },
+  {
+    key: "home.wordToday",
+    link: "/wordToday",
+    icon: "fas fa-paper-plane",
+    gradient: "from-rose-500 to-orange-500",
+    descKey: "home.wordTodayDesc",
+  },
+  {
+    key: "home.jpt",
+    link: "/jptLevelUp",
+    icon: "fas fa-graduation-cap",
+    gradient: "from-sky-500 to-blue-600",
+    descKey: "home.jptDesc",
+  },
 ] as const;
 
 export default function Home() {
@@ -21,67 +45,70 @@ export default function Home() {
     <>
       <Navbar />
 
-      <div className="relative pt-16 pb-32 flex content-center items-center justify-center min-h-screen-75">
-        <div className="absolute top-0 w-full h-full bg-center bg-cover">
-          <MainBackground />
-          <span
-            id="blackOverlay"
-            className="w-full h-full absolute opacity-75 bg-black"
-          ></span>
+      <section className="relative isolate flex min-h-screen-75 items-center justify-center overflow-hidden pt-16 pb-32">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <div className="relative h-full w-full">
+            <MainBackground />
+          </div>
+          <div
+            className="absolute inset-0 bg-black/45"
+            aria-hidden
+          />
         </div>
-        <div className="container relative mx-auto">
-          <div className="items-center flex flex-wrap">
-            <div className="w-full md:w-6/12 lg:w-6/12 px-4 ml-auto mr-auto text-center">
-              <MainBackgroundTitle />
-            </div>
+
+        {/* Hero content */}
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-blue-100">
+              JLPTCODE
+            </p>
+            <MainBackgroundTitle />
+            <p className="mt-6 text-sm font-medium text-blue-50/90 md:text-base">
+              {t("home.subtitle")}
+            </p>
           </div>
         </div>
-        <div
-          className="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-16"
-          style={{ transform: "translateZ(0)" }}
-        >
+
+        {/* Wave divider */}
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-16 overflow-hidden">
           <svg
-            className="absolute bottom-0 overflow-hidden"
+            className="absolute bottom-0 w-full fill-blue-gray-200"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
-            version="1.1"
             viewBox="0 0 2560 100"
-            x="0"
-            y="0"
           >
-            <polygon
-              className="text-blueGray-200 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
+            <polygon points="2560 0 2560 100 0 100" />
           </svg>
         </div>
-      </div>
+      </section>
 
-      <section className="pb-20 bg-blueGray-200 -mt-24">
+      <section className="relative z-20 app-page-bg -mt-24 pb-20 pt-28">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap">
+          <div className="mb-10 text-center">
+            <h2 className="text-2xl font-bold text-foreground">{t("home.startLearning")}</h2>
+            <p className="mt-2 text-sm text-muted-foreground">{t("home.startLearningHint")}</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HOME_CARDS.map((card) => (
-              <Link
-                key={card.key}
-                scroll={false}
-                href={card.link}
-                className="w-full lg:w-3/12 px-4 text-center"
-              >
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg">
-                  <div className="px-4 py-5 flex-auto">
-                    <div
-                      className={`text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full ${card.color}`}
-                    >
-                      <i className={card.icon}></i>
-                    </div>
-                    <h6 className="text-xl font-semibold">{t(card.key)}</h6>
+              <Link key={card.key} scroll={false} href={card.link} className="group block">
+                <div className="home-card h-full p-6">
+                  <div
+                    className={`home-card-icon mb-4 bg-linear-to-br ${card.gradient}`}
+                  >
+                    <i className={`${card.icon} text-lg`} />
                   </div>
+                  <h6 className="text-lg font-bold text-foreground group-hover:text-brand-600 transition-colors">
+                    {t(card.key)}
+                  </h6>
+                  <p className="mt-2 text-sm text-muted-foreground">{t(card.descKey)}</p>
                 </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );

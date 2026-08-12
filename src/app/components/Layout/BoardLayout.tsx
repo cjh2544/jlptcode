@@ -1,4 +1,4 @@
-import Sidebar from "@/app/components/Sidebar/Sidebar";
+import AppSidebarLayout from "@/app/components/Layout/AppSidebarLayout";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 import { Metadata } from "next";
@@ -14,21 +14,18 @@ export default function BoardLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100 font-nanumGothic">
+    <AppSidebarLayout className="font-nanumGothic">
         {/* Header */}
         <HeaderTitle titleKey="layout.board" />
         {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
-          <div className="px-4 mx-auto w-full m-10">
-            <div className="relative flex flex-col min-w-0 break-words w-full shadow-lg rounded-lg bg-blueGray-100 border-0">
+        <div className="px-4 mx-auto w-full mt-6 mb-10">
+            <div className="app-panel w-full overflow-hidden">
               {children}
             </div>
           </div>
           <Footer />
         </div>
-      </div>
-    </>
+    </AppSidebarLayout>
   )
 }

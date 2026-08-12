@@ -2,12 +2,14 @@
 
 import React, {memo} from "react";
 import CardAudio from "./CardAudio";
+import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import CardImage from "./CardImage";
 import { isEmpty } from "lodash";
-import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 
 type LevelUpQuestionProps = {
+  classification?: string;
   questionType?: string,
   question: any,
   id?: string
@@ -20,9 +22,10 @@ type LevelUpQuestionProps = {
 }
 
 const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
-  const {questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker} = props;
+  const {classification, questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker} = props;
   const {content = '', audio = {}, image = {}, translate, read} = question;
   const {translation, reading} = sentence;
+  const isListening = classification === 'listening';
   const { t } = useTranslations();
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
@@ -37,58 +40,59 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
 
   return (
     <>
-      <div className="flex flex-col min-w-0 break-words rounded mb-1">
-        <div className={`flex-auto px-4 py-2 rounded-lg ${questionType === 'group' ? 'bg-green-400' : 'bg-green-100'}`}>
-          <div className="flex flex-wrap" id={id}>
+      <div className="flex flex-col min-w-0 wrap-break-word rounded mb-1">
+        <div className={`flex-auto py-2 ${questionType === 'group' ? 'app-question-group' : 'app-question-normal'}`}>
+          <div className="app-question-passage flex flex-wrap" id={id}>
             <div className="mr-1">{`${questionNo ? questionNo + '.' : ''}`}</div>
             <div>{parseHtml(content || '')}</div>
+          </div>
+          <div className="app-question-tools">
             {showReadButton && reading && (
-              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline">{t('common.read')}</Button></span>
+              <Button onClick={toggleOpenRead} className="px-2 py-1">
+                {isListening ? t('common.sentence') : t('common.read')}
+              </Button>
             )}
             {showTransButton && translation && (
-              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline ml-1">{t('common.translation')}</Button></span>
+              <Button onClick={toggleOpenTranslate} className="px-2 py-1">
+                {t('common.translation')}
+              </Button>
             )}
-            {showSpeakButton && speaker && (
-              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">{t('common.pronunciation')}</Button></span>
+            {showSpeakButton && speaker && !isListening && (
+              <Button onClick={toggleOpenSpeaker} className="px-2 py-1">
+                {t('common.pronunciation')}
+              </Button>
             )}
           </div>
+          {isListening && (speaker || !isEmpty(audio)) && (
+            <div className="app-reveal-panel p-3">
+              <CardAudio audio={audio} speaker={speaker} />
+            </div>
+          )}
           {openRead && (
-            <div className="flex flex-wrap">
-              <Collapse open={openRead} className="w-full mt-1">
-                <Card>
-                  <CardBody className="px-3 py-2 font-nanumGothic">
-                    {parseHtml(reading || '')}
-                  </CardBody>
-                </Card>
-              </Collapse>
+            <div className="app-reveal">
+              <div className="app-reveal-panel">
+                {parseHtml(reading || '')}
+              </div>
             </div>
           )}
           {openTranslate && (
-            <div className="flex flex-wrap">
-              <Collapse open={openTranslate} className="w-full mt-1">
-                <Card>
-                  <CardBody className="px-3 py-2 font-nanumGothic">
-                    {parseHtml(translation || '')}
-                  </CardBody>
-                </Card>
-              </Collapse>
+            <div className="app-reveal">
+              <div className="app-reveal-panel">
+                {parseHtml(translation || '')}
+              </div>
             </div>
           )}
           {openSpeaker && (
-            <div className="flex flex-wrap">
-              <Collapse open={openSpeaker} className="w-full mt-1">
-                <Card>
-                  <CardBody className="p-0 rounded">
-                    {speaker && <CardAudio audio={{name: '', link: speaker}} />}
-                  </CardBody>
-                </Card>
-              </Collapse>
+            <div className="app-reveal">
+              <div className="app-reveal-panel p-3">
+                {speaker && <SpeechPlayer src={speaker} />}
+              </div>
             </div>
           )}
         </div>
-        {!isEmpty(audio) && (
-          <div className="flex-auto p-2">
-            <CardAudio audio={audio} />
+        {!isListening && !isEmpty(audio) && (
+          <div className="flex-auto py-2">
+            <CardAudio audio={audio} speaker={speaker} />
           </div>
         )}
         {!isEmpty(image) && (

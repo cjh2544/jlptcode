@@ -41,7 +41,7 @@ const BoardView = (props: BoardWriteProps) => {
                   <form className="space-y-4 md:space-y-6">
                       <div>
                           <label className={`block mb-2 text-sm font-bold text-gray-900`}>{t('board.subject')} {t('board.titleLen')}</label>
-                          <input defaultValue={boardInfo.title || ''} disabled={true} maxLength={100} type="text" name="title" id="title" className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:outline-none block w-full p-2.5" placeholder={t('board.placeholderTitle')} />
+                          <input defaultValue={boardInfo.title || ''} disabled={true} maxLength={100} type="text" name="title" id="title" className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:outline-hidden block w-full p-2.5" placeholder={t('board.placeholderTitle')} />
                       </div>
                       <div>
                           <label className={`block mb-2 text-sm font-bold text-gray-900`}>{t('board.content')} {t('board.contentLen')}</label>
@@ -55,12 +55,12 @@ const BoardView = (props: BoardWriteProps) => {
                       </div>
                       <div className='flex justify-center gap-2'>
                         {isAdmin() && (
-                          <Link href="reply" scroll={false} className={`hover:bg-green-700 text-center bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                          <Link href="reply" scroll={false} className={`hover:bg-green-700 text-center bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-hidden`}>
                             {t('board.replyAction')}
                           </Link>
                         )}
                         {isMyWrite() && (
-                          <Link onClick={handleLinkActive} href="modify" scroll={false} className={`hover:bg-blue-700 text-center bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none`}>
+                          <Link onClick={handleLinkActive} href="modify" scroll={false} className={`hover:bg-blue-700 text-center bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-hidden`}>
                             {t('board.editAction')}
                           </Link>
                         )}

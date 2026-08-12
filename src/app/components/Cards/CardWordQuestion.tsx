@@ -1,9 +1,9 @@
 "use client";
 
-import { isEmpty } from "lodash";
 import React, {memo, useState} from "react";
-import { Button, Card, CardBody, CardFooter, CardHeader, Collapse, Radio, Typography } from "@material-tailwind/react";
-import CardAudio from "./CardAudio";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import { useTranslations } from "@/app/providers/I18nProvider";
 
 type WordQuestionType = {
@@ -51,7 +51,7 @@ const CardWordQuestion = (props:JlptContentProps) => {
   return (
     <>
       <Card className="w-full">
-        <CardBody>
+        <CardContent>
           <div className="flex flex-wrap mb-2 font-normal mx-auto text-md">
             {parseHtml(question)}
             {sentence_translate && (
@@ -65,48 +65,40 @@ const CardWordQuestion = (props:JlptContentProps) => {
             )}
           </div>
           {openTranslate && (
-            <div className="flex flex-wrap">
-              <Collapse open={openTranslate} className="w-full mt-1 rounded">
-                <Card>
-                  <CardBody className="px-3 py-2 font-nanumGothic bg-gray-200">
-                    <Typography>
-                      {sentence_translate}
-                    </Typography>
-                  </CardBody>
-                </Card>
-              </Collapse>
+            <div className="app-reveal my-1">
+              <div className="app-reveal-panel py-2 px-3">
+                <p>{sentence_translate}</p>
+              </div>
             </div>
           )}
           {openRead && (
-            <div className="flex flex-wrap">
-              <Collapse open={openRead} className="w-full mt-1 rounded">
-                <Card>
-                  <CardBody className="px-3 py-2 font-nanumGothic bg-gray-200">
-                    <Typography>
-                      {sentence_read}
-                    </Typography>
-                  </CardBody>
-                </Card>
-              </Collapse>
+            <div className="app-reveal my-1">
+              <div className="app-reveal-panel py-2 px-3">
+                <p>{sentence_read}</p>
+              </div>
             </div>
           )}
-          {openSpeaker && (
-            <div className="flex flex-wrap">
-              <Collapse open={openSpeaker} className="w-full mt-1 rounded">
-                <Card>
-                  <CardBody className="p-0">
-                    {speaker && <CardAudio audio={{name: '', link: speaker}} />}
-                  </CardBody>
-                </Card>
-              </Collapse>
+          {openSpeaker && speaker && (
+            <div className="my-1.5">
+              <SpeechPlayer src={speaker} />
             </div>
           )}
           <div className="flex flex-col">
             {choice.map((item, idx) => {
-              return <Radio key={idx} onClick={(e) => handleClickAnswer(idx + 1)} name={question} color="blue" label={parseHtml(item) || ''} />
+              return (
+                <label key={idx} className="inline-flex items-center gap-2 py-1 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={question}
+                    onClick={() => handleClickAnswer(idx + 1)}
+                    className="accent-blue-500"
+                  />
+                  {parseHtml(item) || ''}
+                </label>
+              );
             })}
           </div>
-        </CardBody>
+        </CardContent>
         <CardFooter className={`pt-0 ${showAnswer ? '' : 'hidden'}`}>
           <div className={`relative w-full flex items-center bg-${collect ? 'green' : 'red'}-500 text-white text-sm font-bold px-4 py-3 rounded-md`} role="alert">
             <p>{collect ? t('quiz.correctShort') : t('quiz.wrongShort')}</p>

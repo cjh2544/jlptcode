@@ -29,9 +29,19 @@ export async function POST(request: NextRequest) {
 
   const boardCount = await BoardCommunity.count(conditions);
 
-  resultPageInfo.total = boardCount;
-  resultPageInfo.totalPage = Math.ceil(boardCount / resultPageInfo.pageSize);
-  resultPageInfo.currentPage = resultPageInfo.currentPage;
+  const pageSize = Math.max(Number(resultPageInfo.pageSize) || 10, 1);
+  const totalPage = Math.max(Math.ceil(boardCount / pageSize), 1);
+  let currentPage = Number(resultPageInfo.currentPage) || 1;
+  if (currentPage > totalPage) currentPage = totalPage;
+  if (currentPage < 1) currentPage = 1;
+
+  resultPageInfo = {
+    ...resultPageInfo,
+    pageSize,
+    total: boardCount,
+    totalPage,
+    currentPage,
+  };
 
   return NextResponse.json(resultPageInfo)
 }

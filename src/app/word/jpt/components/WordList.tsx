@@ -23,7 +23,7 @@ const WordList = ({title, data, className}: WordListProps) => {
       <div className="w-full mb-4 px-4">
         <div
           className={
-            "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
+            "relative flex flex-col min-w-0 wrap-break-word w-full mb-6 shadow-lg rounded " +
             "bg-white"
           }
         >
@@ -34,7 +34,7 @@ const WordList = ({title, data, className}: WordListProps) => {
                   <h3
                     className={
                       "font-semibold text-lg " +
-                      "text-blueGray-700"
+                      "text-blue-gray-700"
                     }
                   >
                     {title}

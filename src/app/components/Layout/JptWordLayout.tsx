@@ -1,4 +1,4 @@
-import Sidebar from "@/app/components/Sidebar/Sidebar";
+import AppSidebarLayout from "@/app/components/Layout/AppSidebarLayout";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
@@ -13,9 +13,7 @@ export default function JptWordLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+    <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.jptWord" />
         {/* <HeaderStats /> */}
@@ -23,7 +21,6 @@ export default function JptWordLayout({
           {children}
           <Footer />
         </div>
-      </div>
-    </>
+    </AppSidebarLayout>
   )
 }

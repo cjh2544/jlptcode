@@ -118,18 +118,36 @@ export const useBoardCommunityStore = create<BoardCommunityStore>() (
                 });
             },
             getBoardList: async () => {
-                const response = await fetch('/api/board/community/list', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({searchInfo: get().searchInfo, pageInfo: get().pageInfo}),
-                })
-                const resData = await response.json();
-                set({ 
-                    isLoading: false,
-                    boardList: resData,
-                });
+                set({ isLoading: true });
+                try {
+                    const response = await fetch('/api/board/community/list', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({searchInfo: get().searchInfo, pageInfo: get().pageInfo}),
+                    })
+                    const resData = await response.json();
+
+                    // 구형 배열 응답 / 신형 { list, pageInfo } 모두 허용
+                    if (Array.isArray(resData)) {
+                        set({
+                            isLoading: false,
+                            boardList: resData,
+                        });
+                        return;
+                    }
+
+                    set({
+                        isLoading: false,
+                        boardList: resData.list || [],
+                        pageInfo: resData.pageInfo
+                            ? { ...get().pageInfo, ...resData.pageInfo }
+                            : get().pageInfo,
+                    });
+                } catch {
+                    set({ isLoading: false, boardList: [] });
+                }
             },
             updateBoardInfo: async (boardInfo) => {
                 const response = await fetch('/api/board/community', {

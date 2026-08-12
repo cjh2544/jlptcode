@@ -1,40 +1,30 @@
-import { Spinner, Typography } from "@material-tailwind/react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { memo } from "react";
 
 type LoadingProps = {
-    text?: string,
-}
+  text?: string;
+};
 
-const LoadingSkeleton = (props:LoadingProps) => {
+const LoadingSkeleton = (props: LoadingProps) => {
+  const { text } = props;
 
-    const { text } = props;
-
-    return (
-        <div className="w-full bg-white p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 animate-pulse md:p-6">
-            <div className="flex items-center justify-between">
-                <div>
-                    <div className="h-2.5 bg-gray-400 rounded-full w-24 mb-2.5"></div>
-                    <div className="w-32 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-                <div className="h-2.5 bg-gray-400 rounded-full w-12"></div>
-            </div>
-            <div className="flex items-center justify-between pt-4">
-                <div>
-                    <div className="h-2.5 bg-gray-400 rounded-full w-24 mb-2.5"></div>
-                    <div className="w-32 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-                <div className="h-2.5 bg-gray-400 rounded-full w-12"></div>
-            </div>
-            <div className="flex items-center justify-between pt-4">
-                <div>
-                    <div className="h-2.5 bg-gray-400 rounded-full w-24 mb-2.5"></div>
-                    <div className="w-32 h-2 bg-gray-300 rounded-full"></div>
-                </div>
-                <div className="h-2.5 bg-gray-400 rounded-full w-12"></div>
-            </div>
-            <span className="sr-only">{text || 'Loading...'}</span>
+  return (
+    <div className="w-full bg-white p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 md:p-6">
+      {[0, 1, 2].map((i) => (
+        <div
+          key={i}
+          className={`flex items-center justify-between ${i > 0 ? "pt-4" : ""}`}
+        >
+          <div className="space-y-2">
+            <Skeleton className="h-2.5 w-24 rounded-full" />
+            <Skeleton className="h-2 w-32 rounded-full" />
+          </div>
+          <Skeleton className="h-2.5 w-12 rounded-full" />
         </div>
-    );
-}
+      ))}
+      <span className="sr-only">{text || "Loading..."}</span>
+    </div>
+  );
+};
 
-export default memo(LoadingSkeleton)
+export default memo(LoadingSkeleton);

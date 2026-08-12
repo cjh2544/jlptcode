@@ -22,20 +22,20 @@ const CardJlptAnswer = (props:JlptAnswerProps) => {
   };
 
   const getCollectClassName = useCallback((ansNo: number) => {
-    let collectClass = 'text-gray-900';
+    let collectClass = 'app-answer-choice';
 
     if(showAnswer) {
       if(ansNo === selectedAnswer) {
         if(answer === selectedAnswer) {
-          collectClass = 'bg-green-500 text-white';
+          collectClass = 'app-answer-choice app-answer-choice--correct';
         } else {
-          collectClass = 'bg-red-500 text-white';
+          collectClass = 'app-answer-choice app-answer-choice--wrong';
         }
       }
     }
 
     return collectClass;
-  }, [selectedAnswer, showAnswer]);
+  }, [selectedAnswer, showAnswer, answer]);
 
   return (
     <>
@@ -43,9 +43,9 @@ const CardJlptAnswer = (props:JlptAnswerProps) => {
         {choices && sortBy(choices, 'no').map((item, idx) => {
           return item.content ? (
             <div key={`question-answer-${questionNo}-${item?.no || idx + 1}`}
-              className={`${getCollectClassName(idx + 1)} flex items-center p-2 rounded`}>
-              <input checked={(idx + 1) === selectedAnswer} onChange={(e) => handleClick(item?.no || idx + 1)} id={`default-radio-${questionNo}-${item?.no || idx + 1}`} type="radio" value={`${item?.no || idx + 1}`} name={`${questionNo}`} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" />
-              <label htmlFor={`default-radio-${questionNo}-${item?.no || idx + 1}`} className="ms-2">{parseHtml(`${item?.content}`)}</label>
+              className={getCollectClassName(idx + 1)}>
+              <input checked={(idx + 1) === selectedAnswer} onChange={(e) => handleClick(item?.no || idx + 1)} id={`default-radio-${questionNo}-${item?.no || idx + 1}`} type="radio" value={`${item?.no || idx + 1}`} name={`${questionNo}`} className="mt-0.5 size-4 shrink-0 accent-brand-600" />
+              <label htmlFor={`default-radio-${questionNo}-${item?.no || idx + 1}`} className="flex-1 cursor-pointer">{parseHtml(`${item?.content}`)}</label>
             </div>
           ) : null;
         })}

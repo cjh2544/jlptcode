@@ -1,6 +1,6 @@
 'use client';
 import { useReadingTodayStore } from '@/app/store/readingTodayStore';
-import { Card } from "@material-tailwind/react";
+import { Card, CardContent } from "@/components/ui/card";
 import SentenceInfo from './sentenceInfo';
 import HeaderButton from './headerButton';
 
@@ -27,10 +27,12 @@ const SentenceList = ({className}: SentenceListProps) => {
 
   return readingTodayList.length === 0 ? <></> : (
     <div className={`mx-4 ${className}`} onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()}>
-      <Card className="h-full w-full bg-white p-4">
-        {readingTodayList.map((item: any, index: number) => (
-          <SentenceInfo key={index} readingInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
-        ))}
+      <Card className="h-full w-full bg-white">
+        <CardContent className="p-4">
+          {readingTodayList.map((item: any, index: number) => (
+            <SentenceInfo key={index} readingInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
+          ))}
+        </CardContent>
       </Card>
     </div>
   )

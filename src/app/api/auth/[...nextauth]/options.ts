@@ -11,6 +11,7 @@ import UserPayment from '@/app/models/userPaymentModel'
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
 export const options: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     KakaoProvider({
       clientId: process.env.KAKAO_CLIENT_ID as string,
@@ -84,60 +85,65 @@ export const options: NextAuthOptions = {
     async session({ session, user, token }) {
       if(session.user) session.user.role = token.role;
 
-      // 결제 정보 조회
-      const userPayment = await UserPayment.aggregate([
-        {
-          $match: { email: token.email }
-        },
-        {
-          $unwind: {
-            path: "$payments",
-            preserveNullAndEmptyArrays: true
-          }
-        },
-        {
-          $addFields: {
-            "payments.isValid": {
-              $cond: {
-                if: {
-                  $and: [
-                    { $lte: ["$payments.startDate", new Date()] },
-                    { $gte: ["$payments.endDate", new Date()] }
-                  ]
-                },
-                then: true,
-                else: false
+      try {
+        await connectDB();
+
+        const userPayment = await UserPayment.aggregate([
+          {
+            $match: { email: token.email }
+          },
+          {
+            $unwind: {
+              path: "$payments",
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $addFields: {
+              "payments.isValid": {
+                $cond: {
+                  if: {
+                    $and: [
+                      { $lte: ["$payments.startDate", new Date()] },
+                      { $gte: ["$payments.endDate", new Date()] }
+                    ]
+                  },
+                  then: true,
+                  else: false
+                }
               }
             }
+          },
+          {
+            $match: {
+              "payments.isValid": true
+            }
+          },
+          {
+            $sort: {
+              "payments.endDate": -1
+            }
+          },
+          {
+            $limit: 1
+          },
+          {
+            $project: {
+              _id: 0,
+              email: 1,
+              startDate: "$payments.startDate",
+              endDate: "$payments.endDate",
+              createdAt: "$payments.createdAt",
+              updatedAt: "$payments.updatedAt",
+              isValid: "$payments.isValid"
+            }
           }
-        },
-        {
-          $match: {
-            "payments.isValid": true
-          }
-        },
-        {
-          $sort: {
-            "payments.endDate": -1
-          }
-        },
-        {
-          $limit: 1
-        },
-        {
-          $project: {
-            _id: 0,
-            email: 1,
-            startDate: "$payments.startDate",
-            endDate: "$payments.endDate",
-            createdAt: "$payments.createdAt",
-            updatedAt: "$payments.updatedAt",
-            isValid: "$payments.isValid"
-          }
-        }
-      ]);
+        ]);
 
-      session.paymentInfo = userPayment[0];
+        session.paymentInfo = userPayment[0];
+      } catch (error) {
+        console.error("[next-auth] session payment lookup failed", error);
+      }
 
       return session;
     }

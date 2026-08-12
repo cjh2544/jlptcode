@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Sidebar from "@/app/components/Sidebar/Sidebar";
+import AppSidebarLayout from "@/app/components/Layout/AppSidebarLayout";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
@@ -14,9 +14,7 @@ export default function SpeakMasterLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
-      <Sidebar />
-      <div className="relative md:ml-64 bg-blueGray-100">
+    <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.speakMaster" subTitleKey="layout.speakMasterSub" />
         {/* <HeaderStats /> */}
@@ -24,7 +22,6 @@ export default function SpeakMasterLayout({
           {children}
           <Footer />
         </div>
-      </div>
-    </>
+    </AppSidebarLayout>
   )
 }

@@ -4,7 +4,8 @@ import { isEmpty } from "lodash";
 import React, {memo} from "react";
 import CardAudio from "./CardAudio";
 import CardImage from "./CardImage";
-import { Button, Card, CardBody, Collapse, Typography } from "@material-tailwind/react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { useTranslations } from "@/app/providers/I18nProvider";
 
 type JlptContentProps = {
@@ -32,10 +33,10 @@ const CardJlptContent = (props:JlptContentProps) => {
 
   return (
     <>
-      <div className="flex flex-col min-w-0 break-words rounded mb-1">
+      <div className="flex flex-col min-w-0 wrap-break-word rounded mb-1">
         {!isEmpty(content) && (<div className="flex-auto px-4 py-2">
-          <div className="flex flex-wrap">
-            <div className="bg-blueGray-200 rounded-lg p-4 flex-col">
+          <div className="w-full">
+            <div className="app-question-content flex-col">
               {parseHtml(content || '')}
               {showReadButton && sentence?.reading && (
                 <span><Button onClick={toggleOpenRead} className="px-2 py-1 ml-1">{t('common.read')}</Button></span>
@@ -44,25 +45,21 @@ const CardJlptContent = (props:JlptContentProps) => {
                 <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 ml-1">{t('common.translation')}</Button></span>
               )}
               {openTranslate && (
-                <div className="flex flex-wrap">
-                  <Collapse open={openTranslate} className="w-full mt-1">
-                    <Card>
-                      <CardBody className="px-3 py-2 font-nanumGothic">
-                        {parseHtml(sentence?.translation || '')}
-                      </CardBody>
-                    </Card>
-                  </Collapse>
+                <div className="app-reveal">
+                  <Card className="w-full" size="sm">
+                    <CardContent className="w-full px-4 py-3 font-nanumGothic">
+                      {parseHtml(sentence?.translation || '')}
+                    </CardContent>
+                  </Card>
                 </div>
               )}
               {openRead && (
-                <div className="flex flex-wrap">
-                  <Collapse open={openRead} className="w-full mt-1">
-                    <Card>
-                      <CardBody className="px-3 py-2 font-nanumGothic">
-                        {parseHtml(sentence?.reading || '')}
-                      </CardBody>
-                    </Card>
-                  </Collapse>
+                <div className="app-reveal">
+                  <Card className="w-full" size="sm">
+                    <CardContent className="w-full px-4 py-3 font-nanumGothic">
+                      {parseHtml(sentence?.reading || '')}
+                    </CardContent>
+                  </Card>
                 </div>
               )}
             </div>

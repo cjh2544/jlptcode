@@ -1,44 +1,44 @@
 'use client'
 import React, {memo} from 'react';
 import { MouseEvent } from 'react';
-import { sortBy } from 'lodash';
 import { useTranslations } from '@/app/providers/I18nProvider';
 
 type ClassificationProps = {
-  classData: any,
+  classData?: any,
   onClick?: (data: any) => any,
 }
 
 const Classification = (props: ClassificationProps) => {
   const { t } = useTranslations();
-
-  const {
-    classData,
-    onClick
-  } = props
+  const { onClick } = props;
 
   const handleClick = (selectedData: any) => (e: MouseEvent<HTMLElement>) => {
     onClick && onClick(selectedData);
   }
 
+  const items = [
+    { key: 'vocabulary', label: `${t('levelUp.vocab')} 文字語彙`, sub: 'VOCABULARY' },
+    { key: 'grammar', label: `${t('levelUp.grammar')} 文法`, sub: 'GRAMMAR' },
+    { key: 'listening', label: `${t('levelUp.listening')} 聴解`, sub: 'Listening' },
+    { key: 'reading', label: `${t('levelUp.reading')} 読解`, sub: 'Reading' },
+  ];
+
   return (
-    <>
-      <div className="grid grid-cols-4 gap-4 sm:grid-cols-2">
-        <button onClick={handleClick({classification: 'vocabulary'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          {t('levelUp.vocab')} 文字語彙 <br/> VOCABULARY
+    <div className="grid grid-cols-4 gap-3 sm:grid-cols-2">
+      {items.map((item) => (
+        <button
+          key={item.key}
+          onClick={handleClick({ classification: item.key })}
+          className="app-year-btn text-center leading-snug"
+          type="button"
+        >
+          {item.label}
+          <br />
+          {item.sub}
         </button>
-        <button onClick={handleClick({classification: 'grammar'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          {t('levelUp.grammar')} 文法 <br/> GRAMMAR
-        </button>
-        <button onClick={handleClick({classification: 'listening'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          {t('levelUp.listening')} 聴解 <br/> Listening
-        </button>
-        <button onClick={handleClick({classification: 'reading'})} className="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
-          {t('levelUp.reading')} 読解 <br/> Reading
-        </button>
-      </div>
-    </>
-  )
+      ))}
+    </div>
+  );
 }
 
 export default memo(Classification)

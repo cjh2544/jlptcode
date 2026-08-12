@@ -1,10 +1,8 @@
 'use client';
-import React, {memo, useEffect} from "react";
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
-import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
+import React, {memo} from "react";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-import { playSpeech } from "@/app/utils/openai";
-import GoogleTts from "@/app/components/Audio/GoogleTTS";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type WordInfoProps = {
   wordInfo: any
@@ -12,21 +10,19 @@ type WordInfoProps = {
 }
 
 const WordInfo = (props:WordInfoProps) => {
-  const { 
-    wordInfo, 
+  const { t } = useTranslations();
+  const {
+    wordInfo,
     onClick
   } = props;
-  const { 
-    _id,
-    level, 
-    year, 
+  const {
+    level,
     study,
-    wordNo, 
-    word, 
-    read, 
-    means, 
-    sentence, 
-    sentence_read, 
+    wordNo,
+    word,
+    read,
+    means,
+    sentence_read,
     sentence_translate,
     speaker,
     question,
@@ -34,7 +30,6 @@ const WordInfo = (props:WordInfoProps) => {
     hideWord = false,
     hideRead = false,
     hideMeans = false
-
   } = wordInfo;
 
   const handleClick = (colType: string) => {
@@ -55,81 +50,70 @@ const WordInfo = (props:WordInfoProps) => {
     onClick && onClick({...wordInfo, showQuestion: !wordInfo.showQuestion });
   }
 
-  const handleGetSpeech = (read: string) => {
-    playSpeech(read);
-  }
-
-  useEffect(() => {
-    // console.log(wordInfo)
-  }, [wordInfo])
+  const renderField = (
+    label: string,
+    value: string,
+    hidden: boolean,
+    colType: string,
+    valueClassName?: string,
+  ) => (
+    <div className="app-today-field">
+      <span className="app-today-field-label">{label}</span>
+      <div
+        className={`app-today-field-value ${valueClassName ?? ''} ${hidden ? 'app-today-field-value--masked' : ''}`}
+        aria-hidden={hidden}
+      >
+        {hidden ? '••••••' : (value || '\u00A0')}
+      </div>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon-sm"
+        onClick={() => handleClick(colType)}
+        title={hidden ? t('today.show') : t('today.hide')}
+        aria-label={hidden ? t('today.show') : t('today.hide')}
+      >
+        <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+      </Button>
+    </div>
+  );
 
   return (
-    <>
-      <tr className="even:bg-blue-gray-50/50">
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal uppercase">
-            {study}
-          </div> 
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            {wordNo}
-          </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <div className="flex justify-between items-center">
-              <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
-              <div>
-                {/* <button onClick={(e) => handleGetSpeech(read)} className="text-blue-500 focus:outline-none mr-1">
-                  <i className="fa-solid fa-volume-high"></i>
-                </button> */}
-                {/* <GoogleTts id={_id} text={word} /> */}
-                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
-                  <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-                </button>
-              </div>
-            </div> 
-          </div>
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <div className="flex justify-between items-center">
-              <p className={`${hideRead ? 'invisible' : ''}`}>{read}</p>
-              <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
-                <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-              </button>
-            </div> 
-          </div> 
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            <div className="flex justify-between items-center">
-              <p className={`${hideMeans ? 'invisible' : ''}`}>{means}</p>
-              <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">
-                <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
-              </button>
-            </div> 
-          </div> 
-        </td>
-        <td className="p-4 border-b border-blue-gray-50">
-          <div className="font-normal">
-            {level !== 'N0' && (
-              <button onClick={(e) => handleShowQuestion()} className="text-blue-600 focus:outline-none">
-                [確認]
-              </button>
-            )}
-          </div>
-        </td>
-      </tr>
+    <article className="app-today-item">
+      <div className="app-today-item-header">
+        <div className="app-today-item-meta">
+          {study && <span className="app-today-badge">{study}</span>}
+          <span className="app-today-no">
+            {t('today.number')} {wordNo}
+          </span>
+        </div>
+        {level !== 'N0' && (
+          <Button
+            type="button"
+            variant={showQuestion ? 'secondary' : 'outline'}
+            size="sm"
+            onClick={handleShowQuestion}
+          >
+            {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+          </Button>
+        )}
+      </div>
+      <div className="app-today-item-body">
+        {renderField(t('word.word'), word, hideWord, 'word', 'app-today-field-value--word')}
+        {renderField(t('word.reading'), read, hideRead, 'read')}
+        {renderField(t('word.meaning'), means, hideMeans, 'means')}
+      </div>
       {showQuestion && (
-        <tr className="even:bg-blue-gray-50/50">
-          <td colSpan={6} className="p-4 border-b border-blue-gray-50">
-            <CardWordQuestion questionInfo={question} speaker={speaker} sentence_read={sentence_read} sentence_translate={sentence_translate} />
-          </td>
-        </tr>
+        <div className="app-today-item-question app-reveal">
+          <CardWordQuestion
+            questionInfo={question}
+            speaker={speaker}
+            sentence_read={sentence_read}
+            sentence_translate={sentence_translate}
+          />
+        </div>
       )}
-    </>
+    </article>
   );
 }
 

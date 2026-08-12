@@ -1,6 +1,8 @@
-import CardWord from "@/app/components/Cards/CardWord"
-import HeaderListButton from "./headerListButton"
+'use client';
+import HeaderButton from "./headerButton";
+import WordInfo from "./wordInfo";
 import { useWordStore } from "@/app/store/wordStore";
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type WordListProps = {
   title?: string,
@@ -9,7 +11,9 @@ type WordListProps = {
 }
 
 const WordList = ({title, data, className}: WordListProps) => {
+  const { t } = useTranslations();
   const wordList = useWordStore((state:any) => state.wordList);
+  const pageInfo = useWordStore((state:any) => state.pageInfo);
   const setWordList = useWordStore((state:any) => state.setWordList);
 
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
@@ -17,41 +21,43 @@ const WordList = ({title, data, className}: WordListProps) => {
       wordList.map((item: any, idx: number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
-  
+
+  const items = data ?? [];
+  const count = pageInfo?.total || items.length;
+  const pageOffset = ((pageInfo?.currentPage || 1) - 1) * (pageInfo?.pageSize || items.length || 0);
+
   return (
-    <div className={`flex flex-wrap mt-4 ${className}`}>
-      <div className="w-full mb-4 px-4">
-        <div
-          className={
-            "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
-            "bg-white"
-          }
-        >
-          {title && (
-            <div className="rounded-t mb-0 px-4 py-3 border-0">
-              <div className="flex flex-wrap items-center">
-                <div className="relative w-full px-4 max-w-full flex justify-between items-center">
-                  <h3
-                    className={
-                      "font-semibold text-lg " +
-                      "text-blueGray-700"
-                    }
-                  >
-                    {title}
-                  </h3>
-                  <div className='flex flex-col'>
-                    <HeaderListButton colName={'word'} />
-                    <HeaderListButton colName={'read'} />
-                    <HeaderListButton colName={'means'} />
-                  </div>
-                </div>
-              </div>
+    <div className={`mx-4 mb-8 ${className ?? ''}`}>
+      <div className="app-panel">
+        <div className="app-today-toolbar">
+          <div className="flex flex-wrap items-center gap-2">
+            {title && <h3 className="text-sm font-bold text-foreground">{title}</h3>}
+            <p className="app-today-toolbar-count">
+              {t('today.itemCount').replace('{n}', String(count))}
+            </p>
+          </div>
+          <div className="app-today-toolbar-actions">
+            <HeaderButton colName="word" label={t('word.word')} />
+            <HeaderButton colName="read" label={t('word.reading')} />
+            <HeaderButton colName="means" label={t('word.meaning')} />
+          </div>
+        </div>
+        <div className="app-panel-body">
+          {items.length === 0 ? (
+            <p className="app-today-empty">{t('common.noData')}</p>
+          ) : (
+            <div className="app-today-list">
+              {items.map((wordInfo: any, idx: number) => (
+                <WordInfo
+                  key={wordInfo._id ?? idx}
+                  wordInfo={wordInfo}
+                  index={idx}
+                  displayNo={pageOffset + idx + 1}
+                  onClick={(next: any) => handleClickVisible(next, idx)}
+                />
+              ))}
             </div>
           )}
-          <div className="block w-full overflow-x-auto"></div>
-          <ul className="divide-y divide-gray-200">
-            {data && data.map((item, index) => <CardWord className={`${index % 2 === 0 ? 'bg-blue-gray-50/50' : ''}`} key={`word-${index}`} data={item} onClick={(data: any) => handleClickVisible(data, index)} />)}
-          </ul>
         </div>
       </div>
     </div>

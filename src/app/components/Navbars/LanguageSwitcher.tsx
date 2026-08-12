@@ -2,9 +2,25 @@
 
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { LOCALE_LABELS, type Locale } from "@/i18n/config";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 const LOCALES: Locale[] = ["ko", "ja", "en", "zh", "my"];
+
+const LOCALE_SHORT: Record<Locale, string> = {
+  ko: "KO",
+  ja: "JA",
+  en: "EN",
+  zh: "ZH",
+  my: "MY",
+};
 
 type TrigramLineType = "solid" | "broken";
 
@@ -54,30 +70,10 @@ function FlagKo({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 16" aria-hidden>
       <rect width="24" height="16" fill="#fff" />
-      {/* 건 ☰ */}
-      <KoTrigram
-        x={1.1}
-        y={1}
-        lines={["solid", "solid", "solid"]}
-      />
-      {/* 감 ☵ */}
-      <KoTrigram
-        x={20.8}
-        y={1}
-        lines={["solid", "broken", "solid"]}
-      />
-      {/* 이 ☲ */}
-      <KoTrigram
-        x={1.1}
-        y={12.2}
-        lines={["broken", "solid", "broken"]}
-      />
-      {/* 곤 ☷ */}
-      <KoTrigram
-        x={20.8}
-        y={12.2}
-        lines={["broken", "broken", "broken"]}
-      />
+      <KoTrigram x={1.1} y={1} lines={["solid", "solid", "solid"]} />
+      <KoTrigram x={20.8} y={1} lines={["solid", "broken", "solid"]} />
+      <KoTrigram x={1.1} y={12.2} lines={["broken", "solid", "broken"]} />
+      <KoTrigram x={20.8} y={12.2} lines={["broken", "broken", "broken"]} />
       <g transform="translate(12 8)">
         <circle r="3.5" fill="#cd2e3a" />
         <path
@@ -159,41 +155,82 @@ export const FlagIcon: Record<Locale, React.FC<{ className?: string }>> = {
 
 type LanguageSwitcherProps = {
   variant?: "navbar" | "sidebar";
+  menuAlign?: "start" | "end" | "center";
 };
 
 export default function LanguageSwitcher({
   variant = "navbar",
+  menuAlign = "start",
 }: LanguageSwitcherProps) {
   const { locale, setLocale, t } = useTranslations();
   const CurrentFlag = FlagIcon[locale];
   const isSidebar = variant === "sidebar";
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setLocale(event.target.value as Locale);
-  };
-
   return (
-    <div className="relative inline-flex items-center ml-1 sm:ml-2 align-middle">
-      <span className="pointer-events-none absolute left-2 z-10 flex items-center">
-        <CurrentFlag className="block w-6 h-4 rounded-sm overflow-hidden shadow-sm ring-1 ring-black/15" />
-      </span>
-      <select
-        value={locale}
-        onChange={handleChange}
-        aria-label={t("common.languageSelect")}
-        className={[
-          "language-switcher-select appearance-none cursor-pointer rounded bg-transparent py-1.5 pl-9 pr-7 text-xs font-semibold transition focus:outline-none min-w-[7.5rem] sm:min-w-[8.5rem]",
-          isSidebar
-            ? "language-switcher-select--sidebar border border-blueGray-300 text-blueGray-700 hover:border-blueGray-400 focus:ring-2 focus:ring-blueGray-300"
-            : "border border-white/60 text-white hover:border-white focus:ring-2 focus:ring-white/80",
-        ].join(" ")}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          aria-label={t("common.languageSelect")}
+          className={cn(
+            "lang-switcher h-8 gap-1.5 px-2 font-semibold",
+            isSidebar
+              ? "border-border bg-card text-foreground hover:bg-muted"
+              : "main-nav-utility-btn border-0 bg-transparent text-white shadow-none hover:bg-white/15 hover:text-white data-[state=open]:bg-white/20",
+          )}
+        >
+          <span className="lang-switcher-flag">
+            <CurrentFlag className="lang-switcher-flag-svg" />
+          </span>
+          <span className="text-[0.7rem] tracking-wide">
+            {LOCALE_SHORT[locale]}
+          </span>
+          <i
+            className="fas fa-chevron-down text-[0.55rem] opacity-75"
+            aria-hidden
+          />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent
+        align={menuAlign}
+        className="lang-switcher-menu min-w-40 p-1"
       >
-        {LOCALES.map((code) => (
-          <option key={code} value={code} className="bg-white text-gray-900">
-            {LOCALE_LABELS[code]}
-          </option>
-        ))}
-      </select>
-    </div>
+        {LOCALES.map((code) => {
+          const Flag = FlagIcon[code];
+          const active = code === locale;
+          return (
+            <DropdownMenuItem
+              key={code}
+              className={cn(
+                "cursor-pointer gap-2.5 px-2 py-2",
+                active && "bg-accent",
+              )}
+              onSelect={() => setLocale(code)}
+            >
+              <span className="lang-switcher-flag lang-switcher-flag--menu">
+                <Flag className="lang-switcher-flag-svg" />
+              </span>
+              <span className="flex min-w-0 flex-1 flex-col">
+                <span className="text-xs font-bold leading-tight">
+                  {LOCALE_LABELS[code]}
+                </span>
+                <span className="text-[0.65rem] font-semibold tracking-wide text-muted-foreground">
+                  {LOCALE_SHORT[code]}
+                </span>
+              </span>
+              {active && (
+                <i
+                  className="fas fa-check text-[0.65rem] text-primary"
+                  aria-hidden
+                />
+              )}
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

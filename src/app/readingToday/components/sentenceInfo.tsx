@@ -1,6 +1,5 @@
 'use client';
 import React, {memo} from "react";
-import { Button, Tooltip, Typography } from "@material-tailwind/react";
 import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { playSpeech } from "@/app/utils/openai";

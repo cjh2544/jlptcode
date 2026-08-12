@@ -50,7 +50,7 @@ const CardWord = ({
             <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b whitespace-normal`}>
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
-                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-none">
+                <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
                   <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>
@@ -58,7 +58,7 @@ const CardWord = ({
             <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b whitespace-normal`}>
               <div className={`${hideRead ? 'invisible' : ''}`}>{read}</div>
               <div>
-                <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-none">
+                <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-hidden">
                   <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>
@@ -66,7 +66,7 @@ const CardWord = ({
             <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 whitespace-normal`}>
               <div className={`${hideMeans ? 'invisible' : ''}`}>{means}</div>
               <div>
-                <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-none">
+                <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-hidden">
                   <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
                 </button>
               </div>

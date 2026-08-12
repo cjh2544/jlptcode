@@ -58,7 +58,7 @@ const PAGE_PER_SIZE = 10
 export const useWordStore = create<WordStore>() (
     devtools(
         persist((set, get) => ({
-            speed: speedTypes[0],
+            speed: speedTypes[1],
             autoSlide: true,
             showDelay: 3000,
             hideAll: {
@@ -131,7 +131,7 @@ export const useWordStore = create<WordStore>() (
                 })
             })),
             init: () => set({ 
-                speed: speedTypes[0],
+                speed: speedTypes[1],
                 autoSlide: true,
                 showDelay: 3000,
                 pageInfo: {

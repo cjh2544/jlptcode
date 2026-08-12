@@ -1,41 +1,47 @@
 "use client";
 
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 
 const SignInUserList = () => {
   const { data: session } = useSession();
   const { t } = useTranslations();
+  const pathname = usePathname();
 
   const isAdmin = useCallback(() => {
     return session?.user?.role && session?.user?.role?.includes("admin");
   }, [session]);
 
+  if (!isAdmin()) return null;
+
+  const href = "/member/list";
+  const active = pathname === href || pathname.startsWith(`${href}/`);
+
   return (
-    <>
-      {isAdmin() && (
-        <>
-          <hr className="my-4 md:min-w-full" />
-          <h6 className="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-            {t("sidebar.memberInfo")}
-          </h6>
-          <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
-            <li className="items-center">
-              <Link
-                scroll={false}
-                href="/member/list"
-                className="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-              >
-                <i className="fas fa-list-ol text-blueGray-400 mr-2 text-sm"></i>{" "}
-                {t("sidebar.memberList")}
-              </Link>
-            </li>
-          </ul>
-        </>
-      )}
-    </>
+    <section className="app-sidebar-section">
+      <h2 className="app-sidebar-section-title">{t("sidebar.memberInfo")}</h2>
+      <ul className="app-sidebar-list">
+        <li>
+          <Link
+            scroll={false}
+            href={href}
+            className={cn("app-sidebar-link", active && "app-sidebar-link--active")}
+            aria-current={active ? "page" : undefined}
+          >
+            <span className="app-sidebar-link-icon">
+              <i className="fas fa-users" aria-hidden />
+            </span>
+            <span className="app-sidebar-link-label">
+              {t("sidebar.memberList")}
+            </span>
+          </Link>
+        </li>
+      </ul>
+    </section>
   );
 };
 

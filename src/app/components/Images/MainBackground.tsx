@@ -6,10 +6,9 @@ export default function MainBackground() {
       alt="Tokyo"
       src="/images/main_bg.png"
       fill
+      priority
       sizes="100vw"
-      style={{
-        objectFit: 'cover',
-      }}
+      className="object-cover"
     />
   )
 }

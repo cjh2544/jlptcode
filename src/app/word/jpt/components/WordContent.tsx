@@ -18,10 +18,10 @@ const WordTableContent = (props: WordTableProps) => {
 
   return (
     <>
-      <div className='xs:hidden sm:hidden'>
+      <div className="hidden md:block">
         <WordTable title={t('word.jptTitle')} data={wordList} />
       </div>
-      <div className='md:hidden lg:hidden xl:hidden 2xl:hidden'>
+      <div className="md:hidden">
         <WordList title={t('word.jptTitle')} data={wordList} />
       </div>
     </>

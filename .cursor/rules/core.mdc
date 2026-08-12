@@ -5,12 +5,12 @@ alwaysApply: true
 
 # jlptcode Core
 
-- Stack: Next.js 14 App Router, React 18, TypeScript, Tailwind, Material Tailwind
+- Stack: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui
 - Path alias: `@/*` → `src/*`
 - Functional components + hooks only; keep components small and reusable
-- Style with Tailwind; follow existing Material Tailwind usage
+- Style with Tailwind; use shadcn primitives from `@/components/ui/*`
 - Prefer existing patterns over new abstractions; minimal diffs
 - Feature layout: `src/app/{feature}/`, `api/`, `store/`, `swr/`, `models/`, `components/Layout/`
 - Client pages that use hooks/session/store: add `"use client"` at top
 - UI strings: use `useTranslations()` + `src/i18n/messages/*.json` (ko, ja, en, zh, my) — no hard-coded user-facing copy
-- Paid features: gate with `session?.paymentInfo?.isValid` and `PaidButton`
+- Paid features: gate with `session?.paymentInfo?.isValid`, `PaidButton`, or `PaidGate` / `useIsPaid`

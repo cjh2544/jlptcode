@@ -1,68 +1,67 @@
-'use client'
-import { useInterval } from '@/app/utils/useInterval';
-import React, {memo, useEffect, useState} from 'react';
-import { boolean } from 'zod';
+"use client";
+
+import React, { memo } from "react";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
 type WordCardProps = {
-  wordInfo: any,
-  wordShowType?: string,
-  showDelay?: any,
-  fullScreen: boolean,
-}
+  wordInfo: any;
+  wordShowType?: string;
+  showDelay?: any;
+  fullScreen: boolean;
+};
 
 const WordCard = (props: WordCardProps) => {
-  const {
-    wordInfo,
-    wordShowType = '1',
-    showDelay = 3000,
-    fullScreen = false,
-  } = props
+  const { wordInfo, fullScreen = false } = props;
+  const { t } = useTranslations();
 
-  // const [showArr, setShowArr] = useState([false, false, false]);
+  if (!wordInfo) return null;
 
-  // const [count, setCount] = useState(0);
-  // const [delay, setDelay] = useState(showDelay);
-
-  // useInterval(() => {
-  //   setShowArr(showArr.map((show: boolean, idx:number) => {
-  //     return idx === count ? true : show;
-  //   }));
-
-  //   if(showArr.includes(false)) {
-  //     setCount(count + 1)
-  //   } else {
-  //     setDelay(null);
-  //   }
-  // }, delay);
-
-  // useEffect(() => {
-  //   // if('1' === wordShowType) {
-  //   //   setShowArr([true, true, true]);
-  //   // } else if('2' === wordShowType) {
-  //   //   setShowArr([true, true, false]);
-  //   // } else if('3' === wordShowType) {
-  //   //   setShowArr([false, false, false]);
-  //   // }
-  //   console.log(wordInfo.word);
-  // }, [wordInfo])
+  const meaning = Array.isArray(wordInfo?.means)
+    ? wordInfo.means.join("\n")
+    : wordInfo?.means;
 
   return (
-    <>
-      {wordInfo && (
-          <div className={`${fullScreen ? 'h-[calc(100vh-80px)]' : 'h-96'} py-6 px-10 text-center flex flex-col items-center justify-center`}>
-          <h3 className={`${wordInfo.hideWord ? 'hidden ' : '' } text-4xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 w-full border-b`}>
-            {wordInfo?.word || ' '}
-          </h3>
-          <h3 className={`${wordInfo.hideRead ? 'hidden' : '' } text-4xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 w-full border-b`}>
-            {wordInfo?.read || ' '}
-          </h3>
-          <h3 className={`${wordInfo.hideMeans ? 'hidden' : '' } text-4xl font-normal leading-normal mt-0 mb-2 text-blueGray-800 w-full whitespace-pre-line`}>
-            {Array.isArray(wordInfo?.means) ? wordInfo?.means?.join('\n') : wordInfo?.means}
+    <div
+      className={`${fullScreen ? "h-[calc(100vh-88px)]" : "min-h-96 h-[28rem]"} word-slide-card flex flex-col items-center justify-center px-6 py-10 text-center sm:px-12`}
+    >
+      <div className="flex w-full max-w-3xl flex-col items-center gap-6">
+        <div
+          className={`${wordInfo.hideWord ? "invisible" : ""} word-slide-word w-full`}
+        >
+          <p className="mb-2 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+            {t("word.word")}
+          </p>
+          <h3 className="break-words text-4xl font-bold leading-tight tracking-tight text-[var(--foreground)] sm:text-5xl">
+            {wordInfo?.word || " "}
           </h3>
         </div>
-      )}
-    </>
-  )
-}
 
-export default memo(WordCard)
+        <div
+          className={`${wordInfo.hideRead ? "invisible" : ""} word-slide-read w-full border-t border-[var(--border)] pt-6`}
+        >
+          <p className="mb-2 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+            {t("word.reading")}
+          </p>
+          <h3 className="break-words text-2xl font-medium leading-snug text-[color-mix(in_oklab,var(--primary)_70%,var(--foreground))] sm:text-3xl">
+            {wordInfo?.read || " "}
+          </h3>
+        </div>
+
+        <div
+          className={`${wordInfo.hideMeans ? "invisible" : ""} word-slide-means w-full`}
+        >
+          <p className="mb-3 text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-[var(--muted-foreground)]">
+            {t("word.meaning")}
+          </p>
+          <div className="rounded-xl border border-[color-mix(in_oklab,var(--primary)_14%,var(--border))] bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))] px-5 py-4">
+            <h3 className="whitespace-pre-line break-words text-xl font-medium leading-relaxed text-[var(--foreground)] sm:text-2xl">
+              {meaning || " "}
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default memo(WordCard);

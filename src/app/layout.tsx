@@ -2,14 +2,17 @@ import SessionProvider from "@/app/providers/SessionProvider";
 import I18nProvider from "@/app/providers/I18nProvider";
 import "@/app/globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import "@/app/style/tailwind.css";
 import "@/app/style/common.css";
 import { SWRProvider } from "./providers/SWRProvider";
 import { Suspense } from "react";
-import { Nanum_Gothic, Noto_Serif_JP } from "next/font/google";
+import { Nanum_Gothic, Noto_Serif_JP, Geist } from "next/font/google";
 import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 import { rootMetadata } from "@/app/seo/siteConfig";
 import JsonLd from "@/app/components/Seo/JsonLd";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || "";
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "";
@@ -36,15 +39,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={cn("font-sans", geist.variable)}>
       <body className={`${nanumGothic.className} ${notoSerifJP.className}`}>
         <JsonLd />
         <SessionProvider>
           <I18nProvider>
             <SWRProvider>
-              <main>
-                <Suspense fallback={<></>}>{children}</Suspense>
-              </main>
+              <TooltipProvider>
+                <main>
+                  <Suspense fallback={<></>}>{children}</Suspense>
+                </main>
+              </TooltipProvider>
             </SWRProvider>
           </I18nProvider>
         </SessionProvider>

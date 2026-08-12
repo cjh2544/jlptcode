@@ -1,65 +1,55 @@
 'use client';
 import { useGrammarTodayStore } from '@/app/store/grammarTodayStore';
-import { Card } from "@material-tailwind/react";
 import SentenceInfo from './sentenceInfo';
 import HeaderButton from './headerButton';
+import { useTranslations } from '@/app/providers/I18nProvider';
 
 type SentenceListProps = {
   className?: string,
 }
 
-const TABLE_HEAD = [
-  { label: "STUDY", visibleBtn: false },
-  { label: "番号", visibleBtn: false },
-  { label: "文章", visibleBtn: true },
-  { label: "問題", visibleBtn: false },
-];
-
 const SentenceList = ({className}: SentenceListProps) => {
+  const { t } = useTranslations();
   const grammarTodayList = useGrammarTodayStore((state:any) => state.grammarTodayList);
   const setGrammarTodayList = useGrammarTodayStore((state:any) => state.setGrammarTodayList);
-  
+
   const handleClickVisible = (wordInfo: any, rowNum: number) => {
     setGrammarTodayList(
       grammarTodayList.map((item:any, idx:number) => idx === rowNum ? {...item, ...wordInfo} : item)
     );
   }
 
+  if (grammarTodayList.length === 0) return null;
+
   return (
-    <div className={`mx-4 ${className}`} onContextMenu={(e) => e.preventDefault()} onMouseDown={(e) => e.preventDefault()}>
-      <Card className="h-full w-full overflow-scroll">
-        <table className="w-full table-auto text-left">
-          <colgroup>
-            <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
-            <col className='sm:w-2/12 lg:w-1/12 w-1/12' />
-            <col />
-            <col className='sm:w-2/12 lg:w-2/12 w-1/12' />
-          </colgroup>
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head: any, idx) => (
-                <th key={idx} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-                  <div className="text-sm font-normal flex justify-between items-center">
-                    <p>{head?.label}</p>
-                    {head.visibleBtn && (
-                      <div className='flex flex-col'>
-                        <HeaderButton colName={'sentence'} />
-                        <HeaderButton colName={'sentence_read'} />
-                        <HeaderButton colName={'sentence_translate'} />
-                      </div>
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
+    <div
+      className={`mx-4 mb-8 ${className ?? ''}`}
+      onContextMenu={(e) => e.preventDefault()}
+      onMouseDown={(e) => e.preventDefault()}
+    >
+      <div className="app-panel">
+        <div className="app-today-toolbar">
+          <p className="app-today-toolbar-count">
+            {t('today.itemCount').replace('{n}', String(grammarTodayList.length))}
+          </p>
+          <div className="app-today-toolbar-actions">
+            <HeaderButton colName="sentence" label={t('common.sentence')} />
+            <HeaderButton colName="sentence_read" label={t('common.read')} />
+            <HeaderButton colName="sentence_translate" label={t('common.translation')} />
+          </div>
+        </div>
+        <div className="app-panel-body">
+          <div className="app-today-list">
             {grammarTodayList.map((item:any, index: number) => (
-              <SentenceInfo key={index} sentenceInfo={item} onClick={(data: any) => handleClickVisible(data, index)} />
+              <SentenceInfo
+                key={item._id ?? index}
+                sentenceInfo={item}
+                onClick={(data: any) => handleClickVisible(data, index)}
+              />
             ))}
-          </tbody>
-        </table>
-      </Card>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

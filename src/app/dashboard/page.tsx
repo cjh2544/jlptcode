@@ -10,7 +10,7 @@ const DashboardPage = () => {
   return (
     <WordLayout>
       <div className="w-full h-auto relative">
-        <div className="bg-white  px-5 py-3.5 rounded-lg shadow hover:shadow-xl max-w-sm mx-auto transform hover:-translate-y-[0.125rem] transition duration-100 ease-linear">
+        <div className="bg-white  px-5 py-3.5 rounded-lg shadow hover:shadow-xl max-w-sm mx-auto transform hover:-translate-y-0.5 transition duration-100 ease-linear">
           <div className="w-full flex items-center justify-between">
             <span className="font-medium text-sm text-slate-400">New Notification</span>
             <button className="-mr-1 bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 h-5 w-5 rounded-full flex justify-center items-center">
@@ -18,7 +18,7 @@ const DashboardPage = () => {
             </button>
           </div>
           <div className="flex items-center mt-2 rounded-lg px-1 py-1 cursor-pointer">
-            <div className="relative flex flex-shrink-0 items-end">
+            <div className="relative flex shrink-0 items-end">
               <Image
                 src="https://i.pravatar.cc/300"
                 className="h-16 w-16 rounded-full"
@@ -38,13 +38,13 @@ const DashboardPage = () => {
         </div>
       </div>
       <div className="w-full h-auto relative">
-        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-hidden focus:outline-hidden mr-1 mb-1 ease-linear transition-all duration-150" type="button">
           Small
         </button>
-        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-hidden focus:outline-hidden mr-1 mb-1 ease-linear transition-all duration-150" type="button">
           Regular
         </button>
-        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">
+        <button className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-base px-8 py-3 rounded shadow-md hover:shadow-lg outline-hidden focus:outline-hidden mr-1 mb-1 ease-linear transition-all duration-150" type="button">
           Large
         </button>
       </div>

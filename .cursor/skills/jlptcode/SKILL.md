@@ -30,7 +30,7 @@ UI 문구 다국어?          → reference.md "i18n"
 
 ## 핵심 규칙
 
-1. **스택**: Next.js 14 App Router, React 18, TypeScript, Tailwind, Material Tailwind
+1. **스택**: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui
 2. **경로 별칭**: `@/*` → `src/*`
 3. **클라이언트 페이지**: `"use client"` 필수
 4. **기능 단위 구조** (변경 시 동일 패턴 유지):

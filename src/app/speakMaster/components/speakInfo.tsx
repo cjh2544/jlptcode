@@ -1,11 +1,6 @@
 'use client';
 import React, {memo, useEffect} from "react";
-import { Button, Card, Tooltip, Typography } from "@material-tailwind/react";
-import CardJlptQuestion from "@/app/components/Cards/CardJlptQuestion";
-import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
-import { playSpeech } from "@/app/utils/openai";
-import GoogleTts from "@/app/components/Audio/GoogleTTS";
-import CardAudio from "@/app/components/Cards/CardAudio";
+import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SpeakInfoProps = {
@@ -75,7 +70,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
           <h4 className="text-lg font-bold text-gray-800">
             {parseHtml(sentence_translate)}
           </h4>
-          {speaker && <div className="py-1"><CardAudio audio={{name: '', link: speaker}} /></div>}
+          {speaker && <div className="py-1 w-full"><SpeechPlayer src={speaker} /></div>}
         </div>
         <div className="flex items-center">
           <div className="flex-1 min-w-0">

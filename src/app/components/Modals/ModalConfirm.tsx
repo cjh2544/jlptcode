@@ -5,57 +5,76 @@ import CheckInfoIcon from "../Icons/CheckInfo";
 import CheckWarningIcon from "../Icons/CheckWarning";
 import CheckErrorIcon from "../Icons/CheckError";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type ModalConfirmProps = {
-  type?: 'info' | 'error' | 'warning',
-  title?: string,
-  message: any,
-  visible: boolean,
-  onClose: (visible: boolean) => void
-}
+  type?: "info" | "error" | "warning";
+  title?: string;
+  message: any;
+  visible: boolean;
+  onClose: (visible: boolean) => void;
+};
 
 const ModalConfirm = (props: ModalConfirmProps) => {
-  const {type = 'info', title, message, visible=false, onClose} = props;
+  const { type = "info", title, message, visible = false, onClose } = props;
   const { t } = useTranslations();
 
-  const colorInfo = useMemo(
-    () => {
-      return {
-        info: 'blue',
-        warning: 'orange',
-        error: 'red',
-      }[type as string]
-    },
-    [type]
+  const colorClass = useMemo(
+    () =>
+      ({
+        info: "bg-blue-500 hover:bg-blue-600",
+        warning: "bg-orange-500 hover:bg-orange-600",
+        error: "bg-red-500 hover:bg-red-600",
+      })[type],
+    [type],
   );
 
   const handleClose = () => {
-    onClose && onClose(false);
-  }
+    onClose?.(false);
+  };
 
   return (
-    <>
-      <div className={`${visible ? '' : 'hidden'} backdrop-blur-md drop-shadow-lg fixed inset-0 px-4 flex flex-wrap justify-center items-center w-full h-full z-[1000] before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]`}>
-          <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-6 relative mx-auto text-center">
-              {
-                {
-                  info: <CheckInfoIcon />,
-                  warning: <CheckWarningIcon />,
-                  error: <CheckErrorIcon />,
-                }[type as string]
-              }
-
-              <div className="mt-12">
-                  <h3 className="text-gray-800 text-2xl font-bold flex-1">{title || t('modal.confirmTitle')}</h3>
-                  <p className="text-sm text-gray-600 mt-3">{message}</p>
-
-                  <button onClick={() => handleClose()} type="button"
-                      className={`px-6 py-2.5 mt-8 w-full rounded-md text-white text-sm font-semibold tracking-wide border-none outline-none bg-${colorInfo}-500 hover:bg-${colorInfo}-600`}>{t('common.confirm')}</button>
-              </div>
-          </div>
-      </div>
-    </>
+    <Dialog open={visible} onOpenChange={(open) => !open && handleClose()}>
+      <DialogContent className="max-w-md text-center sm:text-center">
+        <DialogHeader className="items-center">
+          {
+            {
+              info: <CheckInfoIcon />,
+              warning: <CheckWarningIcon />,
+              error: <CheckErrorIcon />,
+            }[type]
+          }
+          <DialogTitle className="text-gray-800 text-2xl font-bold mt-4">
+            {title || t("modal.confirmTitle")}
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-600 mt-3">
+            {message}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="sm:justify-center">
+          <Button
+            type="button"
+            onClick={handleClose}
+            className={cn(
+              "px-6 py-2.5 mt-2 w-full rounded-md text-white text-sm font-semibold tracking-wide",
+              colorClass,
+            )}
+          >
+            {t("common.confirm")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
-}
+};
 
 export default memo(ModalConfirm);

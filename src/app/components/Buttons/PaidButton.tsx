@@ -1,8 +1,10 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import React, { memo, MouseEvent } from "react";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useIsPaid } from "@/app/components/Buttons/PaidGate";
 
 type Props = {
   name?: string;
@@ -19,26 +21,27 @@ const PaidButton = ({
   color = "lightBlue",
   onClick,
 }: Props) => {
-  const { data: session } = useSession();
   const { t } = useTranslations();
-  const isEnabled = session?.paymentInfo?.isValid;
+  const isEnabled = useIsPaid();
   const label = name ?? t("common.query");
+  const isAccent = color === "pink" || color === "red";
 
   return (
-    <button
+    <Button
+      type="button"
+      variant={isAccent ? "destructive" : "default"}
+      size="lg"
       disabled={!isEnabled}
       onClick={(e) => onClick?.(e)}
-      className={`text-white active:bg-${color}-600 font-bold uppercase px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150 ${className} ${
-        isEnabled
-          ? `bg-${color}-500 hover:bg-${color}-600`
-          : `bg-${color}-500 cursor-not-allowed`
-      }`}
+      className={cn(
+        "h-10 gap-2 font-semibold uppercase tracking-wide",
+        !isEnabled && "cursor-not-allowed",
+        className,
+      )}
     >
-      <>
-        {iconClassName && <i className={`fas ${iconClassName}`}></i>}
-        {isEnabled ? label : t("common.paidFeature")}
-      </>
-    </button>
+      {iconClassName && <i className={`fas ${iconClassName}`} aria-hidden />}
+      {isEnabled ? label : t("common.paidFeature")}
+    </Button>
   );
 };
 

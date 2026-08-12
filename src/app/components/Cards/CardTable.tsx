@@ -4,17 +4,17 @@ const CardTable = () => {
       <div className="w-full mb-12 px-4">
         <div
           className={
-            "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded " +
+            "relative flex flex-col min-w-0 wrap-break-word w-full mb-6 shadow-lg rounded " +
             "bg-white"
           }
         >
           <div className="rounded-t mb-0 px-4 py-3 border-0">
             <div className="flex flex-wrap items-center">
-              <div className="relative w-full px-4 max-w-full flex-grow flex-1">
+              <div className="relative w-full px-4 max-w-full grow flex-1">
                 <h3
                   className={
                     "font-semibold text-lg " +
-                    "text-blueGray-700"
+                    "text-blue-gray-700"
                   }
                 >
                   Card Tables
@@ -30,7 +30,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   >
                     Project
@@ -38,7 +38,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   >
                     Budget
@@ -46,7 +46,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   >
                     Status
@@ -54,7 +54,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   >
                     Users
@@ -62,7 +62,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   >
                     Completion
@@ -70,7 +70,7 @@ const CardTable = () => {
                   <th
                     className={
                       "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                      "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      "bg-blue-gray-50 text-blue-gray-500 border-blue-gray-100"
                     }
                   ></th>
                 </tr>
@@ -85,7 +85,7 @@ const CardTable = () => {
                     ></img>{" "}
                     <span
                       className={
-                        "ml-3 font-bold text-blueGray-600"
+                        "ml-3 font-bold text-blue-gray-600"
                       }
                     >
                       Argon Design System
@@ -102,22 +102,22 @@ const CardTable = () => {
                       <img
                         src="/img/team-1-800x800.jpg"
                         alt="..."
-                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow"
+                        className="w-10 h-10 rounded-full border-2 border-blue-gray-50 shadow"
                       ></img>
                       <img
                         src="/img/team-2-800x800.jpg"
                         alt="..."
-                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                        className="w-10 h-10 rounded-full border-2 border-blue-gray-50 shadow -ml-4"
                       ></img>
                       <img
                         src="/img/team-3-800x800.jpg"
                         alt="..."
-                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                        className="w-10 h-10 rounded-full border-2 border-blue-gray-50 shadow -ml-4"
                       ></img>
                       <img
                         src="/img/team-4-470x470.png"
                         alt="..."
-                        className="w-10 h-10 rounded-full border-2 border-blueGray-50 shadow -ml-4"
+                        className="w-10 h-10 rounded-full border-2 border-blue-gray-50 shadow -ml-4"
                       ></img>
                     </div>
                   </td>

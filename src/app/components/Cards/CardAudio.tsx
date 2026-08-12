@@ -1,21 +1,26 @@
-import React, {memo} from "react";
+"use client";
 
+import React, { memo } from "react";
+import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 type AudioProps = {
-  audio: any,
-}
+  audio?: any;
+  speaker?: string;
+};
 
-const CardAudio = (props:AudioProps) => {
+const CardAudio = (props: AudioProps) => {
+  const { audio, speaker } = props;
+  const { link } = audio || {};
+  const playbackSrc = speaker || link;
 
-  const {audio} = props;
-  const {name, link} = audio;
+  if (!playbackSrc) {
+    return null;
+  }
 
   return (
-    <>
-      <div className="">
-        <iframe src={link} className="w-full" height="60"></iframe>
-      </div>
-    </>
+    <div className="w-full">
+      <SpeechPlayer src={playbackSrc} />
+    </div>
   );
-}
+};
 
 export default memo(CardAudio);

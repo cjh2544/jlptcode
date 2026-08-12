@@ -18,21 +18,22 @@ export default function HeaderTitle(props: HeaderTitleProps) {
   const resolvedSubTitle = subTitleKey ? t(subTitleKey) : subTitle;
 
   return (
-    <header>
-      <nav className="bg-blueGray-800 sm:py-4 p-10">
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <a href="#" className="flex items-center">
-            <span className="text-white text-sm uppercase lg:inline-block font-semibold">
-              {resolvedTitle}
-            </span>
-          </a>
-          {resolvedSubTitle && (
-            <p className="text-white text-sm uppercase lg:inline-block font-semibold">
-              {resolvedSubTitle}
+    <header className="app-page-header">
+      <div className="app-page-header-inner">
+        <div className="app-page-header-accent" aria-hidden />
+        <div className="app-page-header-content">
+          <div className="app-page-header-main">
+            <p className="app-page-header-eyebrow">
+              <span className="app-page-header-eyebrow-jlpt">JLPT</span>
+              <span className="app-page-header-eyebrow-code">CODE</span>
             </p>
+            <h1 className="app-page-header-title">{resolvedTitle}</h1>
+          </div>
+          {resolvedSubTitle && (
+            <p className="app-page-header-subtitle">{resolvedSubTitle}</p>
           )}
         </div>
-      </nav>
+      </div>
     </header>
   );
 }
