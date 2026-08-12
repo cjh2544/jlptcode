@@ -60,11 +60,11 @@ export default function Home() {
         {/* Hero content */}
         <div className="container relative z-10 mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-blue-100">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-100 md:text-base">
               JLPTCODE
             </p>
             <MainBackgroundTitle />
-            <p className="mt-6 text-sm font-medium text-blue-50/90 md:text-base">
+            <p className="mt-6 text-base font-medium text-blue-50/90 md:text-lg">
               {t("home.subtitle")}
             </p>
           </div>

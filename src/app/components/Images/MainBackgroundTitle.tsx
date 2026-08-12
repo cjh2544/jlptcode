@@ -5,10 +5,10 @@ export default function MainBackgroundTitle() {
     <div className="flex w-full justify-center">
       <Image
         src="/images/main_bg_title.png"
-        width={500}
-        height={200}
+        width={640}
+        height={256}
         alt="JLPT CODE"
-        className="mx-auto h-auto w-full max-w-[500px]"
+        className="mx-auto h-auto w-full max-w-[640px]"
         priority
       />
     </div>
