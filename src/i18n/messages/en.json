@@ -54,6 +54,7 @@
   },
   "sidebar": {
     "recommended": "Recommended",
+    "newBadge": "NEW",
     "speakConversation": "Conversation",
     "speakMaster100": "Speaking Mastery 100 Days",
     "levelUp": "Level Up",

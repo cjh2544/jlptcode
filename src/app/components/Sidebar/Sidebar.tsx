@@ -132,20 +132,38 @@ const NAV_SECTIONS: NavSection[] = [
 function SidebarBadge({
   type,
   label,
+  variant = "link",
 }: {
   type: "recommended" | "new";
   label: string;
+  variant?: "section" | "link";
 }) {
+  const iconClass =
+    type === "recommended" ? "fa-solid fa-star" : "fa-solid fa-sparkles";
+
   return (
     <span
       className={cn(
         "app-sidebar-badge",
+        type === "recommended" && "app-sidebar-badge--recommended",
         type === "new" && "app-sidebar-badge--new",
+        variant === "section" && "app-sidebar-badge--section",
       )}
+      aria-label={label}
     >
-      {label}
+      <i className={cn("app-sidebar-badge-icon", iconClass)} aria-hidden />
+      <span className="app-sidebar-badge-text">{label}</span>
     </span>
   );
+}
+
+function getBadgeLabel(
+  t: (key: string) => string,
+  badge?: "recommended" | "new",
+) {
+  if (badge === "recommended") return t("sidebar.recommended");
+  if (badge === "new") return t("sidebar.newBadge");
+  return undefined;
 }
 
 function isActivePath(pathname: string, href: string) {
@@ -341,14 +359,12 @@ export default function Sidebar() {
             <section key={section.titleKey} className="app-sidebar-section">
               <h2 className="app-sidebar-section-title">
                 {t(section.titleKey)}
-                {section.titleBadge === "recommended" && (
+                {section.titleBadge && (
                   <SidebarBadge
-                    type="recommended"
-                    label={t("sidebar.recommended")}
+                    type={section.titleBadge}
+                    label={getBadgeLabel(t, section.titleBadge) ?? ""}
+                    variant="section"
                   />
-                )}
-                {section.titleBadge === "new" && (
-                  <SidebarBadge type="new" label="N" />
                 )}
               </h2>
               <ul className="app-sidebar-list">
@@ -359,13 +375,7 @@ export default function Sidebar() {
                       icon={item.icon}
                       label={t(item.key)}
                       badge={item.badge}
-                      badgeLabel={
-                        item.badge === "recommended"
-                          ? t("sidebar.recommended")
-                          : item.badge === "new"
-                            ? "N"
-                            : undefined
-                      }
+                      badgeLabel={getBadgeLabel(t, item.badge)}
                       onNavigate={closeMobile}
                     />
                   </li>

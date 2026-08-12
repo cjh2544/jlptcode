@@ -54,6 +54,7 @@
   },
   "sidebar": {
     "recommended": "추천",
+    "newBadge": "NEW",
     "speakConversation": "회화학습",
     "speakMaster100": "스피킹 완전정복 100일",
     "levelUp": "레벨업(LEVEL UP)",

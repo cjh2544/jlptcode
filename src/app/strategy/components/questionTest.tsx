@@ -11,7 +11,7 @@ import QuizTestShell, { QuizCheckbox } from "@/app/components/Quiz/QuizTestShell
 
 const QuestionTestPage = () => {
   const { t } = useTranslations();
-  const { levelUpInfo, levelUpList, isLoading } = useStrategyStore((state: any) => state);
+  const { levelUpInfo, levelUpList, isLoading, hasSearched } = useStrategyStore((state: any) => state);
   const showReadButton = useStrategyStore((state: any) => state.showReadButton);
   const showTransButton = useStrategyStore((state: any) => state.showTransButton);
   const showAnswer = useStrategyStore((state: any) => state.showAnswer);
@@ -43,9 +43,10 @@ const QuestionTestPage = () => {
     init();
   }, []);
 
-  return isLoading ? (
-    <Loading />
-  ) : (
+  if (isLoading) return <Loading />;
+  if (!hasSearched) return null;
+
+  return (
     <div
       onContextMenu={(e) => e.preventDefault()}
       onMouseDown={(e) => e.preventDefault()}
@@ -102,11 +103,15 @@ const QuestionTestPage = () => {
           <ModalAnswer title={`${t("strategy.mockTitle")} - ${levelUpInfo.level}`} />
         }
       >
-        {levelUpList.map((questionInfo: any, idx: number) => (
-          <div key={`strategy-practice-${idx}`} className="app-quiz-item">
-            <Question questionInfo={questionInfo} />
-          </div>
-        ))}
+        {levelUpList.length === 0 ? (
+          <p className="app-today-empty">{t('common.noData')}</p>
+        ) : (
+          levelUpList.map((questionInfo: any, idx: number) => (
+            <div key={`strategy-practice-${idx}`} className="app-quiz-item">
+              <Question questionInfo={questionInfo} />
+            </div>
+          ))
+        )}
       </QuizTestShell>
     </div>
   );

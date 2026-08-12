@@ -7,6 +7,7 @@ interface StrategyStore {
     showTransButton: boolean,
     showSpeakButton: boolean,
     isLoading: boolean,
+    hasSearched: boolean,
     levelUpInfo: {
         level?: string;
         year?: string;
@@ -30,6 +31,7 @@ export const useStrategyStore = create<StrategyStore>()(
             showTransButton: false,
             showSpeakButton: false,
             isLoading: false,
+            hasSearched: false,
             levelUpInfo: {
                 level: 'N1',
                 year: '',
@@ -59,7 +61,7 @@ export const useStrategyStore = create<StrategyStore>()(
                     body: JSON.stringify({params: get().levelUpInfo}),
                 })
                 const resData = await response.json();
-                set({ levelUpList: resData, isLoading: false });
+                set({ levelUpList: resData, isLoading: false, hasSearched: true });
             },
             init: () => set({ 
                 showAnswer: false,
@@ -67,13 +69,14 @@ export const useStrategyStore = create<StrategyStore>()(
                 showTransButton: false,
                 showSpeakButton: false,
                 isLoading: false,
+                hasSearched: false,
                 levelUpInfo: {
                     level: 'N1',
                     year: '',
                     classification: 'vocabulary',
                     questionGroupType: '',
                 },
-                levelUpList: []
+                levelUpList: [],
             }),
         }),
         {
