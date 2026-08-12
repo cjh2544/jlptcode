@@ -49,10 +49,12 @@ async function audioFromGoogleTts(url: URL) {
 }
 
 function audioResponse(body: Uint8Array, contentType = "audio/mpeg") {
-  return new NextResponse(body, {
+  // Copy into a fresh ArrayBuffer so BodyInit accepts it (TS DOM lib rejects ArrayBufferLike views).
+  const bytes = new Uint8Array(body);
+  return new NextResponse(bytes.buffer, {
     headers: {
       "Content-Type": contentType,
-      "Content-Length": String(body.byteLength),
+      "Content-Length": String(bytes.byteLength),
       "Accept-Ranges": "bytes",
       "Cache-Control": "public, max-age=86400",
     },
