@@ -16,7 +16,7 @@ type BoardCommunityStore = {
     searchInfo?: any,
     boardInfo: Board,
     replyInfo: BoardReply,
-    boardList: [],
+    boardList: Board[],
     errors: Array<any> | null,
     showConfirm: boolean,
     confirmMsg: string,

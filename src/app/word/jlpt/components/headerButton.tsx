@@ -6,7 +6,7 @@ import { useTranslations } from '@/app/providers/I18nProvider';
 
 type HeaderButtonProps = {
   colName: string,
-  label: string,
+  label?: string,
 }
 
 const HeaderButton = ({colName, label}: HeaderButtonProps) => {
@@ -30,7 +30,7 @@ const HeaderButton = ({colName, label}: HeaderButtonProps) => {
       title={hidden ? t('today.show') : t('today.hide')}
     >
       <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
-      <span>{label}</span>
+      {label ? <span>{label}</span> : null}
     </Button>
   )
 }
