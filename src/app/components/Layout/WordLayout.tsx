@@ -16,7 +16,6 @@ export default function WordLayout({
     <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.word" />
-        {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}
           <Footer />

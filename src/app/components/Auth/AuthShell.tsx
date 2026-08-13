@@ -21,8 +21,8 @@ const AuthShell = ({ title, description, children, footer }: AuthShellProps) => 
               src="/images/logo.png"
               alt=""
               aria-hidden
-              width={32}
-              height={32}
+              width={22}
+              height={22}
               decoding="async"
             />
             <span className="app-auth-logo-jlpt">JLPT</span>

@@ -1,24 +1,13 @@
 'use client';
-import React, {ChangeEvent, memo, MouseEvent, useEffect} from 'react';
-import TabDefault from '@/app/components/Tabs/TabDefault';
+import React, {ChangeEvent, memo, ReactNode, useEffect, useState} from 'react';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
-import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
+import { useStudyList } from '@/app/swr/useSpeakToday';
 import PaidButton from '@/app/components/Buttons/PaidButton';
+import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 import { useTranslations } from '@/app/providers/I18nProvider';
 
-type LevelListProps = {
-  levels?: string,
-  level?: string,
-  idx?: number,
-  onSearch?: (data: any) => any,
-  onClick?: (data: any) => any,
-}
-
-const LevelList = (props: LevelListProps) => {
+const LevelList = () => {
   const { t } = useTranslations();
-  const {
-    levels = 'N5', idx = 0
-  } = props
 
   const studyLevelInfoList = [
     { name: t('speak.beginner1'), level: 'N5' },
@@ -33,19 +22,14 @@ const LevelList = (props: LevelListProps) => {
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
   const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
   const init = useSpeakTodayStore((state:any) => state.init);
+  const [confirmMsg, setConfirmMsg] = useState<ReactNode>('');
+  const [isShowConfirm, setShowConfirm] = useState(false);
 
-  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level}});
-
-  const handleTabChange = (selectedData: any) => {
-
-    setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(','), level: wordTodayInfo.level});
-  }
+  const {data: studyList = []} = useStudyList({params: {level: wordTodayInfo.level}});
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    let eObj:any = {}
+    let eObj:any = {[e.target.name]: e.target.value};
     let isSearch = true;
-
-    eObj = {[e.target.name]: e.target.value};
 
     if(e.target.name === 'level') {
       isSearch = false;
@@ -57,7 +41,12 @@ const LevelList = (props: LevelListProps) => {
     setSpeakTodayInfo({...wordTodayInfo, ...eObj}, isSearch);
   }
 
-  const handleSearch = (e: MouseEvent<HTMLElement>) => {
+  const handleSearch = () => {
+    if (!wordTodayInfo.study) {
+      setConfirmMsg(t('common.selectStudy'));
+      setShowConfirm(true);
+      return;
+    }
     getSpeakTodayAllList();
   }
 
@@ -78,7 +67,7 @@ const LevelList = (props: LevelListProps) => {
           <div className="app-panel-body">
             <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
               <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="app-select py-2">
-                {studyLevelInfoList.map((item: any, idx: number) => {
+                {studyLevelInfoList.map((item: any) => {
                   return (<option key={item.level} value={item.level}>{item.name}</option>)
                 })}
               </select>
@@ -88,18 +77,17 @@ const LevelList = (props: LevelListProps) => {
                   return (<option key={idx} value={studyNm}>{studyNm}</option>)
                 })}
               </select>
-              {/* <button
-                className="app-btn-primary w-full"
-                type="button"
-                onClick={(e) => handleSearch(e)}
-              >
-                <i className="fas fa-search"></i> {t('common.query')}
-              </button> */}
               <PaidButton className="w-full sm:col-span-2" onClick={handleSearch} />
             </div>
           </div>
         </div>
       </div>
+      <ModalConfirm
+        type="warning"
+        message={confirmMsg}
+        visible={isShowConfirm}
+        onClose={(visible: boolean) => setShowConfirm(visible)}
+      />
     </>
   )
 }

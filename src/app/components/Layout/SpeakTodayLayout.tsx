@@ -17,7 +17,6 @@ export default function SpeakTodayLayout({
     <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.speakToday" />
-        {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
           {children}
           <Footer />

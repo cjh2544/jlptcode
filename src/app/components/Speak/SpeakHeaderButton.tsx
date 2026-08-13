@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
 import { Button } from '@/components/ui/button';
 import { memo } from 'react';
@@ -29,7 +30,7 @@ const SpeakHeaderButton = ({ colName, label }: SpeakHeaderButtonProps) => {
       aria-pressed={hidden}
       title={hidden ? t('today.show') : t('today.hide')}
     >
-      <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+      <VisibilityIcon hidden={hidden} />
       <span>{label}</span>
     </Button>
   );

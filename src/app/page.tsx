@@ -59,12 +59,9 @@ export default function Home() {
 
         {/* Hero content */}
         <div className="container relative z-10 mx-auto px-4">
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-100 md:text-base">
-              JLPTCODE
-            </p>
+          <div className="mx-auto max-w-3xl text-center">
             <MainBackgroundTitle />
-            <p className="mt-6 text-base font-medium text-blue-50/90 md:text-lg">
+            <p className="home-hero-subtitle mt-8 text-xl font-semibold leading-snug tracking-tight text-white md:text-2xl lg:text-3xl">
               {t("home.subtitle")}
             </p>
           </div>
@@ -92,13 +89,13 @@ export default function Home() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HOME_CARDS.map((card) => (
               <Link key={card.key} scroll={false} href={card.link} className="group block">
-                <div className="home-card h-full p-6">
+                <div className="home-card h-full p-6 text-center">
                   <div
-                    className={`home-card-icon mb-4 bg-linear-to-br ${card.gradient}`}
+                    className={`home-card-icon mx-auto mb-4 bg-linear-to-br ${card.gradient}`}
                   >
                     <i className={`${card.icon} text-lg`} />
                   </div>
-                  <h6 className="text-lg font-bold text-foreground group-hover:text-brand-600 transition-colors">
+                  <h6 className="text-lg font-bold text-foreground transition-colors group-hover:text-brand-600">
                     {t(card.key)}
                   </h6>
                   <p className="mt-2 text-sm text-muted-foreground">{t(card.descKey)}</p>

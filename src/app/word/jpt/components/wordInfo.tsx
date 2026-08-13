@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import React, {memo} from "react";
 
 type WordInfoProps = {
@@ -47,7 +48,7 @@ const WordInfo = (props:WordInfoProps) => {
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
-                  <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                  <VisibilityIcon hidden={!!hideWord} />
                 </button>
               </div>
             </div> 
@@ -58,7 +59,7 @@ const WordInfo = (props:WordInfoProps) => {
             <div className="flex justify-between items-center">
               <p className={`${hideRead ? 'invisible' : ''}`}>{read}</p>
               <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-hidden">
-                <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                <VisibilityIcon hidden={!!hideRead} />
               </button>
             </div> 
           </div> 
@@ -68,7 +69,7 @@ const WordInfo = (props:WordInfoProps) => {
             <div className="flex justify-between items-center">
               <p className={`${hideMeans ? 'invisible' : ''}`}>{means}</p>
               <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-hidden">
-                <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                <VisibilityIcon hidden={!!hideMeans} />
               </button>
             </div> 
           </div> 

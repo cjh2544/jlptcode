@@ -17,7 +17,6 @@ export default function BoardLayout({
     <AppSidebarLayout className="font-nanumGothic">
         {/* Header */}
         <HeaderTitle titleKey="layout.board" />
-        {/* <HeaderStats /> */}
         <div className="px-4 md:px-10 mx-auto w-full">
         <div className="px-4 mx-auto w-full mt-6 mb-10">
             <div className="app-panel w-full overflow-hidden">

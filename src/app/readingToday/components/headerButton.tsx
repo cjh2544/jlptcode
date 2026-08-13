@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import { Button } from "@/components/ui/button";
 import { memo } from 'react';
@@ -21,13 +22,13 @@ const HeaderButton = ({colName}: HeaderButtonProps) => {
         <span className='mr-1'>
           {
             {
-              'sentence': '文章',
-              'sentence_read': '読み方',
-              'sentence_translate': '意味',
+              'sentence': '\u6587\u7AE0',
+              'sentence_read': '\u8AAD\u307F\u65B9',
+              'sentence_translate': '\u610F\u5473',
             }[colName]
           }
         </span>
-        <i className={`${hideAll[colName] ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+        <VisibilityIcon hidden={!!hideAll[colName]} />
       </Button>
     </>
   )

@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import { useJptWordStore } from '@/app/store/jptWordStore';
 import { Button } from "@/components/ui/button";
 import { memo } from 'react';
@@ -29,7 +30,7 @@ const HeaderListButton = ({colName}: HeaderButtonProps) => {
             }[colName]
           }
         </span>
-        <i className={`${hideAll[colName] ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+        <VisibilityIcon hidden={!!hideAll[colName]} />
       </Button>
     </>
   )

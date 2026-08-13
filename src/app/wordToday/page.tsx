@@ -1,5 +1,4 @@
-"use client"; // 필수!
-import { signIn, signOut, useSession } from "next-auth/react";
+"use client";
 import { useWordTodayStore } from '@/app/store/wordTodayStore';
 import WordTodayLayout from "../components/Layout/WordTodayLayout";
 import LevelList from "./components/levelList";
@@ -7,8 +6,6 @@ import WordList from "./components/wordList";
 
 const WordTodayPage = () => {
   const wordTodayInfo =useWordTodayStore((state:any) => state.wordTodayInfo);
-  
-  const { data: session } = useSession();
 
   return (
     <WordTodayLayout>

@@ -59,8 +59,8 @@ function BrandMark({ light = false }: { light?: boolean }) {
         alt=""
         aria-hidden
         className="main-nav-brand-icon"
-        width={32}
-        height={32}
+        width={20}
+        height={20}
         decoding="async"
       />
       <span className="main-nav-brand-text">

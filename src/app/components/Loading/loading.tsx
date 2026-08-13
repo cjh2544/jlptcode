@@ -1,4 +1,5 @@
-import { Spinner } from "@/components/ui/spinner";
+"use client";
+
 import { memo } from "react";
 
 type LoadingProps = {
@@ -9,11 +10,18 @@ const Loading = (props: LoadingProps) => {
   const { text } = props;
 
   return (
-    <div className="max-w-full p-4 mx-auto grid h-56 place-content-center justify-items-center gap-3">
-      <Spinner className="size-8" />
-      <p className="animate-pulse text-xl font-semibold">
+    <div
+      className="app-loading mx-auto grid h-56 max-w-md place-content-center justify-items-center gap-4 px-4"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="app-loading-track" aria-hidden>
+        <div className="app-loading-bar" />
+      </div>
+      <p className="text-sm font-semibold tracking-wide text-muted-foreground">
         {text ? text : "Loading..."}
       </p>
+      <span className="sr-only">{text ? text : "Loading..."}</span>
     </div>
   );
 };

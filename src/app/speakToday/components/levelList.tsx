@@ -1,17 +1,12 @@
 'use client';
-import React, {ChangeEvent, memo, MouseEvent, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useSpeakTodayStore } from '@/app/store/speakTodayStore';
-import { useClassTypeList, useStudyList } from '@/app/swr/useSpeakToday';
-import PaidButton from '@/app/components/Buttons/PaidButton';
 import { useTranslations } from '@/app/providers/I18nProvider';
 
 type LevelListProps = {
   levels?: string,
-  level?: string,
   idx?: number,
-  onSearch?: (data: any) => any,
-  onClick?: (data: any) => any,
 }
 
 const LevelList = (props: LevelListProps) => {
@@ -30,33 +25,9 @@ const LevelList = (props: LevelListProps) => {
 
   const wordTodayInfo =useSpeakTodayStore((state:any) => state.wordTodayInfo);
   const setSpeakTodayInfo = useSpeakTodayStore((state:any) => state.setSpeakTodayInfo);
-  const getSpeakTodayAllList = useSpeakTodayStore((state:any) => state.getSpeakTodayAllList);
-
-  const {data: studyList = [], isLoading, error} = useStudyList({params: {level: wordTodayInfo.level}});
 
   const handleTabChange = (selectedData: any) => {
-
     setSpeakTodayInfo({...wordTodayInfo, ...selectedData, levels: selectedData.level.split(','), level: wordTodayInfo.level});
-  }
-
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    let eObj:any = {}
-    let isSearch = true;
-
-    eObj = {[e.target.name]: e.target.value};
-
-    if(e.target.name === 'level') {
-      isSearch = false;
-      eObj = {...eObj, study: ''};
-    } else if(e.target.name === 'study') {
-      isSearch = false;
-    }
-
-    setSpeakTodayInfo({...wordTodayInfo, ...eObj}, isSearch);
-  }
-
-  const handleSearch = (e: MouseEvent<HTMLElement>) => {
-    getSpeakTodayAllList();
   }
 
   useEffect(() => {
@@ -75,7 +46,7 @@ const LevelList = (props: LevelListProps) => {
           </div>
           <div className="app-panel-body">
             <TabDefault onChange={handleTabChange} isUseContent={false} selectedIdx={idx} data={
-              levelInfoList.map((item: any, idx: number) => {
+              levelInfoList.map((item: any) => {
                 return {
                   title: item.levels.toString(),
                   displayName: item.name,

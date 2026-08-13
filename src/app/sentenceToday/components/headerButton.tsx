@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import { useSentenceTodayStore } from '@/app/store/sentenceTodayStore';
 import { Button } from "@/components/ui/button";
 import { memo } from 'react';
@@ -29,7 +30,7 @@ const HeaderButton = ({colName, label}: HeaderButtonProps) => {
       aria-pressed={hidden}
       title={hidden ? t('today.show') : t('today.hide')}
     >
-      <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+      <VisibilityIcon hidden={hidden} />
       <span>{label}</span>
     </Button>
   )

@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import React, {memo} from "react";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
@@ -76,7 +77,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         className={`app-today-field-value ${hidden ? 'app-today-field-value--masked' : ''}`}
         aria-hidden={hidden}
       >
-        {hidden ? '••••••••••••' : content}
+        {hidden ? '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022' : content}
       </div>
       <Button
         type="button"
@@ -86,7 +87,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         title={hidden ? t('today.show') : t('today.hide')}
         aria-label={hidden ? t('today.show') : t('today.hide')}
       >
-        <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+        <VisibilityIcon hidden={hidden} />
       </Button>
     </div>
   );

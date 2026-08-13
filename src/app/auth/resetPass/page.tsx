@@ -72,8 +72,20 @@ const SignInPage = () => {
       <SignUpLayout>
         <section className="grid place-content-center h-screen font-nanumGothic">
           <div className="flex flex-col items-center justify-center px-6 py-8 max-w-md md:h-screen lg:py-0">
-            <a href="/" className="flex items-center mb-2 text-2xl font-semibold text-gray-900">
-              <img className="w-auto" src={'/images/main_bg_title.png'} alt="JLPTCODE" />
+            <a href="/" className="app-auth-brand mb-2" aria-label="JLPTCODE">
+              <span className="app-auth-logo">
+                <img
+                  className="app-auth-favicon"
+                  src="/images/logo.png"
+                  alt=""
+                  aria-hidden
+                  width={22}
+                  height={22}
+                  decoding="async"
+                />
+                <span className="app-auth-logo-jlpt">JLPT</span>
+                <span className="app-auth-logo-code">CODE</span>
+              </span>
             </a>
             <div className="w-full bg-white rounded-lg shadow-lg sm:max-w-md xl:p-0">
               <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

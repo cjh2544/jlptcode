@@ -257,9 +257,8 @@ export function SidebarMobileBar() {
           src="/images/logo.png"
           alt=""
           aria-hidden
-          className="size-5"
-          width={20}
-          height={20}
+          width={16}
+          height={16}
           decoding="async"
         />
         <span>
@@ -305,8 +304,8 @@ export default function Sidebar() {
               alt=""
               aria-hidden
               className="app-sidebar-brand-icon"
-              width={28}
-              height={28}
+              width={16}
+              height={16}
               decoding="async"
             />
             <span className="app-sidebar-brand-text">

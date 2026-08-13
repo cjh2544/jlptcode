@@ -1,3 +1,4 @@
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import { memo } from "react";
 import CardSentence from "./CardSentence";
 
@@ -51,7 +52,7 @@ const CardWord = ({
               <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
-                  <i className={`${hideWord ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                  <VisibilityIcon hidden={!!hideWord} />
                 </button>
               </div>
             </div>
@@ -59,7 +60,7 @@ const CardWord = ({
               <div className={`${hideRead ? 'invisible' : ''}`}>{read}</div>
               <div>
                 <button onClick={(e) => handleClick('read')} className="text-blue-500 focus:outline-hidden">
-                  <i className={`${hideRead ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                  <VisibilityIcon hidden={!!hideRead} />
                 </button>
               </div>
             </div>
@@ -67,7 +68,7 @@ const CardWord = ({
               <div className={`${hideMeans ? 'invisible' : ''}`}>{means}</div>
               <div>
                 <button onClick={(e) => handleClick('means')} className="text-blue-500 focus:outline-hidden">
-                  <i className={`${hideMeans ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}`}></i>
+                  <VisibilityIcon hidden={!!hideMeans} />
                 </button>
               </div>
             </div>

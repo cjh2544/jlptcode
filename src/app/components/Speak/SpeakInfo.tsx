@@ -1,4 +1,5 @@
 'use client';
+import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import React, { memo } from 'react';
 import SpeechPlayer from '@/app/components/Audio/SpeechPlayer';
 import { Button } from '@/components/ui/button';
@@ -51,11 +52,13 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
 
     if (sentenceType === 'sentence') {
       pHtml = pHtml.replace(/\([^)]+\)/g, (str) => `<span class="text-red-600">${str}</span>`);
-      pHtml = pHtml.replace(/\（[^)]+\）/g, (str) => `<span class="text-red-600">${str}</span>`);
+      pHtml = pHtml.replace(/\uFF08[^\uFF09]+\uFF09/g, (str) => `<span class="text-red-600">${str}</span>`);
     }
 
     return <div dangerouslySetInnerHTML={{ __html: pHtml }} />;
   };
+
+  const masked = '\u2022'.repeat(12);
 
   const renderField = (
     label: string,
@@ -69,7 +72,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
         className={`app-today-field-value ${hidden ? 'app-today-field-value--masked' : ''}`}
         aria-hidden={hidden}
       >
-        {hidden ? '••••••••••••' : content}
+        {hidden ? masked : content}
       </div>
       <Button
         type="button"
@@ -79,7 +82,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
         title={hidden ? t('today.show') : t('today.hide')}
         aria-label={hidden ? t('today.show') : t('today.hide')}
       >
-        <i className={hidden ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+        <VisibilityIcon hidden={hidden} />
       </Button>
     </div>
   );
@@ -105,7 +108,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
             aria-pressed={!hideSpeaker}
             title={hideSpeaker ? t('today.show') : t('today.hide')}
           >
-            <i className={hideSpeaker ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'} aria-hidden />
+            <VisibilityIcon hidden={!!hideSpeaker} />
             <span>{t('common.play')}</span>
           </Button>
         )}
@@ -125,7 +128,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
         {renderField(
           t('common.keyword'),
           <>
-            {keyword && parseHtml(`∎${keyword}`)}
+            {keyword && parseHtml(`\u220E${keyword}`)}
             <p className="app-today-speak-tip">{t('speak.tipKeyword')}</p>
           </>,
           hideKeyword,

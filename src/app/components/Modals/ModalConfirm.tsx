@@ -45,7 +45,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
   return (
     <Dialog open={visible} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent className="max-w-md text-center sm:text-center">
-        <DialogHeader className="items-center">
+        <DialogHeader className="items-center pt-6">
           {
             {
               info: <CheckInfoIcon />,
@@ -53,10 +53,10 @@ const ModalConfirm = (props: ModalConfirmProps) => {
               error: <CheckErrorIcon />,
             }[type]
           }
-          <DialogTitle className="text-gray-800 text-2xl font-bold mt-4">
+          <DialogTitle className="mt-2 text-2xl font-bold text-gray-800">
             {title || t("modal.confirmTitle")}
           </DialogTitle>
-          <DialogDescription className="text-sm text-gray-600 mt-3">
+          <DialogDescription className="mt-3 text-sm text-gray-600">
             {message}
           </DialogDescription>
         </DialogHeader>

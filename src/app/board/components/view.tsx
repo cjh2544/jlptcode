@@ -1,79 +1,130 @@
-'use client';
-import React, {memo, MouseEvent, useCallback} from 'react';
-import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
-import Link from 'next/link';
-import { useSession } from 'next-auth/react';
-import { useTranslations } from '@/app/providers/I18nProvider';
+"use client";
 
-type BoardWriteProps = {
-  id?: string,
-}
+import React, { memo, MouseEvent, useCallback } from "react";
+import { useBoardCommunityStore } from "@/app/store/boardCommunityStore";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "@/app/providers/I18nProvider";
+import { formatInSeoul } from "@/app/utils/common";
+import { isEmpty } from "lodash";
+import { Button } from "@/components/ui/button";
+import { MessageSquareReply, Pencil, List, User, Calendar } from "lucide-react";
 
-const BoardView = (props: BoardWriteProps) => {
+const BoardView = () => {
   const { t } = useTranslations();
-  const {
-    id
-  } = props
-  
+
   const { data: session } = useSession();
-  const boardInfo: Board = useBoardCommunityStore((state:any) => state.boardInfo);
+  const boardInfo: Board = useBoardCommunityStore(
+    (state: any) => state.boardInfo,
+  );
+  const replyInfo: BoardReply = useBoardCommunityStore(
+    (state: any) => state.replyInfo,
+  );
 
   const handleLinkActive = (event: MouseEvent<HTMLAnchorElement>) => {
     if (session?.user?.email !== boardInfo.email) event.preventDefault();
   };
 
   const isMyWrite = useCallback(() => {
-    return session?.user?.email && session?.user?.email === boardInfo.email;
-  }, [boardInfo, session])
+    return (
+      session?.user?.email && session?.user?.email === boardInfo.email
+    );
+  }, [boardInfo, session]);
 
   const isAdmin = useCallback(() => {
-    return session?.user?.role && session?.user?.role?.includes('admin');
-  }, [boardInfo, session])
+    return session?.user?.role && session?.user?.role?.includes("admin");
+  }, [session]);
+
+  const hasReply = !isEmpty(replyInfo) && Boolean(replyInfo?.contents);
+  const isNotice = boardInfo?.noticeYn === "Y";
 
   return (
-    <>
-      <div className="font-nanumGothic flex flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow-lg">
-              <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                  <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                      {t('board.viewTitle')}
-                  </h1>
-                  <form className="space-y-4 md:space-y-6">
-                      <div>
-                          <label className={`block mb-2 text-sm font-bold text-gray-900`}>{t('board.subject')} {t('board.titleLen')}</label>
-                          <input defaultValue={boardInfo.title || ''} disabled={true} maxLength={100} type="text" name="title" id="title" className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:outline-hidden block w-full p-2.5" placeholder={t('board.placeholderTitle')} />
-                      </div>
-                      <div>
-                          <label className={`block mb-2 text-sm font-bold text-gray-900`}>{t('board.content')} {t('board.contentLen')}</label>
-                          <textarea defaultValue={boardInfo.contents || ''} name="contents" id="contents"
-                            disabled={true} 
-                            maxLength={5000}
-                            rows={10}
-                            className="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder={t('board.placeholderContent')}>
-                          </textarea>
-                      </div>
-                      <div className='flex justify-center gap-2'>
-                        {isAdmin() && (
-                          <Link href="reply" scroll={false} className={`hover:bg-green-700 text-center bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-hidden`}>
-                            {t('board.replyAction')}
-                          </Link>
-                        )}
-                        {isMyWrite() && (
-                          <Link onClick={handleLinkActive} href="modify" scroll={false} className={`hover:bg-blue-700 text-center bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-hidden`}>
-                            {t('board.editAction')}
-                          </Link>
-                        )}
-                        <Link href="list" scroll={false} className="text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
-                          {t('common.confirm')}
-                        </Link>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-    </>
-  )
-}
+    <div className="app-board-view">
+      <header className="app-board-view-header">
+        <div className="flex flex-wrap items-center gap-2">
+          {isNotice && (
+            <span className="app-board-badge app-board-badge--notice">
+              {t("board.notice")}
+            </span>
+          )}
+          {hasReply && (
+            <span className="app-board-badge app-board-badge--reply">
+              {t("board.replied")}
+            </span>
+          )}
+          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            {t("board.viewTitle")}
+          </span>
+        </div>
+        <h1 className="app-board-view-title">{boardInfo.title || ""}</h1>
+        <div className="app-board-view-meta">
+          <span className="inline-flex items-center gap-1.5">
+            <User className="size-3.5" aria-hidden />
+            {boardInfo.name || "-"}
+          </span>
+          <span className="inline-flex items-center gap-1.5 tabular-nums">
+            <Calendar className="size-3.5" aria-hidden />
+            {formatInSeoul(
+              boardInfo.updatedAt || boardInfo.createdAt,
+              "yyyy-MM-dd HH:mm",
+            )}
+          </span>
+        </div>
+      </header>
 
-export default memo(BoardView)
+      <section className="app-board-view-body" aria-label={t("board.content")}>
+        <p className="app-board-view-label">{t("board.content")}</p>
+        <div className="app-board-view-content">
+          {boardInfo.contents || ""}
+        </div>
+      </section>
+
+      {hasReply && (
+        <section className="app-board-view-reply" aria-label={t("board.reply")}>
+          <div className="app-board-view-reply-head">
+            <h2 className="app-board-view-reply-title">
+              <MessageSquareReply className="size-4" aria-hidden />
+              {t("board.reply")}
+            </h2>
+            <time className="tabular-nums text-xs text-muted-foreground">
+              {formatInSeoul(
+                replyInfo?.updatedAt || replyInfo?.createdAt,
+                "yyyy-MM-dd HH:mm",
+              )}
+            </time>
+          </div>
+          <div className="app-board-view-content app-board-view-content--reply">
+            {replyInfo?.contents || ""}
+          </div>
+        </section>
+      )}
+
+      <footer className="app-board-view-actions">
+        {isAdmin() && (
+          <Button asChild variant="default" size="default" className="gap-1.5">
+            <Link href="reply" scroll={false}>
+              <MessageSquareReply className="size-4" aria-hidden />
+              {t("board.replyAction")}
+            </Link>
+          </Button>
+        )}
+        {isMyWrite() && (
+          <Button asChild variant="secondary" size="default" className="gap-1.5">
+            <Link onClick={handleLinkActive} href="modify" scroll={false}>
+              <Pencil className="size-4" aria-hidden />
+              {t("board.editAction")}
+            </Link>
+          </Button>
+        )}
+        <Button asChild variant="outline" size="default" className="gap-1.5">
+          <Link href="list" scroll={false}>
+            <List className="size-4" aria-hidden />
+            {t("common.list")}
+          </Link>
+        </Button>
+      </footer>
+    </div>
+  );
+};
+
+export default memo(BoardView);
