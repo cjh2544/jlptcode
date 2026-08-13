@@ -68,7 +68,7 @@ const SearchBar = (props: SearchProps) => {
       <div className="px-4 mx-auto w-full m-10 mb-12">
         <div className="app-panel w-full mb-6">
           <div className="app-panel-header">
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
               <h6 className="text-lg font-bold">{t('common.search')}</h6>
               <strong className='app-panel-tip'>{t('strategy.tip')}</strong>
             </div>
@@ -107,7 +107,7 @@ const SearchBar = (props: SearchProps) => {
               >
                 {t('common.type')}
               </label>
-              <select id="part" name="part" value={jptInfo.part} onChange={handleChange} className="disabled:bg-gray-300 app-select">
+              <select id="part" name="part" value={jptInfo.part} onChange={handleChange} className="app-select">
                 <option value="">{t('common.select')}</option>
                 {getCodeDetailList('part-jpt').filter((item: any) => 'listening' === jptInfo.classification ? ['part2','part3'].includes(item.key) : ['part5','part7','part8'].includes(item.key)).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)

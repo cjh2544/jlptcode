@@ -59,19 +59,19 @@ const LevelList = () => {
       <div className="px-4 mx-auto w-full m-10">
         <div className="app-panel w-full mb-6">
           <div className="app-panel-header">
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
                 <h6 className="text-lg font-bold">{t('layout.speakMaster')}</h6>
                 <strong className='app-panel-tip'>{t('speak.tipMaster')}</strong>
             </div>
           </div>
           <div className="app-panel-body">
             <div className='grid grid-cols-3 sm:grid-cols-2 items-center justify-center gap-2'>
-              <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="app-select py-2">
+              <select id="level" name="level" value={wordTodayInfo.level} onChange={handleChange} className="app-select">
                 {studyLevelInfoList.map((item: any) => {
                   return (<option key={item.level} value={item.level}>{item.name}</option>)
                 })}
               </select>
-              <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="app-select py-2">
+              <select id="study" name="study" value={wordTodayInfo.study} onChange={handleChange} className="app-select">
                 <option value="">{t('common.select')}</option>
                 {(studyList.find((item: any) => item.level === wordTodayInfo.level)?.studies ?? []).map((studyNm: any, idx: number) => {
                   return (<option key={idx} value={studyNm}>{studyNm}</option>)

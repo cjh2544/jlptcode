@@ -52,7 +52,7 @@ const JptList = (props: JptListProps) => {
         <div className="px-4 mx-auto w-full m-10 mb-12">
           <div className="app-panel w-full mb-6">
             <div className="app-panel-header">
-              <div className="flex justify-between items-center gap-4">
+              <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
                   <h6 className="text-lg font-bold">{t('levelUp.title')}</h6>
               </div>
             </div>

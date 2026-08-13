@@ -48,7 +48,7 @@ const LevelList = (props: LevelListProps) => {
       <div className="px-4 mx-auto w-full m-10">
         <div className="app-panel w-full mb-6">
           <div className="app-panel-header">
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
                 <h6 className="text-lg font-bold">{t('layout.readingToday')}</h6>
                 <strong></strong>
             </div>

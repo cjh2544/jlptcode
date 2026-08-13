@@ -34,7 +34,7 @@ const PaidButton = ({
       disabled={!isEnabled}
       onClick={(e) => onClick?.(e)}
       className={cn(
-        "h-10 gap-2 font-semibold uppercase tracking-wide",
+        "h-10 gap-2 rounded-[var(--radius-md)] text-xs font-semibold uppercase tracking-wide",
         !isEnabled && "cursor-not-allowed",
         className,
       )}
