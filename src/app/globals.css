@@ -197,7 +197,7 @@
 .app-page-header-inner {
   position: relative;
   overflow: hidden;
-  padding: 1.125rem 1.5rem;
+  padding: 1.125rem 1rem;
   background: linear-gradient(
     128deg,
     var(--app-page-header-from) 0%,
@@ -246,9 +246,6 @@
   align-items: end;
   justify-content: space-between;
   gap: 0.5rem 1rem;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding-left: 0.5rem;
 }
 
 .app-page-header-main {
