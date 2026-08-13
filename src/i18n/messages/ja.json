@@ -255,7 +255,12 @@
     "periodM": "1ヶ月会員",
     "periodY": "1年会員",
     "periodP": "プレミアム会員",
-    "periodU": "永久会員"
+    "periodU": "永久会員",
+    "paid": "有料",
+    "unpaid": "未適用",
+    "expired": "期限切れ",
+    "applyPaidDesc": "{name} 会員に有料期間を適用します。",
+    "selectPlan": "適用する有料区分を選択してください。"
   },
   "modal": {
     "confirmTitle": "確認!",

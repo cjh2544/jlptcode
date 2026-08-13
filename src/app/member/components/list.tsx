@@ -1,118 +1,83 @@
-'use client';
-import React, {memo, useEffect} from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import PaginationNew from '@/app/components/Navbars/PaginationNew';
-import { useUserStore } from '@/app/store/userStore';
-import LoadingSkeleton from '@/app/components/Loading/loadingSkeleton';
-import MemberRowInfo from './memberRowInfo';
-import { isEmpty } from 'lodash';
-import EmptyData from '@/app/components/Alert/EmptyData';
-import { useTranslations } from '@/app/providers/I18nProvider';
+"use client";
 
-type BoardListProps = {
-  level?: string,
-  onSearch?: (data: any) => any,
-  onClick?: (data: any) => any,
-}
+import React, { memo, useEffect } from "react";
+import PaginationNew from "@/app/components/Navbars/PaginationNew";
+import { useUserStore } from "@/app/store/userStore";
+import LoadingSkeleton from "@/app/components/Loading/loadingSkeleton";
+import MemberRowInfo from "./memberRowInfo";
+import { isEmpty } from "lodash";
+import EmptyData from "@/app/components/Alert/EmptyData";
+import { useTranslations } from "@/app/providers/I18nProvider";
 
-
-const MmeberList = (props: BoardListProps) => {
+const MemberList = () => {
   const { t } = useTranslations();
-  const {
-    level
-  } = props
-  
-  const router = useRouter();
-  const pageInfo = useUserStore((state:any) => state.pageInfo);
-  const userList = useUserStore((state:any) => state.userList);
-  const isLoading = useUserStore((state:any) => state.isLoading);
-  const setPageInfo = useUserStore((state:any) => state.setPageInfo);
-  const getPageInfo = useUserStore((state:any) => state.getPageInfo);
-  const getUserList = useUserStore((state:any) => state.getUserList);
-  const getUserInfo = useUserStore((state:any) => state.getUserInfo);
-  const init = useUserStore((state:any) => state.init);
+  const pageInfo = useUserStore((state: any) => state.pageInfo);
+  const userList = useUserStore((state: any) => state.userList);
+  const isLoading = useUserStore((state: any) => state.isLoading);
+  const setPageInfo = useUserStore((state: any) => state.setPageInfo);
+  const getPageInfo = useUserStore((state: any) => state.getPageInfo);
+  const getUserList = useUserStore((state: any) => state.getUserList);
 
-  const handlePageChange = (newPageNo: number) => {
-    setPageInfo({
-      ...pageInfo,
-      currentPage: newPageNo
-    });
+  const handlePageChange = async (newPageNo: number) => {
+    if (!pageInfo || newPageNo === pageInfo.currentPage) return;
 
-    getUserList();
-  }
-
-  const handleClickDetail = (userInfo: User) => {
-    getUserInfo(userInfo)
-
-    router.push('view', {scroll: false})
-  }
+    setPageInfo({ currentPage: newPageNo });
+    await getUserList();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
-    // init();
     getPageInfo();
     getUserList();
-  }, [])
+  }, []);
 
   return (
-    <>
-      <div className="overflow-x-auto">
-        <div className="inline-block min-w-full overflow-hidden">
-          <table className="min-w-full leading-normal mb-4">
-            <thead>
-                <tr>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {t('member.name')}
-                    </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {t('member.email')}
-                    </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {t('member.createdAt')}
-                    </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {t('member.paidPeriod')}
-                    </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        {t('member.paidType')}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                  isLoading ? 
-                  (
-                    <>
-                      <tr>
-                        <td colSpan={5}>
-                          <LoadingSkeleton />
-                        </td>
-                      </tr>
-                    </>
-                  ) : (
-                    isEmpty(userList) ? (
-                      <>
-                        <tr>
-                          <td colSpan={5}>
-                            <EmptyData />
-                          </td>
-                        </tr>
-                      </>
-                    ) : userList.map((userInfo: User, idx: number) => {
-                      return (
-                        <MemberRowInfo 
-                          key={idx} 
-                          userInfo={userInfo} />
-                      )
-                    })
-                  )
-                }
-            </tbody>
+    <div className="app-panel-body">
+      <div className="overflow-x-auto rounded-lg border border-[var(--border)]">
+        <table className="app-board-table min-w-full">
+          <thead>
+            <tr>
+              <th className="w-auto">{t("member.name")}</th>
+              <th className="hidden w-48 sm:table-cell">{t("member.email")}</th>
+              <th className="hidden w-40 md:table-cell">
+                {t("member.createdAt")}
+              </th>
+              <th className="hidden w-52 lg:table-cell">
+                {t("member.paidPeriod")}
+              </th>
+              <th className="w-36">{t("member.paidType")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <td colSpan={5} className="!p-0">
+                  <LoadingSkeleton />
+                </td>
+              </tr>
+            ) : isEmpty(userList) ? (
+              <tr>
+                <td colSpan={5} className="!p-6">
+                  <EmptyData />
+                </td>
+              </tr>
+            ) : (
+              userList.map((userInfo: User, idx: number) => (
+                <MemberRowInfo
+                  key={userInfo.email || idx}
+                  userInfo={userInfo}
+                />
+              ))
+            )}
+          </tbody>
         </table>
-        <PaginationNew pageInfo={pageInfo} onPageChange={(newPage: number) => handlePageChange(newPage)} />
       </div>
+      <PaginationNew
+        pageInfo={pageInfo}
+        onPageChange={(newPage: number) => handlePageChange(newPage)}
+      />
     </div>
-  </>
-  )
-}
+  );
+};
 
-export default memo(MmeberList)
+export default memo(MemberList);

@@ -142,6 +142,16 @@
   background: color-mix(in oklab, var(--primary) 22%, white);
 }
 
+.app-board-badge--paid {
+  background: color-mix(in oklab, var(--primary) 14%, white);
+  color: color-mix(in oklab, var(--primary) 65%, black);
+}
+
+.app-board-badge--expired {
+  background: color-mix(in oklab, var(--muted-foreground) 12%, white);
+  color: var(--muted-foreground);
+}
+
 @keyframes app-notice-roll-in {
   from {
     opacity: 0;

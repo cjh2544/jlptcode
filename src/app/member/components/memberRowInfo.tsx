@@ -1,165 +1,251 @@
-'use client';
-import React, {FormEvent, memo, MouseEvent, useEffect, useState} from "react";
-import { format } from "date-fns";
+"use client";
+
+import React, { FormEvent, memo, useMemo, useState } from "react";
 import { PAYMENT_PERIOD } from "@/app/constants/constants";
 import { z } from "zod";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import { formatInSeoul } from "@/app/utils/common";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { useUserStore } from "@/app/store/userStore";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { CalendarPlus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type MemberRowInfoProps = {
-  userInfo: User,
-}
+  userInfo: User;
+};
 
-const MemberRowInfo = (props:MemberRowInfoProps) => {
+const isLifetimeDate = (value?: Date | string | null) => {
+  if (!value) return false;
+  const year = new Date(value).getFullYear();
+  return year >= 9999;
+};
+
+const MemberRowInfo = (props: MemberRowInfoProps) => {
   const { t } = useTranslations();
-  const { 
-    userInfo, 
-  } = props;
+  const { userInfo } = props;
+  const getUserList = useUserStore((state: any) => state.getUserList);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [errors, setErrors] = useState<Array<any> | null>(null)
-  const [isShowConfirm, setShowConfirm] = useState<boolean>(false)
-  const [confirmMsg, setConfirmMsg] = useState<string>('')
-  const [confirmType, setConfirmType] = useState<any>('info')
-  const [isSuccess, setSuccess] = useState<boolean>(false)
-  // const [userPayInfo, setUserPayInfo] = useState<any>({})
+  const [isLoading, setIsLoading] = useState(false);
+  const [isShowConfirm, setShowConfirm] = useState(false);
+  const [confirmMsg, setConfirmMsg] = useState("");
+  const [confirmType, setConfirmType] = useState<"info" | "error" | "warning">(
+    "info",
+  );
   const [showModal, setShowModal] = useState(false);
+  const [paymentType, setPaymentType] = useState(
+    userInfo?.lastPayment?.paymentType || "M",
+  );
 
-  const handleClose = () => {
-    setShowModal(false);
-  }
+  const paidType = userInfo?.lastPayment?.paymentType;
+  const isPaid = Boolean(userInfo?.isValid);
+  const hasPeriod = Boolean(
+    userInfo?.lastPayment?.startDate && userInfo?.lastPayment?.endDate,
+  );
+  const lifetime = isLifetimeDate(userInfo?.lastPayment?.endDate);
 
-  const handleCloseModal = async (visible: boolean) => {
+  const periodLabel = useMemo(() => {
+    if (!hasPeriod) return t("member.unpaid");
+    if (lifetime) return t("member.periodU");
+    return `${formatInSeoul(userInfo.lastPayment?.startDate, "yyyy-MM-dd")} ~ ${formatInSeoul(userInfo.lastPayment?.endDate, "yyyy-MM-dd")}`;
+  }, [hasPeriod, lifetime, t, userInfo.lastPayment?.endDate, userInfo.lastPayment?.startDate]);
+
+  const statusBadge = isPaid
+    ? { className: "app-board-badge--paid", label: t("member.paid") }
+    : hasPeriod
+      ? { className: "app-board-badge--expired", label: t("member.expired") }
+      : { className: "app-board-badge--expired", label: t("member.unpaid") };
+
+  const handleCloseModal = (visible: boolean) => {
     setShowConfirm(visible);
-  }
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    setShowModal(open);
+    if (open) {
+      setPaymentType(userInfo?.lastPayment?.paymentType || "M");
+    }
+  };
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true)
-    setErrors(null)
-    setConfirmType('info');
-  
+    setIsLoading(true);
+    setConfirmType("info");
+
     try {
       const formData = new FormData(event.currentTarget);
-      
-      const response = await fetch('/api/userPayment', {
-        method: 'POST',
+
+      const response = await fetch("/api/userPayment", {
+        method: "POST",
         body: formData,
-      })
+      });
 
       const data = await response.json();
-      
-      if(data.success) {
-        // setUserPayInfo(Object.fromEntries(formData));
+
+      if (data.success) {
         setConfirmMsg(data.message);
         setShowConfirm(true);
-        setSuccess(true);
+        setShowModal(false);
+        await getUserList();
+      } else if (data.error) {
+        setConfirmType("error");
+        setConfirmMsg(data.error.issues[0].message);
+        setShowConfirm(true);
       } else {
-        if(data.error) {
-          setErrors(data.error.issues);
-          setConfirmType('error');
-          setConfirmMsg(data.error.issues[0].message);
-          setShowConfirm(true);
-        } else {
-          setConfirmType('warning');
-          setConfirmMsg(data.message);
-          setShowConfirm(true);
-        }
+        setConfirmType("warning");
+        setConfirmMsg(data.message);
+        setShowConfirm(true);
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
         console.log(error.message);
       }
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <>
       <tr>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm items-center whitespace-no-wrap">
-          <p className="text-gray-900">
+        <td>
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <span className="truncate text-sm font-medium text-[var(--foreground)]">
               {userInfo.name}
-          </p>
+            </span>
+            <span className={cn("app-board-badge", statusBadge.className)}>
+              {statusBadge.label}
+            </span>
+          </div>
+          <div className="mt-1 flex flex-col gap-0.5 text-xs text-[var(--muted-foreground)] lg:hidden">
+            <span className="truncate sm:hidden">{userInfo.email}</span>
+            <span className="tabular-nums md:hidden">
+              {formatInSeoul(userInfo.createdAt, "yyyy-MM-dd HH:mm")}
+            </span>
+            <span>{periodLabel}</span>
+          </div>
         </td>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-          <p className="text-gray-900">
-              {userInfo.email}
-          </p>
+        <td className="hidden sm:table-cell">
+          <span className="block max-w-56 truncate text-sm text-[var(--foreground)]">
+            {userInfo.email}
+          </span>
         </td>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-          <p className="text-gray-900">
-            {formatInSeoul(userInfo.createdAt, 'yyyy-MM-dd HH:mm:ss')}
-          </p>
+        <td className="hidden md:table-cell">
+          <span className="text-sm tabular-nums text-[var(--muted-foreground)]">
+            {formatInSeoul(userInfo.createdAt, "yyyy-MM-dd HH:mm")}
+          </span>
         </td>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-          <p className="text-gray-900 flex">
-              {userInfo?.lastPayment && (
-                <>
-                  {formatInSeoul(userInfo?.lastPayment?.startDate, 'yyyy-MM-dd')} ~ {formatInSeoul(userInfo?.lastPayment?.endDate, 'yyyy-MM-dd')}
-                </>
-              )}
-          </p>
+        <td className="hidden lg:table-cell">
+          <span className="text-sm tabular-nums text-[var(--muted-foreground)]">
+            {periodLabel}
+          </span>
         </td>
-        <td className="border-b border-gray-200 bg-white text-sm whitespace-no-wrap">
-            <button onClick={() => setShowModal(!showModal)} data-modal-target="default-modal" data-modal-toggle="default-modal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-hidden focus:ring-blue-300 font-medium rounded-lg text-sm p-2 text-center" type="button">
-                {t('member.applyPaid')}
-            </button>
-            <div className={`${showModal ? '' : 'hidden'} backdrop-blur-md drop-shadow-lg fixed inset-0 px-4 flex flex-wrap justify-center items-center w-full h-full z-1000 before:fixed before:inset-0 before:w-full before:h-full before:bg-[rgba(0,0,0,0.5)] overflow-auto font-[sans-serif]`}>
-                <div className="relative p-4 w-full max-w-2xl max-h-full">
-                    <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                        <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
-                        <form onSubmit={onSubmit}>
-                          <input type="hidden" name="email" value={userInfo?.email ?? ''} />
-                          <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-200">
-                              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                              {userInfo.name}
-                              </h3>
-                              <button onClick={() => setShowModal(!showModal)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="default-modal">
-                                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                  </svg>
-                                  <span className="sr-only">Close modal</span>
-                              </button>
-                          </div>
-                          <div className="p-4 md:p-5 space-y-4">
-                              {PAYMENT_PERIOD.map((item: any, idx: number) =>{
-                                  return (
-                                      <label key={`payment-period-${idx}`}  className="flex items-center mb-4">
-                                          <input type="radio" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500" name="paymentType" value={item.value} />
-                                          <span className="ml-2">{t(`member.period${item.value}`)}</span>
-                                      </label>
-                                  )
-                              })}
-                          </div>
-                          <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b">
-                            {isLoading ? (
-                              <>
-                                <button disabled type="submit" className="cursor-not-allowed bg-blue-300 text-white font-bold py-2 px-4 rounded focus:outline-hidden">
-                                  <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                                    <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-                                  </svg>
-                                  {t('common.processing')}
-                                </button>
-                              </>
-                            ) : (
-                              <>
-                                <button data-modal-hide="default-modal" type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-hidden focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">{t('member.apply')}</button>
-                              </>
-                            )}
-                              <button onClick={() => setShowModal(!showModal)} data-modal-hide="default-modal" type="button" className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-hidden bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">{t('common.cancel')}</button>
-                          </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <td>
+          <div className="flex flex-col items-start gap-1.5">
+            {paidType && (
+              <span className="hidden text-xs text-[var(--muted-foreground)] sm:inline">
+                {t(`member.period${paidType}`)}
+              </span>
+            )}
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="h-8 gap-1.5"
+              onClick={() => handleOpenChange(true)}
+            >
+              <CalendarPlus className="size-3.5" aria-hidden />
+              <span className="lg:hidden">{t("member.apply")}</span>
+              <span className="hidden lg:inline">{t("member.applyPaid")}</span>
+            </Button>
+          </div>
         </td>
       </tr>
+
+      <Dialog open={showModal} onOpenChange={handleOpenChange}>
+        <DialogContent className="sm:max-w-md" showCloseButton>
+          <form onSubmit={onSubmit} className="contents">
+            <input type="hidden" name="email" value={userInfo?.email ?? ""} />
+            <DialogHeader className="mb-4">
+              <DialogTitle>{userInfo.name}</DialogTitle>
+              <DialogDescription>
+                {t("member.applyPaidDesc").replace(
+                  "{name}",
+                  userInfo.name || "",
+                )}
+              </DialogDescription>
+            </DialogHeader>
+            <fieldset className="mb-4 grid gap-2">
+              <legend className="mb-1 text-xs font-semibold text-muted-foreground">
+                {t("member.selectPlan")}
+              </legend>
+              {PAYMENT_PERIOD.map((item: { name: string; value: string }) => (
+                <label
+                  key={`payment-period-${item.value}`}
+                  className={cn(
+                    "flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] px-3 py-2.5 text-sm transition-colors",
+                    paymentType === item.value &&
+                      "border-[color-mix(in_oklab,var(--primary)_45%,var(--border))] bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))]",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    className="size-4 accent-[var(--primary)]"
+                    name="paymentType"
+                    value={item.value}
+                    checked={paymentType === item.value}
+                    onChange={() => setPaymentType(item.value)}
+                    required
+                  />
+                  <span>{t(`member.period${item.value}`)}</span>
+                </label>
+              ))}
+            </fieldset>
+            <DialogFooter className="flex-row sm:justify-end">
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="h-9 min-w-0 flex-1 gap-1.5 sm:flex-none"
+              >
+                {isLoading ? (
+                  <>
+                    <Spinner />
+                    {t("common.processing")}
+                  </>
+                ) : (
+                  t("member.apply")
+                )}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-9 min-w-0 flex-1 sm:flex-none"
+                onClick={() => handleOpenChange(false)}
+              >
+                {t("common.cancel")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <ModalConfirm
+        type={confirmType}
+        message={confirmMsg}
+        visible={isShowConfirm}
+        onClose={(visible: boolean) => handleCloseModal(visible)}
+      />
     </>
   );
-}
+};
 
 export default memo(MemberRowInfo);

@@ -255,7 +255,12 @@
     "periodM": "한달회원",
     "periodY": "1년회원",
     "periodP": "프리미엄회원",
-    "periodU": "평생회원"
+    "periodU": "평생회원",
+    "paid": "유료",
+    "unpaid": "미적용",
+    "expired": "만료",
+    "applyPaidDesc": "{name} 회원에게 유료기간을 적용합니다.",
+    "selectPlan": "적용할 유료구분을 선택해 주세요."
   },
   "modal": {
     "confirmTitle": "확인!",

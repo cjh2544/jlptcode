@@ -255,7 +255,12 @@
     "periodM": "1 month",
     "periodY": "1 year",
     "periodP": "Premium",
-    "periodU": "Lifetime"
+    "periodU": "Lifetime",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "expired": "Expired",
+    "applyPaidDesc": "Apply a paid period for {name}.",
+    "selectPlan": "Select a plan to apply."
   },
   "modal": {
     "confirmTitle": "Confirm",

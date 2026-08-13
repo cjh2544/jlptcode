@@ -255,7 +255,12 @@
     "periodM": "月会员",
     "periodY": "年会员",
     "periodP": "高级会员",
-    "periodU": "终身会员"
+    "periodU": "终身会员",
+    "paid": "已付费",
+    "unpaid": "未开通",
+    "expired": "已过期",
+    "applyPaidDesc": "为 {name} 应用付费期间。",
+    "selectPlan": "请选择要应用的付费类型。"
   },
   "modal": {
     "confirmTitle": "确认!",

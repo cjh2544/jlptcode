@@ -255,7 +255,12 @@
     "periodM": "၁လ",
     "periodY": "၁နှစ်",
     "periodP": "Premium",
-    "periodU": "Lifetime"
+    "periodU": "Lifetime",
+    "paid": "ပေးပြီး",
+    "unpaid": "မသတ်မှတ်",
+    "expired": "သက်တမ်းကုန်",
+    "applyPaidDesc": "{name} အတွက် ငွေပေးကာလ သတ်မှတ်ပါ။",
+    "selectPlan": "အမျိုးအစားရွေးပါ။"
   },
   "modal": {
     "confirmTitle": "အတည်ပြု!",
