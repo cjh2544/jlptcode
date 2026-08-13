@@ -6,6 +6,7 @@ import Footer from "./components/Footers/Footer";
 import MainBackground from "./components/Images/MainBackground";
 import MainBackgroundTitle from "./components/Images/MainBackgroundTitle";
 import Link from "next/link";
+import { useMemo } from "react";
 
 const HOME_CARDS = [
   {
@@ -35,11 +36,16 @@ const HOME_CARDS = [
     icon: "fas fa-graduation-cap",
     gradient: "from-sky-500 to-blue-600",
     descKey: "home.jptDesc",
+    koOnly: true,
   },
 ] as const;
 
 export default function Home() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
+  const cards = useMemo(
+    () => HOME_CARDS.filter((card) => locale === "ko" || !("koOnly" in card && card.koOnly)),
+    [locale],
+  );
 
   return (
     <>
@@ -86,8 +92,12 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-foreground">{t("home.startLearning")}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{t("home.startLearningHint")}</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {HOME_CARDS.map((card) => (
+          <div
+            className={`grid gap-6 sm:grid-cols-2 ${
+              cards.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
+            }`}
+          >
+            {cards.map((card) => (
               <Link key={card.key} scroll={false} href={card.link} className="group block">
                 <div className="home-card h-full p-6 text-center">
                   <div

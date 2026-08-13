@@ -4,10 +4,7 @@ import connectDB from "@/app/utils/database";
 import { isEmpty } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
-import { getServerSession } from "next-auth";
-import { getSession, signOut } from "next-auth/react";
-import { options } from "../auth/[...nextauth]/options";
-import { PAYMENT_PERIOD, USER_ROLE } from "@/app/constants/constants";
+import { requireAdmin } from "@/app/utils/requireAdmin";
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -40,12 +37,8 @@ const UserDeleteFormData = z.object({
 
 export async function POST(req: NextRequest) {
   let resultInfo: {success: boolean, result?: any, message?: string | undefined} = { success: false };
-  const session = await getSession();
-
-  // if(!session?.user?.role?.includes(USER_ROLE.ADMIN)) {
-  //   resultInfo = { success: false, message: '처리 권한이 없습니다.' };
-  //   return NextResponse.json(resultInfo);
-  // }
+  const { error } = await requireAdmin();
+  if (error) return error;
 
   const body = await req.formData();
   const userPaymentInfo = Object.fromEntries(body.entries());

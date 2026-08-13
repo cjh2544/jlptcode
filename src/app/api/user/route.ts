@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod";
 import { compareSync, hashSync } from "bcrypt-ts";
 import { getServerSession } from "next-auth";
-import { signOut } from "next-auth/react";
+import { requireAdmin } from "@/app/utils/requireAdmin";
 
 const BCRYPT_SALT_ROUNDS = process.env.BCRYPT_SALT_ROUNDS as string;
 
@@ -32,6 +32,9 @@ const UserDeleteFormData = z.object({
 });
 
 export async function GET(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
   await connectDB();
 
   const { searchParams } = new URL(request.url);

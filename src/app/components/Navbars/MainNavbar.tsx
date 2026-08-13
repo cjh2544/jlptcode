@@ -38,6 +38,7 @@ const NAV_LINKS = [
     key: "nav.jpt",
     link: "/jptLevelUp",
     icon: "fas fa-graduation-cap",
+    koOnly: true,
   },
   {
     key: "nav.community",
@@ -93,17 +94,19 @@ function YouTubeButton({
 }
 
 export default function MainNavbar() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const [openNav, setOpenNav] = useState(false);
 
   const menuList = useMemo(
     () =>
-      NAV_LINKS.map((item) => ({
-        name: t(item.key),
-        link: item.link,
-        icon: item.icon,
-      })),
-    [t],
+      NAV_LINKS.filter((item) => locale === "ko" || !("koOnly" in item && item.koOnly)).map(
+        (item) => ({
+          name: t(item.key),
+          link: item.link,
+          icon: item.icon,
+        }),
+      ),
+    [t, locale],
   );
 
   return (

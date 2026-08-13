@@ -8,16 +8,19 @@ const FOOTER_LINKS = [
   { key: "nav.speakToday", link: "/speakToday" },
   { key: "nav.jlpt", link: "/levelUp?level=N1" },
   { key: "nav.wordToday", link: "/wordToday" },
-  { key: "nav.jpt", link: "/jptLevelUp" },
+  { key: "nav.jpt", link: "/jptLevelUp", koOnly: true },
   { key: "nav.community", link: "/board/community/list" },
 ] as const;
 
 export default function Footer() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
 
   const links = useMemo(
-    () => FOOTER_LINKS.map((item) => ({ name: t(item.key), link: item.link })),
-    [t],
+    () =>
+      FOOTER_LINKS.filter((item) => locale === "ko" || !("koOnly" in item && item.koOnly)).map(
+        (item) => ({ name: t(item.key), link: item.link }),
+      ),
+    [t, locale],
   );
 
   return (

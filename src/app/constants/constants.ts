@@ -11,3 +11,7 @@ export const USER_ROLE = {
   USER: 'user',
   ADMIN: 'admin',
 }
+
+export function isAdminRole(role?: string[] | null) {
+  return Array.isArray(role) && role.includes(USER_ROLE.ADMIN);
+}

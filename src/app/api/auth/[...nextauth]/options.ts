@@ -80,6 +80,12 @@ export const options: NextAuthOptions = {
         token.role = user.role;
       }
 
+      if (!token.role && token.email) {
+        await connectDB();
+        const dbUser = await User.findOne({ email: token.email }).select("role");
+        token.role = dbUser?.role ?? [];
+      }
+
       return token;
     },
     async session({ session, user, token }) {

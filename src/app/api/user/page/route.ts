@@ -1,10 +1,12 @@
 import connectDB from "@/app/utils/database";
-import { isEmpty } from "lodash";
-import { NextApiRequest, NextApiResponse } from "next";
+import { requireAdmin } from "@/app/utils/requireAdmin";
 import { NextRequest, NextResponse } from "next/server"
 import User from "@/app/models/userModel";
 
 export async function POST(request: NextRequest) {
+  const { error } = await requireAdmin();
+  if (error) return error;
+
   await connectDB();
 
   const {pageInfo, searchInfo} = await request.json();

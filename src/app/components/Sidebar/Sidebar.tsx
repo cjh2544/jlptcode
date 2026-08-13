@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeft, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
@@ -20,12 +20,14 @@ type NavItem = {
   href: string;
   icon: string;
   badge?: "recommended" | "new";
+  koOnly?: boolean;
 };
 
 type NavSection = {
   titleKey: string;
   titleBadge?: "recommended" | "new";
   items: NavItem[];
+  koOnly?: boolean;
 };
 
 const NAV_SECTIONS: NavSection[] = [
@@ -63,6 +65,7 @@ const NAV_SECTIONS: NavSection[] = [
         key: "sidebar.mockTest",
         href: "/jlptTest?level=N1",
         icon: "fas fa-clipboard-check",
+        koOnly: true,
       },
     ],
   },
@@ -89,6 +92,7 @@ const NAV_SECTIONS: NavSection[] = [
   {
     titleKey: "nav.jpt",
     titleBadge: "new",
+    koOnly: true,
     items: [
       {
         key: "sidebar.levelUp",
@@ -104,6 +108,7 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     titleKey: "sidebar.wordSection",
+    koOnly: true,
     items: [
       {
         key: "sidebar.jlptWord",
@@ -273,13 +278,23 @@ export function SidebarMobileBar() {
   );
 }
 
+function getNavSections(locale: string) {
+  if (locale === "ko") return NAV_SECTIONS;
+  return NAV_SECTIONS.filter((section) => !section.koOnly).map((section) => ({
+    ...section,
+    items: section.items.filter((item) => !item.koOnly),
+  }));
+}
+
 export default function Sidebar() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const pathname = usePathname();
   const collapsed = useSidebarStore((state) => state.collapsed);
   const mobileOpen = useSidebarStore((state) => state.mobileOpen);
   const toggleCollapsed = useSidebarStore((state) => state.toggleCollapsed);
   const setMobileOpen = useSidebarStore((state) => state.setMobileOpen);
+
+  const sections = useMemo(() => getNavSections(locale), [locale]);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -354,7 +369,7 @@ export default function Sidebar() {
         </div>
 
         <nav className="app-sidebar-nav">
-          {NAV_SECTIONS.map((section) => (
+          {sections.map((section) => (
             <section key={section.titleKey} className="app-sidebar-section">
               <h2 className="app-sidebar-section-title">
                 {t(section.titleKey)}
