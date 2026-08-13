@@ -7,6 +7,7 @@ import CardImage from "./CardImage";
 import { isEmpty } from "lodash";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 
 type LevelUpQuestionProps = {
   classification?: string;
@@ -19,14 +20,21 @@ type LevelUpQuestionProps = {
   showTransButton?: boolean,
   showSpeakButton?: boolean,
   speaker?: string,
+  sentence_locale?: {
+    en?: string;
+    cn?: string;
+    my?: string;
+  },
 }
 
 const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
-  const {classification, questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker} = props;
-  const {content = '', audio = {}, image = {}, translate, read} = question;
-  const {translation, reading} = sentence;
+  const {classification, questionType, question, id = '', questionNo, sentence = {}, showReadButton = true, showTransButton = true, showSpeakButton = true, speaker, sentence_locale} = props;
+  const {content = '', audio = {}, image = {}, translate, read} = question || {};
+  const { t, locale } = useTranslations();
+  const reading = sentence?.reading || read;
+  const translation = getLocalizedTranslate(locale, sentence_locale, sentence?.translation || translate);
   const isListening = classification === 'listening';
-  const { t } = useTranslations();
+  const hasReading = Boolean(String(reading ?? '').trim());
   const [openTranslate, setOpenTranslate] = React.useState(false);
   const [openRead, setOpenRead] = React.useState(false);
   const [openSpeaker, setOpenSpeaker] = React.useState(false);
@@ -47,7 +55,7 @@ const CardLevelUpQuestion = (props:LevelUpQuestionProps) => {
             <div>{parseHtml(content || '')}</div>
           </div>
           <div className="app-question-tools">
-            {showReadButton && reading && (
+            {showReadButton && hasReading && (
               <Button onClick={toggleOpenRead} className="px-2 py-1">
                 {isListening ? t('common.sentence') : t('common.read')}
               </Button>

@@ -5,6 +5,8 @@ import WordToday from "@/app/models/wordTodayModel";
 import connectDB from "@/app/utils/database";
 import { isEmpty, unset } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
+import { DEFAULT_LOCALE, LOCALE_COOKIE, parseLocale } from "@/i18n/config";
+import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 
 export async function POST(request: NextRequest) {
   await connectDB();
@@ -19,6 +21,8 @@ export async function POST(request: NextRequest) {
 
   unset(searchInfo, 'wordType');
   unset(searchInfo, 'wordShowType');
+
+  const locale = parseLocale(request.cookies.get(LOCALE_COOKIE)?.value) ?? DEFAULT_LOCALE;
 
   let wordList:any = [];
   let wordSearchInfo = {};
@@ -58,7 +62,7 @@ export async function POST(request: NextRequest) {
     wordList.map((data: any) => {
       data.word = data.sentence;
       data.read = data.sentence_read;
-      data.means = data.sentence_translate;
+      data.means = getLocalizedTranslate(locale, data.sentence_locale, data.sentence_translate);
 
       return data;
     });
@@ -74,7 +78,7 @@ export async function POST(request: NextRequest) {
         ...data, 
         word: data.sentence,
         read: data.sentence_read,
-        means: data.sentence_translate
+        means: getLocalizedTranslate(locale, data.sentence_locale, data.sentence_translate)
       };
     });
   }

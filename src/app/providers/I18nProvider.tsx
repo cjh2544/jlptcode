@@ -2,7 +2,7 @@
 
 import {
   DEFAULT_LOCALE,
-  isLocale,
+  parseLocale,
   LOCALE_COOKIE,
   type Locale,
 } from "@/i18n/config";
@@ -31,11 +31,13 @@ function readStoredLocale(): Locale {
     .split("; ")
     .find((row) => row.startsWith(`${LOCALE_COOKIE}=`));
   const fromCookie = match?.split("=")[1];
-  if (fromCookie && isLocale(fromCookie)) return fromCookie;
+  const cookieLocale = parseLocale(fromCookie);
+  if (cookieLocale) return cookieLocale;
 
   try {
     const fromStorage = localStorage.getItem(LOCALE_COOKIE);
-    if (fromStorage && isLocale(fromStorage)) return fromStorage;
+    const storageLocale = parseLocale(fromStorage);
+    if (storageLocale) return storageLocale;
   } catch {
     /* ignore */
   }

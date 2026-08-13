@@ -4,6 +4,7 @@ import React, {memo} from "react";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 
 type SentenceInfoProps = {
   wordInfo: any
@@ -11,7 +12,7 @@ type SentenceInfoProps = {
 }
 
 const SentenceInfo = (props:SentenceInfoProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const {
     wordInfo,
     onClick
@@ -22,6 +23,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     sentence,
     sentence_read,
     sentence_translate,
+    sentence_locale,
     speaker,
     question,
     showQuestion = false,
@@ -29,6 +31,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     hideSentenceRead = false,
     hideSentenceTranslate = false
   } = wordInfo;
+  const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);
 
   const handleClick = (colType: string) => {
     let visibleInfo = {};
@@ -103,7 +106,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
       <div className="app-today-item-body">
         {renderField(t('common.sentence'), parseHtml(sentence), hideSentence, 'sentence')}
         {renderField(t('common.read'), parseHtml(sentence_read), hideSentenceRead, 'sentence_read')}
-        {renderField(t('common.translation'), parseHtml(sentence_translate), hideSentenceTranslate, 'sentence_translate')}
+        {renderField(t('common.translation'), parseHtml(localizedTranslate), hideSentenceTranslate, 'sentence_translate')}
       </div>
       {showQuestion && (
         <div className="app-today-item-question app-reveal">
@@ -111,7 +114,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             questionInfo={question}
             speaker={speaker}
             sentence_read={sentence_read}
-            sentence_translate={sentence_translate}
+            sentence_translate={localizedTranslate}
           />
         </div>
       )}

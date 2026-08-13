@@ -2,6 +2,7 @@
 import React, {memo, useEffect} from "react";
 import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 
 type SpeakInfoProps = {
   wordInfo: any
@@ -9,7 +10,7 @@ type SpeakInfoProps = {
 }
 
 const SpeakInfo = (props:SpeakInfoProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const { 
     wordInfo, 
     onClick
@@ -26,6 +27,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
     sentence, 
     sentence_read, 
     sentence_translate,
+    sentence_locale,
     speaker,
     question,
     showQuestion = false,
@@ -35,6 +37,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
     hideKeyword = false,
     hideSpeaker = false,
   } = wordInfo;
+  const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);
 
   const handleClick = (colType: string) => {
     let visibleInfo = {};
@@ -69,7 +72,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
       <li className="py-3 sm:py-4">
         <div>
           <h4 className="text-lg font-bold text-gray-800">
-            {parseHtml(sentence_translate)}
+            {parseHtml(localizedTranslate)}
           </h4>
         </div>
         <div className="flex items-center">

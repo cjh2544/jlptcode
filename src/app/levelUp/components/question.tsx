@@ -10,7 +10,7 @@ type QuestionProps = {
 
 const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
-  const {classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker} = questionInfo;
+  const {classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker, sentence_locale} = questionInfo;
 
   const setLevelUpAnswer = useLevelUpStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useLevelUpStore((state:any) => state.showAnswer);
@@ -29,6 +29,7 @@ const Question = (props:QuestionProps) => {
     showSpeakButton,
     speaker,
     sentence,
+    sentence_locale,
     question,
   };
 

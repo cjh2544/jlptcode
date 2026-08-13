@@ -53,9 +53,19 @@ const grammarTodaySchema = new Schema({
   sentence_translate: {
     type: String,
   },
+  // 문장 다국어
+  sentence_locale: {
+    en: { type: String },
+    cn: { type: String },
+    my: { type: String },
+  },
   // 문제
   question: {
     type: QuestionSchema,
+  },
+  // 스피커
+  speaker: {
+    type: String,
   },
 }, {timestamps: true, collection: 'grammar_today'})
 

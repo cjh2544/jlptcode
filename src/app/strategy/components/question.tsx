@@ -10,7 +10,7 @@ type QuestionProps = {
 
 const Question = (props:QuestionProps) => {
   const {questionInfo} = props;
-  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker} = questionInfo;
+  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker, sentence_locale} = questionInfo;
 
   const setLevelUpAnswer = useStrategyStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useStrategyStore((state:any) => state.showAnswer);
@@ -28,11 +28,13 @@ const Question = (props:QuestionProps) => {
       {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
             showTransButton={showTransButton}
             showSpeakButton={showSpeakButton}
-            speaker={speaker} />}
+            speaker={speaker}
+            sentence_locale={sentence_locale} />}
       {questionType === 'content' && <CardLevelUpContent questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
             showTransButton={showTransButton}
             showSpeakButton={showSpeakButton}
-            speaker={speaker} />}
+            speaker={speaker}
+            sentence_locale={sentence_locale} />}
       {questionType === 'normal' && (
         <>
           <CardLevelUpQuestion questionType={questionType}
@@ -47,7 +49,8 @@ const Question = (props:QuestionProps) => {
             showReadButton={showReadButton}
             showTransButton={showTransButton}
             showSpeakButton={showSpeakButton}
-            speaker={speaker} />
+            speaker={speaker}
+            sentence_locale={sentence_locale} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}
         </>
       )}

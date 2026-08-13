@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "@/app/providers/I18nProvider";
-import { LOCALE_LABELS, type Locale } from "@/i18n/config";
+import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,13 +12,11 @@ import {
 import { cn } from "@/lib/utils";
 import React from "react";
 
-const LOCALES: Locale[] = ["ko", "ja", "en", "zh", "my"];
-
 const LOCALE_SHORT: Record<Locale, string> = {
   ko: "KO",
   ja: "JA",
   en: "EN",
-  zh: "ZH",
+  cn: "CN",
   my: "MY",
 };
 
@@ -115,7 +113,7 @@ function FlagEn({ className }: { className?: string }) {
   );
 }
 
-function FlagZh({ className }: { className?: string }) {
+function FlagCn({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 16" aria-hidden>
       <rect width="24" height="16" fill="#de2910" />
@@ -149,7 +147,7 @@ export const FlagIcon: Record<Locale, React.FC<{ className?: string }>> = {
   ko: FlagKo,
   ja: FlagJa,
   en: FlagEn,
-  zh: FlagZh,
+  cn: FlagCn,
   my: FlagMy,
 };
 

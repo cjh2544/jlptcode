@@ -82,7 +82,7 @@ session?.paymentInfo?.isValid
 
 ## i18n
 
-**로케일**: `ko`, `ja`, `en`, `zh`, `my` — `src/i18n/config.ts`
+**로케일**: `ko`, `ja`, `en`, `cn`, `my` — `src/i18n/config.ts`
 
 **메시지**: `src/i18n/messages/{locale}.json`
 

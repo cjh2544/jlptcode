@@ -89,9 +89,20 @@ const levelUpSchema = new Schema({
     type: Number,
     required: false,
   },
+  // 문장
+  sentence: {
+    reading: { type: String },
+    translation: { type: String },
+  },
   // 스피커
   speaker: {
     type: String,
+  },
+  // 문장 다국어
+  sentence_locale: {
+    en: { type: String },
+    cn: { type: String },
+    my: { type: String },
   },
 }, {timestamps: true, collection: 'level_up'})
 

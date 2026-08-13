@@ -405,5 +405,9 @@ export async function POST(request: NextRequest) {
   }
 
 
-  return NextResponse.json(levelUpList)
+  return NextResponse.json(
+    levelUpList
+      .filter(Boolean)
+      .map((item: any) => (typeof item?.toObject === "function" ? item.toObject() : item)),
+  )
 }

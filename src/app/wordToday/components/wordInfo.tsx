@@ -4,6 +4,7 @@ import React, {memo} from "react";
 import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 
 type WordInfoProps = {
   wordInfo: any
@@ -11,7 +12,7 @@ type WordInfoProps = {
 }
 
 const WordInfo = (props:WordInfoProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const {
     wordInfo,
     onClick
@@ -25,6 +26,7 @@ const WordInfo = (props:WordInfoProps) => {
     means,
     sentence_read,
     sentence_translate,
+    sentence_locale,
     speaker,
     question,
     showQuestion = false,
@@ -32,6 +34,7 @@ const WordInfo = (props:WordInfoProps) => {
     hideRead = false,
     hideMeans = false
   } = wordInfo;
+  const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);
 
   const handleClick = (colType: string) => {
     let visibleInfo = {};
@@ -110,7 +113,7 @@ const WordInfo = (props:WordInfoProps) => {
             questionInfo={question}
             speaker={speaker}
             sentence_read={sentence_read}
-            sentence_translate={sentence_translate}
+            sentence_translate={localizedTranslate}
           />
         </div>
       )}

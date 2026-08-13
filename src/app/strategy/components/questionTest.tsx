@@ -63,7 +63,7 @@ const QuestionTestPage = () => {
               checked={showReadButton}
               onChange={() => handleChangeCheck("showReadButton", !showReadButton)}
             />
-            {"reading" !== levelUpInfo.classification && (
+            {"listening" !== levelUpInfo.classification && (
               <QuizCheckbox
                 id="show-trans-checkbox"
                 label={t("common.translation")}

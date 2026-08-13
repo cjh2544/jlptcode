@@ -27,7 +27,7 @@ export const useStrategyStore = create<StrategyStore>()(
     devtools(
         persist((set, get) => ({
             showAnswer: false,
-            showReadButton: false,
+            showReadButton: true,
             showTransButton: false,
             showSpeakButton: false,
             isLoading: false,
@@ -65,7 +65,7 @@ export const useStrategyStore = create<StrategyStore>()(
             },
             init: () => set({ 
                 showAnswer: false,
-                showReadButton: false,
+                showReadButton: true,
                 showTransButton: false,
                 showSpeakButton: false,
                 isLoading: false,
@@ -80,7 +80,8 @@ export const useStrategyStore = create<StrategyStore>()(
             }),
         }),
         {
-          name: 'strategy-storage', // persist key
+          name: 'strategy-storage',
+          partialize: (state) => ({ levelUpInfo: state.levelUpInfo }),
         }
       )
     )

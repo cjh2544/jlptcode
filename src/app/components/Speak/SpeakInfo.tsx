@@ -4,6 +4,7 @@ import React, { memo } from 'react';
 import SpeechPlayer from '@/app/components/Audio/SpeechPlayer';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/app/providers/I18nProvider';
+import { getLocalizedTranslate } from '@/app/utils/sentenceLocale';
 
 type SpeakInfoProps = {
   wordInfo: any;
@@ -11,7 +12,7 @@ type SpeakInfoProps = {
 };
 
 const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const {
     wordNo,
     study,
@@ -19,12 +20,14 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
     sentence,
     sentence_read,
     sentence_translate,
+    sentence_locale,
     hideSentence = true,
     hideSentenceRead = true,
     hideKeyword = true,
     hideSpeaker = true,
     speaker,
   } = wordInfo;
+  const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);
 
   const handleClick = (colType: string) => {
     let visibleInfo = {};
@@ -116,7 +119,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
 
       <div className="app-today-speak-prompt">
         <span className="app-today-field-label">{t('common.translation')}</span>
-        <div className="app-today-speak-prompt-text">{parseHtml(sentence_translate)}</div>
+        <div className="app-today-speak-prompt-text">{parseHtml(localizedTranslate)}</div>
         {speaker && !hideSpeaker && (
           <div className="app-today-speak-audio">
             <SpeechPlayer src={speaker} />

@@ -61,6 +61,12 @@ const wordTodaySchema = new Schema({
     type: String,
     required: true,
   },
+  // 단어 다국어
+  word_locale: {
+    en: { type: String },
+    cn: { type: String },
+    my: { type: String },
+  },
   // 문장
   sentence: {
     type: String,
@@ -72,6 +78,12 @@ const wordTodaySchema = new Schema({
   // 문장 해석
   sentence_translate: {
     type: String,
+  },
+  // 문장 다국어
+  sentence_locale: {
+    en: { type: String },
+    cn: { type: String },
+    my: { type: String },
   },
   // 키워드
   keyword: {
