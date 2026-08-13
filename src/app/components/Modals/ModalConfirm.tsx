@@ -22,10 +22,20 @@ type ModalConfirmProps = {
   message: any;
   visible: boolean;
   onClose: (visible: boolean) => void;
+  onConfirm?: () => void;
+  showCancel?: boolean;
 };
 
 const ModalConfirm = (props: ModalConfirmProps) => {
-  const { type = "info", title, message, visible = false, onClose } = props;
+  const {
+    type = "info",
+    title,
+    message,
+    visible = false,
+    onClose,
+    onConfirm,
+    showCancel = false,
+  } = props;
   const { t } = useTranslations();
 
   const colorClass = useMemo(
@@ -40,6 +50,11 @@ const ModalConfirm = (props: ModalConfirmProps) => {
 
   const handleClose = () => {
     onClose?.(false);
+  };
+
+  const handleConfirm = () => {
+    onConfirm?.();
+    handleClose();
   };
 
   return (
@@ -60,12 +75,23 @@ const ModalConfirm = (props: ModalConfirmProps) => {
             {message}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="sm:justify-center">
+        <DialogFooter className="flex-row sm:justify-center">
+          {showCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleClose}
+              className="mt-2 h-10 flex-[2] rounded-md text-sm font-semibold tracking-wide"
+            >
+              {t("common.cancel")}
+            </Button>
+          )}
           <Button
             type="button"
-            onClick={handleClose}
+            onClick={handleConfirm}
             className={cn(
-              "px-6 py-2.5 mt-2 w-full rounded-md text-white text-sm font-semibold tracking-wide",
+              "mt-2 h-10 rounded-md px-6 text-sm font-semibold tracking-wide text-white",
+              showCancel ? "flex-1" : "w-full",
               colorClass,
             )}
           >

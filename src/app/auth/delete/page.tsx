@@ -2,7 +2,7 @@
 
 import { signOut, useSession } from "next-auth/react";
 import SignUpLayout from "@/app/components/Layout/SignUpLayout";
-import { FormEvent, useCallback, useState } from "react";
+import { FormEvent, useCallback, useRef, useState } from "react";
 import { z } from "zod";
 import { find, includes, isEmpty } from "lodash";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
@@ -26,13 +26,20 @@ const DeletePage = () => {
   const { data: session } = useSession();
   const [confirmType, setConfirmType] = useState<any>("info");
   const [isProcSuccess, setProcSuccess] = useState<boolean>(false);
+  const [isDeletePending, setDeletePending] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setConfirmType("warning");
+    setConfirmMsg(t("auth.deleteConfirm"));
+    setProcSuccess(false);
+    setDeletePending(true);
+    setShowConfirm(true);
+  };
 
-    if (!confirm(t("auth.deleteConfirm"))) {
-      return;
-    }
+  const executeDelete = async () => {
+    if (!formRef.current) return;
 
     setIsLoading(true);
     setErrors(null);
@@ -40,7 +47,7 @@ const DeletePage = () => {
     setProcSuccess(false);
 
     try {
-      const formData = new FormData(event.currentTarget);
+      const formData = new FormData(formRef.current);
 
       const response = await fetch("/api/user", {
         method: "DELETE",
@@ -88,8 +95,22 @@ const DeletePage = () => {
     [errors],
   );
 
+  const handleConfirmModal = () => {
+    if (isDeletePending) {
+      setDeletePending(false);
+      void executeDelete();
+    }
+  };
+
   const handleCloseModal = async (visible: boolean) => {
     setShowConfirm(visible);
+
+    if (visible) return;
+
+    if (isDeletePending) {
+      setDeletePending(false);
+      return;
+    }
 
     if (isProcSuccess) {
       await signOut();
@@ -103,7 +124,7 @@ const DeletePage = () => {
           title={t("auth.deleteAccount")}
           description={t("auth.deleteConfirm")}
         >
-          <form onSubmit={onSubmit} className="app-auth-form">
+          <form ref={formRef} onSubmit={onSubmit} className="app-auth-form">
             <AuthField label={t("member.name")}>
               <AuthReadonly value={session?.user?.name || ""} />
             </AuthField>
@@ -160,6 +181,8 @@ const DeletePage = () => {
         type={confirmType}
         message={confirmMsg}
         visible={isShowConfirm}
+        showCancel={isDeletePending}
+        onConfirm={handleConfirmModal}
         onClose={(visible: boolean) => handleCloseModal(visible)}
       />
     </>
