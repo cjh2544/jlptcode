@@ -238,7 +238,10 @@
     "placeholderTitle": "Enter a title",
     "placeholderContent": "Enter content",
     "titleLen": "(2–100 chars)",
-    "contentLen": "(2–5000 chars)"
+    "contentLen": "(2–5000 chars)",
+    "writeGuide": "Leave your question about studying. Replies will be posted on this thread.",
+    "writeHint": "The more specific your question, the more accurate the answer.",
+    "charCount": "{n} / {max}"
   },
   "member": {
     "listTitle": "Members",

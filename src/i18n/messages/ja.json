@@ -238,7 +238,10 @@
     "placeholderTitle": "タイトルを入力",
     "placeholderContent": "内容を入力",
     "titleLen": "(2〜100文字)",
-    "contentLen": "(2〜5000文字)"
+    "contentLen": "(2〜5000文字)",
+    "writeGuide": "学習中にわからない点を残してください。回答はこの投稿に登録されます。",
+    "writeHint": "内容が具体的であるほど、より正確な回答が得られます。",
+    "charCount": "{n} / {max}"
   },
   "member": {
     "listTitle": "会員一覧",

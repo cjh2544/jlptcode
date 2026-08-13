@@ -21,7 +21,7 @@ export default function MemberLayout({
         {/* Header */}
         <HeaderTitle titleKey="layout.member" />
         <div className="px-4 md:px-10 mx-auto w-full">
-          <div className="px-4 mx-auto w-full m-10">
+          <div className="px-0 sm:px-4 mx-auto w-full my-10">
             <div className="app-panel w-full">
               {children}
             </div>

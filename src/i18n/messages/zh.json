@@ -238,7 +238,10 @@
     "placeholderTitle": "请输入标题",
     "placeholderContent": "请输入内容",
     "titleLen": "(2~100字)",
-    "contentLen": "(2~5000字)"
+    "contentLen": "(2~5000字)",
+    "writeGuide": "请留下学习中的疑问。回复将发布在该帖子中。",
+    "writeHint": "问题越具体，回复越准确。",
+    "charCount": "{n} / {max}"
   },
   "member": {
     "listTitle": "会员列表",

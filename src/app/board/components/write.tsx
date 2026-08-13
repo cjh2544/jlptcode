@@ -1,159 +1,283 @@
-'use client';
-import React, {FormEvent, memo, useCallback} from 'react';
-import { useRouter } from 'next/navigation';
-import { useBoardCommunityStore } from '@/app/store/boardCommunityStore';
-import { find, includes, isEmpty } from 'lodash';
-import Link from 'next/link';
-import { z } from 'zod';
-import ModalConfirm from '@/app/components/Modals/ModalConfirm';
-import { useTranslations } from '@/app/providers/I18nProvider';
+"use client";
+
+import React, { FormEvent, memo, useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useBoardCommunityStore } from "@/app/store/boardCommunityStore";
+import { find, includes, isEmpty } from "lodash";
+import Link from "next/link";
+import { z } from "zod";
+import ModalConfirm from "@/app/components/Modals/ModalConfirm";
+import { useTranslations } from "@/app/providers/I18nProvider";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { CircleAlert, List, PenLine, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type BoardWriteProps = {
-  id?: string,
-}
+  id?: string;
+};
 
-const BoardWrite = (props: BoardWriteProps) => {
+const TITLE_MAX = 100;
+const CONTENT_MAX = 5000;
+
+const BoardWrite = (_props: BoardWriteProps) => {
   const { t } = useTranslations();
-  const {
-    id
-  } = props
-  
+  const { data: session } = useSession();
   const router = useRouter();
-  const isLoading = useBoardCommunityStore((state:any) => state.isLoading);
-  const errors = useBoardCommunityStore((state:any) => state.errors);
-  const showConfirm = useBoardCommunityStore((state:any) => state.showConfirm);
-  const confirmMsg = useBoardCommunityStore((state:any) => state.confirmMsg);
-  const messageType = useBoardCommunityStore((state:any) => state.messageType);
-  const success = useBoardCommunityStore((state:any) => state.success);
-  const setLoading = useBoardCommunityStore((state:any) => state.setLoading);
-  const setBoardInfo = useBoardCommunityStore((state:any) => state.setBoardInfo);
-  const setErrors = useBoardCommunityStore((state:any) => state.setErrors);
-  const setShowConfirm = useBoardCommunityStore((state:any) => state.setShowConfirm);
-  const setConfirmMsg = useBoardCommunityStore((state:any) => state.setConfirmMsg);
-  const setSuccess = useBoardCommunityStore((state:any) => state.setSuccess);
-  const setMessageType = useBoardCommunityStore((state:any) => state.setMessageType);
+
+  const isLoading = useBoardCommunityStore((state: any) => state.isLoading);
+  const errors = useBoardCommunityStore((state: any) => state.errors);
+  const showConfirm = useBoardCommunityStore((state: any) => state.showConfirm);
+  const confirmMsg = useBoardCommunityStore((state: any) => state.confirmMsg);
+  const messageType = useBoardCommunityStore((state: any) => state.messageType);
+  const success = useBoardCommunityStore((state: any) => state.success);
+  const setLoading = useBoardCommunityStore((state: any) => state.setLoading);
+  const setBoardInfo = useBoardCommunityStore((state: any) => state.setBoardInfo);
+  const setErrors = useBoardCommunityStore((state: any) => state.setErrors);
+  const setShowConfirm = useBoardCommunityStore(
+    (state: any) => state.setShowConfirm,
+  );
+  const setConfirmMsg = useBoardCommunityStore(
+    (state: any) => state.setConfirmMsg,
+  );
+  const setSuccess = useBoardCommunityStore((state: any) => state.setSuccess);
+  const setMessageType = useBoardCommunityStore(
+    (state: any) => state.setMessageType,
+  );
+
+  const [titleLen, setTitleLen] = useState(0);
+  const [contentLen, setContentLen] = useState(0);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true)
-    setErrors(null)
- 
+    setLoading(true);
+    setErrors(null);
+
     try {
       const formData = new FormData(event.currentTarget);
-      
-      const response = await fetch('/api/board/community', {
-        method: 'POST',
+
+      const response = await fetch("/api/board/community", {
+        method: "POST",
         body: formData,
-      })
+      });
 
       const data = await response.json();
-      
-      if(data.success) {
+
+      if (data.success) {
         setBoardInfo(Object.fromEntries(formData));
-        setMessageType('info');
+        setMessageType("info");
         setConfirmMsg(data.message);
         setShowConfirm(true);
         setSuccess(true);
       } else {
-        if(data.error) {
-          setMessageType('error');
+        if (data.error) {
+          setMessageType("error");
           setErrors(data.error.issues);
         } else {
-          setMessageType('warning');
+          setMessageType("warning");
           setConfirmMsg(data.message);
           setShowConfirm(true);
         }
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setMessageType('error');
+        setMessageType("error");
         setConfirmMsg(error.message);
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const getErrorMessage = useCallback((colName: string) => {
-    if(isEmpty(errors)) {
-      return '';
-    } else {
-      const result = find(errors, (err) => includes(err.path, colName));
-      return result?.message;
-    }
-  }, [errors]);
+  const getErrorMessage = useCallback(
+    (colName: string) => {
+      if (isEmpty(errors)) {
+        return "";
+      } else {
+        const result = find(errors, (err) => includes(err.path, colName));
+        return result?.message;
+      }
+    },
+    [errors],
+  );
 
-  const isValid = useCallback((colName: string) => {
-    if(isEmpty(errors)) {
-      return true;
-    } else {
-      const result = find(errors, (err) => includes(err.path, colName));
-      return isEmpty(result);
-    }
-  }, [errors])
+  const isValid = useCallback(
+    (colName: string) => {
+      if (isEmpty(errors)) {
+        return true;
+      } else {
+        const result = find(errors, (err) => includes(err.path, colName));
+        return isEmpty(result);
+      }
+    },
+    [errors],
+  );
 
   const handleCloseModal = (visible: boolean) => {
     setShowConfirm(visible);
 
-    if(success) {
-      router.push('list', {scroll: false})
+    if (success) {
+      router.push("list", { scroll: false });
     }
-  }
+  };
+
+  const titleValid = isValid("title");
+  const contentValid = isValid("contents");
 
   return (
     <>
-      <div className="font-nanumGothic flex flex-col items-center justify-center px-6 py-8 lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow-lg">
-              <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                  <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                      {t('board.inputTitle')}
-                  </h1>
-                  <form onSubmit={onSubmit} className="space-y-4 md:space-y-6">
-                      <div>
-                          <label className={`block mb-2 text-sm font-bold ${isValid('title') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>{t('board.subject')} {t('board.titleLen')}</label>
-                          <input required={true} maxLength={100} type="text" name="title" id="title" className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder={t('board.placeholderTitle')} />
-                          <p className={`${isValid('title') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('title')}</p>
-                      </div>
-                      <div>
-                          <label className={`block mb-2 text-sm font-bold ${isValid('contents') ? 'text-gray-900' : 'text-red-600'} dark:text-white`}>{t('board.content')} {t('board.contentLen')}</label>
-                          <textarea name="contents" id="contents"
-                            required={true} 
-                            maxLength={5000}
-                            rows={10}
-                            className="border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                            placeholder={t('board.placeholderContent')}>
-                          </textarea>
-                          <p className={`${isValid('contents') ? 'hidden' : 'text-red-600 text-sm'}`}>{getErrorMessage('contents')}</p>
-                      </div>
-                      <div className='flex justify-center gap-2'>
-                        {isLoading ? (
-                          <>
-                            <button disabled type="button" className="cursor-not-allowed bg-blue-300 text-white font-bold py-2 px-4 rounded focus:outline-hidden">
-                              <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
-                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
-                              </svg>
-                              {t('common.processing')}
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-hidden">
-                              {t('board.register')}
-                            </button>
-                          </>
-                        )}
-                        <Link href="list" scroll={false} className="text-center text-gray-900 bg-white border border-gray-400 font-bold py-2 px-4 rounded">
-                          {t('common.cancel')}
-                        </Link>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      <ModalConfirm type={messageType} message={confirmMsg} visible={showConfirm} onClose={(visible: boolean) => handleCloseModal(visible)} />
-    </>
-  )
-}
+      <div className="app-board-view">
+        <header className="app-board-view-header">
+          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            {t("board.ask")}
+          </span>
+          <h1 className="app-board-view-title">{t("board.inputTitle")}</h1>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {t("board.writeGuide")}
+          </p>
+          {session?.user?.name && (
+            <div className="app-board-view-meta">
+              <span className="inline-flex items-center gap-1.5">
+                <User className="size-3.5" aria-hidden />
+                {session.user.name}
+              </span>
+            </div>
+          )}
+        </header>
 
-export default memo(BoardWrite)
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+          <div className="app-board-field">
+            <div className="flex items-end justify-between gap-2">
+              <label
+                htmlFor="title"
+                className={cn(
+                  "app-board-view-label !mb-0",
+                  !titleValid && "text-destructive",
+                )}
+              >
+                {t("board.subject")}
+                <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">
+                  {t("board.titleLen")}
+                </span>
+              </label>
+              <span
+                className={cn(
+                  "tabular-nums text-xs text-muted-foreground",
+                  titleLen >= TITLE_MAX && "font-semibold text-destructive",
+                )}
+              >
+                {t("board.charCount")
+                  .replace("{n}", String(titleLen))
+                  .replace("{max}", String(TITLE_MAX))}
+              </span>
+            </div>
+            <input
+              required
+              maxLength={TITLE_MAX}
+              type="text"
+              name="title"
+              id="title"
+              aria-invalid={!titleValid}
+              className={cn("app-board-input", !titleValid && "is-invalid")}
+              placeholder={t("board.placeholderTitle")}
+              onChange={(e) => setTitleLen(e.target.value.length)}
+            />
+            {!titleValid && (
+              <p className="app-board-field-error">
+                <CircleAlert className="size-3.5 shrink-0" aria-hidden />
+                {getErrorMessage("title")}
+              </p>
+            )}
+          </div>
+
+          <div className="app-board-field">
+            <div className="flex items-end justify-between gap-2">
+              <label
+                htmlFor="contents"
+                className={cn(
+                  "app-board-view-label !mb-0",
+                  !contentValid && "text-destructive",
+                )}
+              >
+                {t("board.content")}
+                <span className="ml-1 font-normal normal-case tracking-normal text-muted-foreground">
+                  {t("board.contentLen")}
+                </span>
+              </label>
+              <span
+                className={cn(
+                  "tabular-nums text-xs text-muted-foreground",
+                  contentLen >= CONTENT_MAX && "font-semibold text-destructive",
+                )}
+              >
+                {t("board.charCount")
+                  .replace("{n}", String(contentLen))
+                  .replace("{max}", String(CONTENT_MAX))}
+              </span>
+            </div>
+            <textarea
+              name="contents"
+              id="contents"
+              required
+              maxLength={CONTENT_MAX}
+              rows={10}
+              aria-invalid={!contentValid}
+              className={cn("app-board-textarea", !contentValid && "is-invalid")}
+              placeholder={t("board.placeholderContent")}
+              onChange={(e) => setContentLen(e.target.value.length)}
+            />
+            {!contentValid && (
+              <p className="app-board-field-error">
+                <CircleAlert className="size-3.5 shrink-0" aria-hidden />
+                {getErrorMessage("contents")}
+              </p>
+            )}
+          </div>
+
+          <p className="app-board-form-hint">{t("board.writeHint")}</p>
+
+          <footer className="app-board-view-actions">
+            <Button
+              type="submit"
+              disabled={isLoading}
+              size="lg"
+              className="h-10 min-w-0 flex-1 gap-1.5 sm:min-w-28 sm:flex-none"
+            >
+              {isLoading ? (
+                <>
+                  <Spinner />
+                  {t("common.processing")}
+                </>
+              ) : (
+                <>
+                  <PenLine className="size-4" aria-hidden />
+                  {t("board.register")}
+                </>
+              )}
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="h-10 min-w-0 flex-1 gap-1.5 sm:min-w-28 sm:flex-none"
+            >
+              <Link href="list" scroll={false}>
+                <List className="size-4" aria-hidden />
+                {t("common.cancel")}
+              </Link>
+            </Button>
+          </footer>
+        </form>
+      </div>
+      <ModalConfirm
+        type={messageType}
+        message={confirmMsg}
+        visible={showConfirm}
+        onClose={(visible: boolean) => handleCloseModal(visible)}
+      />
+    </>
+  );
+};
+
+export default memo(BoardWrite);
