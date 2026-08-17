@@ -17,7 +17,6 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || "";
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "";
 
-
 const nanumGothic = Nanum_Gothic({
   preload: false,
   weight: ["400", "700", "800"],
