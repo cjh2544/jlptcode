@@ -67,6 +67,8 @@
     "jlptWord": "JLPT (N1–N5)",
     "flashWord": "Flash Japanese",
     "board": "Board",
+    "admin": "Admin",
+    "adminHome": "Admin Home",
     "memberInfo": "Members",
     "memberList": "Member List"
   },
@@ -137,6 +139,7 @@
     "jlpt": "JLPT Past Papers",
     "jlptTest": "Mock Test",
     "board": "Board",
+    "admin": "Admin",
     "member": "Members",
     "signUp": "Sign Up",
     "info": "Info"
@@ -242,6 +245,10 @@
     "writeGuide": "Leave your question about studying. Replies will be posted on this thread.",
     "writeHint": "The more specific your question, the more accurate the answer.",
     "charCount": "{n} / {max}"
+  },
+  "admin": {
+    "menu": "Admin menu",
+    "memberListDesc": "View members and apply paid periods"
   },
   "member": {
     "listTitle": "Members",

@@ -67,6 +67,8 @@
     "jlptWord": "JLPT(N1~N5)",
     "flashWord": "깜빡이 일본어",
     "board": "게시판",
+    "admin": "관리자",
+    "adminHome": "관리 홈",
     "memberInfo": "회원정보",
     "memberList": "회원목록"
   },
@@ -137,6 +139,7 @@
     "jlpt": "JLPT 기출문제",
     "jlptTest": "모의고사(TEST)",
     "board": "게시판",
+    "admin": "관리자",
     "member": "회원정보",
     "signUp": "회원가입",
     "info": "안내"
@@ -242,6 +245,10 @@
     "writeGuide": "학습 중 궁금한 점을 남겨 주세요. 답변은 해당 게시글에 등록됩니다.",
     "writeHint": "문의 내용이 구체적일수록 더 정확한 답변을 받을 수 있습니다.",
     "charCount": "{n} / {max}"
+  },
+  "admin": {
+    "menu": "관리 메뉴",
+    "memberListDesc": "회원 조회 및 유료기간 적용"
   },
   "member": {
     "listTitle": "회원목록",

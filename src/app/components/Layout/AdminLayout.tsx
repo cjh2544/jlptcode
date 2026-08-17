@@ -1,31 +1,28 @@
+import type { Metadata } from "next";
 import AppSidebarLayout from "@/app/components/Layout/AppSidebarLayout";
 import Footer from "@/app/components/Footers/Footer";
 import HeaderTitle from "../Headers/HeaderTitle";
 
-export const metadata = {
-  title: "회원정보",
-  description: "JLPTCODE 회원 관리",
+export const metadata: Metadata = {
+  title: "관리자",
+  description: "JLPTCODE 관리자",
   robots: {
     index: false,
     follow: false,
   },
 };
 
-export default function MemberLayout({
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <AppSidebarLayout className="font-nanumGothic">
+    <AppSidebarLayout>
         {/* Header */}
-        <HeaderTitle titleKey="layout.member" />
+        <HeaderTitle titleKey="layout.admin" />
         <div className="px-4 md:px-10 mx-auto w-full">
-          <div className="px-0 sm:px-4 mx-auto w-full my-10">
-            <div className="app-panel w-full">
-              {children}
-            </div>
-          </div>
+          {children}
           <Footer />
         </div>
     </AppSidebarLayout>

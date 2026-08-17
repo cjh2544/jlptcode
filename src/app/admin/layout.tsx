@@ -3,7 +3,7 @@ import { isAdminRole } from "@/app/constants/constants";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default async function MemberRouteLayout({
+export default async function AdminRouteLayout({
   children,
 }: {
   children: React.ReactNode;

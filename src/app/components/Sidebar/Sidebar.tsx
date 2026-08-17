@@ -11,7 +11,6 @@ import React, { useEffect, useMemo } from "react";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
-import SignInUserList from "../SignIn/SignInUserList";
 
 const YOUTUBE_URL = "https://www.youtube.com/@JLPTCODE";
 
@@ -28,6 +27,7 @@ type NavSection = {
   titleBadge?: "recommended" | "new";
   items: NavItem[];
   koOnly?: boolean;
+  adminOnly?: boolean;
 };
 
 const NAV_SECTIONS: NavSection[] = [
@@ -129,6 +129,17 @@ const NAV_SECTIONS: NavSection[] = [
         key: "nav.community",
         href: "/board/community/list",
         icon: "fas fa-comments",
+      },
+    ],
+  },
+  {
+    titleKey: "sidebar.admin",
+    adminOnly: true,
+    items: [
+      {
+        key: "sidebar.memberList",
+        href: "/admin",
+        icon: "fas fa-users",
       },
     ],
   },
@@ -278,9 +289,22 @@ export function SidebarMobileBar() {
   );
 }
 
-function getNavSections(locale: string) {
-  if (locale === "ko") return NAV_SECTIONS;
-  return NAV_SECTIONS.filter((section) => !section.koOnly).map((section) => ({
+function getNavSections(locale: string, pathname: string) {
+  const isAdminPage = pathname.startsWith("/admin");
+
+  if (isAdminPage) {
+    return NAV_SECTIONS.filter((section) => section.adminOnly);
+  }
+
+  const sections = NAV_SECTIONS.filter((section) => {
+    if (section.adminOnly) return false;
+    if (locale !== "ko" && section.koOnly) return false;
+    return true;
+  });
+
+  if (locale === "ko") return sections;
+
+  return sections.map((section) => ({
     ...section,
     items: section.items.filter((item) => !item.koOnly),
   }));
@@ -294,7 +318,10 @@ export default function Sidebar() {
   const toggleCollapsed = useSidebarStore((state) => state.toggleCollapsed);
   const setMobileOpen = useSidebarStore((state) => state.setMobileOpen);
 
-  const sections = useMemo(() => getNavSections(locale), [locale]);
+  const sections = useMemo(
+    () => getNavSections(locale, pathname),
+    [locale, pathname],
+  );
 
   useEffect(() => {
     setMobileOpen(false);
@@ -397,8 +424,6 @@ export default function Sidebar() {
               </ul>
             </section>
           ))}
-
-          <SignInUserList />
         </nav>
 
         <div className="app-sidebar-footer">

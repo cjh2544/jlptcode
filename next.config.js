@@ -46,6 +46,21 @@ const nextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        source: "/member",
+        destination: "/admin",
+        permanent: true,
+      },
+      {
+        source: "/member/:path*",
+        destination: "/admin",
+        permanent: true,
+      },
+      {
+        source: "/admin/member/:path*",
+        destination: "/admin",
+        permanent: true,
+      },
     ];
   },
 };

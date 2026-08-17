@@ -1,5 +1,6 @@
 "use client";
 
+import { isAdminRole } from "@/app/constants/constants";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { formatInSeoul } from "@/app/utils/common";
 import { Button } from "@/components/ui/button";
@@ -50,6 +51,7 @@ export default function UserAccountPanel({
   const name = session.user?.name || "";
   const email = session.user?.email || "";
   const paid = session.paymentInfo?.isValid;
+  const isAdmin = isAdminRole(session.user?.role);
 
   return (
     <div
@@ -93,6 +95,18 @@ export default function UserAccountPanel({
 
       {isSidebar ? (
         <div className="app-sidebar-account-actions">
+          {isAdmin && (
+            <Link
+              scroll={false}
+              href="/admin"
+              className="app-sidebar-account-action"
+              title={t("sidebar.admin")}
+              aria-label={t("sidebar.admin")}
+            >
+              <i className="fas fa-user-shield" aria-hidden />
+              <span>{t("sidebar.admin")}</span>
+            </Link>
+          )}
           <Link
             scroll={false}
             href="/auth/modify"
@@ -170,6 +184,19 @@ export default function UserAccountPanel({
               />
               {t("auth.signOut")}
             </button>
+            {isAdmin && (
+              <Link
+                scroll={false}
+                href="/admin"
+                className="app-account-panel-admin"
+              >
+                <i
+                  className="fas fa-user-shield w-4 text-center"
+                  aria-hidden
+                />
+                {t("sidebar.admin")}
+              </Link>
+            )}
           </div>
         </>
       )}

@@ -60,7 +60,7 @@ const Model = models?.grammarToday || model('grammarToday', schema, 'grammar_tod
 - hot-reload: `models?.name || model(...)` 패턴
 - aggregation: `$match`, `$group`, `$sample`, `$sortArray`
 
-**모델 목록**: `userModel`, `userPaymentModel`, `wordTodayModel`, `grammarTodayModel`, `readingTodayModel`, `levelUpModel`, `levelUpNewModel`, `jlptModel`, `jlptNewModel`, `jlptTestModel`, `jptModel`, `jptWordModel`, `wordModel`, `boardCommunityModel`, `boardReplyModel`, `codeModel`, `codeDetailModel`
+**모델 목록**: `userModel`, `userPaymentModel`, `wordTodayModel`, `grammarTodayModel`, `readingTodayModel`, `levelUpModel`, `levelUpNewModel`, `jlptModel`, `jlptTestModel`, `jptModel`, `jptWordModel`, `wordModel`, `boardCommunityModel`, `boardReplyModel`, `codeModel`, `codeDetailModel`
 
 ## Auth & Payments
 

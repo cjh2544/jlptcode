@@ -67,6 +67,8 @@
     "jlptWord": "JLPT(N1~N5)",
     "flashWord": "闪卡日语",
     "board": "论坛",
+    "admin": "管理员",
+    "adminHome": "管理首页",
     "memberInfo": "会员信息",
     "memberList": "会员列表"
   },
@@ -137,6 +139,7 @@
     "jlpt": "JLPT 真题",
     "jlptTest": "模拟考试",
     "board": "论坛",
+    "admin": "管理员",
     "member": "会员信息",
     "signUp": "注册",
     "info": "说明"
@@ -242,6 +245,10 @@
     "writeGuide": "请留下学习中的疑问。回复将发布在该帖子中。",
     "writeHint": "问题越具体，回复越准确。",
     "charCount": "{n} / {max}"
+  },
+  "admin": {
+    "menu": "管理菜单",
+    "memberListDesc": "查看会员并应用付费期限"
   },
   "member": {
     "listTitle": "会员列表",

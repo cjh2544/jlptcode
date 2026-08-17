@@ -28,7 +28,6 @@ const PUBLIC_ROUTES: SitemapEntry[] = [
   { path: "/auth/signup", priority: 0.5, changeFrequency: "monthly" },
   { path: "/word", priority: 0.5, changeFrequency: "weekly" },
   { path: "/word/jpt", priority: 0.5, changeFrequency: "weekly" },
-  { path: "/levelUpNew", priority: 0.5, changeFrequency: "weekly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
