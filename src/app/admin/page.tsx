@@ -11,7 +11,7 @@ const AdminPage = () => {
 
   return (
     <AdminLayout>
-      <div className="px-0 sm:px-4 mx-auto w-full my-10">
+      <div className="mx-auto my-4 w-full px-0 md:my-10 sm:px-4">
         <div className="app-panel w-full">
           <MemberTitle title={`${t('member.listTitle')} (${pageInfo?.total})`} visibleButton={true} />
           <List />

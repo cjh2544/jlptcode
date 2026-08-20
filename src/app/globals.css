@@ -2418,18 +2418,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  width: 2rem;
   height: 2rem;
-  padding: 0 0.75rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   color: #ef4444;
-  font-size: 0.75rem;
-  font-weight: 700;
   text-decoration: none;
   background: var(--card);
   flex-shrink: 0;
-  white-space: nowrap;
+  transition: background 0.15s ease;
 }
 
 .main-nav-sheet-youtube:hover {
@@ -2440,18 +2437,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  width: 2rem;
   height: 2rem;
-  padding: 0 0.75rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  color: var(--foreground);
-  font-size: 0.75rem;
-  font-weight: 700;
   text-decoration: none;
   background: var(--card);
   flex-shrink: 0;
-  white-space: nowrap;
+  transition: background 0.15s ease;
 }
 
 .main-nav-sheet-kakao:hover {
@@ -2459,8 +2452,8 @@
 }
 
 .main-nav-sheet-kakao img {
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.25rem;
+  height: 1.25rem;
   object-fit: contain;
 }
 

@@ -43,7 +43,7 @@ const MemberTitle = (props: HeaderSubTitleProps) => {
         <h6 className="text-lg font-bold">{title}</h6>
         {visibleButton && (
           <form onSubmit={onSubmit} className="w-full min-w-0 lg:w-auto">
-            <div className="flex w-full min-w-0 items-center gap-1.5">
+            <div className="flex w-full min-w-0 items-stretch gap-1.5 sm:items-center">
               <div className="relative min-w-0 flex-1 lg:w-52 lg:flex-none">
                 <i
                   className="fas fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-white/70"

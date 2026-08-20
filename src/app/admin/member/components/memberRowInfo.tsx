@@ -171,59 +171,115 @@ const MemberRowInfo = (props: MemberRowInfoProps) => {
 
   const nextRoleLabel = isAdmin ? t("member.roleUser") : t("member.roleAdmin");
 
+  const renderRoleBadge = () => (
+    <span
+      className={cn(
+        "app-board-badge",
+        isAdmin ? "app-board-badge--paid" : "app-board-badge--expired",
+      )}
+    >
+      {isAdmin ? t("member.roleAdmin") : t("member.roleUser")}
+    </span>
+  );
+
+  const renderRoleButton = () => (
+    <Button
+      type="button"
+      size="icon"
+      variant="ghost"
+      className="size-8 shrink-0 md:size-7"
+      disabled={isLoading}
+      title={t("member.changeRole")}
+      aria-label={t("member.changeRole")}
+      onClick={() => setShowRoleConfirm(true)}
+    >
+      {isAdmin ? (
+        <ShieldOff className="size-3.5" aria-hidden />
+      ) : (
+        <ShieldCheck className="size-3.5" aria-hidden />
+      )}
+    </Button>
+  );
+
+  const renderApplyButton = () => (
+    <Button
+      type="button"
+      size="sm"
+      variant="outline"
+      className="h-8 min-w-0 flex-1 gap-1.5 md:flex-none"
+      onClick={() => handleOpenChange(true)}
+    >
+      <CalendarPlus className="size-3.5" aria-hidden />
+      <span className="lg:hidden">{t("member.apply")}</span>
+      <span className="hidden lg:inline">{t("member.applyPaid")}</span>
+    </Button>
+  );
+
+  const renderResetPasswordButton = () => (
+    <Button
+      type="button"
+      size="sm"
+      variant="outline"
+      className="h-8 min-w-0 flex-1 gap-1.5 md:flex-none"
+      aria-label={t("member.resetPassword")}
+      onClick={() => {
+        setNewPassword("");
+        setShowResetPw(true);
+      }}
+    >
+      <KeyRound className="size-3.5" aria-hidden />
+      <span className="md:hidden lg:inline">{t("member.resetPassword")}</span>
+    </Button>
+  );
+
   return (
     <>
       <tr>
         <td>
-          <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <div className="flex min-w-0 flex-wrap items-center gap-1.5">
             <span className="truncate text-sm font-medium text-[var(--foreground)]">
               {userInfo.name}
             </span>
             <span className={cn("app-board-badge", statusBadge.className)}>
               {statusBadge.label}
             </span>
+            <span className="md:hidden">{renderRoleBadge()}</span>
           </div>
-          <div className="mt-1 flex flex-col gap-0.5 text-xs text-[var(--muted-foreground)] lg:hidden">
-            <span className="truncate sm:hidden">{userInfo.email}</span>
-            <span className="tabular-nums md:hidden">
+          <div className="mt-1.5 flex flex-col gap-0.5 text-xs text-[var(--muted-foreground)] md:hidden">
+            <span className="break-all">{userInfo.email}</span>
+            <span className="tabular-nums">
               {formatInSeoul(userInfo.createdAt, "yyyy-MM-dd HH:mm")}
             </span>
-            <span>{periodLabel}</span>
+            <span>
+              {periodLabel}
+              {paidType ? ` · ${t(`member.period${paidType}`)}` : ""}
+            </span>
+          </div>
+          <div className="mt-1 hidden text-xs text-[var(--muted-foreground)] md:block lg:hidden">
+            <span className="tabular-nums">
+              {formatInSeoul(userInfo.createdAt, "yyyy-MM-dd HH:mm")}
+            </span>
+            {" · "}
+            {periodLabel}
+          </div>
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5 md:hidden">
+            {renderApplyButton()}
+            {renderResetPasswordButton()}
+            {renderRoleButton()}
           </div>
         </td>
-        <td className="hidden sm:table-cell">
+        <td className="hidden md:table-cell">
           <span className="block max-w-56 truncate text-sm text-[var(--foreground)]">
             {userInfo.email}
           </span>
         </td>
-        <td>
+        <td className="hidden md:table-cell">
           <div className="flex items-center gap-1.5">
-            <span
-              className={cn(
-                "app-board-badge",
-                isAdmin ? "app-board-badge--paid" : "app-board-badge--expired",
-              )}
-            >
-              {isAdmin ? t("member.roleAdmin") : t("member.roleUser")}
-            </span>
-            <Button
-              type="button"
-              size="icon"
-              variant="ghost"
-              className="size-7"
-              disabled={isLoading}
-              title={t("member.changeRole")}
-              onClick={() => setShowRoleConfirm(true)}
-            >
-              {isAdmin ? (
-                <ShieldOff className="size-3.5" aria-hidden />
-              ) : (
-                <ShieldCheck className="size-3.5" aria-hidden />
-              )}
-            </Button>
+            {renderRoleBadge()}
+            {renderRoleButton()}
           </div>
         </td>
-        <td className="hidden md:table-cell">
+        <td className="hidden lg:table-cell">
           <span className="text-sm tabular-nums text-[var(--muted-foreground)]">
             {formatInSeoul(userInfo.createdAt, "yyyy-MM-dd HH:mm")}
           </span>
@@ -233,38 +289,16 @@ const MemberRowInfo = (props: MemberRowInfoProps) => {
             {periodLabel}
           </span>
         </td>
-        <td>
+        <td className="hidden md:table-cell">
           <div className="flex flex-col items-start gap-1.5">
             {paidType && (
-              <span className="hidden text-xs text-[var(--muted-foreground)] sm:inline">
+              <span className="text-xs text-[var(--muted-foreground)]">
                 {t(`member.period${paidType}`)}
               </span>
             )}
             <div className="flex items-center gap-1.5">
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="h-8 gap-1.5"
-                onClick={() => handleOpenChange(true)}
-              >
-                <CalendarPlus className="size-3.5" aria-hidden />
-                <span className="lg:hidden">{t("member.apply")}</span>
-                <span className="hidden lg:inline">{t("member.applyPaid")}</span>
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="h-8 gap-1.5"
-                onClick={() => {
-                  setNewPassword("");
-                  setShowResetPw(true);
-                }}
-              >
-                <KeyRound className="size-3.5" aria-hidden />
-                <span className="hidden lg:inline">{t("member.resetPassword")}</span>
-              </Button>
+              {renderApplyButton()}
+              {renderResetPasswordButton()}
             </div>
           </div>
         </td>

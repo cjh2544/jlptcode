@@ -21,7 +21,7 @@ export default function AdminLayout({
     <AppSidebarLayout>
         {/* Header */}
         <HeaderTitle titleKey="layout.admin" />
-        <div className="px-4 md:px-10 mx-auto w-full">
+        <div className="mx-auto w-full px-3 md:px-10">
           {children}
           <Footer />
         </div>

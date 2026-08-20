@@ -32,21 +32,21 @@ const MemberList = () => {
   }, []);
 
   return (
-    <div className="app-panel-body">
+    <div className="app-panel-body app-member-list">
       <div className="overflow-x-auto rounded-lg border border-[var(--border)]">
-        <table className="app-board-table min-w-full">
+        <table className="app-board-table app-member-table min-w-full">
           <thead>
             <tr>
               <th className="w-auto">{t("member.name")}</th>
-              <th className="hidden w-48 sm:table-cell">{t("member.email")}</th>
-              <th className="w-28">{t("member.role")}</th>
-              <th className="hidden w-40 md:table-cell">
+              <th className="hidden w-48 md:table-cell">{t("member.email")}</th>
+              <th className="hidden w-28 md:table-cell">{t("member.role")}</th>
+              <th className="hidden w-40 lg:table-cell">
                 {t("member.createdAt")}
               </th>
               <th className="hidden w-52 lg:table-cell">
                 {t("member.paidPeriod")}
               </th>
-              <th className="w-36">{t("member.paidType")}</th>
+              <th className="hidden w-36 md:table-cell">{t("member.paidType")}</th>
             </tr>
           </thead>
           <tbody>

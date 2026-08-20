@@ -227,14 +227,8 @@ export default function MainNavbar() {
                   <div className="main-nav-sheet-footer-lang">
                     <LanguageSwitcher variant="sidebar" menuAlign="end" />
                   </div>
-                  <YouTubeButton
-                    className="main-nav-sheet-youtube"
-                    showLabel
-                  />
-                  <KakaoChannelButton
-                    className="main-nav-sheet-kakao"
-                    showLabel
-                  />
+                  <YouTubeButton className="main-nav-sheet-youtube" />
+                  <KakaoChannelButton className="main-nav-sheet-kakao" />
                 </div>
               </SheetContent>
             </Sheet>
