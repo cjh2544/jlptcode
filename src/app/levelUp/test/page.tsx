@@ -46,7 +46,11 @@ const LevelUpTestPage = () => {
       ) : (
         <div
           onContextMenu={(e) => e.preventDefault()}
-          onMouseDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => {
+            const target = e.target as HTMLElement;
+            if (target.closest("button, input, audio, a, label, .app-speech-player")) return;
+            e.preventDefault();
+          }}
         >
           <QuizTestShell
             mode="full"
@@ -64,27 +68,25 @@ const LevelUpTestPage = () => {
                   checked={showReadButton}
                   onChange={() => handleChangeCheck("showReadButton", !showReadButton)}
                 />
-                {"reading" !== levelUpInfo.classification &&
-                  "listening" !== levelUpInfo.classification && (
-                  <QuizCheckbox
-                    id="show-trans-checkbox"
-                    label={t("common.translation")}
-                    checked={showTransButton}
-                    onChange={() =>
-                      handleChangeCheck("showTransButton", !showTransButton)
-                    }
-                  />
-                )}
-                {"vocabulary" === levelUpInfo.classification && (
-                  <QuizCheckbox
-                    id="show-speak-checkbox"
-                    label={t("common.pronunciation")}
-                    checked={showSpeakButton}
-                    onChange={() =>
-                      handleChangeCheck("showSpeakButton", !showSpeakButton)
-                    }
-                  />
-                )}
+                <QuizCheckbox
+                  id="show-trans-checkbox"
+                  label={t("common.translation")}
+                  checked={showTransButton}
+                  onChange={() =>
+                    handleChangeCheck("showTransButton", !showTransButton)
+                  }
+                />
+                {levelUpInfo.classification !== "listening" &&
+                  levelUpInfo.classification !== "reading" && (
+                    <QuizCheckbox
+                      id="show-speak-checkbox"
+                      label={t("common.pronunciation")}
+                      checked={showSpeakButton}
+                      onChange={() =>
+                        handleChangeCheck("showSpeakButton", !showSpeakButton)
+                      }
+                    />
+                  )}
                 <QuizCheckbox
                   id="show-answer-checkbox"
                   label={t("common.answer")}

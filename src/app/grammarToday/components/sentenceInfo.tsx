@@ -5,6 +5,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { recordId } from "@/app/lib/mypage";
 
 type SentenceInfoProps = {
   sentenceInfo: any
@@ -120,7 +121,15 @@ const SentenceInfo = (props:SentenceInfoProps) => {
       </div>
       {showQuestion && (
         <div className="app-today-item-question app-reveal">
-          <CardWordQuestion questionInfo={{...question, answer}} />
+          <CardWordQuestion
+            questionInfo={{...question, answer}}
+            record={{
+              subject: "grammarToday",
+              source: "grammarToday",
+              sourceId: recordId(sentenceInfo),
+              level: sentenceInfo.level,
+            }}
+          />
         </div>
       )}
     </article>

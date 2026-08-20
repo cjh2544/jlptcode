@@ -1,0 +1,529 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String               @id @db.VarChar(24)
+  name            String               @db.VarChar(100)
+  email           String               @unique @db.VarChar(191)
+  password        String?              @db.VarChar(191)
+  image           String?              @db.Text
+  provider        String               @default("credentials") @db.VarChar(50)
+  createdAt       DateTime             @default(now()) @map("created_at")
+  updatedAt       DateTime             @updatedAt @map("updated_at")
+  roles           UserRole[]
+  savedWords      UserSavedWord[]
+  savedQuestions  UserSavedQuestion[]
+  quizAttempts    UserQuizAttempt[]
+  questionResults UserQuestionResult[]
+
+  @@map("user")
+}
+
+model UserRole {
+  id     String @id @db.VarChar(24)
+  userId String @map("user_id") @db.VarChar(24)
+  sort   Int
+  value  String @db.VarChar(50)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sort])
+  @@index([value])
+  @@map("user_role")
+}
+
+model UserPayment {
+  id        String            @id @db.VarChar(24)
+  email     String            @unique @db.VarChar(191)
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+  payments  UserPaymentItem[]
+
+  @@map("user_payment")
+}
+
+model UserPaymentItem {
+  id            String      @id @db.VarChar(24)
+  userPaymentId String      @map("user_payment_id") @db.VarChar(24)
+  paymentType   String      @db.VarChar(20)
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  userPayment   UserPayment @relation(fields: [userPaymentId], references: [id], onDelete: Cascade)
+
+  @@index([userPaymentId])
+  @@map("user_payment_item")
+}
+
+model UserSavedWord {
+  id        String   @id @db.VarChar(24)
+  userId    String   @map("user_id") @db.VarChar(24)
+  source    String   @db.VarChar(50)
+  sourceId  String   @map("source_id") @db.VarChar(24)
+  word      String?  @db.VarChar(191)
+  read      String?  @db.VarChar(191)
+  means     String?  @db.Text
+  level     String?  @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, source, sourceId])
+  @@index([userId, createdAt])
+  @@map("user_saved_word")
+}
+
+model UserSavedQuestion {
+  id             String   @id @db.VarChar(24)
+  userId         String   @map("user_id") @db.VarChar(24)
+  source         String   @db.VarChar(50)
+  sourceId       String   @map("source_id") @db.VarChar(24)
+  subject        String   @db.VarChar(50)
+  content        String?  @db.Text
+  level          String?  @db.VarChar(20)
+  classification String?  @db.VarChar(50)
+  year           String?  @db.VarChar(20)
+  study          String?  @db.VarChar(50)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, source, sourceId])
+  @@index([userId, createdAt])
+  @@map("user_saved_question")
+}
+
+model UserQuizAttempt {
+  id        String               @id @db.VarChar(24)
+  userId    String               @map("user_id") @db.VarChar(24)
+  subject   String               @db.VarChar(50)
+  level     String?              @db.VarChar(20)
+  total     Int
+  correct   Int
+  wrong     Int
+  createdAt DateTime             @default(now()) @map("created_at")
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  results   UserQuestionResult[]
+
+  @@index([userId, subject, createdAt])
+  @@map("user_quiz_attempt")
+}
+
+model UserQuestionResult {
+  id        String           @id @db.VarChar(24)
+  userId    String           @map("user_id") @db.VarChar(24)
+  source    String           @db.VarChar(50)
+  sourceId  String           @map("source_id") @db.VarChar(24)
+  subject   String           @db.VarChar(50)
+  isCorrect Boolean          @map("is_correct")
+  attemptId String?          @map("attempt_id") @db.VarChar(24)
+  createdAt DateTime         @default(now()) @map("created_at")
+  updatedAt DateTime         @updatedAt @map("updated_at")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attempt   UserQuizAttempt? @relation(fields: [attemptId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, source, sourceId])
+  @@index([userId, subject])
+  @@map("user_question_result")
+}
+
+model Code {
+  id        String   @id @db.VarChar(24)
+  code      String   @unique @db.VarChar(100)
+  name      String   @db.VarChar(191)
+  sort      Int?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([name])
+  @@map("code")
+}
+
+model CodeDetail {
+  id             String            @id @db.VarChar(24)
+  code           String            @db.VarChar(100)
+  key            String            @db.VarChar(100)
+  value          String            @db.Text
+  sort           Int?
+  classification String?           @db.VarChar(50)
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+  levels         CodeDetailLevel[]
+
+  @@unique([code, key])
+  @@index([code])
+  @@index([value(length: 191)])
+  @@map("code_detail")
+}
+
+model CodeDetailLevel {
+  id           String     @id @db.VarChar(24)
+  codeDetailId String     @map("code_detail_id") @db.VarChar(24)
+  sort         Int
+  value        String     @db.VarChar(20)
+  codeDetail   CodeDetail @relation(fields: [codeDetailId], references: [id], onDelete: Cascade)
+
+  @@index([codeDetailId, sort])
+  @@index([value])
+  @@map("code_detail_level")
+}
+
+model Word {
+  id        String     @id @db.VarChar(24)
+  type      String     @db.VarChar(50)
+  level     String     @db.VarChar(20)
+  word      String?    @db.VarChar(191)
+  read      String     @db.VarChar(191)
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  means     WordMean[]
+  parts     WordPart[]
+
+  @@index([type, level])
+  @@index([word])
+  @@map("word")
+}
+
+model WordMean {
+  id     String @id @db.VarChar(24)
+  wordId String @map("word_id") @db.VarChar(24)
+  sort   Int
+  value  String @db.Text
+  word   Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([wordId, sort])
+  @@map("word_mean")
+}
+
+model WordPart {
+  id     String @id @db.VarChar(24)
+  wordId String @map("word_id") @db.VarChar(24)
+  sort   Int
+  value  String @db.VarChar(191)
+  word   Word   @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([wordId, sort])
+  @@index([value])
+  @@map("word_part")
+}
+
+model WordToday {
+  id                 String                     @id @db.VarChar(24)
+  level              String                     @db.VarChar(20)
+  year               String                     @db.VarChar(20)
+  study              String                     @db.VarChar(50)
+  day                Int?
+  wordNo             Int
+  word               String                     @db.VarChar(191)
+  read               String                     @db.VarChar(191)
+  means              String                     @db.Text
+  wordLocaleEn       String?                    @map("word_locale_en") @db.Text
+  wordLocaleCn       String?                    @map("word_locale_cn") @db.Text
+  wordLocaleMy       String?                    @map("word_locale_my") @db.Text
+  sentence           String?                    @db.Text
+  sentence_read      String?                    @db.Text
+  sentence_translate String?                    @db.Text
+  sentenceLocaleEn   String?                    @map("sentence_locale_en") @db.Text
+  sentenceLocaleCn   String?                    @map("sentence_locale_cn") @db.Text
+  sentenceLocaleMy   String?                    @map("sentence_locale_my") @db.Text
+  keyword            String?                    @db.VarChar(191)
+  questionText       String?                    @map("question_text") @db.Text
+  questionAnswer     Int?                       @map("question_answer")
+  speaker            String?                    @db.Text
+  sortNo             Int?
+  createdAt          DateTime                   @default(now()) @map("created_at")
+  updatedAt          DateTime                   @updatedAt @map("updated_at")
+  questionChoices    WordTodayQuestionChoice[]
+
+  @@index([level, year, study])
+  @@map("word_today")
+}
+
+model WordTodayQuestionChoice {
+  id       String    @id @db.VarChar(24)
+  parentId String    @map("parent_id") @db.VarChar(24)
+  sort     Int
+  content  String?   @db.Text
+  parent   WordToday @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, sort])
+  @@map("word_today_question_choice")
+}
+
+model GrammarToday {
+  id                 String                        @id @db.VarChar(24)
+  level              String                        @db.VarChar(20)
+  year               String                        @db.VarChar(20)
+  study              String                        @db.VarChar(50)
+  sortNo             Int
+  sentence           String?                       @db.Text
+  sentence_read      String?                       @db.Text
+  sentence_translate String?                       @db.Text
+  sentenceLocaleEn   String?                       @map("sentence_locale_en") @db.Text
+  sentenceLocaleCn   String?                       @map("sentence_locale_cn") @db.Text
+  sentenceLocaleMy   String?                       @map("sentence_locale_my") @db.Text
+  questionText       String?                       @map("question_text") @db.Text
+  questionAnswer     Int?                          @map("question_answer")
+  speaker            String?                       @db.Text
+  createdAt          DateTime                      @default(now()) @map("created_at")
+  updatedAt          DateTime                      @updatedAt @map("updated_at")
+  questionChoices    GrammarTodayQuestionChoice[]
+
+  @@index([level, year, study])
+  @@map("grammar_today")
+}
+
+model GrammarTodayQuestionChoice {
+  id       String       @id @db.VarChar(24)
+  parentId String       @map("parent_id") @db.VarChar(24)
+  sort     Int
+  content  String?      @db.Text
+  parent   GrammarToday @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, sort])
+  @@map("grammar_today_question_choice")
+}
+
+model ReadingToday {
+  id                 String   @id @db.VarChar(24)
+  level              String   @db.VarChar(20)
+  source             String   @db.VarChar(191)
+  sentence           String?  @db.Text
+  sentence_read      String?  @db.Text
+  sentence_translate String?  @db.Text
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+
+  @@index([level, source])
+  @@map("reading_today")
+}
+
+model Jlpt {
+  id                 String       @id @db.VarChar(24)
+  year               String       @db.VarChar(20)
+  month              String       @db.VarChar(20)
+  level              String       @db.VarChar(20)
+  sortNo             Int
+  classification     String       @db.VarChar(50)
+  questionNo         String?      @db.VarChar(20)
+  questionContent    String?      @map("question_content") @db.LongText
+  questionAudioLink  String?      @map("question_audio_link") @db.Text
+  questionAudioName  String?      @map("question_audio_name") @db.Text
+  questionImageLink  String?      @map("question_image_link") @db.Text
+  questionImageName  String?      @map("question_image_name") @db.Text
+  sentenceTranslation String?     @map("sentence_translation") @db.Text
+  questionType       String       @db.VarChar(20)
+  answer             Int?
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @updatedAt @map("updated_at")
+  choices            JlptChoice[]
+
+  @@unique([classification, year, month, level, sortNo])
+  @@index([year, month, level])
+  @@map("jlpt")
+}
+
+model JlptChoice {
+  id       String  @id @db.VarChar(24)
+  parentId String  @map("parent_id") @db.VarChar(24)
+  no       Int
+  content  String? @db.Text
+  parent   Jlpt    @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, no])
+  @@map("jlpt_choice")
+}
+
+model JlptTest {
+  id                  String           @id @db.VarChar(24)
+  level               String           @db.VarChar(20)
+  test                String           @db.VarChar(50)
+  classification      String           @db.VarChar(50)
+  questionType        String           @db.VarChar(20)
+  questionContent     String?          @map("question_content") @db.LongText
+  questionAudioLink   String?          @map("question_audio_link") @db.Text
+  questionAudioName   String?          @map("question_audio_name") @db.Text
+  questionImageLink   String?          @map("question_image_link") @db.Text
+  questionImageName   String?          @map("question_image_name") @db.Text
+  sortNo              Int
+  questionNo          Int?
+  questionNoLabel     String?          @db.VarChar(50)
+  sentenceTranslation String?          @map("sentence_translation") @db.Text
+  sentenceReading     String?          @map("sentence_reading") @db.Text
+  sentenceEn          String?          @map("sentence_en") @db.Text
+  sentenceCn          String?          @map("sentence_cn") @db.Text
+  answer              Int?
+  createdAt           DateTime         @default(now()) @map("created_at")
+  updatedAt           DateTime         @updatedAt @map("updated_at")
+  choices             JlptTestChoice[]
+
+  @@index([level, test, classification, sortNo])
+  @@map("jlpt_test")
+}
+
+model JlptTestChoice {
+  id       String   @id @db.VarChar(24)
+  parentId String   @map("parent_id") @db.VarChar(24)
+  no       Int
+  content  String?  @db.Text
+  parent   JlptTest @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, no])
+  @@map("jlpt_test_choice")
+}
+
+model Jpt {
+  id                  String      @id @db.VarChar(24)
+  level               String?     @db.VarChar(50)
+  part                String      @db.VarChar(20)
+  year                String?     @db.VarChar(20)
+  classification      String?     @db.VarChar(50)
+  questionGroupType   String?     @db.VarChar(50)
+  questionContent     String?     @map("question_content") @db.LongText
+  questionAudioLink   String?     @map("question_audio_link") @db.Text
+  questionAudioName   String?     @map("question_audio_name") @db.Text
+  questionImageLink   String?     @map("question_image_link") @db.Text
+  questionImageName   String?     @map("question_image_name") @db.Text
+  questionType        String      @db.VarChar(20)
+  questionGroupNo     Int?
+  questionContentNo   Int?
+  sortNo              Int
+  questionNo          String?     @db.VarChar(20)
+  sentenceTranslation String?     @map("sentence_translation") @db.Text
+  sentenceReading     String?     @map("sentence_reading") @db.Text
+  answer              Int?
+  speaker             String?     @db.Text
+  createdAt           DateTime    @default(now()) @map("created_at")
+  updatedAt           DateTime    @updatedAt @map("updated_at")
+  choices             JptChoice[]
+
+  @@index([level, part, sortNo])
+  @@map("jpt")
+}
+
+model JptChoice {
+  id       String  @id @db.VarChar(24)
+  parentId String  @map("parent_id") @db.VarChar(24)
+  no       Int
+  content  String? @db.Text
+  parent   Jpt     @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, no])
+  @@map("jpt_choice")
+}
+
+model JptWord {
+  id        String        @id @db.VarChar(24)
+  type      String        @db.VarChar(50)
+  level     String        @db.VarChar(20)
+  word      String?       @db.VarChar(191)
+  read      String        @db.VarChar(191)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+  means     JptWordMean[]
+  parts     JptWordPart[]
+
+  @@index([type, level])
+  @@index([word])
+  @@map("jpt_word")
+}
+
+model JptWordMean {
+  id     String  @id @db.VarChar(24)
+  wordId String  @map("word_id") @db.VarChar(24)
+  sort   Int
+  value  String  @db.Text
+  word   JptWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([wordId, sort])
+  @@map("jpt_word_mean")
+}
+
+model JptWordPart {
+  id     String  @id @db.VarChar(24)
+  wordId String  @map("word_id") @db.VarChar(24)
+  sort   Int
+  value  String  @db.VarChar(191)
+  word   JptWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([wordId, sort])
+  @@index([value])
+  @@map("jpt_word_part")
+}
+
+model LevelUp {
+  id                  String          @id @db.VarChar(24)
+  year                String          @db.VarChar(20)
+  level               String          @db.VarChar(20)
+  sortNo              Int
+  classification      String          @db.VarChar(50)
+  questionNo          Int?
+  questionGroupNo     Int?
+  questionContentNo   Int?
+  questionContent     String?         @map("question_content") @db.LongText
+  questionContentOrg  String?         @map("question_content_org") @db.Text
+  questionAudioLink   String?         @map("question_audio_link") @db.Text
+  questionAudioName   String?         @map("question_audio_name") @db.Text
+  questionImageLink   String?         @map("question_image_link") @db.Text
+  questionImageName   String?         @map("question_image_name") @db.Text
+  questionGroupType   String          @db.VarChar(50)
+  questionType        String?         @db.VarChar(20)
+  answer              Int?
+  sentenceTranslation String?         @map("sentence_translation") @db.Text
+  sentenceReading     String?         @map("sentence_reading") @db.Text
+  speaker             String?         @db.Text
+  sentenceLocaleEn    String?         @map("sentence_locale_en") @db.Text
+  sentenceLocaleCn    String?         @map("sentence_locale_cn") @db.Text
+  sentenceLocaleMy    String?         @map("sentence_locale_my") @db.Text
+  createdAt           DateTime        @default(now()) @map("created_at")
+  updatedAt           DateTime        @updatedAt @map("updated_at")
+  choices             LevelUpChoice[]
+
+  @@unique([classification, year, level, sortNo])
+  @@index([level, year, classification])
+  @@map("level_up")
+}
+
+model LevelUpChoice {
+  id       String  @id @db.VarChar(24)
+  parentId String  @map("parent_id") @db.VarChar(24)
+  no       Int
+  content  String? @db.Text
+  parent   LevelUp @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@index([parentId, no])
+  @@map("level_up_choice")
+}
+
+model BoardCommunity {
+  id        String   @id @db.VarChar(24)
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(191)
+  title     String   @db.VarChar(255)
+  contents  String   @db.LongText
+  noticeYn  String   @default("N") @db.VarChar(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([noticeYn, createdAt])
+  @@map("board_community")
+}
+
+model BoardReply {
+  id        String   @id @db.VarChar(24)
+  board_id  String   @db.VarChar(24)
+  name      String   @db.VarChar(100)
+  email     String   @db.VarChar(191)
+  contents  String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([board_id])
+  @@map("board_reply")
+}

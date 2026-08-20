@@ -14,6 +14,7 @@ const QuestionTestPage = () => {
   const { jptInfo, jptList, isLoading } = useJptStore((state: any) => state);
   const showReadButton = useJptStore((state: any) => state.showReadButton);
   const showTransButton = useJptStore((state: any) => state.showTransButton);
+  const showSpeakButton = useJptStore((state: any) => state.showSpeakButton);
   const showAnswer = useJptStore((state: any) => state.showAnswer);
   const setStoreData = useJptStore((state: any) => state.setStoreData);
   const getJptList = useJptStore((state: any) => state.getJptList);
@@ -60,17 +61,27 @@ const QuestionTestPage = () => {
             <QuizCheckbox
               id="show-read-checkbox"
               label={t("common.read")}
-              checked={!showReadButton}
+              checked={showReadButton}
               onChange={() => handleChangeCheck("showReadButton", !showReadButton)}
             />
             <QuizCheckbox
               id="show-trans-checkbox"
               label={t("common.translation")}
-              checked={!showTransButton}
+              checked={showTransButton}
               onChange={() =>
                 handleChangeCheck("showTransButton", !showTransButton)
               }
             />
+            {jptInfo.classification === "reading" && (
+              <QuizCheckbox
+                id="show-speak-checkbox"
+                label={t("common.pronunciation")}
+                checked={showSpeakButton}
+                onChange={() =>
+                  handleChangeCheck("showSpeakButton", !showSpeakButton)
+                }
+              />
+            )}
             <QuizCheckbox
               id="show-answer-checkbox"
               label={t("common.answer")}

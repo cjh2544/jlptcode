@@ -23,10 +23,6 @@ export default function HeaderTitle(props: HeaderTitleProps) {
         <div className="app-page-header-accent" aria-hidden />
         <div className="app-page-header-content">
           <div className="app-page-header-main">
-            <p className="app-page-header-eyebrow">
-              <span className="app-page-header-eyebrow-jlpt">JLPT</span>
-              <span className="app-page-header-eyebrow-code">CODE</span>
-            </p>
             <h1 className="app-page-header-title">{resolvedTitle}</h1>
           </div>
           {resolvedSubTitle && (

@@ -24,7 +24,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
     hideSentence = true,
     hideSentenceRead = true,
     hideKeyword = true,
-    hideSpeaker = true,
+    hideSpeaker = false,
     speaker,
   } = wordInfo;
   const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);

@@ -82,7 +82,7 @@ export const options: NextAuthOptions = {
 
       if (!token.role && token.email) {
         await connectDB();
-        const dbUser = await User.findOne({ email: token.email }).select("role");
+        const dbUser = await User.findOne({ email: token.email });
         token.role = dbUser?.role ?? [];
       }
 
@@ -166,33 +166,33 @@ export const options: NextAuthOptions = {
 const signInWithOAuth = async ({ user, account, profile }: { user: any, account: any, profile: any}) => {
   console.log({ user, account, profile });
 
-  let newUser = new User();
+  let newUser: { name?: string; email?: string; image?: string; provider?: string } = {};
 
   if(account.provider === 'kakao') {
-    newUser = new User({
+    newUser = {
       name: user?.name ,
       email: user?.email,
       image: user?.image,
       provider: account.provider,
-    })
+    }
   }
 
   if(account.provider === 'naver') {
-    newUser = new User({
+    newUser = {
       name: profile?.response?.name ,
       email: profile?.response?.email,
       image: profile?.response?.profile_image,
       provider: account.provider,
-    })
+    }
   }
 
   if(account.provider === 'google') {
-    newUser = new User({
+    newUser = {
       name: profile?.name ,
       email: profile?.email,
       image: profile?.picture,
       provider: account.provider,
-    })
+    }
   }
 
   await connectDB();
@@ -201,7 +201,7 @@ const signInWithOAuth = async ({ user, account, profile }: { user: any, account:
   
   if(userData) return true;
   
-  await newUser.save();
+  await User.create(newUser);
 
   return true;
 }

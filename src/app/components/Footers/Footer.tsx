@@ -31,13 +31,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-4/12 px-4">
               <div className="text-sm text-blue-gray-500 font-semibold py-1 text-center md:text-left">
-                Copyright © {new Date().getFullYear()}{" "}
-                <a
-                  href="https://www.creative-tim.com?ref=nnjs-footer-admin"
-                  className="text-blue-gray-500 hover:text-blue-gray-700 text-sm font-semibold py-1"
-                >
-                  mkjapanese
-                </a>
+                Copyright © {new Date().getFullYear()} JLPTCODE
               </div>
             </div>
             <div className="w-full md:w-8/12 px-4">

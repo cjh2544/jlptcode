@@ -27,13 +27,13 @@ const ModalFullScreen = (props: ModalFullScreenProps) => {
 
   return (
     <div
-      className={`${isFullScreen ? "fixed inset-0 z-10 h-screen overflow-y-auto" : "mt-4 flex flex-wrap"} ${visible ? "" : "hidden"}`}
+      className={`${isFullScreen ? "fixed inset-0 z-50 flex h-dvh flex-col overflow-hidden" : "mt-4 flex flex-wrap"} ${visible ? "" : "hidden"}`}
     >
-      <div className={`w-full ${isFullScreen ? "" : "mb-4"}`}>
+      <div className={`w-full min-h-0 ${isFullScreen ? "flex h-full flex-col" : "mb-4"}`}>
         <div
-          className={`app-panel w-full overflow-hidden shadow-lg ${isFullScreen ? "" : "rounded-lg"}`}
+          className={`app-panel w-full overflow-hidden shadow-lg ${isFullScreen ? "flex h-full min-h-0 flex-col rounded-none" : "rounded-lg"}`}
         >
-          <div className="app-panel-header">
+          <div className="app-panel-header relative z-20 shrink-0">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex min-w-0 flex-1 items-center gap-3">
                 <h6 className="truncate text-lg font-bold">{title}</h6>
@@ -65,7 +65,9 @@ const ModalFullScreen = (props: ModalFullScreenProps) => {
               </div>
             </div>
           </div>
-          {children}
+          <div className={isFullScreen ? "min-h-0 flex-1 overflow-hidden" : ""}>
+            {children}
+          </div>
         </div>
       </div>
     </div>

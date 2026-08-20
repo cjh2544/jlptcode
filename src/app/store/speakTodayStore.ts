@@ -95,7 +95,8 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                     },
                     body: JSON.stringify({params: get().wordTodayInfo}),
                 })
-                const resData = await response.json();
+                const resData = response.ok ? await response.json().catch(() => []) : [];
+                if (!Array.isArray(resData)) return;
                 set({ 
                     wordTodayList: resData.map((item: SpeakTodayInfoType) => ({
                         ...item,
@@ -103,7 +104,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         hideSentenceRead: true,
                         hideSentenceTranslate: false,
                         hideKeyword: true,
-                        hideSpeaker: true,
+                        hideSpeaker: false,
                     })), 
                     hideAll: {
                         word: false,
@@ -113,7 +114,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         sentence_read: true,
                         sentence_translate: false,
                         keyword: true,
-                        speak: true
+                        speak: false
                     }
                 });
             },
@@ -125,7 +126,8 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                     },
                     body: JSON.stringify({params: get().wordTodayInfo}),
                 })
-                const resData = await response.json();
+                const resData = response.ok ? await response.json().catch(() => []) : [];
+                if (!Array.isArray(resData)) return;
                 set({ 
                     wordTodayList: resData.map((item: SpeakTodayInfoType) => ({
                         ...item,
@@ -133,7 +135,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         hideSentenceRead: true,
                         hideSentenceTranslate: false,
                         hideKeyword: true,
-                        hideSpeaker: true,
+                        hideSpeaker: false,
                     })), 
                     hideAll: {
                         word: false,
@@ -143,7 +145,7 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
                         sentence_read: true,
                         sentence_translate: false,
                         keyword: true,
-                        speak: true,
+                        speak: false,
                     }
                 });
             },
@@ -184,7 +186,24 @@ export const useSpeakTodayStore = create<SpeakTodayStore>()(
             }),
         }),
         {
-          name: 'speaktoday-storage', // persist key
+          name: 'speaktoday-storage',
+          version: 2,
+          partialize: (state) => ({
+            wordTodayInfo: state.wordTodayInfo,
+            hideAll: state.hideAll,
+          }),
+          migrate: (persisted: any) => ({
+            wordTodayInfo: persisted?.wordTodayInfo || {
+              level: 'N5',
+              levels: ['N5'],
+              study: '',
+              idx: 0,
+            },
+            hideAll: {
+              ...(persisted?.hideAll || {}),
+              speak: false,
+            },
+          }),
         }
       )
     )

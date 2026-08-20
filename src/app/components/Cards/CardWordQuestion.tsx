@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { recordQuizAttempt } from "@/app/lib/record-quiz-attempt";
 
 type WordQuestionType = {
   question: string,
@@ -17,10 +18,16 @@ type JlptContentProps = {
   sentence_read?: string,
   sentence_translate?: string,
   speaker?: string,
+  record?: {
+    subject: string;
+    source: string;
+    sourceId: string;
+    level?: string;
+  },
 }
 
 const CardWordQuestion = (props:JlptContentProps) => {
-  const { questionInfo, sentence_read, sentence_translate, speaker } = props;
+  const { questionInfo, sentence_read, sentence_translate, speaker, record } = props;
   const { question, choice, answer } = questionInfo;
   const { t } = useTranslations();
   const [ showAnswer, setShowAnswer ] = useState(false);
@@ -42,6 +49,20 @@ const CardWordQuestion = (props:JlptContentProps) => {
     setSelectedAnswer(selectedAnswer);
     setCollect(answer === selectedAnswer);
     setShowAnswer(true);
+    if (record?.sourceId) {
+      recordQuizAttempt({
+        subject: record.subject,
+        source: record.source,
+        level: record.level,
+        questions: [
+          {
+            id: record.sourceId,
+            answer,
+            selectedAnswer,
+          },
+        ],
+      });
+    }
   }
 
   const handleClickAnswerClose = () => {

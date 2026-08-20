@@ -1,36 +1,18 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import { WORD_INCLUDE, syncStringList, transformWordRead } from "@/app/lib/content-shape";
 
-const wordSchema = new Schema({
-  // 단어구분
-  type: {
-    type: String,
-    required: true,
-    index: true,
+const Word = createModel({
+  collection: "word",
+  prisma: prisma.word,
+  allowedFields: ["id", "type", "level", "word", "read"],
+  relationContainsFields: { parts: { field: "value" } },
+  include: WORD_INCLUDE,
+  transformRead: transformWordRead,
+  syncRelated: async (id, data) => {
+    await syncStringList(prisma.wordMean, "wordId", id, data.means);
+    await syncStringList(prisma.wordPart, "wordId", id, data.parts);
   },
-  level: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  word: {
-    type: String,
-    required: false,
-    index: true,
-  },
-  read: {
-    type: String,
-    required: true,
-  },
-  means: {
-    type: Array,
-    required: true,
-  },
-  parts: {
-    type: Array,
-    required: false,
-  },
-}, {timestamps: true, collection: 'word'})
-
-const Word = models?.word || model('word', wordSchema)
+});
 
 export default Word;

@@ -1,30 +1,16 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import { CODE_DETAIL_INCLUDE, syncStringList, transformCodeDetailRead } from "@/app/lib/content-shape";
 
-const codeDetailSchema = new Schema({
-  // 단어구분
-  code: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
+const CodeDetail = createModel({
+  collection: "code_detail",
+  prisma: prisma.codeDetail,
+  allowedFields: ["id", "code", "key", "value", "sort", "classification"],
+  include: CODE_DETAIL_INCLUDE,
+  transformRead: transformCodeDetailRead,
+  syncRelated: async (id, data) => {
+    await syncStringList(prisma.codeDetailLevel, "codeDetailId", id, data.levels);
   },
-  key: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true,
-  },
-  value: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  sort: {
-    type: Number,
-    required: false,
-  },
-}, {timestamps: true, collection: 'code_detail'})
-
-const CodeDetail = models?.codeDetail || model('codeDetail', codeDetailSchema, 'code_detail')
+});
 
 export default CodeDetail;

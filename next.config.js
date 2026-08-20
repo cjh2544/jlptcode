@@ -26,6 +26,18 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "drive.usercontent.google.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "authjs.dev",
         port: "",
         pathname: "/**",

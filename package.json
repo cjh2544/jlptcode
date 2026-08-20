@@ -6,7 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "db:init": "tsx scripts/db/ensure-database.ts",
+    "db:schema": "prisma db execute --file scripts/db/001_schema.sql --schema prisma/schema.prisma",
+    "db:mypage": "prisma db execute --file scripts/db/005_mypage.sql --schema prisma/schema.prisma && prisma generate",
+    "db:copy": "tsx scripts/db/copy-from-mongo.ts",
+    "db:speaker": "prisma db execute --file scripts/db/006_speaker_url.sql --schema prisma/schema.prisma && prisma generate && tsx scripts/db/recopy-speaker.ts",
+    "db:split-json": "prisma db execute --file scripts/db/003_split_json.sql --schema prisma/schema.prisma && tsx scripts/db/migrate-split-json.ts && prisma db execute --file scripts/db/004_drop_json.sql --schema prisma/schema.prisma && prisma generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",
@@ -29,10 +36,11 @@
     "htmlparser2": "^9.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^1.31.0",
-    "mongoose": "^7.4.2",
+    "@prisma/client": "^6.14.0",
     "next": "^16.2.10",
     "next-auth": "^4.24.8",
     "node-html-parser": "^6.1.11",
+    "mongodb": "^5.9.2",
     "openai": "^4.71.1",
     "postcss": "8.4.27",
     "radix-ui": "^1.6.7",
@@ -56,6 +64,8 @@
     "@types/react-dom": "19",
     "eslint": "^9",
     "eslint-config-next": "^16.2.10",
+    "prisma": "^6.14.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.7.2"
   }
 }

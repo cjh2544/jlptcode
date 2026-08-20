@@ -15,8 +15,10 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import SignInHeaderPage from "../SignIn/SignInHeader";
 import LanguageSwitcher from "./LanguageSwitcher";
+import DatabaseSwitcher from "./DatabaseSwitcher";
 
 const YOUTUBE_URL = "https://www.youtube.com/@JLPTCODE";
+const KAKAO_CHANNEL_URL = process.env.NEXT_PUBLIC_KAKAO_CHANNEL_URL || "";
 
 const NAV_LINKS = [
   {
@@ -55,20 +57,42 @@ function BrandMark({ light = false }: { light?: boolean }) {
       className={`main-nav-brand ${light ? "main-nav-brand--light" : ""}`}
       aria-label="JLPTCODE"
     >
-      <img
-        src="/images/logo.png"
-        alt=""
-        aria-hidden
-        className="main-nav-brand-icon"
-        width={20}
-        height={20}
-        decoding="async"
-      />
       <span className="main-nav-brand-text">
         <span className="main-nav-brand-jlpt">JLPT</span>
         <span className="main-nav-brand-code">CODE</span>
       </span>
     </Link>
+  );
+}
+
+function KakaoChannelButton({
+  className = "main-nav-kakao",
+  showLabel = false,
+}: {
+  className?: string;
+  showLabel?: boolean;
+}) {
+  const { t } = useTranslations();
+  if (!KAKAO_CHANNEL_URL) return null;
+
+  return (
+    <a
+      className={className}
+      href={KAKAO_CHANNEL_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={t("common.kakaoChannel")}
+    >
+      <img
+        src="/images/kakao_channel.png"
+        alt=""
+        aria-hidden
+        width={20}
+        height={20}
+        decoding="async"
+      />
+      {showLabel && <span>{t("common.kakaoChannel")}</span>}
+    </a>
   );
 }
 
@@ -135,12 +159,11 @@ export default function MainNavbar() {
         <div className="main-nav-right">
           <div className="main-nav-actions">
             <SignInHeaderPage />
-            <div
-              className="main-nav-utilities"
-              aria-label={t("common.languageSelect")}
-            >
+            <div className="main-nav-utilities">
               <LanguageSwitcher menuAlign="end" />
+              <DatabaseSwitcher menuAlign="end" />
               <YouTubeButton />
+              <KakaoChannelButton />
             </div>
           </div>
 
@@ -202,9 +225,14 @@ export default function MainNavbar() {
                 <div className="main-nav-sheet-footer">
                   <div className="main-nav-sheet-footer-lang">
                     <LanguageSwitcher variant="sidebar" menuAlign="end" />
+                    <DatabaseSwitcher variant="sidebar" menuAlign="end" />
                   </div>
                   <YouTubeButton
                     className="main-nav-sheet-youtube"
+                    showLabel
+                  />
+                  <KakaoChannelButton
+                    className="main-nav-sheet-kakao"
                     showLabel
                   />
                 </div>

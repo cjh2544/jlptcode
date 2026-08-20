@@ -38,5 +38,7 @@ export const config = {
     "/admin",
     "/admin/:path*",
     "/member/:path*",
+    "/mypage",
+    "/mypage/:path*",
   ],
 };

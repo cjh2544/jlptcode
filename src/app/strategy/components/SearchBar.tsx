@@ -138,7 +138,7 @@ const SearchBar = (props: SearchProps) => {
               </label>
               <select disabled={!levelUpInfo.classification} id="questionGroupType" name="questionGroupType" value={levelUpInfo.questionGroupType} onChange={handleChange} className="app-select">
                 <option value="">{t('common.all')}</option>
-                {getCodeDetailList('strategyType').filter((item: any) => item.levels.includes(levelUpInfo.level) && item.classification === levelUpInfo.classification).map((data: CodeDetail, idx:number) => {
+                {getCodeDetailList('strategyType').filter((item: any) => Array.isArray(item.levels) && item.levels.includes(levelUpInfo.level) && item.classification === levelUpInfo.classification).map((data: CodeDetail, idx:number) => {
                   return (<option key={idx} value={data.key}>{data.value}</option>)
                 })}
               </select>

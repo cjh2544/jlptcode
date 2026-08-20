@@ -6,11 +6,12 @@ import CardLevelUpAnswer from "@/app/components/Cards/CardLevelUpAnswer";
 
 type QuestionProps = {
   questionInfo: any
+  hideTools?: boolean
 }
 
 const Question = (props:QuestionProps) => {
-  const {questionInfo} = props;
-  const {year, month, level, classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker, sentence_locale} = questionInfo;
+  const {questionInfo, hideTools = false} = props;
+  const {classification, question, questionNo, questionType, choices, answer, sentence, selectedAnswer, speaker, sentence_locale} = questionInfo;
 
   const setLevelUpAnswer = useStrategyStore((state:any) => state.setLevelUpAnswer);
   const showAnswer = useStrategyStore((state:any) => state.showAnswer);
@@ -23,16 +24,24 @@ const Question = (props:QuestionProps) => {
     setLevelUpAnswer(selectedData);
   }
 
+  const hideSpeak =
+    classification === "grammar" ||
+    classification === "reading" ||
+    classification === "listening";
+  const toolProps = {
+    showReadButton: hideTools ? false : showReadButton,
+    showTransButton: hideTools ? false : showTransButton,
+    showSpeakButton: hideTools || hideSpeak ? false : showSpeakButton,
+  };
+
   return (
     <>
-      {questionType === 'group' && <CardLevelUpQuestion questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
-            showTransButton={showTransButton}
-            showSpeakButton={showSpeakButton}
+      {questionType === 'group' && <CardLevelUpQuestion classification={classification} questionType={questionType} question={question} sentence={sentence}
+            {...toolProps}
             speaker={speaker}
             sentence_locale={sentence_locale} />}
-      {questionType === 'content' && <CardLevelUpContent questionType={questionType} question={question} sentence={sentence} showReadButton={showReadButton}
-            showTransButton={showTransButton}
-            showSpeakButton={showSpeakButton}
+      {questionType === 'content' && <CardLevelUpContent classification={classification} questionType={questionType} question={question} sentence={sentence}
+            {...toolProps}
             speaker={speaker}
             sentence_locale={sentence_locale} />}
       {questionType === 'normal' && (
@@ -46,9 +55,8 @@ const Question = (props:QuestionProps) => {
             }
             questionNo={searchYear ? '' : questionNo}
             id={`levelup-question-${searchYear ? '' : questionNo}`} sentence={sentence}
-            showReadButton={showReadButton}
-            showTransButton={showTransButton}
-            showSpeakButton={showSpeakButton}
+            classification={classification}
+            {...toolProps}
             speaker={speaker}
             sentence_locale={sentence_locale} />
           {choices && <CardLevelUpAnswer onClick={handleClick} questionNo={questionNo} choices={choices} answer={answer} showAnswer={showAnswer} selectedAnswer={selectedAnswer} />}

@@ -6,6 +6,7 @@ import { useLevelUpStore } from "@/app/store/levelUpStore";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import QuizScoreDialog from "@/app/components/Quiz/QuizScoreDialog";
 import { Button } from "@/components/ui/button";
+import { recordQuizAttempt } from "@/app/lib/record-quiz-attempt";
 
 type ModalAnswerProps = {
   title: string;
@@ -28,7 +29,10 @@ const ModalAnswer = (props: ModalAnswerProps) => {
         </Button>
         <Button
           className="bg-rose-500 hover:bg-rose-600 text-white"
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            recordQuizAttempt({ subject: "levelUp", source: "levelUp", questions: levelUpList });
+            setShowModal(true);
+          }}
         >
           {btnTitle}
         </Button>

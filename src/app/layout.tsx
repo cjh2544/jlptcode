@@ -1,5 +1,7 @@
 import SessionProvider from "@/app/providers/SessionProvider";
 import I18nProvider from "@/app/providers/I18nProvider";
+import DatabaseProvider from "@/app/providers/DatabaseProvider";
+import { resolveDatabaseType } from "@/app/lib/resolve-database";
 import "@/app/globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@/app/style/common.css";
@@ -11,6 +13,7 @@ import { rootMetadata } from "@/app/seo/siteConfig";
 import JsonLd from "@/app/components/Seo/JsonLd";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import type { Viewport } from "next";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -31,26 +34,34 @@ const notoSerifJP = Noto_Serif_JP({
   adjustFontFallback: false,
 });
 
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+};
+
 export const metadata = rootMetadata;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const databaseType = await resolveDatabaseType();
+
   return (
     <html lang="ko" className={cn("font-sans", geist.variable)}>
       <body className={`${nanumGothic.className} ${notoSerifJP.className}`}>
         <JsonLd />
         <SessionProvider>
           <I18nProvider>
-            <SWRProvider>
-              <TooltipProvider>
-                <main>
-                  <Suspense fallback={<></>}>{children}</Suspense>
-                </main>
-              </TooltipProvider>
-            </SWRProvider>
+            <DatabaseProvider initialType={databaseType}>
+              <SWRProvider>
+                <TooltipProvider>
+                  <main>
+                    <Suspense fallback={<></>}>{children}</Suspense>
+                  </main>
+                </TooltipProvider>
+              </SWRProvider>
+            </DatabaseProvider>
           </I18nProvider>
         </SessionProvider>
 

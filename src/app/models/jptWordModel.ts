@@ -1,36 +1,18 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import { WORD_INCLUDE, syncStringList, transformWordRead } from "@/app/lib/content-shape";
 
-const jptWordSchema = new Schema({
-  // 단어구분
-  type: {
-    type: String,
-    required: true,
-    index: true,
+const JptWord = createModel({
+  collection: "jpt_word",
+  prisma: prisma.jptWord,
+  allowedFields: ["id", "type", "level", "word", "read"],
+  relationContainsFields: { parts: { field: "value" } },
+  include: WORD_INCLUDE,
+  transformRead: transformWordRead,
+  syncRelated: async (id, data) => {
+    await syncStringList(prisma.jptWordMean, "wordId", id, data.means);
+    await syncStringList(prisma.jptWordPart, "wordId", id, data.parts);
   },
-  level: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  word: {
-    type: String,
-    required: false,
-    index: true,
-  },
-  read: {
-    type: String,
-    required: true,
-  },
-  means: {
-    type: Array,
-    required: true,
-  },
-  parts: {
-    type: Array,
-    required: false,
-  },
-}, {timestamps: true, collection: 'jpt_word'})
-
-const JptWord = models?.jptWord || model('jptWord', jptWordSchema)
+});
 
 export default JptWord;

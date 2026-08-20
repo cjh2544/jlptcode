@@ -1,5 +1,6 @@
 'use client';
 import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
+import { SaveWordButton } from "@/app/components/Buttons/SaveButtons";
 import React, {memo} from "react";
 
 type WordInfoProps = {
@@ -45,7 +46,10 @@ const WordInfo = (props:WordInfoProps) => {
         <td className="p-4 border-b border-blue-gray-50">
           <div className="font-normal">
             <div className="flex justify-between items-center">
-              <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
+              <div className="flex items-center gap-2">
+                <span className={`${hideWord ? 'invisible' : ''}`}>{word}</span>
+                <SaveWordButton item={wordInfo} source="jptWord" compact />
+              </div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
                   <VisibilityIcon hidden={!!hideWord} />

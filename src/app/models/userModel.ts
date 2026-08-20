@@ -1,28 +1,48 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import { toPrismaWhere } from "@/app/lib/prisma-model";
+import { USER_INCLUDE, syncStringList, transformUserRead } from "@/app/lib/content-shape";
+import { serializeDoc } from "@/app/utils/serialize";
 
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const User = createModel({
+  collection: "user",
+  prisma: prisma.user,
+  allowedFields: ["id", "name", "email", "password", "image", "provider"],
+  defaults: {
+    provider: "credentials",
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
+  mongoDefaults: {
+    role: ["user"],
   },
-  password: String,
-  image: String,
-  role: {
-    type: [String],
-    enum: ['user', 'admin'],
-    default: ['user'],
+  include: USER_INCLUDE,
+  transformRead: transformUserRead,
+  syncRelated: async (id, data) => {
+    const roles = Array.isArray(data.role) && data.role.length ? data.role : ["user"];
+    await syncStringList(prisma.userRole, "userId", id, roles);
   },
-  provider: {
-    type: String,
-    default: 'credentials',
-  }
-}, {timestamps: true, collection: 'user'})
-
-const User = models?.user || model('user', userSchema, 'user')
+  lookups: {
+    user_payment: async (filter) => {
+      const rows = await prisma.userPayment.findMany({
+        where: toPrismaWhere(filter),
+        include: { payments: { orderBy: { createdAt: "asc" } } },
+      });
+      return rows.map((row) => {
+        const doc = serializeDoc(row)!;
+        return {
+          ...doc,
+          payments: (row.payments || []).map((item) => ({
+            _id: item.id,
+            id: item.id,
+            paymentType: item.paymentType,
+            startDate: item.startDate,
+            endDate: item.endDate,
+            createdAt: item.createdAt,
+            updatedAt: item.updatedAt,
+          })),
+        };
+      });
+    },
+  },
+});
 
 export default User;

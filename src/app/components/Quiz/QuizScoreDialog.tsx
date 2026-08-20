@@ -41,6 +41,15 @@ const QuizScoreDialog = (props: QuizScoreDialogProps) => {
 
   const wrongCount = answered.length - correctCount;
 
+  const scrollToQuestion = (questionNo: number) => {
+    onOpenChange(false);
+    window.setTimeout(() => {
+      document
+        .getElementById(`${anchorPrefix}${questionNo}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90vh] overflow-hidden sm:max-w-lg" showCloseButton>
@@ -84,7 +93,15 @@ const QuizScoreDialog = (props: QuizScoreDialogProps) => {
                 const isCorrect = item.selectedAnswer === item.answer;
                 return (
                   <tr key={`score-${item.questionNo}`}>
-                    <th>{item.questionNo}</th>
+                    <th>
+                      <button
+                        type="button"
+                        className="font-semibold text-brand-600 underline-offset-2 hover:underline"
+                        onClick={() => scrollToQuestion(item.questionNo)}
+                      >
+                        {item.questionNo}
+                      </button>
+                    </th>
                     <td>
                       {isCorrect ? (
                         <span className="app-score-badge--correct">
@@ -98,13 +115,13 @@ const QuizScoreDialog = (props: QuizScoreDialogProps) => {
                     </td>
                     <td>{item.answer}</td>
                     <td>
-                      <a
-                        href={`#${anchorPrefix}${item.questionNo}`}
+                      <button
+                        type="button"
                         className="app-btn-primary inline-block px-3 py-1 text-xs"
-                        onClick={() => onOpenChange(false)}
+                        onClick={() => scrollToQuestion(item.questionNo)}
                       >
                         {t("quiz.goTo")}
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 );

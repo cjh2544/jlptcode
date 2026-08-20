@@ -1,74 +1,35 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import {
+  TODAY_INCLUDE,
+  syncTodayChoices,
+  transformTodayRead,
+  writeToday,
+} from "@/app/lib/content-shape";
 
-// 문제 스키마
-const QuestionSchema = new Schema({
-  question: {
-    type: String,
-    required: true,
-  },
-  choice: {
-    type: Array<string>,
-    required: true,
-  },
-  // 정답
-  answer: {
-    type: Number,
-    required: false,
-  },
+const GrammarToday = createModel({
+  collection: "grammar_today",
+  prisma: prisma.grammarToday,
+  allowedFields: [
+    "id",
+    "level",
+    "year",
+    "study",
+    "sortNo",
+    "sentence",
+    "sentence_read",
+    "sentence_translate",
+    "sentenceLocaleEn",
+    "sentenceLocaleCn",
+    "sentenceLocaleMy",
+    "questionText",
+    "questionAnswer",
+    "speaker",
+  ],
+  include: TODAY_INCLUDE,
+  transformRead: (doc) => transformTodayRead(doc),
+  transformWrite: (data) => writeToday(data),
+  syncRelated: (id, data) => syncTodayChoices(prisma.grammarTodayQuestionChoice, id, data.question),
 });
-
-const grammarTodaySchema = new Schema({
-  // 등급
-  level: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 년도
-  year: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 년도
-  study: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 문제번호
-  sortNo: {
-    type: Number,
-    required: true,
-  },
-  // 문장
-  sentence: {
-    type: String,
-  },
-  // 문장 읽기
-  sentence_read: {
-    type: String,
-  },
-  // 문장 해석
-  sentence_translate: {
-    type: String,
-  },
-  // 문장 다국어
-  sentence_locale: {
-    en: { type: String },
-    cn: { type: String },
-    my: { type: String },
-  },
-  // 문제
-  question: {
-    type: QuestionSchema,
-  },
-  // 스피커
-  speaker: {
-    type: String,
-  },
-}, {timestamps: true, collection: 'grammar_today'})
-
-const GrammarToday = models?.grammarToday || model('grammarToday', grammarTodaySchema, 'grammar_today')
 
 export default GrammarToday;

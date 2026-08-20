@@ -39,6 +39,7 @@ const MemberList = () => {
             <tr>
               <th className="w-auto">{t("member.name")}</th>
               <th className="hidden w-48 sm:table-cell">{t("member.email")}</th>
+              <th className="w-28">{t("member.role")}</th>
               <th className="hidden w-40 md:table-cell">
                 {t("member.createdAt")}
               </th>
@@ -51,13 +52,13 @@ const MemberList = () => {
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={5} className="!p-0">
+                <td colSpan={6} className="!p-0">
                   <LoadingSkeleton />
                 </td>
               </tr>
             ) : isEmpty(userList) ? (
               <tr>
-                <td colSpan={5} className="!p-6">
+                <td colSpan={6} className="!p-6">
                   <EmptyData />
                 </td>
               </tr>

@@ -3,4 +3,6 @@ type CodeDetail = {
   key: string,
   value: string,
   sort: number,
+  levels?: string[],
+  classification?: string,
 }

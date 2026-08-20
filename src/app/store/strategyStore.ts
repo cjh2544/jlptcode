@@ -28,8 +28,8 @@ export const useStrategyStore = create<StrategyStore>()(
         persist((set, get) => ({
             showAnswer: false,
             showReadButton: true,
-            showTransButton: false,
-            showSpeakButton: false,
+            showTransButton: true,
+            showSpeakButton: true,
             isLoading: false,
             hasSearched: false,
             levelUpInfo: {
@@ -66,8 +66,8 @@ export const useStrategyStore = create<StrategyStore>()(
             init: () => set({ 
                 showAnswer: false,
                 showReadButton: true,
-                showTransButton: false,
-                showSpeakButton: false,
+                showTransButton: true,
+                showSpeakButton: true,
                 isLoading: false,
                 hasSearched: false,
                 levelUpInfo: {

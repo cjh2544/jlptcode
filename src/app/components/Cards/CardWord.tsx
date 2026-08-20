@@ -1,4 +1,5 @@
 import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
+import { SaveWordButton } from "@/app/components/Buttons/SaveButtons";
 import { memo } from "react";
 import CardSentence from "./CardSentence";
 
@@ -49,7 +50,10 @@ const CardWord = ({
         <div className="flex items-center">
           <div className="flex-1 min-w-0 py-3">
             <div className={`text-${size} text-gray-900 text-gray-900 truncate flex justify-between items-center px-6 border-b whitespace-normal`}>
-              <div className={`${hideWord ? 'invisible' : ''}`}>{word}</div>
+              <div className="flex items-center gap-2">
+                <span className={`${hideWord ? 'invisible' : ''}`}>{word}</span>
+                <SaveWordButton item={data} source="jptWord" compact />
+              </div>
               <div>
                 <button onClick={(e) => handleClick('word')} className="text-blue-500 focus:outline-hidden">
                   <VisibilityIcon hidden={!!hideWord} />

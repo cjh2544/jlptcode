@@ -17,7 +17,7 @@ const CardAudio = (props: AudioProps) => {
   }
 
   return (
-    <div className="w-full">
+    <div className="app-question-media">
       <SpeechPlayer src={playbackSrc} />
     </div>
   );

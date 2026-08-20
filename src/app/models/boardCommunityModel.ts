@@ -1,32 +1,13 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
 
-const boardCommunitySchema = new Schema({
-  name: {
-    type: String,
-    required: true,
+const BoardCommunity = createModel({
+  collection: "board_community",
+  prisma: prisma.boardCommunity,
+  allowedFields: ["id", "name", "email", "title", "contents", "noticeYn"],
+  defaults: {
+    noticeYn: "N",
   },
-  email: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  contents: {
-    type: String,
-    required: true,
-  },
-  noticeYn: {
-    type: String,
-    enum: ['Y', 'N'],
-    default: 'N',
-    required: true,
-  },
-}, {timestamps: true, collection: 'boardCommunity'})
-
-boardCommunitySchema.index({ noticeYn: 1, createdAt: -1 })
-
-const BoardCommunity = models?.boardCommunity || model('boardCommunity', boardCommunitySchema, 'board_community')
+});
 
 export default BoardCommunity;

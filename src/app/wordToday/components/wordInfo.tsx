@@ -5,6 +5,8 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { SaveWordButton } from "@/app/components/Buttons/SaveButtons";
+import { recordId } from "@/app/lib/mypage";
 
 type WordInfoProps = {
   wordInfo: any
@@ -24,6 +26,7 @@ const WordInfo = (props:WordInfoProps) => {
     word,
     read,
     means,
+    word_locale,
     sentence_read,
     sentence_translate,
     sentence_locale,
@@ -34,6 +37,7 @@ const WordInfo = (props:WordInfoProps) => {
     hideRead = false,
     hideMeans = false
   } = wordInfo;
+  const localizedMeans = getLocalizedTranslate(locale, word_locale, means);
   const localizedTranslate = getLocalizedTranslate(locale, sentence_locale, sentence_translate);
 
   const handleClick = (colType: string) => {
@@ -91,6 +95,7 @@ const WordInfo = (props:WordInfoProps) => {
             {t('today.number')} {wordNo}
           </span>
         </div>
+        <div className="flex items-center gap-2">
         {level !== 'N0' && (
           <Button
             type="button"
@@ -101,11 +106,13 @@ const WordInfo = (props:WordInfoProps) => {
             {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
           </Button>
         )}
+        <SaveWordButton item={wordInfo} source="wordToday" />
+        </div>
       </div>
       <div className="app-today-item-body">
         {renderField(t('word.word'), word, hideWord, 'word', 'app-today-field-value--word')}
         {renderField(t('word.reading'), read, hideRead, 'read')}
-        {renderField(t('word.meaning'), means, hideMeans, 'means')}
+        {renderField(t('word.meaning'), localizedMeans, hideMeans, 'means')}
       </div>
       {showQuestion && (
         <div className="app-today-item-question app-reveal">
@@ -114,6 +121,12 @@ const WordInfo = (props:WordInfoProps) => {
             speaker={speaker}
             sentence_read={sentence_read}
             sentence_translate={localizedTranslate}
+            record={{
+              subject: "wordToday",
+              source: "wordToday",
+              sourceId: recordId(wordInfo),
+              level,
+            }}
           />
         </div>
       )}

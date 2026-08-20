@@ -9,10 +9,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
+import DatabaseSwitcher from "../Navbars/DatabaseSwitcher";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
 
 const YOUTUBE_URL = "https://www.youtube.com/@JLPTCODE";
+const KAKAO_CHANNEL_URL = process.env.NEXT_PUBLIC_KAKAO_CHANNEL_URL || "";
 
 type NavItem = {
   key: string;
@@ -28,6 +30,7 @@ type NavSection = {
   items: NavItem[];
   koOnly?: boolean;
   adminOnly?: boolean;
+  mypageOnly?: boolean;
 };
 
 const NAV_SECTIONS: NavSection[] = [
@@ -140,6 +143,33 @@ const NAV_SECTIONS: NavSection[] = [
         key: "sidebar.memberList",
         href: "/admin",
         icon: "fas fa-users",
+      },
+    ],
+  },
+  {
+    titleKey: "mypage.saved",
+    mypageOnly: true,
+    items: [
+      {
+        key: "sidebar.savedWords",
+        href: "/mypage/words",
+        icon: "fas fa-bookmark",
+      },
+    ],
+  },
+  {
+    titleKey: "mypage.studyStatus",
+    mypageOnly: true,
+    items: [
+      {
+        key: "sidebar.progress",
+        href: "/mypage/progress",
+        icon: "fas fa-chart-bar",
+      },
+      {
+        key: "sidebar.achievement",
+        href: "/mypage/achievement",
+        icon: "fas fa-trophy",
       },
     ],
   },
@@ -269,17 +299,9 @@ export function SidebarMobileBar() {
         )}
       </Button>
       <Link href="/" scroll={false} className="app-sidebar-mobile-brand">
-        <img
-          src="/images/logo.png"
-          alt=""
-          aria-hidden
-          width={16}
-          height={16}
-          decoding="async"
-        />
         <span>
-          <span className="text-[#ef4444]">JLPT</span>
-          <span className="text-primary">CODE</span>
+          <span className="app-sidebar-brand-jlpt">JLPT</span>
+          <span className="app-sidebar-brand-code">CODE</span>
         </span>
       </Link>
       <div className="ml-auto">
@@ -290,14 +312,16 @@ export function SidebarMobileBar() {
 }
 
 function getNavSections(locale: string, pathname: string) {
-  const isAdminPage = pathname.startsWith("/admin");
+  if (pathname.startsWith("/mypage")) {
+    return NAV_SECTIONS.filter((section) => section.mypageOnly);
+  }
 
-  if (isAdminPage) {
+  if (pathname.startsWith("/admin")) {
     return NAV_SECTIONS.filter((section) => section.adminOnly);
   }
 
   const sections = NAV_SECTIONS.filter((section) => {
-    if (section.adminOnly) return false;
+    if (section.adminOnly || section.mypageOnly) return false;
     if (locale !== "ko" && section.koOnly) return false;
     return true;
   });
@@ -341,15 +365,6 @@ export default function Sidebar() {
       >
         <div className="app-sidebar-header">
           <Link href="/" scroll={false} className="app-sidebar-brand">
-            <img
-              src="/images/logo.png"
-              alt=""
-              aria-hidden
-              className="app-sidebar-brand-icon"
-              width={16}
-              height={16}
-              decoding="async"
-            />
             <span className="app-sidebar-brand-text">
               <span className="app-sidebar-brand-jlpt">JLPT</span>
               <span className="app-sidebar-brand-code">CODE</span>
@@ -383,6 +398,7 @@ export default function Sidebar() {
         <div className="app-sidebar-tools">
           <div className="app-sidebar-lang">
             <LanguageSwitcher variant="sidebar" menuAlign="start" />
+            <DatabaseSwitcher variant="sidebar" menuAlign="start" />
           </div>
           <a
             className="app-sidebar-youtube"
@@ -393,6 +409,24 @@ export default function Sidebar() {
           >
             <i className="fa-brands fa-youtube" aria-hidden />
           </a>
+          {KAKAO_CHANNEL_URL ? (
+            <a
+              className="app-sidebar-kakao"
+              href={KAKAO_CHANNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={t("common.kakaoChannel")}
+            >
+              <img
+                src="/images/kakao_channel.png"
+                alt=""
+                aria-hidden
+                width={20}
+                height={20}
+                decoding="async"
+              />
+            </a>
+          ) : null}
         </div>
 
         <nav className="app-sidebar-nav">

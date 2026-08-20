@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import QuizTestShell, { QuizCheckbox } from "@/app/components/Quiz/QuizTestShell";
+import { withGroupedImageTools } from "@/app/lib/question-html";
 
 const QuestionTestPage = () => {
   const { t } = useTranslations();
@@ -46,6 +47,11 @@ const QuestionTestPage = () => {
   if (isLoading) return <Loading />;
   if (!hasSearched) return null;
 
+  const hideSpeak =
+    levelUpInfo.classification === "grammar" ||
+    levelUpInfo.classification === "reading" ||
+    levelUpInfo.classification === "listening";
+
   return (
     <div
       onContextMenu={(e) => e.preventDefault()}
@@ -63,28 +69,24 @@ const QuestionTestPage = () => {
               checked={showReadButton}
               onChange={() => handleChangeCheck("showReadButton", !showReadButton)}
             />
-            {"listening" !== levelUpInfo.classification && (
+            <QuizCheckbox
+              id="show-trans-checkbox"
+              label={t("common.translation")}
+              checked={showTransButton}
+              onChange={() =>
+                handleChangeCheck("showTransButton", !showTransButton)
+              }
+            />
+            {!hideSpeak && (
               <QuizCheckbox
-                id="show-trans-checkbox"
-                label={t("common.translation")}
-                checked={showTransButton}
+                id="show-speak-checkbox"
+                label={t("common.pronunciation")}
+                checked={showSpeakButton}
                 onChange={() =>
-                  handleChangeCheck("showTransButton", !showTransButton)
+                  handleChangeCheck("showSpeakButton", !showSpeakButton)
                 }
               />
             )}
-            {"grammar" !== levelUpInfo.classification &&
-              "reading" !== levelUpInfo.classification &&
-              "listening" !== levelUpInfo.classification && (
-                <QuizCheckbox
-                  id="show-speak-checkbox"
-                  label={t("common.pronunciation")}
-                  checked={showSpeakButton}
-                  onChange={() =>
-                    handleChangeCheck("showSpeakButton", !showSpeakButton)
-                  }
-                />
-              )}
             <QuizCheckbox
               id="show-answer-checkbox"
               label={t("common.answer")}
@@ -106,9 +108,9 @@ const QuestionTestPage = () => {
         {levelUpList.length === 0 ? (
           <p className="app-today-empty">{t('common.noData')}</p>
         ) : (
-          levelUpList.map((questionInfo: any, idx: number) => (
-            <div key={`strategy-practice-${idx}`} className="app-quiz-item">
-              <Question questionInfo={questionInfo} />
+          withGroupedImageTools(levelUpList).map(({ item, hideTools, index }) => (
+            <div key={`strategy-practice-${index}`} className="app-quiz-item">
+              <Question questionInfo={item} hideTools={hideTools} />
             </div>
           ))
         )}

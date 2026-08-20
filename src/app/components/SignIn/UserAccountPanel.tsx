@@ -109,6 +109,16 @@ export default function UserAccountPanel({
           )}
           <Link
             scroll={false}
+            href="/mypage/words"
+            className="app-sidebar-account-action"
+            title={t("layout.mypage")}
+            aria-label={t("layout.mypage")}
+          >
+            <i className="fas fa-user" aria-hidden />
+            <span>{t("layout.mypage")}</span>
+          </Link>
+          <Link
+            scroll={false}
             href="/auth/modify"
             className="app-sidebar-account-action"
             title={t("auth.editProfile")}
@@ -116,16 +126,6 @@ export default function UserAccountPanel({
           >
             <i className="fas fa-user-pen" aria-hidden />
             <span>{t("auth.editProfileShort")}</span>
-          </Link>
-          <Link
-            scroll={false}
-            href="/auth/delete"
-            className="app-sidebar-account-action"
-            title={t("auth.deleteAccount")}
-            aria-label={t("auth.deleteAccount")}
-          >
-            <i className="fas fa-user-slash" aria-hidden />
-            <span>{t("auth.deleteAccountShort")}</span>
           </Link>
           <button
             type="button"
@@ -143,6 +143,19 @@ export default function UserAccountPanel({
           <div className="app-account-panel-section">
             <p className="app-account-panel-label">{t("auth.accountMenu")}</p>
             <ul className="app-account-panel-list">
+              <li>
+                <Link
+                  scroll={false}
+                  href="/mypage/words"
+                  className="app-account-panel-link"
+                >
+                  <i
+                    className="fas fa-user w-4 text-center text-muted-foreground"
+                    aria-hidden
+                  />
+                  {t("layout.mypage")}
+                </Link>
+              </li>
               <li>
                 <Link
                   scroll={false}

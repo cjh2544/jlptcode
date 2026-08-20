@@ -6,6 +6,7 @@ import { useTranslations } from "@/app/providers/I18nProvider";
 import QuizScoreDialog from "@/app/components/Quiz/QuizScoreDialog";
 import PaidButton from "@/app/components/Buttons/PaidButton";
 import { Button } from "@/components/ui/button";
+import { recordQuizAttempt } from "@/app/lib/record-quiz-attempt";
 
 type ModalAnswerProps = {
   title: string;
@@ -29,7 +30,14 @@ const ModalAnswer = (props: ModalAnswerProps) => {
           <i className="fas fa-arrow-up mr-1" />
           TOP
         </Button>
-        <PaidButton name={btnTitle} color="pink" onClick={() => setShowModal(true)} />
+        <PaidButton
+          name={btnTitle}
+          color="pink"
+          onClick={() => {
+            recordQuizAttempt({ subject: "strategy", source: "levelUp", questions: levelUpList });
+            setShowModal(true);
+          }}
+        />
       </div>
 
       <QuizScoreDialog

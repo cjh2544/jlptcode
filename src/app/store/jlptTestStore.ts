@@ -73,7 +73,12 @@ export const useJlptTestStore = create<JlptTestStore>()(
             }),
         }),
         {
-          name: 'jlpttest-storage', // persist key
+          name: 'jlpttest-storage',
+          version: 2,
+          partialize: (state) => ({ searchInfo: state.searchInfo }),
+          migrate: (persisted: any) => ({
+            searchInfo: persisted?.searchInfo || { level: '', classification: '', test: '' },
+          }),
         }
       )
     )

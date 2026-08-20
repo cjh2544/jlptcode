@@ -17,7 +17,17 @@
     "speakTodayDesc": "매일 회화·스피킹 연습",
     "jlptDesc": "약 2만 문항 레벨업 학습",
     "wordTodayDesc": "오늘의 단어·문장·문법",
-    "jptDesc": "JPT 레벨업·모의고사"
+    "jptDesc": "JPT 레벨업·모의고사",
+    "mypageTitle": "마이페이지",
+    "mypageHint": "저장한 단어와 과목별 풀이 기록을 확인할 수 있습니다.",
+    "mypageCta": "내 학습 보기",
+    "mypageSignIn": "로그인",
+    "mypageWords": "저장한 단어",
+    "mypageWordsDesc": "북마크한 단어",
+    "mypageProgress": "문제풀이 현황",
+    "mypageProgressDesc": "과목별 응시·정답률",
+    "mypageAchievement": "성취도",
+    "mypageAchievementDesc": "정답·오답 비율"
   },
   "auth": {
     "signIn": "로그인",
@@ -70,7 +80,10 @@
     "admin": "관리자",
     "adminHome": "관리 홈",
     "memberInfo": "회원정보",
-    "memberList": "회원목록"
+    "memberList": "회원목록",
+    "savedWords": "저장한 단어",
+    "progress": "문제풀이 현황",
+    "achievement": "성취도"
   },
   "common": {
     "search": "검색",
@@ -113,8 +126,12 @@
     "perPage": "페이지별 노출수",
     "pageNo": "페이지번호",
     "languageSelect": "언어 선택",
+    "databaseSelect": "데이터베이스",
+    "databaseMysql": "MySQL",
+    "databaseMongodb": "MongoDB",
     "home": "홈",
     "menu": "메뉴",
+    "kakaoChannel": "카카오채널",
     "collapseMenu": "메뉴 접기",
     "expandMenu": "메뉴 펼치기",
     "closeMenu": "메뉴 닫기",
@@ -140,6 +157,7 @@
     "jlptTest": "모의고사(TEST)",
     "board": "게시판",
     "admin": "관리자",
+    "mypage": "마이페이지",
     "member": "회원정보",
     "signUp": "회원가입",
     "info": "안내"
@@ -171,7 +189,7 @@
   },
   "levelUp": {
     "title": "레벨업(Level up)",
-    "tip": "약 2만 문항으로 레벨업 학습을 할 수 있습니다.",
+    "tip": "★ 20000개의 문제를 매번 다르게 학습할 수 있습니다.",
     "vocab": "문자어휘",
     "grammar": "문법",
     "reading": "독해",
@@ -183,7 +201,7 @@
   },
   "strategy": {
     "title": "집중공략",
-    "tip": "★ 점수가 부족한 유형을 집중적으로 공략하세요.",
+    "tip": "★ 점수가 부족한 부분을 반복해서 공부하세요.",
     "langAll": "언어지식(전체)",
     "selectType": "유형을 선택해 주세요.",
     "high800": "고급(800)",
@@ -210,7 +228,8 @@
     "closeQuestion": "문제 닫기",
     "number": "번호",
     "show": "표시",
-    "hide": "숨김"
+    "hide": "숨김",
+    "tipPaidOrder": "★ 유료회원은 순서대로 학습 가능합니다."
   },
   "board": {
     "title": "문의 게시판",
@@ -250,6 +269,45 @@
     "menu": "관리 메뉴",
     "memberListDesc": "회원 조회 및 유료기간 적용"
   },
+  "mypage": {
+    "saved": "저장",
+    "studyStatus": "학습현황",
+    "savedWords": "저장한 단어",
+    "deleteAllWords": "전체삭제",
+    "deleteAllWordsConfirm": "저장한 단어를 모두 삭제하시겠습니까?",
+    "progress": "문제풀이 현황",
+    "achievement": "성취도",
+    "save": "저장",
+    "savedDone": "저장됨",
+    "unsave": "저장 해제",
+    "unsaveConfirm": "저장을 취소하시겠습니까?",
+    "attempts": "응시 횟수",
+    "recentScore": "최근 점수",
+    "recentAt": "최근 일시",
+    "solved": "푼 문항",
+    "accuracy": "정답률",
+    "percent": "{n}%",
+    "chartAttemptsShare": "과목별 응시 비율",
+    "chartLatestAccuracy": "과목별 최근 정답률",
+    "chartScoreTrend": "최근 정답률 추이",
+    "chartCorrectWrong": "전체 정답/오답",
+    "chartAccuracyBySubject": "과목별 정답률",
+    "chartSolvedBySubject": "과목별 정답·오답",
+    "sourceWord": "JLPT 단어",
+    "sourceWordToday": "오늘의 단어",
+    "sourceJptWord": "JPT 단어",
+    "subject": {
+      "levelUp": "JLPT 레벨업",
+      "strategy": "JLPT 집중공략",
+      "jlpt": "JLPT 기출",
+      "jlptTest": "JLPT 모의고사",
+      "jptLevelUp": "JPT 레벨업",
+      "jptStrategy": "JPT 집중공략",
+      "wordToday": "오늘의 단어",
+      "grammarToday": "오늘의 문법",
+      "sentenceToday": "오늘의 문장"
+    }
+  },
   "member": {
     "listTitle": "회원목록",
     "name": "이름",
@@ -267,7 +325,18 @@
     "unpaid": "미적용",
     "expired": "만료",
     "applyPaidDesc": "{name} 회원에게 유료기간을 적용합니다.",
-    "selectPlan": "적용할 유료구분을 선택해 주세요."
+    "selectPlan": "적용할 유료구분을 선택해 주세요.",
+    "role": "권한",
+    "roleUser": "일반",
+    "roleAdmin": "관리자",
+    "changeRole": "권한 변경",
+    "changeRoleDesc": "{name} 회원의 권한을 변경합니다.",
+    "cannotChangeSelf": "자신의 권한은 변경할 수 없습니다.",
+    "confirmRoleChange": "{name} 회원의 권한을 {role}(으)로 변경하시겠습니까?",
+    "resetPassword": "비밀번호 초기화",
+    "resetPasswordDesc": "{name} 회원의 비밀번호를 초기화합니다.",
+    "newPassword": "새 비밀번호 (6~20자리)",
+    "confirmResetPassword": "비밀번호를 초기화 하시겠습니까?"
   },
   "modal": {
     "confirmTitle": "확인!",

@@ -6,7 +6,7 @@
 
 **공통 흐름**:
 1. `await connectDB()` (`src/app/utils/database.ts`)
-2. Mongoose model import
+2. Prisma-backed model import
 3. `GET` → `request.nextUrl.searchParams` / `POST` → `await request.json()`
 4. `NextResponse.json(data)`
 
@@ -16,7 +16,7 @@
 ```
 
 **list vs listAll**:
-- `list/route.ts` — `$sample` 랜덤 (무료)
+- `list/route.ts` — 랜덤 샘플 (무료)
 - `listAll/route.ts` — `find().sort()` 전체 (유료)
 
 **예시**:
@@ -48,19 +48,24 @@ create<T>()(devtools(persist((set, get) => ({ ... }), { name: 'grammarTodayStore
 - 목록 state + `get*List()` (직접 `fetch` 호출)
 - UI: `setHideAllInfo`, `init`
 
-## Mongoose Models
+## Prisma Models
 
 **패턴** (`src/app/models/grammarTodayModel.ts`):
 ```typescript
-const schema = new Schema({ ... }, { timestamps: true, collection: 'grammar_today' });
-const Model = models?.grammarToday || model('grammarToday', schema, 'grammar_today');
+const Model = createModel({
+  collection: "grammar_today",
+  prisma: prisma.grammarToday,
+  allowedFields: ["id", "level", "year", "study", "sortNo"],
+});
 ```
 
-- collection명: snake_case
-- hot-reload: `models?.name || model(...)` 패턴
-- aggregation: `$match`, `$group`, `$sample`, `$sortArray`
+- table/collection: snake_case
+- 연결: `connectDB()` — `DATABASE_TYPE=mysql`이면 Prisma, `mongodb`이면 Mongo
+- 화면에서 DB 전환: 네비의 DB 스위치 (cookie `jlptcode-database`)
+- 중첩 문서: MySQL은 JSON/관련 테이블, Mongo는 원본 중첩 문서
+- 로컬 DB: MariaDB `localhost:3306/jlptcode` 또는 Atlas Mongo
 
-**모델 목록**: `userModel`, `userPaymentModel`, `wordTodayModel`, `grammarTodayModel`, `readingTodayModel`, `levelUpModel`, `levelUpNewModel`, `jlptModel`, `jlptTestModel`, `jptModel`, `jptWordModel`, `wordModel`, `boardCommunityModel`, `boardReplyModel`, `codeModel`, `codeDetailModel`
+**모델 목록**: `userModel`, `userPaymentModel`, `wordTodayModel`, `grammarTodayModel`, `readingTodayModel`, `levelUpModel`, `jlptModel`, `jlptTestModel`, `jptModel`, `jptWordModel`, `wordModel`, `boardCommunityModel`, `boardReplyModel`, `codeModel`, `codeDetailModel`
 
 ## Auth & Payments
 
@@ -136,7 +141,7 @@ session?.paymentInfo?.isValid
 
 ## Env (추정)
 
-`DATABASE_URL`, OAuth client secrets, `BCRYPT_SALT_ROUNDS`, OpenAI keys, `DEBUG_MODE`
+`DATABASE_TYPE` (`mysql` | `mongodb`), `DATABASE_URL` (MariaDB), `MONGODB_URL` / `MONGO_COPY_URL` (Mongo), OAuth client secrets, `BCRYPT_SALT_ROUNDS`, OpenAI keys, `DEBUG_MODE`
 
 ## Build
 

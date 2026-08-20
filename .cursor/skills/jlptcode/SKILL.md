@@ -1,6 +1,6 @@
 ---
 name: jlptcode
-description: Guides development in the jlptcode Next.js Japanese learning app (MongoDB, SWR, Zustand, next-auth, i18n). Use when working in this repo on features, API routes, *Today modules, auth, payments, or translations.
+description: Guides development in the jlptcode Next.js Japanese learning app (MariaDB/Prisma, SWR, Zustand, next-auth, i18n). Use when working in this repo on features, API routes, *Today modules, auth, payments, or translations.
 ---
 
 # jlptcode 프로젝트 스킬
@@ -30,7 +30,7 @@ UI 문구 다국어?          → reference.md "i18n"
 
 ## 핵심 규칙
 
-1. **스택**: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui
+1. **스택**: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui, MySQL(Prisma) 또는 MongoDB (`DATABASE_TYPE`)
 2. **경로 별칭**: `@/*` → `src/*`
 3. **클라이언트 페이지**: `"use client"` 필수
 4. **기능 단위 구조** (변경 시 동일 패턴 유지):
@@ -77,7 +77,7 @@ src/app/models/{feature}Model.ts   # 필요 시
 ```
 - [ ] grammarToday 기준으로 page / components / layout 복제·이름 변경
 - [ ] api/{feature}/class, study, list, listAll route 추가
-- [ ] models/{feature}Model.ts (collection명 snake_case)
+- [ ] models/{feature}Model.ts (table명 snake_case)
 - [ ] store + swr hook 추가
 - [ ] 유료/무료 분기 확인 (list vs listAll)
 - [ ] i18n 키 추가 (5개 locale JSON 모두)

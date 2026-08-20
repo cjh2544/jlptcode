@@ -1,105 +1,44 @@
-import { Schema, model, models } from 'mongoose'
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
+import {
+  TODAY_INCLUDE,
+  syncTodayChoices,
+  transformTodayRead,
+  writeToday,
+} from "@/app/lib/content-shape";
 
-// 문제 스키마
-const QuestionSchema = new Schema({
-  question: {
-    type: String,
-    required: true,
-  },
-  choice: {
-    type: Array<string>,
-    required: true,
-  },
-  // 정답
-  answer: {
-    type: Number,
-    required: false,
-  },
+const WordToday = createModel({
+  collection: "word_today",
+  prisma: prisma.wordToday,
+  allowedFields: [
+    "id",
+    "level",
+    "year",
+    "study",
+    "day",
+    "wordNo",
+    "word",
+    "read",
+    "means",
+    "wordLocaleEn",
+    "wordLocaleCn",
+    "wordLocaleMy",
+    "sentence",
+    "sentence_read",
+    "sentence_translate",
+    "sentenceLocaleEn",
+    "sentenceLocaleCn",
+    "sentenceLocaleMy",
+    "keyword",
+    "questionText",
+    "questionAnswer",
+    "speaker",
+    "sortNo",
+  ],
+  include: TODAY_INCLUDE,
+  transformRead: (doc) => transformTodayRead(doc, true),
+  transformWrite: (data) => writeToday(data, true),
+  syncRelated: (id, data) => syncTodayChoices(prisma.wordTodayQuestionChoice, id, data.question),
 });
-
-const wordTodaySchema = new Schema({
-  // 등급
-  level: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 년도
-  year: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 년도
-  study: {
-    type: String,
-    required: true,
-    index: true,
-  },
-  // 일수
-  day: {
-    type: Number,
-  },
-  // 단
-  // 문제번호
-  wordNo: {
-    type: Number,
-    required: true,
-  },
-  // 단어
-  word: {
-    type: String,
-    required: true,
-  },
-  // 읽기
-  read: {
-    type: String,
-    required: true,
-  },
-  // 뜻
-  means: {
-    type: String,
-    required: true,
-  },
-  // 단어 다국어
-  word_locale: {
-    en: { type: String },
-    cn: { type: String },
-    my: { type: String },
-  },
-  // 문장
-  sentence: {
-    type: String,
-  },
-  // 문장 읽기
-  sentence_read: {
-    type: String,
-  },
-  // 문장 해석
-  sentence_translate: {
-    type: String,
-  },
-  // 문장 다국어
-  sentence_locale: {
-    en: { type: String },
-    cn: { type: String },
-    my: { type: String },
-  },
-  // 키워드
-  keyword: {
-    type: String,
-  },
-  // 단
-  // 문제
-  question: {
-    type: QuestionSchema,
-  },
-  // 스피커
-  speaker: {
-    type: String,
-  },
-}, {timestamps: true, collection: 'word_today'})
-
-const WordToday = models?.wordToday || model('wordToday', wordTodaySchema, 'word_today')
 
 export default WordToday;

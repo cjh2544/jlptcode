@@ -1,27 +1,10 @@
-import { Schema, model, models } from 'mongoose'
-import BoardCommunity from './boardCommunityModel';
+import { prisma } from "@/app/lib/prisma";
+import { createModel } from "@/app/lib/create-model";
 
-const boardReplySchema = new Schema({
-  board_id: {
-    type: String,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  contents: {
-    type: String,
-    required: true,
-  },
-}, {timestamps: true, collection: 'boardReply'})
-
-boardReplySchema.index({ board_id: 1 })
-
-const BoardReply = models?.boardReply || model('boardReply', boardReplySchema, 'board_reply')
+const BoardReply = createModel({
+  collection: "board_reply",
+  prisma: prisma.boardReply,
+  allowedFields: ["id", "board_id", "name", "email", "contents"],
+});
 
 export default BoardReply;

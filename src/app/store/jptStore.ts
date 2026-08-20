@@ -5,6 +5,7 @@ interface JptStore {
     showAnswer: boolean,
     showReadButton: boolean,
     showTransButton: boolean,
+    showSpeakButton: boolean,
     isLoading: boolean,
     jptInfo: {
         level: string,
@@ -27,6 +28,7 @@ export const useJptStore = create<JptStore>()(
             showAnswer: false,
             showReadButton: true,
             showTransButton: true,
+            showSpeakButton: true,
             isLoading: false,
             jptInfo: {
                 level: '고급(800)',
@@ -74,6 +76,7 @@ export const useJptStore = create<JptStore>()(
                 showAnswer: false,
                 showReadButton: true,
                 showTransButton: true,
+                showSpeakButton: true,
                 isLoading: false,
                 jptInfo: {
                     level: '고급(800)',

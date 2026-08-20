@@ -1,9 +1,15 @@
 import React, { memo } from "react";
-import Image from "next/image";
 
 type ImageProps = {
   image: any;
 };
+
+function toDisplaySrc(src: string) {
+  if (/^https?:\/\//i.test(src)) {
+    return `/api/image?url=${encodeURIComponent(src)}`;
+  }
+  return src;
+}
 
 const CardImage = (props: ImageProps) => {
   const { image } = props;
@@ -13,13 +19,12 @@ const CardImage = (props: ImageProps) => {
   if (!src) return null;
 
   return (
-    <div>
-      <Image
-        src={src}
+    <div className="app-question-media">
+      <img
+        src={toDisplaySrc(src)}
         alt={name || ""}
-        width={400}
-        height={400}
-        style={{ width: "auto", height: "auto" }}
+        className="app-question-image"
+        referrerPolicy="no-referrer"
       />
     </div>
   );

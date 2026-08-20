@@ -9,13 +9,27 @@ export default function JsonLd() {
     "@graph": [
       {
         "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
         name: SITE_NAME,
         url: siteUrl,
         description: SITE_DESCRIPTION,
         inLanguage: "ko",
+        publisher: { "@id": `${siteUrl}/#organization` },
       },
       {
         "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: SITE_NAME,
+        url: siteUrl,
+        description: SITE_DESCRIPTION,
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/images/logo.png`,
+        },
+      },
+      {
+        "@type": "EducationalOrganization",
+        "@id": `${siteUrl}/#school`,
         name: SITE_NAME,
         url: siteUrl,
         description: SITE_DESCRIPTION,

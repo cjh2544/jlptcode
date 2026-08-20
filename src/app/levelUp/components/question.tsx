@@ -26,7 +26,10 @@ const Question = (props:QuestionProps) => {
     classification,
     showReadButton,
     showTransButton,
-    showSpeakButton,
+    showSpeakButton:
+      classification === "listening" || classification === "reading"
+        ? false
+        : showSpeakButton,
     speaker,
     sentence,
     sentence_locale,

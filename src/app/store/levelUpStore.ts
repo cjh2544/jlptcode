@@ -25,8 +25,8 @@ export const useLevelUpStore = create<LevelUpStore>()(
         persist((set, get) => ({
             showAnswer: false,
             showReadButton: true,
-            showTransButton: false,
-            showSpeakButton: false,
+            showTransButton: true,
+            showSpeakButton: true,
             isLoading: false,
             levelUpInfo: {
                 level: 'N1',
@@ -60,8 +60,8 @@ export const useLevelUpStore = create<LevelUpStore>()(
             init: () => set({ 
                 showAnswer: false,
                 showReadButton: true,
-                showTransButton: false,
-                showSpeakButton: false,
+                showTransButton: true,
+                showSpeakButton: true,
                 isLoading: false,
                 levelUpInfo: {
                     level: 'N1',
@@ -71,7 +71,12 @@ export const useLevelUpStore = create<LevelUpStore>()(
             }),
         }),
         {
-          name: 'levelup-storage', // persist key
+          name: 'levelup-storage',
+          version: 2,
+          partialize: (state) => ({ levelUpInfo: state.levelUpInfo }),
+          migrate: (persisted: any) => ({
+            levelUpInfo: persisted?.levelUpInfo || { level: 'N1', classification: '' },
+          }),
         }
       )
     )

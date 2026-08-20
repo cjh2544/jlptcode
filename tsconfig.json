@@ -35,7 +35,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/app/lib/mongodb-client.js",
+    "src/app/lib/prisma.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

@@ -15,6 +15,7 @@ const PUBLIC_ROUTES: SitemapEntry[] = [
   { path: "/grammarToday", priority: 0.9, changeFrequency: "weekly" },
   { path: "/sentenceToday", priority: 0.9, changeFrequency: "weekly" },
   { path: "/levelUp", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/jlpt", priority: 0.9, changeFrequency: "weekly" },
   { path: "/strategy", priority: 0.9, changeFrequency: "weekly" },
   { path: "/jlptTest", priority: 0.9, changeFrequency: "weekly" },
   { path: "/speakTest", priority: 0.8, changeFrequency: "weekly" },
@@ -23,11 +24,10 @@ const PUBLIC_ROUTES: SitemapEntry[] = [
   { path: "/jptStrategy", priority: 0.8, changeFrequency: "weekly" },
   { path: "/word/jlpt", priority: 0.8, changeFrequency: "weekly" },
   { path: "/word/slide", priority: 0.8, changeFrequency: "weekly" },
-  { path: "/board/community/list", priority: 0.8, changeFrequency: "daily" },
-  { path: "/auth/signin", priority: 0.5, changeFrequency: "monthly" },
-  { path: "/auth/signup", priority: 0.5, changeFrequency: "monthly" },
-  { path: "/word", priority: 0.5, changeFrequency: "weekly" },
-  { path: "/word/jpt", priority: 0.5, changeFrequency: "weekly" },
+  { path: "/word/jpt", priority: 0.7, changeFrequency: "weekly" },
+  { path: "/board/community/list", priority: 0.7, changeFrequency: "daily" },
+  { path: "/auth/signin", priority: 0.4, changeFrequency: "monthly" },
+  { path: "/auth/signup", priority: 0.4, changeFrequency: "monthly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

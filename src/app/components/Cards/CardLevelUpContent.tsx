@@ -3,11 +3,11 @@
 import { isEmpty } from "lodash";
 import React, { memo } from "react";
 import CardAudio from "./CardAudio";
-import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import CardImage from "./CardImage";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { formatQuestionHtml, questionImageLink, splitLeadingImages } from "@/app/lib/question-html";
 
 type LevelUpContentProps = {
   classification?: string;
@@ -45,11 +45,17 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
     sentence?.translation || translate,
   );
   const isListening = classification === "listening";
-  const hasPassage = Boolean(String(content ?? "").trim());
+  const { imagesHtml, restHtml, imageCount } = splitLeadingImages(content || "");
+  const hasCardImage = Boolean(questionImageLink(question));
+  const hoistImages = imageCount >= 2 || hasCardImage;
+  const passageHtml = hoistImages && imageCount >= 2 ? restHtml : content;
+  const hasPassage = Boolean(String(passageHtml ?? "").trim());
   const hasReading = Boolean(String(reading ?? "").trim());
+  const playbackSrc = speaker || audio?.link;
+  const hasPlayback = Boolean(playbackSrc);
   const hasRead = Boolean(showReadButton && hasReading);
   const hasTrans = Boolean(showTransButton && translation);
-  const hasSpeak = Boolean(showSpeakButton && speaker && !isListening);
+  const hasSpeak = Boolean(showSpeakButton && hasPlayback && !isListening);
   const hasTools = hasRead || hasTrans || hasSpeak;
 
   const [openTranslate, setOpenTranslate] = React.useState(false);
@@ -61,15 +67,15 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
 
   const parseHtml = (html: string) => {
     return html ? (
-      <div
-        dangerouslySetInnerHTML={{
-          __html: html
-            .toString()
-            .replaceAll("\\r\\n", "<br>")
-            .replaceAll("\\n", "<br>")
-            .replaceAll(/\s/g, "&nbsp;"),
-        }}
-      />
+      <div dangerouslySetInnerHTML={{ __html: formatQuestionHtml(html) }} />
+    ) : (
+      <></>
+    );
+  };
+
+  const parseRawHtml = (html: string) => {
+    return html ? (
+      <div dangerouslySetInnerHTML={{ __html: formatQuestionHtml(html, false) }} />
     ) : (
       <></>
     );
@@ -77,11 +83,17 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
 
   return (
     <div className="flex flex-col min-w-0 wrap-break-word rounded mb-1">
-      {(hasPassage || hasTools) && (
+      {hoistImages && (
+        <div className="flex-auto p-2">
+          {imageCount >= 2 && imagesHtml ? parseRawHtml(imagesHtml) : null}
+          {hasCardImage && <CardImage image={image} />}
+        </div>
+      )}
+      {(hasPassage || hasTools || (isListening && hasPlayback)) && (
         <div className="flex-auto py-2 app-question-content">
           {hasPassage && (
             <div className="app-question-passage">
-              {parseHtml(content || "")}
+              {parseHtml(passageHtml || "")}
             </div>
           )}
           {hasTools && (
@@ -103,7 +115,7 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
               )}
             </div>
           )}
-          {isListening && (speaker || !isEmpty(audio)) && (
+          {isListening && hasPlayback && (
             <div className="app-reveal-panel p-3">
               <CardAudio audio={audio} speaker={speaker} />
             </div>
@@ -122,10 +134,10 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
               </div>
             </div>
           )}
-          {openSpeaker && (
+          {hasSpeak && openSpeaker && (
             <div className="app-reveal">
               <div className="app-reveal-panel p-3">
-                {speaker && <SpeechPlayer src={speaker} />}
+                <CardAudio audio={audio} speaker={speaker} />
               </div>
             </div>
           )}
@@ -136,7 +148,7 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
           <CardAudio audio={audio} speaker={speaker} />
         </div>
       )}
-      {!isEmpty(image) && (
+      {!hoistImages && !isEmpty(image) && (
         <div className="flex-auto p-2">
           <CardImage image={image} />
         </div>

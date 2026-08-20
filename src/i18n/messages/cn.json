@@ -17,7 +17,17 @@
     "speakTodayDesc": "每日会话与口语练习",
     "jlptDesc": "约2万题升级学习",
     "wordTodayDesc": "今日单词·句子·语法",
-    "jptDesc": "JPT升级与模拟考试"
+    "jptDesc": "JPT升级与模拟考试",
+    "mypageTitle": "我的页面",
+    "mypageHint": "查看已保存单词和各科目刷题记录。",
+    "mypageCta": "查看学习记录",
+    "mypageSignIn": "登录",
+    "mypageWords": "已保存单词",
+    "mypageWordsDesc": "已收藏单词",
+    "mypageProgress": "刷题进度",
+    "mypageProgressDesc": "各科目作答与正确率",
+    "mypageAchievement": "达成度",
+    "mypageAchievementDesc": "正确与错误比例"
   },
   "auth": {
     "signIn": "登录",
@@ -70,7 +80,10 @@
     "admin": "管理员",
     "adminHome": "管理首页",
     "memberInfo": "会员信息",
-    "memberList": "会员列表"
+    "memberList": "会员列表",
+    "savedWords": "已保存单词",
+    "progress": "刷题进度",
+    "achievement": "达成度"
   },
   "common": {
     "search": "搜索",
@@ -113,8 +126,12 @@
     "perPage": "每页数量",
     "pageNo": "页码",
     "languageSelect": "语言选择",
+    "databaseSelect": "数据库",
+    "databaseMysql": "MySQL",
+    "databaseMongodb": "MongoDB",
     "home": "首页",
     "menu": "菜单",
+    "kakaoChannel": "Kakao频道",
     "collapseMenu": "收起菜单",
     "expandMenu": "展开菜单",
     "closeMenu": "关闭菜单",
@@ -140,6 +157,7 @@
     "jlptTest": "模拟考试",
     "board": "论坛",
     "admin": "管理员",
+    "mypage": "我的页面",
     "member": "会员信息",
     "signUp": "注册",
     "info": "说明"
@@ -171,7 +189,7 @@
   },
   "levelUp": {
     "title": "升级",
-    "tip": "约2万道题可进行升级练习。",
+    "tip": "★ 可用20000道题目，每次以不同组合练习。",
     "vocab": "文字词汇",
     "grammar": "语法",
     "reading": "阅读",
@@ -183,7 +201,7 @@
   },
   "strategy": {
     "title": "重点攻略",
-    "tip": "★ 请重点攻克得分较低的题型。",
+    "tip": "★ 请反复学习得分较低的部分。",
     "langAll": "语言知识（全部）",
     "selectType": "请选择类型。",
     "high800": "高级(800)",
@@ -210,7 +228,8 @@
     "closeQuestion": "收起题目",
     "number": "编号",
     "show": "显示",
-    "hide": "隐藏"
+    "hide": "隐藏",
+    "tipPaidOrder": "★ 付费会员可以按顺序学习。"
   },
   "board": {
     "title": "咨询论坛",
@@ -250,6 +269,45 @@
     "menu": "管理菜单",
     "memberListDesc": "查看会员并应用付费期限"
   },
+  "mypage": {
+    "saved": "收藏",
+    "studyStatus": "学习情况",
+    "savedWords": "已保存单词",
+    "deleteAllWords": "全部删除",
+    "deleteAllWordsConfirm": "确定删除全部已保存单词吗？",
+    "progress": "刷题进度",
+    "achievement": "达成度",
+    "save": "保存",
+    "savedDone": "已保存",
+    "unsave": "取消保存",
+    "unsaveConfirm": "确定取消保存吗？",
+    "attempts": "作答次数",
+    "recentScore": "最近分数",
+    "recentAt": "最近时间",
+    "solved": "已做题目",
+    "accuracy": "正确率",
+    "percent": "{n}%",
+    "chartAttemptsShare": "各科目作答占比",
+    "chartLatestAccuracy": "各科目最近正确率",
+    "chartScoreTrend": "最近正确率趋势",
+    "chartCorrectWrong": "全部正确/错误",
+    "chartAccuracyBySubject": "各科目正确率",
+    "chartSolvedBySubject": "各科目正确与错误",
+    "sourceWord": "JLPT单词",
+    "sourceWordToday": "今日单词",
+    "sourceJptWord": "JPT单词",
+    "subject": {
+      "levelUp": "JLPT升级练习",
+      "strategy": "JLPT重点攻略",
+      "jlpt": "JLPT真题",
+      "jlptTest": "JLPT模拟考试",
+      "jptLevelUp": "JPT升级练习",
+      "jptStrategy": "JPT重点攻略",
+      "wordToday": "今日单词",
+      "grammarToday": "今日语法",
+      "sentenceToday": "今日句子"
+    }
+  },
   "member": {
     "listTitle": "会员列表",
     "name": "姓名",
@@ -267,7 +325,18 @@
     "unpaid": "未开通",
     "expired": "已过期",
     "applyPaidDesc": "为 {name} 应用付费期间。",
-    "selectPlan": "请选择要应用的付费类型。"
+    "selectPlan": "请选择要应用的付费类型。",
+    "role": "权限",
+    "roleUser": "普通",
+    "roleAdmin": "管理员",
+    "changeRole": "更改权限",
+    "changeRoleDesc": "更改 {name} 的权限。",
+    "cannotChangeSelf": "无法更改自己的权限。",
+    "confirmRoleChange": "确定将 {name} 的权限更改为 {role} 吗？",
+    "resetPassword": "重置密码",
+    "resetPasswordDesc": "为 {name} 重置密码。",
+    "newPassword": "新密码（6-20位）",
+    "confirmResetPassword": "确定要重置密码吗？"
   },
   "modal": {
     "confirmTitle": "确认!",

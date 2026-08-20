@@ -7,6 +7,7 @@ import StrategyLayout from "@/app/components/Layout/StrategyLayout";
 import Loading from "@/app/components/Loading/loading";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import QuizTestShell, { QuizCheckbox } from "@/app/components/Quiz/QuizTestShell";
+import { withGroupedImageTools } from "@/app/lib/question-html";
 
 const StrategyTestPage = () => {
   const { t } = useTranslations();
@@ -39,8 +40,8 @@ const StrategyTestPage = () => {
               <ModalAnswer title={`${t("strategy.mockTitle")} - ${levelUpInfo.level}`} />
             }
           >
-            {levelUpList.map((questionInfo: any, idx: number) => (
-              <Question key={`strategy-full-test-${idx}`} questionInfo={questionInfo} />
+            {withGroupedImageTools(levelUpList).map(({ item, hideTools, index }) => (
+              <Question key={`strategy-full-test-${index}`} questionInfo={item} hideTools={hideTools} />
             ))}
           </QuizTestShell>
         </div>

@@ -93,6 +93,7 @@ export async function POST(request: NextRequest) {
         _id: 0,
         email: 1,
         name: 1,
+        role: 1,
         createdAt: 1,
         updatedAt: 1,
         lastPayment: 1,

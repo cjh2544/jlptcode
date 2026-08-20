@@ -5,6 +5,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { recordId } from "@/app/lib/mypage";
 
 type SentenceInfoProps = {
   wordInfo: any
@@ -115,6 +116,12 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             speaker={speaker}
             sentence_read={sentence_read}
             sentence_translate={localizedTranslate}
+            record={{
+              subject: "sentenceToday",
+              source: "wordToday",
+              sourceId: recordId(wordInfo),
+              level: wordInfo.level,
+            }}
           />
         </div>
       )}

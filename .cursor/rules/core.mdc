@@ -5,7 +5,7 @@ alwaysApply: true
 
 # jlptcode Core
 
-- Stack: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui
+- Stack: Next.js App Router, React 19, TypeScript, Tailwind v4, shadcn/ui, MariaDB/Prisma or MongoDB (`DATABASE_TYPE`)
 - Path alias: `@/*` → `src/*`
 - Functional components + hooks only; keep components small and reusable
 - Style with Tailwind; use shadcn primitives from `@/components/ui/*`

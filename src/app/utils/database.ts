@@ -1,28 +1,13 @@
-import mongoose from "mongoose"
-
-const DB_URI = process.env.DATABASE_URL || "";
-const DEBUG_MODE = process.env.DEBUG_MODE || false;
-
-let cached = global.mongoose;
-
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
+import { getMongoDb } from "@/app/lib/mongo";
+import { prisma } from "@/app/lib/prisma";
+import { resolveDatabaseType } from "@/app/lib/resolve-database";
 
 const connectDB = async () => {
-  if (cached.conn) return cached.conn;
-
-  if (!cached.promise) {
-    cached.promise = mongoose
-      .set({ debug: DEBUG_MODE as boolean, strictQuery: false })
-      .connect(`${DB_URI}`)
-      .then((mongoose) => mongoose);
-      console.log('Mongodb connected...');
+  if ((await resolveDatabaseType()) === "mongodb") {
+    return getMongoDb();
   }
-  
-
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
+  await prisma.$connect();
+  return prisma;
+};
 
 export default connectDB;

@@ -138,7 +138,7 @@ const WordContent = (props: WordTableProps) => {
       actions={slideActions}
     >
       <Swiper
-        className="w-full word-swiper"
+        className={`w-full word-swiper ${isFullScreen ? "h-full" : ""}`}
         centeredSlides
         autoplay={
           autoSlide

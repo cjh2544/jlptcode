@@ -28,7 +28,11 @@ const SpeakList = ({ className }: SpeakListProps) => {
     <div
       className={`mx-4 mb-8 ${className ?? ''}`}
       onContextMenu={(e) => e.preventDefault()}
-      onMouseDown={(e) => e.preventDefault()}
+      onMouseDown={(e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest("button, input, audio, a, .app-speech-player")) return;
+        e.preventDefault();
+      }}
     >
       <div className="app-panel">
         <div className="app-today-toolbar">

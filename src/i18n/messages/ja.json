@@ -17,7 +17,17 @@
     "speakTodayDesc": "毎日の会話・スピーキング練習",
     "jlptDesc": "約2万問のレベルアップ学習",
     "wordTodayDesc": "今日の単語・文法・文章",
-    "jptDesc": "JPTレベルアップ・模擬試験"
+    "jptDesc": "JPTレベルアップ・模擬試験",
+    "mypageTitle": "マイページ",
+    "mypageHint": "保存した単語と科目別の演習記録を確認できます。",
+    "mypageCta": "学習記録を見る",
+    "mypageSignIn": "ログイン",
+    "mypageWords": "保存した単語",
+    "mypageWordsDesc": "ブックマークした単語",
+    "mypageProgress": "問題演習状況",
+    "mypageProgressDesc": "科目別の受験・正答率",
+    "mypageAchievement": "達成度",
+    "mypageAchievementDesc": "正解・誤答の割合"
   },
   "auth": {
     "signIn": "ログイン",
@@ -70,7 +80,10 @@
     "admin": "管理者",
     "adminHome": "管理ホーム",
     "memberInfo": "会員情報",
-    "memberList": "会員一覧"
+    "memberList": "会員一覧",
+    "savedWords": "保存した単語",
+    "progress": "問題演習状況",
+    "achievement": "達成度"
   },
   "common": {
     "search": "検索",
@@ -113,8 +126,12 @@
     "perPage": "ページあたり件数",
     "pageNo": "ページ番号",
     "languageSelect": "言語選択",
+    "databaseSelect": "データベース",
+    "databaseMysql": "MySQL",
+    "databaseMongodb": "MongoDB",
     "home": "ホーム",
     "menu": "メニュー",
+    "kakaoChannel": "カカオチャネル",
     "collapseMenu": "メニューを閉じる",
     "expandMenu": "メニューを開く",
     "closeMenu": "メニューを閉じる",
@@ -140,6 +157,7 @@
     "jlptTest": "模擬試験(TEST)",
     "board": "掲示板",
     "admin": "管理者",
+    "mypage": "マイページ",
     "member": "会員情報",
     "signUp": "会員登録",
     "info": "案内"
@@ -171,7 +189,7 @@
   },
   "levelUp": {
     "title": "レベルアップ",
-    "tip": "約2万問でレベルアップ学習ができます。",
+    "tip": "★ 20000問を毎回違うセットで学習できます。",
     "vocab": "文字語彙",
     "grammar": "文法",
     "reading": "読解",
@@ -183,7 +201,7 @@
   },
   "strategy": {
     "title": "集中攻略",
-    "tip": "★ 点が足りない類型を集中的に攻略しましょう。",
+    "tip": "★ 点が足りない部分を繰り返し勉強しましょう。",
     "langAll": "言語知識(全体)",
     "selectType": "類型を選択してください。",
     "high800": "上級(800)",
@@ -210,7 +228,8 @@
     "closeQuestion": "問題を閉じる",
     "number": "番号",
     "show": "表示",
-    "hide": "非表示"
+    "hide": "非表示",
+    "tipPaidOrder": "★ 有料会員は順番に学習できます。"
   },
   "board": {
     "title": "お問い合わせ掲示板",
@@ -250,6 +269,45 @@
     "menu": "管理メニュー",
     "memberListDesc": "会員照会と有料期間の適用"
   },
+  "mypage": {
+    "saved": "保存",
+    "studyStatus": "学習状況",
+    "savedWords": "保存した単語",
+    "deleteAllWords": "すべて削除",
+    "deleteAllWordsConfirm": "保存した単語をすべて削除しますか？",
+    "progress": "問題演習状況",
+    "achievement": "達成度",
+    "save": "保存",
+    "savedDone": "保存済み",
+    "unsave": "保存解除",
+    "unsaveConfirm": "保存を解除しますか？",
+    "attempts": "受験回数",
+    "recentScore": "最近の点数",
+    "recentAt": "最近の日時",
+    "solved": "解いた問題",
+    "accuracy": "正答率",
+    "percent": "{n}%",
+    "chartAttemptsShare": "科目別の受験割合",
+    "chartLatestAccuracy": "科目別の直近正答率",
+    "chartScoreTrend": "最近の正答率の推移",
+    "chartCorrectWrong": "全体の正解/誤答",
+    "chartAccuracyBySubject": "科目別正答率",
+    "chartSolvedBySubject": "科目別の正解・誤答",
+    "sourceWord": "JLPT単語",
+    "sourceWordToday": "今日の単語",
+    "sourceJptWord": "JPT単語",
+    "subject": {
+      "levelUp": "JLPTレベルアップ",
+      "strategy": "JLPT集中攻略",
+      "jlpt": "JLPT過去問",
+      "jlptTest": "JLPT模擬試験",
+      "jptLevelUp": "JPTレベルアップ",
+      "jptStrategy": "JPT集中攻略",
+      "wordToday": "今日の単語",
+      "grammarToday": "今日の文法",
+      "sentenceToday": "今日の文"
+    }
+  },
   "member": {
     "listTitle": "会員一覧",
     "name": "名前",
@@ -267,7 +325,18 @@
     "unpaid": "未適用",
     "expired": "期限切れ",
     "applyPaidDesc": "{name} 会員に有料期間を適用します。",
-    "selectPlan": "適用する有料区分を選択してください。"
+    "selectPlan": "適用する有料区分を選択してください。",
+    "role": "権限",
+    "roleUser": "一般",
+    "roleAdmin": "管理者",
+    "changeRole": "権限変更",
+    "changeRoleDesc": "{name} 会員の権限を変更します。",
+    "cannotChangeSelf": "自分の権限は変更できません。",
+    "confirmRoleChange": "{name} の権限を {role} に変更しますか？",
+    "resetPassword": "パスワード初期化",
+    "resetPasswordDesc": "{name} のパスワードを初期化します。",
+    "newPassword": "新しいパスワード（6〜20文字）",
+    "confirmResetPassword": "パスワードを初期化しますか？"
   },
   "modal": {
     "confirmTitle": "確認!",

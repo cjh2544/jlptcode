@@ -17,7 +17,17 @@
     "speakTodayDesc": "Daily conversation and speaking practice",
     "jlptDesc": "Level up with ~20,000 questions",
     "wordTodayDesc": "Today's words, sentences, and grammar",
-    "jptDesc": "JPT level-up and mock tests"
+    "jptDesc": "JPT level-up and mock tests",
+    "mypageTitle": "My Page",
+    "mypageHint": "Review saved words and your quiz record by subject.",
+    "mypageCta": "View my study",
+    "mypageSignIn": "Sign in",
+    "mypageWords": "Saved words",
+    "mypageWordsDesc": "Bookmarked words",
+    "mypageProgress": "Quiz progress",
+    "mypageProgressDesc": "Attempts and accuracy",
+    "mypageAchievement": "Achievement",
+    "mypageAchievementDesc": "Correct vs wrong"
   },
   "auth": {
     "signIn": "Sign In",
@@ -70,7 +80,10 @@
     "admin": "Admin",
     "adminHome": "Admin Home",
     "memberInfo": "Members",
-    "memberList": "Member List"
+    "memberList": "Member List",
+    "savedWords": "Saved words",
+    "progress": "Quiz progress",
+    "achievement": "Achievement"
   },
   "common": {
     "search": "Search",
@@ -113,8 +126,12 @@
     "perPage": "Items per page",
     "pageNo": "Page",
     "languageSelect": "Language",
+    "databaseSelect": "Database",
+    "databaseMysql": "MySQL",
+    "databaseMongodb": "MongoDB",
     "home": "Home",
     "menu": "Menu",
+    "kakaoChannel": "Kakao Channel",
     "collapseMenu": "Collapse menu",
     "expandMenu": "Expand menu",
     "closeMenu": "Close menu",
@@ -140,6 +157,7 @@
     "jlptTest": "Mock Test",
     "board": "Board",
     "admin": "Admin",
+    "mypage": "My Page",
     "member": "Members",
     "signUp": "Sign Up",
     "info": "Info"
@@ -171,7 +189,7 @@
   },
   "levelUp": {
     "title": "Level Up",
-    "tip": "Practice with about 20,000 questions.",
+    "tip": "★ Study 20,000 questions with a different set each time.",
     "vocab": "Vocabulary",
     "grammar": "Grammar",
     "reading": "Reading",
@@ -183,7 +201,7 @@
   },
   "strategy": {
     "title": "Focus Strategy",
-    "tip": "★ Focus on question types where your score is low.",
+    "tip": "★ Review the parts where your score is low, repeatedly.",
     "langAll": "Language knowledge (all)",
     "selectType": "Please select a type.",
     "high800": "Advanced (800)",
@@ -210,7 +228,8 @@
     "closeQuestion": "Close quiz",
     "number": "No.",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "tipPaidOrder": "★ Paid members can study in order."
   },
   "board": {
     "title": "Community Board",
@@ -250,6 +269,45 @@
     "menu": "Admin menu",
     "memberListDesc": "View members and apply paid periods"
   },
+  "mypage": {
+    "saved": "Saved",
+    "studyStatus": "Study status",
+    "savedWords": "Saved words",
+    "deleteAllWords": "Delete all",
+    "deleteAllWordsConfirm": "Delete all saved words?",
+    "progress": "Quiz progress",
+    "achievement": "Achievement",
+    "save": "Save",
+    "savedDone": "Saved",
+    "unsave": "Remove",
+    "unsaveConfirm": "Remove this saved word?",
+    "attempts": "Attempts",
+    "recentScore": "Latest score",
+    "recentAt": "Latest date",
+    "solved": "Questions solved",
+    "accuracy": "Accuracy",
+    "percent": "{n}%",
+    "chartAttemptsShare": "Attempts by subject",
+    "chartLatestAccuracy": "Latest accuracy by subject",
+    "chartScoreTrend": "Recent accuracy trend",
+    "chartCorrectWrong": "Overall correct / wrong",
+    "chartAccuracyBySubject": "Accuracy by subject",
+    "chartSolvedBySubject": "Correct and wrong by subject",
+    "sourceWord": "JLPT words",
+    "sourceWordToday": "Today's words",
+    "sourceJptWord": "JPT words",
+    "subject": {
+      "levelUp": "JLPT Level Up",
+      "strategy": "JLPT Strategy",
+      "jlpt": "JLPT Past Papers",
+      "jlptTest": "JLPT Mock Test",
+      "jptLevelUp": "JPT Level Up",
+      "jptStrategy": "JPT Strategy",
+      "wordToday": "Today's Words",
+      "grammarToday": "Today's Grammar",
+      "sentenceToday": "Today's Sentences"
+    }
+  },
   "member": {
     "listTitle": "Members",
     "name": "Name",
@@ -267,7 +325,18 @@
     "unpaid": "Unpaid",
     "expired": "Expired",
     "applyPaidDesc": "Apply a paid period for {name}.",
-    "selectPlan": "Select a plan to apply."
+    "selectPlan": "Select a plan to apply.",
+    "role": "Role",
+    "roleUser": "User",
+    "roleAdmin": "Admin",
+    "changeRole": "Change role",
+    "changeRoleDesc": "Change the role for {name}.",
+    "cannotChangeSelf": "You cannot change your own role.",
+    "confirmRoleChange": "Change {name}'s role to {role}?",
+    "resetPassword": "Reset password",
+    "resetPasswordDesc": "Reset password for {name}.",
+    "newPassword": "New password (6-20 chars)",
+    "confirmResetPassword": "Are you sure you want to reset the password?"
   },
   "modal": {
     "confirmTitle": "Confirm",

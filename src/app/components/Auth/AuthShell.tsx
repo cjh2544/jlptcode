@@ -16,15 +16,6 @@ const AuthShell = ({ title, description, children, footer }: AuthShellProps) => 
       <div className="app-auth-inner">
         <Link href="/" className="app-auth-brand" scroll={false} aria-label="JLPTCODE">
           <span className="app-auth-logo">
-            <img
-              className="app-auth-favicon"
-              src="/images/logo.png"
-              alt=""
-              aria-hidden
-              width={22}
-              height={22}
-              decoding="async"
-            />
             <span className="app-auth-logo-jlpt">JLPT</span>
             <span className="app-auth-logo-code">CODE</span>
           </span>

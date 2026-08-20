@@ -3,6 +3,7 @@ import VisibilityIcon from "@/app/components/Icons/VisibilityIcon";
 import React, {memo} from "react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { SaveWordButton } from "@/app/components/Buttons/SaveButtons";
 
 type WordInfoProps = {
   wordInfo: any
@@ -87,6 +88,7 @@ const WordInfo = (props:WordInfoProps) => {
             </span>
           )}
         </div>
+        <SaveWordButton item={wordInfo} source="word" />
       </div>
       <div className="app-today-item-body">
         {renderField(t('word.word'), word, hideWord, 'word', 'app-today-field-value--word')}

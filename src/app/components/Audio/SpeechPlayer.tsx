@@ -40,6 +40,7 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
   const { t } = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState(false);
@@ -54,40 +55,11 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
 
   useEffect(() => {
     setPlaying(false);
+    setLoading(false);
     setCurrent(0);
     setDuration(0);
     setError(false);
-    const el = audioRef.current;
-    if (el) {
-      el.pause();
-      el.load();
-    }
-  }, [playableSrc]);
-
-  useEffect(() => {
-    if (!playableSrc) return;
-
-    let cancelled = false;
-    const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!AudioCtx) return;
-
-    const ctx = new AudioCtx();
-    fetch(playableSrc)
-      .then((res) => (res.ok ? res.arrayBuffer() : Promise.reject()))
-      .then((buffer) => ctx.decodeAudioData(buffer.slice(0)))
-      .then((decoded) => {
-        if (!cancelled && decoded.duration > 0) {
-          setDuration(decoded.duration);
-        }
-      })
-      .catch(() => undefined)
-      .finally(() => {
-        void ctx.close();
-      });
-
-    return () => {
-      cancelled = true;
-    };
+    audioRef.current?.pause();
   }, [playableSrc]);
 
   useEffect(() => {
@@ -109,13 +81,18 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
 
     if (playing) {
       el.pause();
+      setLoading(false);
       return;
     }
 
+    setError(false);
+    setLoading(true);
     try {
       await el.play();
     } catch {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -134,9 +111,14 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
       <audio
         ref={audioRef}
         src={playableSrc || undefined}
-        preload="auto"
-        onPlay={() => setPlaying(true)}
+        preload="none"
+        onPlay={() => {
+          setPlaying(true);
+          setLoading(false);
+        }}
         onPause={() => setPlaying(false)}
+        onWaiting={() => setLoading(true)}
+        onPlaying={() => setLoading(false)}
         onEnded={() => {
           const el = audioRef.current;
           if (el && duration <= 0 && el.currentTime > 0) {
@@ -155,11 +137,12 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
       <button
         type="button"
         className="app-speech-play"
+        onMouseDown={(e) => e.stopPropagation()}
         onClick={toggle}
         disabled={!playableSrc}
         aria-label={playing ? t("common.pause") : t("common.play")}
       >
-        <i className={playing ? "fas fa-pause" : "fas fa-play"} />
+        <i className={loading ? "fas fa-spinner fa-spin" : playing ? "fas fa-pause" : "fas fa-play"} />
       </button>
 
       <div className="app-speech-track">
@@ -170,6 +153,7 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
           step={0.05}
           value={Math.min(current, sliderMax)}
           onChange={(e) => handleSeek(Number(e.target.value))}
+          onMouseDown={(e) => e.stopPropagation()}
           aria-label={t("common.pronunciation")}
           style={{ "--progress": `${progress}%` } as React.CSSProperties}
         />

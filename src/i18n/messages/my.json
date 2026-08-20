@@ -17,7 +17,17 @@
     "speakTodayDesc": "နေ့စဉ် စကားပြောလေ့ကျင့်ခန်း",
     "jlptDesc": "မေးခွန်း ၂万+ level up လေ့ကျင့်ခန်း",
     "wordTodayDesc": "ယနေ့ စကားလုံး·文法·문장",
-    "jptDesc": "JPT level up နှင့် mock test"
+    "jptDesc": "JPT level up နှင့် mock test",
+    "mypageTitle": "ကျွန်ုပ်၏ စာမျက်နှာ",
+    "mypageHint": "သိမ်းထားသော စကားလုံးနှင့် ဘာသာရပ်အလိုက် လေ့ကျင့်မှတ်တမ်းကို ကြည့်ပါ။",
+    "mypageCta": "လေ့လာမှု ကြည့်ရန်",
+    "mypageSignIn": "ဝင်ရောက်ရန်",
+    "mypageWords": "သိမ်းထားသော စကားလုံးများ",
+    "mypageWordsDesc": "မှတ်သားထားသော စကားလုံးများ",
+    "mypageProgress": "မေးခွန်း လေ့ကျင့်မှု အခြေအနေ",
+    "mypageProgressDesc": "ကြိုးစားမှုနှင့် မှန်ကန်မှု",
+    "mypageAchievement": "အောင်မြင်မှု",
+    "mypageAchievementDesc": "မှန်/မှား အချိုး"
   },
   "auth": {
     "signIn": "ဝင်ရောက်ရန်",
@@ -70,7 +80,10 @@
     "admin": "စီမံခန့်ခွဲသူ",
     "adminHome": "စီမံ ပင်မ",
     "memberInfo": "အဖွဲ့ဝင်အချက်အလက်",
-    "memberList": "အဖွဲ့ဝင်စာရင်း"
+    "memberList": "အဖွဲ့ဝင်စာရင်း",
+    "savedWords": "သိမ်းထားသော စကားလုံး",
+    "progress": "မေးခွန်းဖြေဆိုမှု",
+    "achievement": "အောင်မြင်မှု"
   },
   "common": {
     "search": "ရှာဖွေ",
@@ -113,8 +126,12 @@
     "perPage": "စာမျက်နှာအလိုက်",
     "pageNo": "စာမျက်နှာ",
     "languageSelect": "ဘာသာစကား",
+    "databaseSelect": "ဒေတာဘေ့စ်",
+    "databaseMysql": "MySQL",
+    "databaseMongodb": "MongoDB",
     "home": "ပင်မ",
     "menu": "မီနူး",
+    "kakaoChannel": "Kakao Channel",
     "collapseMenu": "မီနူးကို ပိတ်ရန်",
     "expandMenu": "မီနူးကို ဖွင့်ရန်",
     "closeMenu": "မီနူးကို ပိတ်ရန်",
@@ -140,6 +157,7 @@
     "jlptTest": "စမ်းသပ်စာမေး",
     "board": "ဖိုရမ်",
     "admin": "စီမံခန့်ခွဲသူ",
+    "mypage": "ကျွန်ုပ်၏စာမျက်နှာ",
     "member": "အဖွဲ့ဝင်",
     "signUp": "မှတ်ပုံတင်",
     "info": "လမ်းညွှန်"
@@ -171,7 +189,7 @@
   },
   "levelUp": {
     "title": "Level Up",
-    "tip": "မေးခွန်းပေါင်း ၂၀၀၀၀ ခန့်ဖြင့်လေ့ကျင့်နိုင်သည်။",
+    "tip": "★ မေးခွန်း ၂၀၀၀၀ ကိုအကြိမ်တိုင်းကွဲပြားစွာလေ့လာနိုင်သည်။",
     "vocab": "စာလုံး",
     "grammar": "သဒ္ဒါ",
     "reading": "စာဖတ်",
@@ -183,7 +201,7 @@
   },
   "strategy": {
     "title": "ဗဟိုတိုက်ခိုက်",
-    "tip": "★ အမှတ်နည်းသောအမျိုးအစားကိုအာရုံစိုက်ပါ။",
+    "tip": "★ အမှတ်နည်းသောအပိုင်းကိုထပ်ခါထပ်ခါလေ့လာပါ။",
     "langAll": "ဘာသာစကားအသိ (အားလုံး)",
     "selectType": "အမျိုးအစားရွေးပါ။",
     "high800": "အဆင့်မြင့်(800)",
@@ -210,7 +228,8 @@
     "closeQuestion": "မေးခွန်းပိတ်ရန်",
     "number": "နံပါတ်",
     "show": "ပြရန်",
-    "hide": "ဖျောက်ရန်"
+    "hide": "ဖျောက်ရန်",
+    "tipPaidOrder": "★ ငွေပေးချေအဖွဲ့ဝင်များသည်အစဉ်လိုက်လေ့လာနိုင်သည်။"
   },
   "board": {
     "title": "မေးမြန်းရန်ဖိုရမ်",
@@ -250,6 +269,45 @@
     "menu": "စီမံ မီနူး",
     "memberListDesc": "အဖွဲ့ဝင်ကြည့်ရှုပြီး ပေးချေကာလ သတ်မှတ်ရန်"
   },
+  "mypage": {
+    "saved": "သိမ်းဆည်းမှု",
+    "studyStatus": "လေ့လာမှုအခြေအနေ",
+    "savedWords": "သိမ်းထားသော စကားလုံး",
+    "deleteAllWords": "အားလုံးဖျက်ရန်",
+    "deleteAllWordsConfirm": "သိမ်းထားသော စကားလုံးအားလုံးကို ဖျက်မလား?",
+    "progress": "မေးခွန်းဖြေဆိုမှု",
+    "achievement": "အောင်မြင်မှု",
+    "save": "သိမ်းရန်",
+    "savedDone": "သိမ်းပြီး",
+    "unsave": "ဖယ်ရှားရန်",
+    "unsaveConfirm": "သိမ်းထားမှုကို ဖယ်ရှားမလား?",
+    "attempts": "ကြိုးစားမှု",
+    "recentScore": "နောက်ဆုံးရမှတ်",
+    "recentAt": "နောက်ဆုံးအချိန်",
+    "solved": "ဖြေပြီးမေးခွန်း",
+    "accuracy": "မှန်ကန်နှုန်း",
+    "percent": "{n}%",
+    "chartAttemptsShare": "ဘာသာရပ်အလိုက် ကြိုးစားမှု",
+    "chartLatestAccuracy": "ဘာသာရပ်အလိုက် နောက်ဆုံးမှန်ကန်နှုန်း",
+    "chartScoreTrend": "မကြာသေးမီ မှန်ကန်နှုန်း",
+    "chartCorrectWrong": "စုစုပေါင်း မှန်/မှား",
+    "chartAccuracyBySubject": "ဘာသာရပ်အလိုက် မှန်ကန်နှုန်း",
+    "chartSolvedBySubject": "ဘာသာရပ်အလိုက် မှန်နှင့်မှား",
+    "sourceWord": "JLPT စကားလုံး",
+    "sourceWordToday": "ယနေ့စကားလုံး",
+    "sourceJptWord": "JPT စကားလုံး",
+    "subject": {
+      "levelUp": "JLPT Level Up",
+      "strategy": "JLPT Strategy",
+      "jlpt": "JLPT Past Papers",
+      "jlptTest": "JLPT Mock Test",
+      "jptLevelUp": "JPT Level Up",
+      "jptStrategy": "JPT Strategy",
+      "wordToday": "Today's Words",
+      "grammarToday": "Today's Grammar",
+      "sentenceToday": "Today's Sentences"
+    }
+  },
   "member": {
     "listTitle": "အဖွဲ့ဝင်စာရင်း",
     "name": "အမည်",
@@ -267,7 +325,18 @@
     "unpaid": "မသတ်မှတ်",
     "expired": "သက်တမ်းကုန်",
     "applyPaidDesc": "{name} အတွက် ငွေပေးကာလ သတ်မှတ်ပါ။",
-    "selectPlan": "အမျိုးအစားရွေးပါ။"
+    "selectPlan": "အမျိုးအစားရွေးပါ။",
+    "role": "ခွင့်ပြုချက်",
+    "roleUser": "အသုံးပြုသူ",
+    "roleAdmin": "စီမံခန့်ခွဲသူ",
+    "changeRole": "ခွင့်ပြုချက်ပြောင်းရန်",
+    "changeRoleDesc": "{name} ၏ ခွင့်ပြုချက်ကိုပြောင်းပါ။",
+    "cannotChangeSelf": "ကိုယ့်ခွင့်ပြုချက်ကို ပြောင်းလဲ၍မရပါ။",
+    "confirmRoleChange": "{name} ၏ ခွင့်ပြုချက်ကို {role} သို့ ပြောင်းမလား？",
+    "resetPassword": "စကားဝှက်ပြန်သတ်မှတ်",
+    "resetPasswordDesc": "{name} ၏ စကားဝှက်ကို ပြန်သတ်မှတ်ပါ။",
+    "newPassword": "စကားဝှက်အသစ် (၆-၂၀ လုံး)",
+    "confirmResetPassword": "စကားဝှက်ကို ပြန်သတ်မှတ်မလား？"
   },
   "modal": {
     "confirmTitle": "အတည်ပြု!",

@@ -2,6 +2,7 @@
 
 import React, { memo } from "react";
 import { useTranslations } from "@/app/providers/I18nProvider";
+import { SaveWordButton } from "@/app/components/Buttons/SaveButtons";
 
 type WordCardProps = {
   wordInfo: any;
@@ -22,9 +23,10 @@ const WordCard = (props: WordCardProps) => {
 
   return (
     <div
-      className={`${fullScreen ? "h-[calc(100vh-88px)]" : "min-h-96 h-[28rem]"} word-slide-card flex flex-col items-center justify-center px-6 py-10 text-center sm:px-12`}
+      className={`${fullScreen ? "h-full" : "min-h-96 h-[28rem]"} word-slide-card flex flex-col items-center justify-center px-6 py-10 text-center sm:px-12`}
     >
       <div className="flex w-full max-w-3xl flex-col items-center gap-6">
+        <SaveWordButton item={wordInfo} source="word" />
         <div
           className={`${wordInfo.hideWord ? "invisible" : ""} word-slide-word w-full`}
         >

@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   const boards = [...noticeList, ...communityList];
   const boardIds = boards.map((board) => String(board._id));
 
-  const replyList =
+  const replyList: Array<{ board_id?: string }> =
     boardIds.length > 0
       ? await BoardReply.find({ board_id: { $in: boardIds } })
           .select("board_id name email contents createdAt updatedAt")
