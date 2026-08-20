@@ -1,7 +1,12 @@
 import LevelUp from "@/app/models/levelUpModel";
 import connectDB from "@/app/utils/database";
-import { isEmpty, result } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
+
+const debugLog = (label: string, payload: unknown) => {
+  if (process.env.DEBUG_MODE === "true") {
+    console.log(`[strategy/list] ${label}`, payload);
+  }
+};
 
 // 조회 문제 수
 const questionSize:any = {
@@ -165,6 +170,8 @@ const getLevelupData = async (level: string, year: string, classification: strin
   let resultData: any[] = [];
   let questionSizeInfo: any = {};
 
+  debugLog("getLevelupData", { level, year, classification, questionGroupType });
+
   // 문자/어휘
   if('vocabulary' === classification) {
     questionSizeInfo = questionSize[classification][level];
@@ -172,15 +179,19 @@ const getLevelupData = async (level: string, year: string, classification: strin
     for(const key in questionSizeInfo) {
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
-      // 1. 문자/어휘 GROUP 문제 조회
-      const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+      const groupMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key};
+      debugLog("findOne group", { questionGroupType: key, match: groupMatch, sampleSize: questionSizeInfo[key] });
+      const groupInfo = await LevelUp.findOne(groupMatch);
       levelUpList.push(groupInfo);
 
       // 2. 문자/어휘 문제 랜덤 조회
-      resultData = await LevelUp.aggregate([
-        { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+      const normalMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key};
+      const normalPipeline = [
+        { $match: normalMatch },
         { $sample: { size : questionSizeInfo[key] } }
-      ]);
+      ];
+      debugLog("aggregate normal", { questionGroupType: key, pipeline: normalPipeline });
+      resultData = await LevelUp.aggregate(normalPipeline);
 
       levelUpList = [...levelUpList, ...resultData];
     }
@@ -193,37 +204,46 @@ const getLevelupData = async (level: string, year: string, classification: strin
       // 1. 그룹 문제 랜덤 조회
       if(key === 'A-9') {
         // 문장문법 일 경우
-        resultData = await LevelUp.aggregate([
+        const groupPipeline = [
           { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
-          { $sample: { size : questionSizeInfo[key] } 
-        }]);
+          { $sample: { size : questionSizeInfo[key] } }
+        ];
+        debugLog("aggregate grammar A-9 group", { pipeline: groupPipeline });
+        resultData = await LevelUp.aggregate(groupPipeline);
 
         let qDataList:any = [];
 
         for (const item of resultData) {
+          const setMatch = {
+            level: item.level,
+            year: item.year,
+            classification: item.classification,
+            questionGroupType: item.questionGroupType,
+            questionGroupNo: item.questionGroupNo,
+          };
+          debugLog("find grammar A-9 set", { match: setMatch });
           qDataList = [
             ...qDataList,
-            ...await LevelUp.find({
-              level: item.level,
-              year: item.year,
-              classification: item.classification,
-              questionGroupType: item.questionGroupType,
-              questionGroupNo: item.questionGroupNo,
-            })
+            ...await LevelUp.find(setMatch)
           ];
         }
 
         levelUpList = [...levelUpList, ...qDataList];
       } else {
         // 1. 문법 GROUP 문제 조회
-        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        const groupMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key};
+        debugLog("findOne grammar group", { questionGroupType: key, match: groupMatch });
+        const groupInfo = await LevelUp.findOne(groupMatch);
         levelUpList.push(groupInfo);
 
         // 2. 문법 문제 랜덤 조회
-        resultData = await LevelUp.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        const normalMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key};
+        const normalPipeline = [
+          { $match: normalMatch },
           { $sample: { size : questionSizeInfo[key] } }
-        ]);
+        ];
+        debugLog("aggregate grammar normal", { questionGroupType: key, pipeline: normalPipeline });
+        resultData = await LevelUp.aggregate(normalPipeline);
 
         levelUpList = [...levelUpList, ...resultData];
       }
@@ -237,36 +257,45 @@ const getLevelupData = async (level: string, year: string, classification: strin
       // 1. 그룹 문제 랜덤 조회
       if(key === 'B-6') {
         // 통합이해 일 경우
-        resultData = await LevelUp.aggregate([
+        const groupPipeline = [
           { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
-          { $sample: { size : questionSizeInfo[key] } 
-        }]);
+          { $sample: { size : questionSizeInfo[key] } }
+        ];
+        debugLog("aggregate listening B-6 group", { pipeline: groupPipeline });
+        resultData = await LevelUp.aggregate(groupPipeline);
 
         let qDataList:any = [];
 
         for (const item of resultData) {
+          const setMatch = {
+            level: item.level,
+            year: item.year,
+            classification: item.classification,
+            questionGroupType: item.questionGroupType,
+            questionGroupNo: item.questionGroupNo,
+          };
+          debugLog("find listening B-6 set", { match: setMatch });
           qDataList = [
             ...qDataList,
-            ...await LevelUp.find({
-              level: item.level,
-              year: item.year,
-              classification: item.classification,
-              questionGroupType: item.questionGroupType,
-              questionGroupNo: item.questionGroupNo,
-            })
+            ...await LevelUp.find(setMatch)
           ];
         }
 
         levelUpList = [...levelUpList, ...qDataList];
       } else {
         // 1. GROUP 문제 조회
-        const groupInfo = await LevelUp.findOne({level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key});
+        const groupMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key};
+        debugLog("findOne listening group", { questionGroupType: key, match: groupMatch });
+        const groupInfo = await LevelUp.findOne(groupMatch);
         levelUpList.push(groupInfo);
 
-        resultData = await LevelUp.aggregate([
-          { $match: {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key} },
+        const normalMatch = {level, year: { $nin: ['random'] }, classification, questionType: 'normal', questionGroupType: key};
+        const normalPipeline = [
+          { $match: normalMatch },
           { $sample: { size : questionSizeInfo[key] } }
-        ]);
+        ];
+        debugLog("aggregate listening normal", { questionGroupType: key, pipeline: normalPipeline });
+        resultData = await LevelUp.aggregate(normalPipeline);
 
         levelUpList = [...levelUpList, ...resultData];
       }
@@ -279,23 +308,27 @@ const getLevelupData = async (level: string, year: string, classification: strin
       if(questionSizeInfo[key] === 0 || (questionGroupType && questionGroupType !== key)) continue;
 
         // 1. GROUP 문제 조회
-        resultData = await LevelUp.aggregate([
+        const groupPipeline = [
           { $match: { level, year: { $nin: ['random'] }, classification, questionType: 'group', questionGroupType: key} },
-          { $sample: { size : questionSizeInfo[key] } 
-        }]);
+          { $sample: { size : questionSizeInfo[key] } }
+        ];
+        debugLog("aggregate reading group", { questionGroupType: key, pipeline: groupPipeline });
+        resultData = await LevelUp.aggregate(groupPipeline);
 
         let qDataList:any = [];
 
         for (const item of resultData) {
+          const setMatch = {
+            level: item.level,
+            year: item.year,
+            classification: item.classification,
+            questionGroupType: item.questionGroupType,
+            questionGroupNo: item.questionGroupNo,
+          };
+          debugLog("find reading set", { match: setMatch });
           qDataList = [
             ...qDataList,
-            ...await LevelUp.find({
-              level: item.level,
-              year: item.year,
-              classification: item.classification,
-              questionGroupType: item.questionGroupType,
-              questionGroupNo: item.questionGroupNo,
-            })
+            ...await LevelUp.find(setMatch)
           ];
         }
         
@@ -340,6 +373,8 @@ const getLevelupDataByYear = async (level: string, year: string, classification:
     conditions = { ...conditions, questionGroupType };
   }
 
+  debugLog("getLevelupDataByYear", { conditions, sort: { sortNo: 1 } });
+
   // 문자/어휘
   if('vocabulary' === classification) {
     resultData = await LevelUp.find(conditions).sort({sortNo: 1});
@@ -382,6 +417,15 @@ export async function POST(request: NextRequest) {
 
   const classificationList = classification.split(',');
 
+  debugLog("POST params", {
+    level,
+    year,
+    classification,
+    questionGroupType,
+    classificationList,
+    mode: year ? "byYear" : "random",
+  });
+
   // 년도를 선택한 경우
   if(year) {
     for(let idx in classificationList) {
@@ -404,6 +448,8 @@ export async function POST(request: NextRequest) {
     });
   }
 
+
+  debugLog("result", { count: levelUpList.filter(Boolean).length });
 
   return NextResponse.json(
     levelUpList

@@ -46,6 +46,10 @@ export function questionHasImage(item: AnyRecord | undefined) {
   return Boolean(questionImageLink(question)) || htmlImgs > 0;
 }
 
+function isReadingImageItem(item: AnyRecord | undefined) {
+  return item?.classification === "reading" && questionHasImage(item);
+}
+
 export function formatQuestionHtml(html: string, nbspText = true) {
   const withBreaks = String(html)
     .replaceAll("\\r\\n", "<br>")
@@ -62,14 +66,20 @@ export function withGroupedImageTools(list: AnyRecord[] = []) {
   let index = 0;
 
   while (index < list.length) {
-    if (questionHasImage(list[index])) {
+    if (isReadingImageItem(list[index])) {
       let end = index;
-      while (end < list.length && questionHasImage(list[end])) end += 1;
+      while (end < list.length && isReadingImageItem(list[end])) end += 1;
       const hideInnerTools = end - index >= 2;
+      let lastPassage = -1;
+      for (let i = index; i < end; i++) {
+        const type = list[i]?.questionType;
+        if (type === "content" || type === "group") lastPassage = i;
+      }
+      const toolsIndex = lastPassage >= 0 ? lastPassage : end - 1;
       while (index < end) {
         result.push({
           item: list[index],
-          hideTools: hideInnerTools && index < end - 1,
+          hideTools: hideInnerTools && index !== toolsIndex,
           index,
         });
         index += 1;

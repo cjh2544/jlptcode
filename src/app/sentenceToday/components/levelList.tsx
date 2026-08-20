@@ -69,7 +69,7 @@ const LevelList = (props: LevelListProps) => {
           <div className="app-panel-header">
             <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
                 <h6 className="text-lg font-bold">{t('layout.sentenceToday')}</h6>
-                <strong className='app-panel-tip'>{t('speak.tipPaidOrder')}</strong>
+                <strong className='app-panel-tip'>{t('today.tipPaidOrder')}</strong>
             </div>
           </div>
           <div className="app-panel-body">

@@ -44,7 +44,7 @@ function convertIdValue(value: unknown): unknown {
 function rewriteIds(value: unknown): unknown {
   if (value == null || typeof value !== "object") return value;
   if (Array.isArray(value)) return value.map(rewriteIds);
-  if (value instanceof Date || value instanceof ObjectId) return value;
+  if (value instanceof Date || value instanceof ObjectId || value instanceof RegExp) return value;
 
   const next: AnyRecord = {};
   for (const [key, val] of Object.entries(value as AnyRecord)) {
