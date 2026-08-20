@@ -46,10 +46,10 @@ export function createModel(options: CreateModelOptions) {
   }
 
   Model.find = (filter: unknown = {}) =>
-    new Query((query) => applyQuery(getImpl().find(filter), query));
+    new Query((query) => applyQuery(getImpl().find(filter), query).exec());
 
   Model.findOne = (filter: unknown = {}) =>
-    new Query((query) => applyQuery(getImpl().findOne(filter), query));
+    new Query((query) => applyQuery(getImpl().findOne(filter), query).exec());
 
   Model.create = async (data: AnyRecord) => getImpl().create(data);
   Model.updateOne = async (filter: AnyRecord, update: AnyRecord) =>
