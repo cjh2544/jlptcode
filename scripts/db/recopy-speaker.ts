@@ -11,12 +11,20 @@ config({ path: ".env" });
 const MONGO_COPY_URL = process.env.MONGO_COPY_URL || "";
 const prisma = new PrismaClient();
 
-const TABLES = [
-  { collection: "word_today", delegate: () => prisma.wordToday },
-  { collection: "grammar_today", delegate: () => prisma.grammarToday },
-  { collection: "jpt", delegate: () => prisma.jpt },
-  { collection: "level_up", delegate: () => prisma.levelUp },
-] as const;
+type SpeakerTable = {
+  collection: string;
+  updateMany: (args: {
+    where: { id: string };
+    data: { speaker: string | null };
+  }) => Promise<{ count: number }>;
+};
+
+const TABLES: SpeakerTable[] = [
+  { collection: "word_today", updateMany: (args) => prisma.wordToday.updateMany(args) },
+  { collection: "grammar_today", updateMany: (args) => prisma.grammarToday.updateMany(args) },
+  { collection: "jpt", updateMany: (args) => prisma.jpt.updateMany(args) },
+  { collection: "level_up", updateMany: (args) => prisma.levelUp.updateMany(args) },
+];
 
 function asId(value: unknown) {
   if (value instanceof ObjectId) return value.toHexString();
@@ -37,7 +45,7 @@ async function main() {
     let updated = 0;
     for (const doc of docs) {
       const speaker = doc.speaker == null || doc.speaker === "" ? null : String(doc.speaker);
-      const result = await table.delegate().updateMany({
+      const result = await table.updateMany({
         where: { id: asId(doc._id) },
         data: { speaker },
       });
