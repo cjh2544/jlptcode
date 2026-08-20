@@ -1,9 +1,9 @@
 import { getMongoDb } from "@/app/lib/mongo";
+import { getDatabaseType } from "@/app/lib/database-type";
 import { prisma } from "@/app/lib/prisma";
-import { resolveDatabaseType } from "@/app/lib/resolve-database";
 
 const connectDB = async () => {
-  if ((await resolveDatabaseType()) === "mongodb") {
+  if (getDatabaseType() === "mongodb") {
     return getMongoDb();
   }
   await prisma.$connect();

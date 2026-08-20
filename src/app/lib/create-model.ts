@@ -1,6 +1,6 @@
 import { createMongoModel } from "@/app/lib/mongo-model";
+import { getDatabaseType } from "@/app/lib/database-type";
 import { createPrismaModel, Query, type PrismaModelOptions } from "@/app/lib/prisma-model";
-import { resolveDatabaseType } from "@/app/lib/resolve-database";
 
 type AnyRecord = Record<string, any>;
 
@@ -38,8 +38,7 @@ export function createModel(options: CreateModelOptions) {
     return mongoModel;
   };
 
-  const getImpl = async () =>
-    (await resolveDatabaseType()) === "mongodb" ? getMongoModel() : getPrismaModel();
+  const getImpl = () => (getDatabaseType() === "mongodb" ? getMongoModel() : getPrismaModel());
 
   function Model(this: AnyRecord, data: AnyRecord = {}) {
     Object.assign(this, data);
@@ -47,19 +46,19 @@ export function createModel(options: CreateModelOptions) {
   }
 
   Model.find = (filter: unknown = {}) =>
-    new Query(async (query) => applyQuery((await getImpl()).find(filter), query));
+    new Query((query) => applyQuery(getImpl().find(filter), query));
 
   Model.findOne = (filter: unknown = {}) =>
-    new Query(async (query) => applyQuery((await getImpl()).findOne(filter), query));
+    new Query((query) => applyQuery(getImpl().findOne(filter), query));
 
-  Model.create = async (data: AnyRecord) => (await getImpl()).create(data);
+  Model.create = async (data: AnyRecord) => getImpl().create(data);
   Model.updateOne = async (filter: AnyRecord, update: AnyRecord) =>
-    (await getImpl()).updateOne(filter, update);
-  Model.deleteOne = async (filter: AnyRecord) => (await getImpl()).deleteOne(filter);
-  Model.deleteMany = async (filter: AnyRecord = {}) => (await getImpl()).deleteMany(filter);
-  Model.count = async (filter: unknown = {}) => (await getImpl()).count(filter);
+    getImpl().updateOne(filter, update);
+  Model.deleteOne = async (filter: AnyRecord) => getImpl().deleteOne(filter);
+  Model.deleteMany = async (filter: AnyRecord = {}) => getImpl().deleteMany(filter);
+  Model.count = async (filter: unknown = {}) => getImpl().count(filter);
   Model.countDocuments = Model.count;
-  Model.aggregate = async (pipeline: AnyRecord[] = []) => (await getImpl()).aggregate(pipeline);
+  Model.aggregate = async (pipeline: AnyRecord[] = []) => getImpl().aggregate(pipeline);
 
   return Model;
 }

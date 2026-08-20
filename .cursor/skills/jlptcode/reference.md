@@ -61,7 +61,6 @@ const Model = createModel({
 
 - table/collection: snake_case
 - 연결: `connectDB()` — `DATABASE_TYPE=mysql`이면 Prisma, `mongodb`이면 Mongo
-- 화면에서 DB 전환: 네비의 DB 스위치 (cookie `jlptcode-database`)
 - 중첩 문서: MySQL은 JSON/관련 테이블, Mongo는 원본 중첩 문서
 - 로컬 DB: MariaDB `localhost:3306/jlptcode` 또는 Atlas Mongo
 

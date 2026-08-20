@@ -9,7 +9,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
-import DatabaseSwitcher from "../Navbars/DatabaseSwitcher";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
 
@@ -398,7 +397,6 @@ export default function Sidebar() {
         <div className="app-sidebar-tools">
           <div className="app-sidebar-lang">
             <LanguageSwitcher variant="sidebar" menuAlign="start" />
-            <DatabaseSwitcher variant="sidebar" menuAlign="start" />
           </div>
           <a
             className="app-sidebar-youtube"

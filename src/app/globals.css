@@ -782,9 +782,6 @@
 .app-sidebar-lang {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
 }
 
 .app-sidebar-lang button {
@@ -792,8 +789,7 @@
   justify-content: flex-start;
 }
 
-.app-sidebar-tools .lang-switcher,
-.app-sidebar-tools .db-switcher {
+.app-sidebar-tools .lang-switcher {
   width: 100%;
 }
 
@@ -2406,9 +2402,6 @@
 .main-nav-sheet-footer-lang {
   flex: 1;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
 }
 
 .main-nav-sheet-footer-lang [data-slot="dropdown-menu-trigger"],
@@ -2416,8 +2409,7 @@
   width: 100%;
 }
 
-.main-nav-sheet-footer .lang-switcher,
-.main-nav-sheet-footer .db-switcher {
+.main-nav-sheet-footer .lang-switcher {
   width: 100%;
   justify-content: flex-start;
 }

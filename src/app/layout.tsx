@@ -1,7 +1,5 @@
 import SessionProvider from "@/app/providers/SessionProvider";
 import I18nProvider from "@/app/providers/I18nProvider";
-import DatabaseProvider from "@/app/providers/DatabaseProvider";
-import { resolveDatabaseType } from "@/app/lib/resolve-database";
 import "@/app/globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "@/app/style/common.css";
@@ -40,28 +38,24 @@ export const viewport: Viewport = {
 
 export const metadata = rootMetadata;
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const databaseType = await resolveDatabaseType();
-
   return (
     <html lang="ko" className={cn("font-sans", geist.variable)}>
       <body className={`${nanumGothic.className} ${notoSerifJP.className}`}>
         <JsonLd />
         <SessionProvider>
           <I18nProvider>
-            <DatabaseProvider initialType={databaseType}>
-              <SWRProvider>
-                <TooltipProvider>
-                  <main>
-                    <Suspense fallback={<></>}>{children}</Suspense>
-                  </main>
-                </TooltipProvider>
-              </SWRProvider>
-            </DatabaseProvider>
+            <SWRProvider>
+              <TooltipProvider>
+                <main>
+                  <Suspense fallback={<></>}>{children}</Suspense>
+                </main>
+              </TooltipProvider>
+            </SWRProvider>
           </I18nProvider>
         </SessionProvider>
 

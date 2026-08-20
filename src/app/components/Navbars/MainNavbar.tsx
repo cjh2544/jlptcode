@@ -15,7 +15,6 @@ import Link from "next/link";
 import React, { useMemo, useState } from "react";
 import SignInHeaderPage from "../SignIn/SignInHeader";
 import LanguageSwitcher from "./LanguageSwitcher";
-import DatabaseSwitcher from "./DatabaseSwitcher";
 
 const YOUTUBE_URL = "https://www.youtube.com/@JLPTCODE";
 const KAKAO_CHANNEL_URL = process.env.NEXT_PUBLIC_KAKAO_CHANNEL_URL || "";
@@ -159,9 +158,11 @@ export default function MainNavbar() {
         <div className="main-nav-right">
           <div className="main-nav-actions">
             <SignInHeaderPage />
-            <div className="main-nav-utilities">
+            <div
+              className="main-nav-utilities"
+              aria-label={t("common.languageSelect")}
+            >
               <LanguageSwitcher menuAlign="end" />
-              <DatabaseSwitcher menuAlign="end" />
               <YouTubeButton />
               <KakaoChannelButton />
             </div>
@@ -225,7 +226,6 @@ export default function MainNavbar() {
                 <div className="main-nav-sheet-footer">
                   <div className="main-nav-sheet-footer-lang">
                     <LanguageSwitcher variant="sidebar" menuAlign="end" />
-                    <DatabaseSwitcher variant="sidebar" menuAlign="end" />
                   </div>
                   <YouTubeButton
                     className="main-nav-sheet-youtube"

@@ -1,7 +1,5 @@
 export type DatabaseType = "mysql" | "mongodb";
 
-export const DATABASE_COOKIE = "jlptcode-database";
-
 export function parseDatabaseType(value?: string | null): DatabaseType | null {
   const raw = String(value || "")
     .toLowerCase()
@@ -11,8 +9,12 @@ export function parseDatabaseType(value?: string | null): DatabaseType | null {
   return null;
 }
 
-export function databaseTypeFromEnv(): DatabaseType {
+export function getDatabaseType(): DatabaseType {
   return parseDatabaseType(process.env.DATABASE_TYPE || process.env.DATABASE) || "mysql";
+}
+
+export function isMongoDb() {
+  return getDatabaseType() === "mongodb";
 }
 
 export function getMongoUrl() {
