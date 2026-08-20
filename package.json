@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
@@ -12,6 +12,7 @@
     "db:schema": "prisma db execute --file scripts/db/001_schema.sql --schema prisma/schema.prisma",
     "db:mypage": "prisma db execute --file scripts/db/005_mypage.sql --schema prisma/schema.prisma && prisma generate",
     "db:copy": "tsx scripts/db/copy-from-mongo.ts",
+    "db:sync-user-board": "tsx scripts/db/sync-user-board-from-mongo.ts",
     "db:speaker": "prisma db execute --file scripts/db/006_speaker_url.sql --schema prisma/schema.prisma && prisma generate && tsx scripts/db/recopy-speaker.ts",
     "db:split-json": "prisma db execute --file scripts/db/003_split_json.sql --schema prisma/schema.prisma && tsx scripts/db/migrate-split-json.ts && prisma db execute --file scripts/db/004_drop_json.sql --schema prisma/schema.prisma && prisma generate"
   },

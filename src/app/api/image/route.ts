@@ -5,6 +5,8 @@ import {
 } from "@/app/lib/google-media";
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function GET(request: NextRequest) {
   const raw = request.nextUrl.searchParams.get("url");
   if (!raw) {

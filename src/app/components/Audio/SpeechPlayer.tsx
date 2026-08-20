@@ -5,6 +5,7 @@ import { useTranslations } from "@/app/providers/I18nProvider";
 
 type SpeechPlayerProps = {
   src: string;
+  fallbackText?: string;
   className?: string;
 };
 
@@ -21,6 +22,18 @@ function extractSrc(src: string) {
   return src.trim();
 }
 
+function plainText(value: string) {
+  return value
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/[（(][^）)]*[）)]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function toPlayableSrc(src: string) {
   const value = extractSrc(src);
   if (!value) return "";
@@ -31,21 +44,31 @@ function toPlayableSrc(src: string) {
   return `/api/speech?text=${encodeURIComponent(value)}&lang=ja`;
 }
 
+function toTextSrc(text?: string) {
+  const value = plainText(text || "");
+  if (!value) return "";
+  return `/api/speech?text=${encodeURIComponent(value)}&lang=ja`;
+}
+
 function readDuration(el: HTMLAudioElement) {
   const value = el.duration;
   return Number.isFinite(value) && value > 0 ? value : 0;
 }
 
-const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
+const SpeechPlayer = ({ src, fallbackText, className }: SpeechPlayerProps) => {
   const { t } = useTranslations();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const wantPlayRef = useRef(false);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState(false);
+  const [useFallback, setUseFallback] = useState(false);
 
-  const playableSrc = useMemo(() => toPlayableSrc(src), [src]);
+  const primarySrc = useMemo(() => toPlayableSrc(src), [src]);
+  const fallbackSrc = useMemo(() => toTextSrc(fallbackText), [fallbackText]);
+  const playableSrc = useFallback && fallbackSrc ? fallbackSrc : primarySrc;
 
   const sync = (el: HTMLAudioElement) => {
     setCurrent(el.currentTime || 0);
@@ -59,8 +82,26 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
     setCurrent(0);
     setDuration(0);
     setError(false);
+    setUseFallback(false);
+    wantPlayRef.current = false;
     audioRef.current?.pause();
-  }, [playableSrc]);
+  }, [primarySrc, fallbackSrc]);
+
+  useEffect(() => {
+    if (!useFallback || !fallbackSrc) return;
+    const el = audioRef.current;
+    if (!el) return;
+    el.src = fallbackSrc;
+    el.load();
+    if (wantPlayRef.current) {
+      setLoading(true);
+      el.play().catch(() => {
+        setError(true);
+        setLoading(false);
+        wantPlayRef.current = false;
+      });
+    }
+  }, [useFallback, fallbackSrc]);
 
   useEffect(() => {
     if (!playing) return;
@@ -75,6 +116,22 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
     return () => window.clearInterval(timer);
   }, [playing]);
 
+  const handleMediaError = () => {
+    if (!useFallback && fallbackSrc && fallbackSrc !== primarySrc) {
+      setUseFallback(true);
+      setError(false);
+      setLoading(false);
+      setPlaying(false);
+      setCurrent(0);
+      setDuration(0);
+      return;
+    }
+    setError(true);
+    setLoading(false);
+    setPlaying(false);
+    wantPlayRef.current = false;
+  };
+
   const toggle = async () => {
     const el = audioRef.current;
     if (!el || !playableSrc) return;
@@ -82,15 +139,17 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
     if (playing) {
       el.pause();
       setLoading(false);
+      wantPlayRef.current = false;
       return;
     }
 
     setError(false);
     setLoading(true);
+    wantPlayRef.current = true;
     try {
       await el.play();
     } catch {
-      setError(true);
+      handleMediaError();
     } finally {
       setLoading(false);
     }
@@ -131,7 +190,7 @@ const SpeechPlayer = ({ src, className }: SpeechPlayerProps) => {
         onDurationChange={(e) => sync(e.currentTarget)}
         onLoadedMetadata={(e) => sync(e.currentTarget)}
         onCanPlay={(e) => sync(e.currentTarget)}
-        onError={() => setError(true)}
+        onError={handleMediaError}
       />
 
       <button

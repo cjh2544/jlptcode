@@ -122,7 +122,7 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
         <div className="app-today-speak-prompt-text">{parseHtml(localizedTranslate)}</div>
         {speaker && !hideSpeaker && (
           <div className="app-today-speak-audio">
-            <SpeechPlayer src={speaker} />
+            <SpeechPlayer src={speaker} fallbackText={sentence || sentence_read} />
           </div>
         )}
       </div>

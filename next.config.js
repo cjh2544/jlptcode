@@ -4,6 +4,8 @@ dns.setDefaultResultOrder("ipv4first");
 
 const nextConfig = {
   reactStrictMode: true,
+  // Keep Prisma out of the bundle so native query engines resolve at runtime.
+  serverExternalPackages: ["@prisma/client"],
   images: {
     remotePatterns: [
       {
@@ -51,6 +53,10 @@ const nextConfig = {
     ],
   },
   output: "standalone",
+  outputFileTracingIncludes: {
+    "/api/**/*": ["./node_modules/.prisma/client/**/*"],
+    "/*": ["./node_modules/.prisma/client/**/*"],
+  },
   async redirects() {
     return [
       {

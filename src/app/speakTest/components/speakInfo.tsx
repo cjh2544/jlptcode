@@ -78,7 +78,7 @@ const SpeakInfo = (props:SpeakInfoProps) => {
         <div className="flex items-center">
           <div className="flex-1 min-w-0 mt-1">
             <div className={`${hideSpeaker ? 'hidden' : ''}`}>
-              {speaker && <SpeechPlayer src={speaker} />}
+              {speaker && <SpeechPlayer src={speaker} fallbackText={sentence || sentence_read} />}
             </div>
             <div className={`text-sm font-medium bg-blue-200 p-2 text-gray-900 ${hideKeyword ? 'hidden' : ''}`}>
               {keyword && parseHtml(`∎${keyword}`)}
