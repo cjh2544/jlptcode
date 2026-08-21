@@ -124,6 +124,9 @@ const BoardWrite = (_props: BoardWriteProps) => {
 
   const titleValid = isValid("title");
   const contentValid = isValid("contents");
+  const isAdmin = Boolean(
+    session?.user?.role && session.user.role.includes("admin"),
+  );
 
   return (
     <>
@@ -147,6 +150,43 @@ const BoardWrite = (_props: BoardWriteProps) => {
         </header>
 
         <form onSubmit={onSubmit} className="flex flex-col gap-5">
+          {isAdmin && (
+            <fieldset className="app-board-field">
+              <legend className="app-board-view-label">{t("board.noticeYn")}</legend>
+              <div className="flex flex-wrap gap-2">
+                <label
+                  className={cn(
+                    "flex cursor-pointer items-center gap-2 rounded-lg border border-[var(--border)] px-3 py-2.5 text-sm transition-colors",
+                    "has-[:checked]:border-[color-mix(in_oklab,var(--primary)_45%,var(--border))] has-[:checked]:bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))]",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    className="size-4 accent-[var(--primary)]"
+                    name="noticeYn"
+                    value="Y"
+                  />
+                  <span>{t("board.noticeYes")}</span>
+                </label>
+                <label
+                  className={cn(
+                    "flex cursor-pointer items-center gap-2 rounded-lg border border-[var(--border)] px-3 py-2.5 text-sm transition-colors",
+                    "has-[:checked]:border-[color-mix(in_oklab,var(--primary)_45%,var(--border))] has-[:checked]:bg-[color-mix(in_oklab,var(--primary)_6%,var(--card))]",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    className="size-4 accent-[var(--primary)]"
+                    name="noticeYn"
+                    value="N"
+                    defaultChecked
+                  />
+                  <span>{t("board.noticeNo")}</span>
+                </label>
+              </div>
+            </fieldset>
+          )}
+
           <div className="app-board-field">
             <div className="flex items-end justify-between gap-2">
               <label

@@ -24,6 +24,7 @@ type ModalConfirmProps = {
   onClose: (visible: boolean) => void;
   onConfirm?: () => void;
   showCancel?: boolean;
+  confirmLabel?: string;
 };
 
 const ModalConfirm = (props: ModalConfirmProps) => {
@@ -35,6 +36,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
     onClose,
     onConfirm,
     showCancel = false,
+    confirmLabel,
   } = props;
   const { t } = useTranslations();
 
@@ -95,7 +97,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
               colorClass,
             )}
           >
-            {t("common.confirm")}
+            {confirmLabel || t("common.confirm")}
           </Button>
         </DialogFooter>
       </DialogContent>

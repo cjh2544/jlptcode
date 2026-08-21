@@ -9,7 +9,7 @@ const BoardCommunityPage = () => {
 
   return (
     <BoardLayout>
-      <BoardTitle title={t('board.title')} />
+      <BoardTitle title={t("board.editAction")} />
       <BoardModify />
     </BoardLayout>
   )

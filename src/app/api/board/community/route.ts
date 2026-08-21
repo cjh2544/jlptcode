@@ -35,8 +35,16 @@ export async function POST(req: NextRequest) {
     resultInfo = { success: false, message: '로그인 정보가 없습니다.' };
   } else {
     if (validation.success) {
+      const dbUser = await User.findOne({ email: session.user.email });
+      const isAdmin =
+        Array.isArray(dbUser?.role) && dbUser.role.includes("admin");
+      const noticeYn =
+        isAdmin && boardInfo.noticeYn === "Y" ? "Y" : "N";
+
       const resultInsert = await BoardCommunity.create({
-        ...boardInfo,
+        title: boardInfo.title,
+        contents: boardInfo.contents,
+        noticeYn,
         email: session.user.email,
         name: session.user.name,
       });
@@ -73,13 +81,26 @@ export async function PATCH(req: NextRequest) {
   if (validation.success) {
     await connectDB();
 
+    const dbUser = await User.findOne({ email: session.user.email });
+    const isAdmin =
+      Array.isArray(dbUser?.role) && dbUser.role.includes("admin");
+    const updateData: {
+      title: unknown;
+      contents: unknown;
+      noticeYn?: string;
+    } = {
+      title: boardInfo.title,
+      contents: boardInfo.contents,
+    };
+
+    if (isAdmin) {
+      updateData.noticeYn = boardInfo.noticeYn === "Y" ? "Y" : "N";
+    }
+
     const resultUpdate = await BoardCommunity.updateOne({
       _id: boardInfo._id,
       email: session.user.email
-    }, {
-      title: boardInfo.title,
-      contents: boardInfo.contents
-    });
+    }, updateData);
     
     if(isEmpty(resultUpdate) || resultUpdate.modifiedCount === 0) {
       resultInfo = { success: false, message: '처리 되지 않았습니다.' };
