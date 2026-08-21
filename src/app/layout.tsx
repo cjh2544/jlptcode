@@ -6,17 +6,14 @@ import "@/app/style/common.css";
 import { SWRProvider } from "./providers/SWRProvider";
 import { Suspense } from "react";
 import { Nanum_Gothic, Noto_Serif_JP, Geist } from "next/font/google";
-import { GoogleTagManager, GoogleAnalytics } from "@next/third-parties/google";
 import { rootMetadata } from "@/app/seo/siteConfig";
 import JsonLd from "@/app/components/Seo/JsonLd";
+import Analytics from "@/app/components/Seo/Analytics";
 import { cn } from "@/lib/utils";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { Viewport } from "next";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const GTM_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GTM_MEASUREMENT_ID || "";
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "";
 
 const nanumGothic = Nanum_Gothic({
   preload: false,
@@ -59,8 +56,9 @@ export default function RootLayout({
           </I18nProvider>
         </SessionProvider>
 
-        <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />
-        <GoogleTagManager gtmId={GTM_MEASUREMENT_ID} />
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );

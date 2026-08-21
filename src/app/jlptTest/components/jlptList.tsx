@@ -1,5 +1,5 @@
 'use client';
-import React, {memo, ReactNode, useEffect, useState} from 'react';
+import React, {memo, ReactNode, useEffect, useMemo, useState} from 'react';
 import { useRouter } from 'next/navigation';
 import TabDefault from '@/app/components/Tabs/TabDefault';
 import { useJlptTestStore } from '@/app/store/jlptTestStore';
@@ -32,7 +32,19 @@ const JlptList = (props: JlptListProps) => {
   const setSearchInfo = useJlptTestStore((state:any) => state.setSearchInfo);
   const getJlptList = useJlptTestStore((state:any) => state.getJlptList);
 
-  const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: searchInfo.level || level}});
+  const currentLevel = searchInfo.level || level || 'N1';
+  // 탭용으로 전체 레벨 메타를 받고, 과목/회차는 선택 레벨 데이터만 표시
+  const {data: classInfos = [], isLoading} = useClassTypeList({params: {}});
+
+  const selectedClassData = useMemo(
+    () => classInfos.find((item: any) => item.level === currentLevel) ?? null,
+    [classInfos, currentLevel],
+  );
+
+  const selectedIdx = useMemo(() => {
+    const idx = classInfos.findIndex((item: any) => item.level === currentLevel);
+    return idx >= 0 ? idx : 0;
+  }, [classInfos, currentLevel]);
 
   const handleClick = (selectedData: any) => {
     if(!session?.paymentInfo?.isValid) {
@@ -43,18 +55,33 @@ const JlptList = (props: JlptListProps) => {
       }
     }
 
-    setSearchInfo({...searchInfo, ...selectedData});
-    getJlptList();
+    const nextSearchInfo = {
+      ...searchInfo,
+      ...selectedData,
+      level: currentLevel,
+    };
+    setSearchInfo(nextSearchInfo);
+    getJlptList(nextSearchInfo);
     router.push('/jlptTest/test', {scroll:false});
   }
 
   const handleTabChange = (selectedData: any) => {
-    setSearchInfo({...searchInfo, level: selectedData.level});
+    const nextLevel = selectedData.level;
+    setSearchInfo({
+      ...useJlptTestStore.getState().searchInfo,
+      level: nextLevel,
+      classification: '',
+      test: '',
+    });
+    router.replace(`/jlptTest?level=${nextLevel}`, { scroll: false });
   }
 
   useEffect(() => {
-    setSearchInfo({...searchInfo, level: level});
-  }, [level])
+    if (!level) return;
+    const prev = useJlptTestStore.getState().searchInfo;
+    if (prev.level === level) return;
+    setSearchInfo({ ...prev, level });
+  }, [level, setSearchInfo])
 
   return isLoading ?
     (
@@ -71,15 +98,20 @@ const JlptList = (props: JlptListProps) => {
             </div>
           </div>
           <div className="app-panel-body">
-            <TabDefault onChange={handleTabChange} selectedIdx={Number(searchInfo.level?.substring(1,2)) - 1 || 0} data={
-              classInfos.map((item: any, idx: number) => {
-                return {
-                  title: item.level,
-                  content: (
-                    <Classification classData={item} onClick={(data) => handleClick(data)}/>
-                  ),
-                };
-              })} />
+            <TabDefault
+              onChange={handleTabChange}
+              isUseContent={false}
+              selectedIdx={selectedIdx}
+              data={classInfos.map((item: any) => ({
+                title: item.level,
+              }))}
+            />
+            {selectedClassData ? (
+              <Classification
+                classData={selectedClassData}
+                onClick={(data) => handleClick(data)}
+              />
+            ) : null}
 
               <ModalConfirm type={confirmType} message={confirmMsg} visible={isShowConfirm} onClose={(visible: boolean) => setShowConfirm(visible)} />
           </div>

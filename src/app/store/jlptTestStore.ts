@@ -17,7 +17,7 @@ interface JlptTestStore {
     setShowAnswer: (showAnswer: boolean) => void,
     setJlptList: (jlptList: any) => void,
     setJlptAnswer: (selectedData: any) => void,
-    getJlptList: () => void,
+    getJlptList: (overrideSearchInfo?: JlptTestStore["searchInfo"]) => void,
     init: () => void,
 }
 
@@ -47,14 +47,14 @@ export const useJlptTestStore = create<JlptTestStore>()(
                     }
                 })
             })),
-            getJlptList: async () => {
+            getJlptList: async (overrideSearchInfo) => {
                 set({ isLoading: true });
                 const response = await fetch('/api/jlptTest/list', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({params: get().searchInfo}),
+                    body: JSON.stringify({params: overrideSearchInfo || get().searchInfo}),
                 })
                 const resData = await response.json();
                 set({ jlptList: resData, isLoading: false });

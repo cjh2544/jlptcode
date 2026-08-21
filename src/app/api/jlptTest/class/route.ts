@@ -1,14 +1,20 @@
 import JlptTest from "@/app/models/jlptTestModel";
 import connectDB from "@/app/utils/database";
-import { sortBy } from "lodash";
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   await connectDB();
   
-  const searchParams = request.nextUrl.searchParams;
-  
+  const level = request.nextUrl.searchParams.get("level")?.trim();
+
   const jlptTestClassInfo = await JlptTest.aggregate([
+    ...(level
+      ? [
+          {
+            $match: { level },
+          },
+        ]
+      : []),
     // STEP 1: 정렬용 필드 생성
     {
       $addFields: {

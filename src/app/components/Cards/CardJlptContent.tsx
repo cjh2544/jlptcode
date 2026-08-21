@@ -17,9 +17,9 @@ type JlptContentProps = {
 }
 
 const CardJlptContent = (props:JlptContentProps) => {
-  const {questionType, question, sentence = {}, showReadButton = true, showTransButton = true} = props;
-  const {content = '', audio = {}, image = {}} = question;
-  const {translation, reading} = sentence;
+  const {questionType, question, sentence, showReadButton = true, showTransButton = true} = props;
+  const {content = '', audio = {}, image = {}} = question || {};
+  const {translation, reading} = sentence || {};
   const { t } = useTranslations();
 
   const [openTranslate, setOpenTranslate] = React.useState(false);
