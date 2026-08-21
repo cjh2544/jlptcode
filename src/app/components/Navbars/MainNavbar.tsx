@@ -169,6 +169,12 @@ export default function MainNavbar() {
           </div>
 
           <div className="main-nav-mobile">
+            <div
+              className="main-nav-utilities"
+              aria-label={t("common.languageSelect")}
+            >
+              <LanguageSwitcher menuAlign="end" />
+            </div>
             <SignInHeaderPage />
             <Sheet open={openNav} onOpenChange={setOpenNav}>
               <SheetTrigger asChild>

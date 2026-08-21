@@ -41,7 +41,7 @@ const UserAccountMenu = ({ variant = "header" }: UserAccountMenuProps) => {
         aria-label={t("auth.signIn")}
       >
         <i className="fas fa-right-to-bracket" aria-hidden />
-        <span className={isHeader ? "hidden sm:inline" : undefined}>
+        <span className={isHeader ? "hidden lg:inline" : undefined}>
           {t("auth.signIn")}
         </span>
       </Button>
@@ -60,7 +60,7 @@ const UserAccountMenu = ({ variant = "header" }: UserAccountMenuProps) => {
           className={cn(
             "h-9 gap-2 px-2 font-semibold",
             isHeader
-              ? "border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white data-[state=open]:bg-white/25"
+              ? "border-white/70 bg-white/10 px-1.5 text-white hover:bg-white/20 hover:text-white data-[state=open]:bg-white/25 lg:px-2"
               : "text-foreground/80 hover:text-foreground data-[state=open]:bg-muted",
           )}
           aria-label={t("auth.accountMenu")}
@@ -75,11 +75,17 @@ const UserAccountMenu = ({ variant = "header" }: UserAccountMenuProps) => {
           >
             {getInitial(name)}
           </span>
-          <span className={cn("max-w-28 truncate", isHeader && "hidden sm:inline")}>
+          <span className={cn("max-w-28 truncate", isHeader && "hidden lg:inline")}>
             {name}
             {t("auth.userSuffix")}
           </span>
-          <i className="fas fa-chevron-down text-[0.65rem] opacity-80" aria-hidden />
+          <i
+            className={cn(
+              "fas fa-chevron-down text-[0.65rem] opacity-80",
+              isHeader && "hidden lg:inline",
+            )}
+            aria-hidden
+          />
         </Button>
       </DropdownMenuTrigger>
 

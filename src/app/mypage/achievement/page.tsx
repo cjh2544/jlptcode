@@ -169,13 +169,16 @@ export default function AchievementPage() {
               <StudyChart config={solvedBarConfig} className="app-mypage-chart app-mypage-chart--lg" />
             </ChartCard>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="app-mypage-subject-list">
             {visible.map((item: any) => (
-              <div key={item.subject} className="rounded-xl border border-border bg-card p-3 sm:p-4">
-                <h3 className="mb-3 text-base font-bold text-foreground">
-                  {t(`mypage.subject.${item.subject}`)}
-                </h3>
-                <div className="grid grid-cols-3 gap-2">
+              <article key={item.subject} className="app-mypage-subject-card">
+                <div className="app-mypage-subject-head">
+                  <h3>{t(`mypage.subject.${item.subject}`)}</h3>
+                  <p className="app-mypage-subject-meta">
+                    {t("mypage.accuracy")}: {t("mypage.percent").replace("{n}", String(item.accuracy))}
+                  </p>
+                </div>
+                <div className="app-mypage-subject-stats app-mypage-subject-stats--3">
                   <div className="app-score-stat">
                     <span className="app-score-stat-label">{t("mypage.solved")}</span>
                     <span className="app-score-stat-value app-score-stat-value--total">
@@ -195,10 +198,7 @@ export default function AchievementPage() {
                     </span>
                   </div>
                 </div>
-                <p className="mt-3 text-xs text-muted-foreground">
-                  {t("mypage.accuracy")}: {t("mypage.percent").replace("{n}", String(item.accuracy))}
-                </p>
-              </div>
+              </article>
             ))}
           </div>
         </div>

@@ -182,7 +182,7 @@ export default function LanguageSwitcher({
           <span className="lang-switcher-flag">
             <CurrentFlag className="lang-switcher-flag-svg" />
           </span>
-          <span className="text-[0.7rem] tracking-wide">
+          <span className="lang-switcher-code text-[0.7rem] tracking-wide">
             {LOCALE_SHORT[locale]}
           </span>
           <i
