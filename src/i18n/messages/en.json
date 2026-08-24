@@ -298,7 +298,13 @@
     "chartSolvedBySubject": "Correct and wrong by subject",
     "sourceWord": "JLPT words",
     "sourceWordToday": "Today's words",
+    "sourceSentenceToday": "Today's sentences",
+    "sourceGrammarToday": "Today's grammar",
     "sourceJptWord": "JPT words",
+    "filterAll": "All",
+    "filterSource": "Source",
+    "filterLevel": "Level",
+    "filterCount": "{n} items",
     "subject": {
       "levelUp": "JLPT Level Up",
       "strategy": "JLPT Strategy",

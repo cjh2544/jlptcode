@@ -298,7 +298,13 @@
     "chartSolvedBySubject": "ဘာသာရပ်အလိုက် မှန်နှင့်မှား",
     "sourceWord": "JLPT စကားလုံး",
     "sourceWordToday": "ယနေ့စကားလုံး",
+    "sourceSentenceToday": "ယနေ့ဝါကျ",
+    "sourceGrammarToday": "ယနေ့သဒ္ဒါ",
     "sourceJptWord": "JPT စကားလုံး",
+    "filterAll": "အားလုံး",
+    "filterSource": "ရင်းမြစ်",
+    "filterLevel": "အဆင့်",
+    "filterCount": "{n} ခု",
     "subject": {
       "levelUp": "JLPT Level Up",
       "strategy": "JLPT Strategy",

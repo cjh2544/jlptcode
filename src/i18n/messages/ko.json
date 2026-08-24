@@ -298,7 +298,13 @@
     "chartSolvedBySubject": "과목별 정답·오답",
     "sourceWord": "JLPT 단어",
     "sourceWordToday": "오늘의 단어",
+    "sourceSentenceToday": "오늘의 문장",
+    "sourceGrammarToday": "오늘의 문법",
     "sourceJptWord": "JPT 단어",
+    "filterAll": "전체",
+    "filterSource": "출처",
+    "filterLevel": "레벨",
+    "filterCount": "{n}개",
     "subject": {
       "levelUp": "JLPT 레벨업",
       "strategy": "JLPT 집중공략",

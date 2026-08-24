@@ -298,7 +298,13 @@
     "chartSolvedBySubject": "科目別の正解・誤答",
     "sourceWord": "JLPT単語",
     "sourceWordToday": "今日の単語",
+    "sourceSentenceToday": "今日の文",
+    "sourceGrammarToday": "今日の文法",
     "sourceJptWord": "JPT単語",
+    "filterAll": "すべて",
+    "filterSource": "出典",
+    "filterLevel": "レベル",
+    "filterCount": "{n}件",
     "subject": {
       "levelUp": "JLPTレベルアップ",
       "strategy": "JLPT集中攻略",

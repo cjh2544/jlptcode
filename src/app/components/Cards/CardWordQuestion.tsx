@@ -1,54 +1,82 @@
 "use client";
 
-import React, {memo, useState} from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { recordQuizAttempt } from "@/app/lib/record-quiz-attempt";
+import { cn } from "@/lib/utils";
 
 type WordQuestionType = {
-  question: string,
-  choice: Array<string>,
-  answer: number,
-}
+  question: string;
+  choice: Array<string>;
+  answer: number | string | null | undefined;
+};
 
 type JlptContentProps = {
-  questionInfo: WordQuestionType
-  sentence_read?: string,
-  sentence_translate?: string,
-  speaker?: string,
+  questionInfo: WordQuestionType;
+  sentence_read?: string;
+  sentence_translate?: string;
+  speaker?: string;
   record?: {
     subject: string;
     source: string;
     sourceId: string;
     level?: string;
-  },
+  };
+};
+
+function normalizeAnswer(value: unknown): number {
+  const parsed = Number.parseInt(String(value ?? ""), 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
 }
 
-const CardWordQuestion = (props:JlptContentProps) => {
+const CardWordQuestion = (props: JlptContentProps) => {
   const { questionInfo, sentence_read, sentence_translate, speaker, record } = props;
-  const { question, choice, answer } = questionInfo;
+  const { question, choice = [] } = questionInfo;
+  const answer = useMemo(() => normalizeAnswer(questionInfo.answer), [questionInfo.answer]);
   const { t } = useTranslations();
-  const [ showAnswer, setShowAnswer ] = useState(false);
-  const [ selectedAnswer, setSelectedAnswer ] = useState(0);
-  const [ collect, setCollect ] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(0);
+  const [collect, setCollect] = useState(false);
   const [openTranslate, setOpenTranslate] = useState(false);
   const [openRead, setOpenRead] = useState(false);
   const [openSpeaker, setOpenSpeaker] = useState(false);
+
+  useEffect(() => {
+    setShowAnswer(false);
+    setSelectedAnswer(0);
+    setCollect(false);
+    setOpenTranslate(false);
+    setOpenRead(false);
+    setOpenSpeaker(false);
+  }, [question, answer, record?.sourceId]);
 
   const toggleOpenTranslate = () => setOpenTranslate((cur) => !cur);
   const toggleOpenRead = () => setOpenRead((cur) => !cur);
   const toggleOpenSpeaker = () => setOpenSpeaker((cur) => !cur);
 
   const parseHtml = (html: string) => {
-    return <div dangerouslySetInnerHTML={{ __html: html.replaceAll('\\r\\n', '<br>').replaceAll('\\n', '<br>').replaceAll(/\s/g, "&nbsp;") }} />;
+    return (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: html
+            .replaceAll("\\r\\n", "<br>")
+            .replaceAll("\\n", "<br>")
+            .replaceAll(/\s/g, "&nbsp;"),
+        }}
+      />
+    );
   };
 
-  const handleClickAnswer = (selectedAnswer: number) => {
-    setSelectedAnswer(selectedAnswer);
-    setCollect(answer === selectedAnswer);
+  const handleClickAnswer = (nextAnswer: number) => {
+    if (selectedAnswer > 0 || !answer) return;
+
+    setSelectedAnswer(nextAnswer);
+    setCollect(answer === nextAnswer);
     setShowAnswer(true);
+
     if (record?.sourceId) {
       recordQuizAttempt({
         subject: record.subject,
@@ -58,43 +86,63 @@ const CardWordQuestion = (props:JlptContentProps) => {
           {
             id: record.sourceId,
             answer,
-            selectedAnswer,
+            selectedAnswer: nextAnswer,
           },
         ],
       });
     }
-  }
+  };
 
   const handleClickAnswerClose = () => {
-    setShowAnswer(!showAnswer);
-  }
+    setShowAnswer(false);
+  };
+
+  const choiceClassName = (idx: number) => {
+    if (!showAnswer || !selectedAnswer) return "";
+    const choiceNo = idx + 1;
+    if (choiceNo === answer) return "rounded-md bg-green-50 ring-1 ring-green-300";
+    if (choiceNo === selectedAnswer) return "rounded-md bg-red-50 ring-1 ring-red-300";
+    return "opacity-70";
+  };
 
   return (
     <>
       <Card className="w-full">
         <CardContent>
-          <div className="flex flex-wrap mb-2 font-normal mx-auto text-md">
+          <div className="mx-auto mb-2 flex flex-wrap text-md font-normal">
             {parseHtml(question)}
             {sentence_translate && (
-              <span><Button onClick={toggleOpenTranslate} className="px-2 py-1 inline">{t('common.translation')}</Button></span>
+              <span>
+                <Button onClick={toggleOpenTranslate} className="inline px-2 py-1">
+                  {t("common.translation")}
+                </Button>
+              </span>
             )}
             {sentence_read && (
-              <span><Button onClick={toggleOpenRead} className="px-2 py-1 inline ml-1">{t('common.read')}</Button></span>
+              <span>
+                <Button onClick={toggleOpenRead} className="ml-1 inline px-2 py-1">
+                  {t("common.read")}
+                </Button>
+              </span>
             )}
             {speaker && (
-              <span><Button onClick={toggleOpenSpeaker} className="px-2 py-1 inline ml-1">{t('common.pronunciation')}</Button></span>
+              <span>
+                <Button onClick={toggleOpenSpeaker} className="ml-1 inline px-2 py-1">
+                  {t("common.pronunciation")}
+                </Button>
+              </span>
             )}
           </div>
           {openTranslate && (
             <div className="app-reveal my-1">
-              <div className="app-reveal-panel py-2 px-3">
+              <div className="app-reveal-panel px-3 py-2">
                 <p>{sentence_translate}</p>
               </div>
             </div>
           )}
           {openRead && (
             <div className="app-reveal my-1">
-              <div className="app-reveal-panel py-2 px-3">
+              <div className="app-reveal-panel px-3 py-2">
                 <p>{sentence_read}</p>
               </div>
             </div>
@@ -106,31 +154,70 @@ const CardWordQuestion = (props:JlptContentProps) => {
           )}
           <div className="flex flex-col">
             {choice.map((item, idx) => {
+              const choiceNo = idx + 1;
               return (
-                <label key={idx} className="inline-flex items-center gap-2 py-1 cursor-pointer">
+                <label
+                  key={idx}
+                  className={cn(
+                    "inline-flex cursor-pointer items-center gap-2 py-1",
+                    choiceClassName(idx),
+                    selectedAnswer > 0 ? "cursor-default" : "",
+                  )}
+                >
                   <input
                     type="radio"
-                    name={question}
-                    onClick={() => handleClickAnswer(idx + 1)}
+                    name={`${record?.sourceId ?? "question"}-${question}`}
+                    checked={selectedAnswer === choiceNo}
+                    readOnly
+                    disabled={selectedAnswer > 0}
+                    onClick={() => handleClickAnswer(choiceNo)}
                     className="accent-blue-500"
                   />
-                  {parseHtml(item) || ''}
+                  {parseHtml(item) || ""}
                 </label>
               );
             })}
           </div>
         </CardContent>
-        <CardFooter className={`pt-0 ${showAnswer ? '' : 'hidden'}`}>
-          <div className={`relative w-full flex items-center bg-${collect ? 'green' : 'red'}-500 text-white text-sm font-bold px-4 py-3 rounded-md`} role="alert">
-            <p>{collect ? t('quiz.correctShort') : t('quiz.wrongShort')}</p>
-            <button onClick={(e) => handleClickAnswerClose()} className="flex items-center justify-center transition-all w-8 h-8 rounded-md text-white hover:bg-white/10 active:bg-white/10 absolute top-1.5 right-1.5" type="button">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-5 w-5" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <CardFooter className={`pt-0 ${showAnswer ? "" : "hidden"}`}>
+          <div
+            className={cn(
+              "relative flex w-full items-center rounded-md px-4 py-3 text-sm font-bold text-white",
+              collect ? "bg-green-500" : "bg-red-500",
+            )}
+            role="alert"
+          >
+            <p>
+              {collect
+                ? t("quiz.correctShort")
+                : t("quiz.wrongShort")}
+              {!collect && answer > 0 && (
+                <span className="ml-2 font-normal">
+                  ({t("quiz.choice")}: {answer})
+                </span>
+              )}
+            </p>
+            <button
+              onClick={handleClickAnswerClose}
+              className="absolute top-1.5 right-1.5 flex h-8 w-8 items-center justify-center rounded-md text-white transition-all hover:bg-white/10 active:bg-white/10"
+              type="button"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="h-5 w-5"
+                strokeWidth="2"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </div>
         </CardFooter>
       </Card>
     </>
   );
-}
+};
 
 export default memo(CardWordQuestion);

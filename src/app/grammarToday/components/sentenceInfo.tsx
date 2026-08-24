@@ -5,6 +5,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { SaveSentenceButton } from "@/app/components/Buttons/SaveButtons";
 import { recordId } from "@/app/lib/mypage";
 
 type SentenceInfoProps = {
@@ -26,7 +27,6 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     sentence_translate,
     sentence_locale,
     question,
-    answer,
     showQuestion = false,
     hideSentence = false,
     hideSentenceRead = false,
@@ -105,14 +105,17 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             {t('today.number')} {sortNo}
           </span>
         </div>
-        <Button
-          type="button"
-          variant={showQuestion ? 'secondary' : 'outline'}
-          size="sm"
-          onClick={handleShowQuestion}
-        >
-          {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant={showQuestion ? 'secondary' : 'outline'}
+            size="sm"
+            onClick={handleShowQuestion}
+          >
+            {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+          </Button>
+          <SaveSentenceButton item={sentenceInfo} source="grammarToday" />
+        </div>
       </div>
       <div className="app-today-item-body">
         {renderField(t('common.sentence'), parseHtml(sentence, 'sentence'), hideSentence, 'sentence')}
@@ -122,7 +125,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
       {showQuestion && (
         <div className="app-today-item-question app-reveal">
           <CardWordQuestion
-            questionInfo={{...question, answer}}
+            questionInfo={question}
             record={{
               subject: "grammarToday",
               source: "grammarToday",

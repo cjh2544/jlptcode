@@ -5,6 +5,7 @@ import CardWordQuestion from "@/app/components/Cards/CardWordQuestion";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
+import { SaveSentenceButton } from "@/app/components/Buttons/SaveButtons";
 import { recordId } from "@/app/lib/mypage";
 
 type SentenceInfoProps = {
@@ -95,14 +96,17 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             {t('today.number')} {wordNo}
           </span>
         </div>
-        <Button
-          type="button"
-          variant={showQuestion ? 'secondary' : 'outline'}
-          size="sm"
-          onClick={handleShowQuestion}
-        >
-          {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            variant={showQuestion ? 'secondary' : 'outline'}
+            size="sm"
+            onClick={handleShowQuestion}
+          >
+            {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+          </Button>
+          <SaveSentenceButton item={wordInfo} source="sentenceToday" />
+        </div>
       </div>
       <div className="app-today-item-body">
         {renderField(t('common.sentence'), parseHtml(sentence), hideSentence, 'sentence')}
@@ -118,7 +122,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
             sentence_translate={localizedTranslate}
             record={{
               subject: "sentenceToday",
-              source: "wordToday",
+              source: "sentenceToday",
               sourceId: recordId(wordInfo),
               level: wordInfo.level,
             }}

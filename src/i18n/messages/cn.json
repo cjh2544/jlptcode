@@ -298,7 +298,13 @@
     "chartSolvedBySubject": "各科目正确与错误",
     "sourceWord": "JLPT单词",
     "sourceWordToday": "今日单词",
+    "sourceSentenceToday": "今日句子",
+    "sourceGrammarToday": "今日语法",
     "sourceJptWord": "JPT单词",
+    "filterAll": "全部",
+    "filterSource": "来源",
+    "filterLevel": "等级",
+    "filterCount": "{n}条",
     "subject": {
       "levelUp": "JLPT升级练习",
       "strategy": "JLPT重点攻略",
