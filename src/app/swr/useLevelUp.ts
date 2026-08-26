@@ -1,13 +1,12 @@
-import useSWR from 'swr'
-import useSWRImmutable from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import type { SWRConfiguration } from 'swr'
 
 type ClassTypeProps = {
-  params: any,
+  params?: any,
 }
 
-const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => {
-  const { data, error, isLoading, isValidating, mutate } = useSWR({url: '/api/levelUp/class', params: params}, config);
+const useClassTypeList = (_params?: ClassTypeProps, config?: SWRConfiguration) => {
+  const { data, error, isLoading, isValidating, mutate } = useSWRImmutable({url: '/api/levelUp/class'}, config);
 
   return {data, error, isLoading, isValidating, mutate};
 }

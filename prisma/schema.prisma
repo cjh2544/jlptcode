@@ -369,6 +369,7 @@ model JlptTest {
   choices             JlptTestChoice[]
 
   @@index([level, test, classification, sortNo])
+  @@index([level, classification, test])
   @@map("jlpt_test")
 }
 
@@ -409,6 +410,8 @@ model Jpt {
   choices             JptChoice[]
 
   @@index([level, part, sortNo])
+  @@index([part, questionType])
+  @@index([level, part, questionType])
   @@map("jpt")
 }
 
@@ -492,6 +495,7 @@ model LevelUp {
 
   @@unique([classification, year, level, sortNo])
   @@index([level, year, classification])
+  @@index([level, classification, questionType, questionGroupType])
   @@map("level_up")
 }
 

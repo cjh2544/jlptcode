@@ -20,8 +20,8 @@ const Classification = (props: ClassificationProps) => {
   const items = [
     { key: 'vocabulary', label: t('levelUp.vocab'), kanji: '文字語彙', sub: 'VOCABULARY' },
     { key: 'grammar', label: t('levelUp.grammar'), kanji: '文法', sub: 'GRAMMAR' },
-    { key: 'reading', label: t('levelUp.reading'), kanji: '読解', sub: 'Reading' },
-    { key: 'listening', label: t('levelUp.listening'), kanji: '聴解', sub: 'Listening' },
+    { key: 'reading', label: t('levelUp.reading'), kanji: '読解', sub: 'READING' },
+    { key: 'listening', label: t('levelUp.listening'), kanji: '聴解', sub: 'LISTENING' },
   ];
 
   return (

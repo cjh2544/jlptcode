@@ -271,7 +271,8 @@ CREATE TABLE IF NOT EXISTS `jlpt_test` (
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
-  KEY `jlpt_test_level_test_classification_sortNo_idx` (`level`, `test`, `classification`, `sortNo`)
+  KEY `jlpt_test_level_test_classification_sortNo_idx` (`level`, `test`, `classification`, `sortNo`),
+  KEY `jlpt_test_level_classification_test_idx` (`level`, `classification`, `test`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `jlpt_test_choice` (
@@ -309,7 +310,9 @@ CREATE TABLE IF NOT EXISTS `jpt` (
   `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
   `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
-  KEY `jpt_level_part_sortNo_idx` (`level`, `part`, `sortNo`)
+  KEY `jpt_level_part_sortNo_idx` (`level`, `part`, `sortNo`),
+  KEY `jpt_part_qtype_idx` (`part`, `questionType`),
+  KEY `jpt_level_part_qtype_idx` (`level`, `part`, `questionType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `jpt_choice` (
@@ -387,7 +390,8 @@ CREATE TABLE IF NOT EXISTS `level_up` (
   `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   PRIMARY KEY (`id`),
   UNIQUE KEY `level_up_classification_year_level_sortNo_key` (`classification`, `year`, `level`, `sortNo`),
-  KEY `level_up_level_year_classification_idx` (`level`, `year`, `classification`)
+  KEY `level_up_level_year_classification_idx` (`level`, `year`, `classification`),
+  KEY `level_up_level_classification_qtype_idx` (`level`, `classification`, `questionType`, `questionGroupType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `level_up_choice` (

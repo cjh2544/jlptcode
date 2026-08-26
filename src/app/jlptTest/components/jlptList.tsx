@@ -34,7 +34,7 @@ const JlptList = (props: JlptListProps) => {
 
   const currentLevel = searchInfo.level || level || 'N1';
   // 탭용으로 전체 레벨 메타를 받고, 과목/회차는 선택 레벨 데이터만 표시
-  const {data: classInfos = [], isLoading} = useClassTypeList({params: {}});
+  const {data: classInfos = [], isLoading} = useClassTypeList();
 
   const selectedClassData = useMemo(
     () => classInfos.find((item: any) => item.level === currentLevel) ?? null,
@@ -83,7 +83,7 @@ const JlptList = (props: JlptListProps) => {
     setSearchInfo({ ...prev, level });
   }, [level, setSearchInfo])
 
-  return isLoading ?
+  return isLoading && !classInfos.length ?
     (
       <>
         <Loading />

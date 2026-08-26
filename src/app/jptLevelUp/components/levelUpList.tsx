@@ -26,7 +26,7 @@ const JptList = (props: JptListProps) => {
   const setJptInfo = useJptStore((state:any) => state.setJptInfo);
   const getJptRandomList = useJptStore((state:any) => state.getJptRandomList);
 
-  const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: jptInfo.level || level}});
+  const {data: classInfos = [], isLoading, error} = useClassTypeList();
 
   const handleClick = (selectedData: any) => {
     setJptInfo({...jptInfo, ...selectedData});
@@ -42,7 +42,7 @@ const JptList = (props: JptListProps) => {
     setJptInfo({...jptInfo, level: level});
   }, [level])
 
-  return isLoading ?
+  return isLoading && !classInfos[0]?.levelArr ?
     (
       <>
         <Loading />

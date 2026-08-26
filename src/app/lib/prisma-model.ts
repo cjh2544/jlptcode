@@ -484,6 +484,47 @@ function shuffle<T>(items: T[]) {
   return next;
 }
 
+function addToSetFieldName(spec: unknown) {
+  if (!spec || typeof spec !== "object" || !("$addToSet" in spec)) return null;
+  const path = (spec as AnyRecord).$addToSet;
+  if (typeof path !== "string" || !path.startsWith("$") || path.includes(".")) return null;
+  return path.slice(1);
+}
+
+function isConstantGroupId(groupId: unknown) {
+  return groupId == null || groupId === 0 || typeof groupId === "string" || typeof groupId === "number";
+}
+
+async function distinctAddToSetGroup(delegate: AnyRecord, where: AnyRecord, group?: AnyRecord) {
+  if (!group || !isConstantGroupId(group._id)) return null;
+  const entries = Object.entries(group).filter(([key]) => key !== "_id");
+  if (!entries.length) return null;
+  const fields = entries.map(([outKey, spec]) => ({ outKey, field: addToSetFieldName(spec) }));
+  if (fields.some((item) => !item.field)) return null;
+
+  const pairs = await Promise.all(
+    fields.map(async ({ outKey, field }) => {
+      const rows = (await delegate.findMany({
+        where,
+        distinct: [field],
+        select: { [field as string]: true },
+      })) as Array<Record<string, unknown>>;
+      const values = [
+        ...new Set(
+          rows
+            .map((row) => row[field as string])
+            .filter((value) => value != null && value !== "")
+        ),
+      ];
+      return [outKey, values] as const;
+    })
+  );
+
+  const doc: AnyRecord = { _id: group._id ?? 0 };
+  for (const [key, values] of pairs) doc[key] = values;
+  return doc;
+}
+
 async function runPipeline(docs: AnyRecord[], pipeline: AnyRecord[], lookups?: Record<string, LookupFn>) {
   let current = docs;
   for (const stage of pipeline) {
@@ -721,6 +762,11 @@ export function createPrismaModel(delegate: AnyRecord, options: PrismaModelOptio
           })
         : [];
       return readMany(rows);
+    }
+
+    const grouped = await distinctAddToSetGroup(delegate, where, rest[0]?.$group);
+    if (grouped) {
+      return runPipeline([grouped], rest.slice(1), options.lookups);
     }
 
     const rows = await delegate.findMany({ where, include: options.include });

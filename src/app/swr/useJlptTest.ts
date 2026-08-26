@@ -1,14 +1,13 @@
-import useSWR from 'swr'
-import useSWRImmutable from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import type { SWRConfiguration } from 'swr'
 
 type ClassTypeProps = {
-  params: any,
+  params?: any,
 }
 
-const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => {
-  const { data, error, isLoading, isValidating, mutate } = useSWR(
-    { url: '/api/jlptTest/class', params: params.params },
+const useClassTypeList = (_params?: ClassTypeProps, config?: SWRConfiguration) => {
+  const { data, error, isLoading, isValidating, mutate } = useSWRImmutable(
+    { url: '/api/jlptTest/class' },
     config,
   );
 
@@ -16,7 +15,6 @@ const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => 
 }
 
 const useJlptList = (params: ClassTypeProps, config?: SWRConfiguration) => {
-  // 자동갱신 비활성화
   const { data, error, isLoading, isValidating, mutate } = useSWRImmutable({url: '/api/jlptTest/list', params: params, method: 'POST'}, config);
 
   return {data, error, isLoading, isValidating, mutate};

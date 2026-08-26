@@ -26,7 +26,7 @@ const LevelUpList = (props: LevelUpListProps) => {
   const setLevelUpInfo = useLevelUpStore((state:any) => state.setLevelUpInfo);
   const getLevelUpList = useLevelUpStore((state:any) => state.getLevelUpList);
 
-  const {data: classInfos = [], isLoading, error} = useClassTypeList({params: {level: levelUpInfo.level || level}});
+  const {data: classInfos = [], isLoading, error} = useClassTypeList();
 
   const handleClick = (selectedData: any) => {
     setLevelUpInfo({...levelUpInfo, ...selectedData});
@@ -42,7 +42,7 @@ const LevelUpList = (props: LevelUpListProps) => {
     setLevelUpInfo({...levelUpInfo, level: level});
   }, [level])
 
-  return isLoading ?
+  return isLoading && !classInfos[0]?.levelArr ?
     (
       <>
         <Loading />
