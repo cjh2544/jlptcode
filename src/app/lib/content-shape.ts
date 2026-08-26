@@ -216,10 +216,31 @@ export function transformUserRead(doc: AnyRecord) {
   };
 }
 
-export function transformCodeDetailRead(doc: AnyRecord) {
+export function flattenValueLocale(locale: unknown) {
+  const obj = locale && typeof locale === "object" ? (locale as AnyRecord) : {};
   return {
-    ...doc,
+    valueLocaleJa: asText(obj.ja),
+    valueLocaleEn: asText(obj.en),
+    valueLocaleCn: asText(obj.cn),
+    valueLocaleMy: asText(obj.my),
+  };
+}
+
+export function valueLocaleFromFlat(doc: AnyRecord) {
+  const ja = doc.valueLocaleJa ?? null;
+  const en = doc.valueLocaleEn ?? null;
+  const cn = doc.valueLocaleCn ?? null;
+  const my = doc.valueLocaleMy ?? null;
+  if (ja == null && en == null && cn == null && my == null) return null;
+  return { ja, en, cn, my };
+}
+
+export function transformCodeDetailRead(doc: AnyRecord) {
+  const { valueLocaleJa, valueLocaleEn, valueLocaleCn, valueLocaleMy, ...rest } = doc;
+  return {
+    ...rest,
     levels: stringListFromRows(doc.levels),
+    value_locale: valueLocaleFromFlat(doc),
   };
 }
 

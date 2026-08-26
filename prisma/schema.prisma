@@ -151,6 +151,10 @@ model CodeDetail {
   code           String            @db.VarChar(100)
   key            String            @db.VarChar(100)
   value          String            @db.Text
+  valueLocaleJa  String?           @map("value_locale_ja") @db.Text
+  valueLocaleEn  String?           @map("value_locale_en") @db.Text
+  valueLocaleCn  String?           @map("value_locale_cn") @db.Text
+  valueLocaleMy  String?           @map("value_locale_my") @db.Text
   sort           Int?
   classification String?           @db.VarChar(50)
   createdAt      DateTime          @default(now()) @map("created_at")

@@ -325,6 +325,7 @@ async function main() {
       }),
       ...flattenLocale(doc.sentence_locale, "sentence"),
       ...flattenTodayQuestion(doc.question),
+      questionAnswer: asInt(doc.answer ?? doc.question?.answer, null),
     })),
     (data) => prisma.grammarToday.createMany({ data: data as any, skipDuplicates: true })
   );

@@ -9,18 +9,19 @@ type ClassificationProps = {
 }
 
 const Classification = (props: ClassificationProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const { onClick } = props;
+  const hideLocalizedName = locale === 'ja' || locale === 'en';
 
   const handleClick = (selectedData: any) => (e: MouseEvent<HTMLElement>) => {
     onClick && onClick(selectedData);
   }
 
   const items = [
-    { key: 'vocabulary', label: `${t('levelUp.vocab')} 文字語彙`, sub: 'VOCABULARY' },
-    { key: 'grammar', label: `${t('levelUp.grammar')} 文法`, sub: 'GRAMMAR' },
-    { key: 'reading', label: `${t('levelUp.reading')} 読解`, sub: 'Reading' },
-    { key: 'listening', label: `${t('levelUp.listening')} 聴解`, sub: 'Listening' },
+    { key: 'vocabulary', label: t('levelUp.vocab'), kanji: '文字語彙', sub: 'VOCABULARY' },
+    { key: 'grammar', label: t('levelUp.grammar'), kanji: '文法', sub: 'GRAMMAR' },
+    { key: 'reading', label: t('levelUp.reading'), kanji: '読解', sub: 'Reading' },
+    { key: 'listening', label: t('levelUp.listening'), kanji: '聴解', sub: 'Listening' },
   ];
 
   return (
@@ -32,7 +33,7 @@ const Classification = (props: ClassificationProps) => {
           className="app-year-btn text-center leading-snug"
           type="button"
         >
-          {item.label}
+          {hideLocalizedName ? item.kanji : `${item.label} ${item.kanji}`}
           <br />
           {item.sub}
         </button>

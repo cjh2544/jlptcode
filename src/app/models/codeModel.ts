@@ -1,5 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
 import { createModel } from "@/app/lib/create-model";
+import { valueLocaleFromFlat } from "@/app/lib/content-shape";
 import { toPrismaWhere } from "@/app/lib/prisma-model";
 import { serializeDocs } from "@/app/utils/serialize";
 
@@ -19,10 +20,14 @@ const Code = createModel({
           })
         : [];
       return serializeDocs(
-        rows.map((row) => ({
-          ...row,
-          levels: (row.levels || []).map((level) => level.value),
-        }))
+        rows.map((row) => {
+          const { valueLocaleJa, valueLocaleEn, valueLocaleCn, valueLocaleMy, ...rest } = row;
+          return {
+            ...rest,
+            levels: (row.levels || []).map((level) => level.value),
+            value_locale: valueLocaleFromFlat(row),
+          };
+        })
       );
     },
   },

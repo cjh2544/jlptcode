@@ -7,13 +7,14 @@ import { useSession } from 'next-auth/react';
 import ModalConfirm from '@/app/components/Modals/ModalConfirm';
 import PaidButton from '@/app/components/Buttons/PaidButton';
 import { useTranslations } from '@/app/providers/I18nProvider';
+import { getLocalizedCodeValue } from '@/app/utils/codeLocale';
 
 type SearchProps = {
   onSearch?: () => any,
 }
 
 const SearchBar = (props: SearchProps) => {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
 
   const {
     onSearch
@@ -124,7 +125,11 @@ const SearchBar = (props: SearchProps) => {
               </label>
               <select id="classification" name="classification" value={levelUpInfo.classification} onChange={handleChange} className="app-select">
                 {getCodeDetailList('classification').map((data: CodeDetail, idx:number) => {
-                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                  return (
+                    <option key={idx} value={data.key}>
+                      {getLocalizedCodeValue(locale, data.value_locale, data.value)}
+                    </option>
+                  )
                 })}
                 <option value="vocabulary,grammar,reading">{t('strategy.langAll')}</option>
               </select>
@@ -139,7 +144,11 @@ const SearchBar = (props: SearchProps) => {
               <select disabled={!levelUpInfo.classification} id="questionGroupType" name="questionGroupType" value={levelUpInfo.questionGroupType} onChange={handleChange} className="app-select">
                 <option value="">{t('common.all')}</option>
                 {getCodeDetailList('strategyType').filter((item: any) => Array.isArray(item.levels) && item.levels.includes(levelUpInfo.level) && item.classification === levelUpInfo.classification).map((data: CodeDetail, idx:number) => {
-                  return (<option key={idx} value={data.key}>{data.value}</option>)
+                  return (
+                    <option key={idx} value={data.key}>
+                      {getLocalizedCodeValue(locale, data.value_locale, data.value)}
+                    </option>
+                  )
                 })}
               </select>
             </div>
