@@ -7,18 +7,23 @@ const productionEnv = path.join(root, ".env.production");
 const localEnv = path.join(root, ".env.local");
 const localEnvBackup = path.join(root, ".env.local.__build_bak");
 
-if (!fs.existsSync(productionEnv)) {
+// Vercel injects env from the dashboard — no .env.production file in git.
+const isVercel = process.env.VERCEL === "1";
+
+if (!isVercel && !fs.existsSync(productionEnv)) {
   console.error("[build] .env.production 이 없습니다. 운영 빌드용 환경파일을 먼저 만드세요.");
   process.exit(1);
 }
 
-const hadLocal = fs.existsSync(localEnv);
+const hadLocal = !isVercel && fs.existsSync(localEnv);
 let restored = false;
 
 if (hadLocal) {
   // next build 는 NODE_ENV=production 이어도 .env.local 이 .env.production 을 덮어쓴다.
   fs.renameSync(localEnv, localEnvBackup);
   console.log("[build] .env.local 을 잠시 치우고 .env.production 으로 빌드합니다.");
+} else if (isVercel) {
+  console.log("[build] Vercel 환경변수로 빌드합니다.");
 } else {
   console.log("[build] .env.production 으로 빌드합니다.");
 }
