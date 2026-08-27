@@ -25,7 +25,7 @@ const Classification = (props: ClassificationProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-3 sm:grid-cols-2">
+    <div className="grid grid-cols-4 gap-3 sm:grid-cols-1">
       {items.map((item) => (
         <button
           key={item.key}
