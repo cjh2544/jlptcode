@@ -1,5 +1,10 @@
 import User from "@/app/models/userModel";
 import connectDB from "@/app/utils/database";
+import {
+  escapeRegex,
+  normalizeAdminKeyword,
+  parseAdminPageRequest,
+} from "@/app/lib/admin-security";
 import { requireAdmin } from "@/app/utils/requireAdmin";
 import { NextRequest, NextResponse } from "next/server"
 
@@ -11,20 +16,17 @@ export async function POST(request: NextRequest) {
 
   const {pageInfo, searchInfo} = await request.json();
   
-  const { keyword } = searchInfo;
-  
-  const page = pageInfo.currentPage;           // 페이지 번호
-  const limit = pageInfo.pageSize;         // 한 페이지 당 문서 수
-  const skip = (page - 1) * limit;
+  const keyword = normalizeAdminKeyword(searchInfo?.keyword);
+  const { currentPage, pageSize } = parseAdminPageRequest(pageInfo);
+  const skip = (currentPage - 1) * pageSize;
 
   const pipeline:any = [
-    // 1. keyword 검색: name 또는 email
     ...(keyword
       ? [{
           $match: {
             $or: [
-              { name: { $regex: keyword, $options: 'i' } },
-              { email: { $regex: keyword, $options: 'i' } }
+              { name: { $regex: escapeRegex(keyword), $options: 'i' } },
+              { email: { $regex: escapeRegex(keyword), $options: 'i' } }
             ]
           }
         }]
@@ -104,7 +106,7 @@ export async function POST(request: NextRequest) {
     // 8. 정렬 + 페이징
     { $sort: { createdAt: -1, updatedAt: -1 } },
     { $skip: skip },
-    { $limit: limit }
+    { $limit: pageSize }
   ];
 
   const userList = await User.aggregate(pipeline);

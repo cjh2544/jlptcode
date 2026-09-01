@@ -9,6 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import LanguageSwitcher from "../Navbars/LanguageSwitcher";
+import { ADMIN_DATA_ITEMS } from "@/app/admin/data/config";
 import SignInSidebarPage from "../SignIn/SignInSidebar";
 import SignInSidebarListPage from "../SignIn/SignInSidebarList";
 
@@ -21,6 +22,8 @@ type NavItem = {
   icon: string;
   badge?: "recommended" | "new";
   koOnly?: boolean;
+  /** exact: 경로 일치만, prefix(기본): 하위 경로 포함 */
+  match?: "exact" | "prefix";
 };
 
 type NavSection = {
@@ -142,7 +145,14 @@ const NAV_SECTIONS: NavSection[] = [
         key: "sidebar.memberList",
         href: "/admin",
         icon: "fas fa-users",
+        match: "exact",
       },
+      ...ADMIN_DATA_ITEMS.map((item) => ({
+        key: item.key,
+        href: `/admin/data/${item.table}`,
+        icon: item.icon,
+        match: "exact" as const,
+      })),
     ],
   },
   {
@@ -211,10 +221,23 @@ function getBadgeLabel(
   return undefined;
 }
 
-function isActivePath(pathname: string, href: string) {
-  const base = href.split("?")[0];
-  if (base === "/") return pathname === "/";
-  return pathname === base || pathname.startsWith(`${base}/`);
+function normalizePath(path: string) {
+  const base = path.split("?")[0].split("#")[0];
+  const trimmed = base.replace(/\/+$/, "");
+  return trimmed || "/";
+}
+
+function isActivePath(
+  pathname: string,
+  href: string,
+  match: NavItem["match"] = "prefix",
+) {
+  const current = normalizePath(pathname);
+  const base = normalizePath(href);
+
+  if (base === "/") return current === "/";
+  if (match === "exact") return current === base;
+  return current === base || current.startsWith(`${base}/`);
 }
 
 function SidebarNavLink({
@@ -223,6 +246,7 @@ function SidebarNavLink({
   label,
   badge,
   badgeLabel,
+  match = "prefix",
   onNavigate,
 }: {
   href: string;
@@ -230,10 +254,11 @@ function SidebarNavLink({
   label: string;
   badge?: "recommended" | "new";
   badgeLabel?: string;
+  match?: NavItem["match"];
   onNavigate?: () => void;
 }) {
   const pathname = usePathname();
-  const active = isActivePath(pathname, href);
+  const active = isActivePath(pathname, href, match);
 
   return (
     <Link
@@ -449,6 +474,7 @@ export default function Sidebar() {
                       label={t(item.key)}
                       badge={item.badge}
                       badgeLabel={getBadgeLabel(t, item.badge)}
+                      match={item.match}
                       onNavigate={closeMobile}
                     />
                   </li>

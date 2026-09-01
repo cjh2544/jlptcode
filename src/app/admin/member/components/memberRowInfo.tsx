@@ -56,6 +56,7 @@ const MemberRowInfo = (props: MemberRowInfoProps) => {
 
   // payment dialog
   const [showModal, setShowModal] = useState(false);
+  const [showPaymentConfirm, setShowPaymentConfirm] = useState(false);
   const [paymentType, setPaymentType] = useState(
     userInfo?.lastPayment?.paymentType || "M",
   );
@@ -139,12 +140,19 @@ const MemberRowInfo = (props: MemberRowInfoProps) => {
     }
   };
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setShowPaymentConfirm(true);
+  };
+
+  const executePayment = async () => {
     setIsLoading(true);
 
     try {
-      const formData = new FormData(event.currentTarget);
+      const formData = new FormData();
+      formData.set("email", userInfo?.email ?? "");
+      formData.set("paymentType", paymentType);
+
       const response = await fetch("/api/userPayment", {
         method: "POST",
         body: formData,
@@ -436,6 +444,15 @@ const MemberRowInfo = (props: MemberRowInfoProps) => {
           </form>
         </DialogContent>
       </Dialog>
+
+      <ModalConfirm
+        type="warning"
+        message={t("member.confirmApplyPaid")}
+        visible={showPaymentConfirm}
+        showCancel
+        onClose={() => setShowPaymentConfirm(false)}
+        onConfirm={executePayment}
+      />
 
       {/* ── Result confirm ── */}
       <ModalConfirm
