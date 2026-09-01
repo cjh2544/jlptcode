@@ -299,11 +299,12 @@
       "wordToday": "Today's words",
       "sentenceToday": "Today's sentences",
       "grammarToday": "Today's grammar",
-      "jlpt": "JLPT",
+      "levelUp": "JLPT Level up",
+      "jlptTest": "JLPT mock test (TEST)",
+      "jlpt": "JLPT past exams",
       "word": "JLPT words",
       "jpt": "JPT",
-      "jptWord": "JPT words",
-      "levelUp": "Level up"
+      "jptWord": "JPT words"
     },
     "fields": {
       "code": "Code",
@@ -344,7 +345,9 @@
       "questionGroupType": "Question group type",
       "questionGroupNo": "Question group no.",
       "questionContentNo": "Question content no.",
-      "questionContentOrg": "Original text"
+      "questionContentOrg": "Original text",
+      "test": "Test round",
+      "questionNoLabel": "Question no. label"
     }
   },
   "mypage": {

@@ -146,6 +146,22 @@ export const ADMIN_KEYWORD_SEARCH_FIELDS: Record<string, string[]> = {
     "sentenceLocaleCn",
     "sentenceLocaleMy",
   ],
+  jlpt_test: [
+    "level",
+    "test",
+    "classification",
+    "questionContent",
+    "questionAudioLink",
+    "questionAudioName",
+    "questionImageLink",
+    "questionImageName",
+    "questionNoLabel",
+    "questionType",
+    "sentenceTranslation",
+    "sentenceReading",
+    "sentenceEn",
+    "sentenceCn",
+  ],
 };
 
 export type AdminKeywordRelationSearch = {
@@ -170,6 +186,7 @@ export const ADMIN_KEYWORD_RELATION_SEARCH: Record<string, AdminKeywordRelationS
     { relation: "parts", field: "value" },
   ],
   level_up: [{ relation: "choices", field: "content" }],
+  jlpt_test: [{ relation: "choices", field: "content" }],
 };
 
 const sentenceTodayListWhere = {
@@ -276,6 +293,28 @@ function levelUpFields(): AdminFieldConfig[] {
     ],
     { questionNoType: "number" },
   ).filter((field) => field.key !== "month");
+}
+
+const jlptTestFilters: AdminFilterField[] = [
+  { key: "level" },
+  { key: "test" },
+  { key: "classification" },
+];
+
+function jlptTestFields(): AdminFieldConfig[] {
+  return [
+    { key: "level", type: "text", required: true },
+    { key: "test", type: "text", required: true },
+    { key: "sortNo", type: "number", required: true },
+    { key: "classification", type: "text", required: true },
+    { key: "questionNo", type: "number" },
+    { key: "questionNoLabel", type: "text" },
+    { key: "questionType", type: "text", required: true },
+    { key: "answer", type: "number" },
+    { key: "question", type: "json" },
+    { key: "choices", type: "json" },
+    { key: "sentence", type: "json" },
+  ];
 }
 
 export const ADMIN_TABLE_META: Record<string, AdminTableMeta> = {
@@ -386,6 +425,13 @@ export const ADMIN_TABLE_META: Record<string, AdminTableMeta> = {
     sort: { year: -1, level: 1, sortNo: 1 },
     fields: levelUpFields(),
     defaultValues: { sortNo: 1, questionGroupType: "single" },
+  },
+  jlpt_test: {
+    listColumns: ["level", "test", "classification", "sortNo", "questionType"],
+    filterFields: jlptTestFilters,
+    sort: { level: 1, test: 1, sortNo: 1 },
+    fields: jlptTestFields(),
+    defaultValues: { sortNo: 1, questionType: "choice" },
   },
 };
 

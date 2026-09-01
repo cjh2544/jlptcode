@@ -299,11 +299,12 @@
       "wordToday": "ယနေ့စကားလုံး",
       "sentenceToday": "ယနေ့ဝါကျ",
       "grammarToday": "ယနေ့သဒ္ဒါ",
-      "jlpt": "JLPT",
+      "levelUp": "JLPT Level up",
+      "jlptTest": "JLPT စမ်းသပ်စာမေးပွဲ (TEST)",
+      "jlpt": "JLPT ယခင်မေးခွန်းများ",
       "word": "JLPT စကားလုံး",
       "jpt": "JPT",
-      "jptWord": "JPT စကားလုံး",
-      "levelUp": "Level Up"
+      "jptWord": "JPT စကားလုံး"
     },
     "fields": {
       "code": "Code",
@@ -344,7 +345,9 @@
       "questionGroupType": "Group type",
       "questionGroupNo": "Group no.",
       "questionContentNo": "Content no.",
-      "questionContentOrg": "Original"
+      "questionContentOrg": "Original",
+      "test": "စမ်းသပ်အကြိမ်",
+      "questionNoLabel": "မေးခွန်းနံပါတ်တံဆိပ်"
     }
   },
   "mypage": {

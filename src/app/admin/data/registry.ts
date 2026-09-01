@@ -7,6 +7,7 @@ import Word from "@/app/models/wordModel";
 import Jpt from "@/app/models/jptModel";
 import JptWord from "@/app/models/jptWordModel";
 import LevelUp from "@/app/models/levelUpModel";
+import JlptTest from "@/app/models/jlptTestModel";
 import {
   ADMIN_TABLE_META,
   getAdminTableMeta,
@@ -42,6 +43,7 @@ const MODEL_BY_TABLE: Record<string, AdminModel> = {
   jpt: Jpt,
   jpt_word: JptWord,
   level_up: LevelUp,
+  jlpt_test: JlptTest,
 };
 
 export function getAdminTableConfig(table: string): AdminTableConfig | undefined {

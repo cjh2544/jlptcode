@@ -299,11 +299,12 @@
       "wordToday": "今日单词",
       "sentenceToday": "今日句子",
       "grammarToday": "今日语法",
-      "jlpt": "JLPT",
+      "levelUp": "JLPT 升级(Level up)",
+      "jlptTest": "JLPT 模拟考试(TEST)",
+      "jlpt": "JLPT 真题",
       "word": "JLPT单词",
       "jpt": "JPT",
-      "jptWord": "JPT单词",
-      "levelUp": "升级练习"
+      "jptWord": "JPT单词"
     },
     "fields": {
       "code": "代码",
@@ -344,7 +345,9 @@
       "questionGroupType": "题组类型",
       "questionGroupNo": "题组编号",
       "questionContentNo": "题目内容编号",
-      "questionContentOrg": "原文"
+      "questionContentOrg": "原文",
+      "test": "考试(轮次)",
+      "questionNoLabel": "题号标签"
     }
   },
   "mypage": {

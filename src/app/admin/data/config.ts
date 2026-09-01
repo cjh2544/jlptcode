@@ -38,16 +38,12 @@ export const ADMIN_DATA_SECTIONS: AdminDataSection[] = [
   {
     titleKey: "admin.jlptSection",
     items: [
+      { key: "admin.tables.levelUp", table: "level_up", icon: "fas fa-chart-line" },
+      { key: "admin.tables.jlptTest", table: "jlpt_test", icon: "fas fa-clipboard-check" },
       { key: "admin.tables.jlpt", table: "jlpt", icon: "fas fa-file-alt" },
       { key: "admin.tables.word", table: "word", icon: "fas fa-font" },
       { key: "admin.tables.jpt", table: "jpt", icon: "fas fa-file" },
       { key: "admin.tables.jptWord", table: "jpt_word", icon: "fas fa-book-open" },
-    ],
-  },
-  {
-    titleKey: "admin.levelUpSection",
-    items: [
-      { key: "admin.tables.levelUp", table: "level_up", icon: "fas fa-arrow-up" },
     ],
   },
 ];

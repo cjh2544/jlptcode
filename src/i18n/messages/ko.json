@@ -299,11 +299,12 @@
       "wordToday": "오늘의 단어",
       "sentenceToday": "오늘의 문장",
       "grammarToday": "오늘의 문법",
-      "jlpt": "JLPT",
+      "levelUp": "JLPT 레벨업(Level up)",
+      "jlptTest": "JLPT 모의고사(TEST)",
+      "jlpt": "JLPT 기출",
       "word": "JLPT 단어",
       "jpt": "JPT",
-      "jptWord": "JPT 단어",
-      "levelUp": "레벨업"
+      "jptWord": "JPT 단어"
     },
     "fields": {
       "code": "코드",
@@ -344,7 +345,9 @@
       "questionGroupType": "문제그룹유형",
       "questionGroupNo": "문제그룹번호",
       "questionContentNo": "문제내용번호",
-      "questionContentOrg": "원문"
+      "questionContentOrg": "원문",
+      "test": "시험(차수)",
+      "questionNoLabel": "문제번호 라벨"
     }
   },
   "mypage": {

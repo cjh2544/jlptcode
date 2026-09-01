@@ -299,11 +299,12 @@
       "wordToday": "今日の単語",
       "sentenceToday": "今日の文",
       "grammarToday": "今日の文法",
-      "jlpt": "JLPT",
+      "levelUp": "JLPT レベルアップ(Level up)",
+      "jlptTest": "JLPT 模擬試験(TEST)",
+      "jlpt": "JLPT 過去問",
       "word": "JLPT単語",
       "jpt": "JPT",
-      "jptWord": "JPT単語",
-      "levelUp": "レベルアップ"
+      "jptWord": "JPT単語"
     },
     "fields": {
       "code": "コード",
@@ -344,7 +345,9 @@
       "questionGroupType": "問題グループタイプ",
       "questionGroupNo": "問題グループ番号",
       "questionContentNo": "問題内容番号",
-      "questionContentOrg": "原文"
+      "questionContentOrg": "原文",
+      "test": "試験(回)",
+      "questionNoLabel": "問題番号ラベル"
     }
   },
   "mypage": {
