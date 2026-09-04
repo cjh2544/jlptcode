@@ -122,15 +122,15 @@ const AdminDataTitle = ({
             <div
               className={
                 hasFilters
-                  ? "flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center lg:gap-2"
-                  : "flex w-full flex-col gap-2 sm:flex-row sm:items-center lg:w-auto lg:justify-end"
+                  ? "flex w-full shrink-0 flex-col gap-2 md:flex-row md:items-center lg:w-auto lg:gap-2"
+                  : "flex w-full flex-col gap-2 md:flex-row md:items-center lg:w-auto lg:justify-end"
               }
             >
               <div
                 className={
                   hasFilters
-                    ? "relative min-w-0 flex-1 sm:min-w-[12rem] lg:w-64 lg:flex-none xl:w-72"
-                    : "relative min-w-0 flex-1 lg:w-72 lg:flex-none"
+                    ? "relative w-full min-w-0 md:min-w-[12rem] md:flex-1 lg:w-64 lg:flex-none xl:w-72"
+                    : "relative w-full min-w-0 md:flex-1 lg:w-72 lg:flex-none"
                 }
               >
                 <i
@@ -144,13 +144,13 @@ const AdminDataTitle = ({
                   placeholder={t("common.search")}
                 />
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex w-full shrink-0 gap-2 md:w-auto">
                 <Button
                   type="submit"
                   size="sm"
                   variant="secondary"
                   disabled={isLoading}
-                  className={`${actionButtonClass} min-w-[4.5rem] flex-1 sm:flex-none`}
+                  className={`${actionButtonClass} min-w-[4.5rem] flex-1 md:flex-none`}
                 >
                   {isLoading ? t("common.searching") : t("common.search")}
                 </Button>
@@ -160,7 +160,7 @@ const AdminDataTitle = ({
                   variant="outline"
                   disabled={isLoading}
                   onClick={onReset}
-                  className={`${resetButtonClass} min-w-[4.5rem] flex-1 sm:flex-none`}
+                  className={`${resetButtonClass} min-w-[4.5rem] flex-1 md:flex-none`}
                 >
                   {t("admin.resetSearch")}
                 </Button>

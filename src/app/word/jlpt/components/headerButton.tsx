@@ -24,9 +24,13 @@ const HeaderButton = ({colName, label}: HeaderButtonProps) => {
     <Button
       type="button"
       onClick={handleClickHeader}
-      variant="outline"
+      variant={hidden ? "default" : "outline"}
       size="sm"
-      className="gap-1.5"
+      className={
+        hidden
+          ? "gap-1.5 border-primary shadow-sm"
+          : "gap-1.5 border-primary text-primary hover:bg-primary/10 hover:text-primary"
+      }
       aria-pressed={hidden}
       title={hidden ? t('today.show') : t('today.hide')}
     >

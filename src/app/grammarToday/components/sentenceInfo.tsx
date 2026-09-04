@@ -26,6 +26,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
     sentence_read,
     sentence_translate,
     sentence_locale,
+    speaker,
     question,
     showQuestion = false,
     hideSentence = false,
@@ -63,7 +64,7 @@ const SentenceInfo = (props:SentenceInfoProps) => {
 
     if(sentenceType === 'sentence') {
       pHtml = pHtml.replace(/\([^)]+\)/g, (str) => '<span class="text-red-600">' + str + '</span>');
-      pHtml = pHtml.replace(/\（[^)]+\）/g, (str) => '<span class="text-red-600">' + str + '</span>');
+      pHtml = pHtml.replace(/\uFF08[^\uFF09]+\uFF09/g, (str) => '<span class="text-red-600">' + str + '</span>');
     }
 
     return <div dangerouslySetInnerHTML={{ __html: pHtml }} />;
@@ -108,11 +109,23 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         <div className="flex items-center gap-2">
           <Button
             type="button"
-            variant={showQuestion ? 'secondary' : 'outline'}
+            variant={showQuestion ? 'default' : 'outline'}
             size="sm"
             onClick={handleShowQuestion}
+            className={
+              showQuestion
+                ? 'gap-1.5 border-primary shadow-sm'
+                : 'gap-1.5 border-primary text-primary hover:bg-primary/10 hover:text-primary'
+            }
+            aria-pressed={showQuestion}
           >
-            {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+            <i
+              className={showQuestion ? 'fas fa-times' : 'fas fa-clipboard-list'}
+              aria-hidden
+            />
+            <span>
+              {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+            </span>
           </Button>
           <SaveSentenceButton item={sentenceInfo} source="grammarToday" />
         </div>
@@ -126,6 +139,9 @@ const SentenceInfo = (props:SentenceInfoProps) => {
         <div className="app-today-item-question app-reveal">
           <CardWordQuestion
             questionInfo={question}
+            speaker={speaker}
+            sentence_read={sentence_read}
+            sentence_translate={localizedTranslate}
             record={{
               subject: "grammarToday",
               source: "grammarToday",

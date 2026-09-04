@@ -4,7 +4,7 @@ import { isEmpty } from "lodash";
 import React, { memo } from "react";
 import CardAudio from "./CardAudio";
 import CardImage from "./CardImage";
-import { Button } from "@/components/ui/button";
+import QuestionAssistButton from "@/app/components/Buttons/QuestionAssistButton";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { getLocalizedTranslate } from "@/app/utils/sentenceLocale";
 import { formatQuestionHtml, questionImageLink, splitLeadingImages } from "@/app/lib/question-html";
@@ -99,19 +99,28 @@ const CardLevelUpContent = (props: LevelUpContentProps) => {
           {hasTools && (
             <div className="app-question-tools">
               {hasRead && (
-                <Button onClick={toggleOpenRead} className="px-2 py-1">
-                  {isListening ? t("common.sentence") : t("common.read")}
-                </Button>
+                <QuestionAssistButton
+                  kind={isListening ? "sentence" : "read"}
+                  active={openRead}
+                  label={isListening ? t("common.sentence") : t("common.read")}
+                  onClick={toggleOpenRead}
+                />
               )}
               {hasTrans && (
-                <Button onClick={toggleOpenTranslate} className="px-2 py-1">
-                  {t("common.translation")}
-                </Button>
+                <QuestionAssistButton
+                  kind="translation"
+                  active={openTranslate}
+                  label={t("common.translation")}
+                  onClick={toggleOpenTranslate}
+                />
               )}
               {hasSpeak && (
-                <Button onClick={toggleOpenSpeaker} className="px-2 py-1">
-                  {t("common.pronunciation")}
-                </Button>
+                <QuestionAssistButton
+                  kind="pronunciation"
+                  active={openSpeaker}
+                  label={t("common.pronunciation")}
+                  onClick={toggleOpenSpeaker}
+                />
               )}
             </div>
           )}

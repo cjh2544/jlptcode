@@ -1,9 +1,9 @@
 "use client";
 
 import React, { memo, useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import SpeechPlayer from "@/app/components/Audio/SpeechPlayer";
+import QuestionAssistButton from "@/app/components/Buttons/QuestionAssistButton";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { recordQuizAttempt } from "@/app/lib/record-quiz-attempt";
 import { cn } from "@/lib/utils";
@@ -43,6 +43,11 @@ const CardWordQuestion = (props: JlptContentProps) => {
   const [openTranslate, setOpenTranslate] = useState(false);
   const [openRead, setOpenRead] = useState(false);
   const [openSpeaker, setOpenSpeaker] = useState(false);
+
+  const hasRead = Boolean(String(sentence_read ?? "").trim());
+  const hasTranslate = Boolean(String(sentence_translate ?? "").trim());
+  const hasSpeaker = Boolean(String(speaker ?? "").trim());
+  const hasAssist = hasRead || hasTranslate || hasSpeaker;
 
   useEffect(() => {
     setShowAnswer(false);
@@ -109,47 +114,59 @@ const CardWordQuestion = (props: JlptContentProps) => {
     <>
       <Card className="w-full">
         <CardContent>
-          <div className="mx-auto mb-2 flex flex-wrap text-md font-normal">
-            {parseHtml(question)}
-            {sentence_translate && (
-              <span>
-                <Button onClick={toggleOpenTranslate} className="inline px-2 py-1">
-                  {t("common.translation")}
-                </Button>
-              </span>
-            )}
-            {sentence_read && (
-              <span>
-                <Button onClick={toggleOpenRead} className="ml-1 inline px-2 py-1">
-                  {t("common.read")}
-                </Button>
-              </span>
-            )}
-            {speaker && (
-              <span>
-                <Button onClick={toggleOpenSpeaker} className="ml-1 inline px-2 py-1">
-                  {t("common.pronunciation")}
-                </Button>
-              </span>
+          <div className="mb-3 flex flex-col gap-2 text-md font-normal">
+            <div>{parseHtml(question)}</div>
+            {hasAssist && (
+              <div className="app-question-tools">
+                {hasRead && (
+                  <QuestionAssistButton
+                    kind="read"
+                    active={openRead}
+                    label={t("common.read")}
+                    onClick={toggleOpenRead}
+                  />
+                )}
+                {hasTranslate && (
+                  <QuestionAssistButton
+                    kind="translation"
+                    active={openTranslate}
+                    label={t("common.translation")}
+                    onClick={toggleOpenTranslate}
+                  />
+                )}
+                {hasSpeaker && (
+                  <QuestionAssistButton
+                    kind="pronunciation"
+                    active={openSpeaker}
+                    label={t("common.pronunciation")}
+                    onClick={toggleOpenSpeaker}
+                  />
+                )}
+              </div>
             )}
           </div>
-          {openTranslate && (
-            <div className="app-reveal my-1">
-              <div className="app-reveal-panel px-3 py-2">
-                <p>{sentence_translate}</p>
+          {openTranslate && hasTranslate && (
+            <div className="app-reveal my-1.5">
+              <div className="app-reveal-panel">
+                {parseHtml(sentence_translate || "")}
               </div>
             </div>
           )}
-          {openRead && (
-            <div className="app-reveal my-1">
-              <div className="app-reveal-panel px-3 py-2">
-                <p>{sentence_read}</p>
+          {openRead && hasRead && (
+            <div className="app-reveal my-1.5">
+              <div className="app-reveal-panel">
+                {parseHtml(sentence_read || "")}
               </div>
             </div>
           )}
-          {openSpeaker && speaker && (
-            <div className="my-1.5">
-              <SpeechPlayer src={speaker} />
+          {openSpeaker && hasSpeaker && (
+            <div className="app-reveal my-1.5">
+              <div className="app-reveal-panel p-3">
+                <SpeechPlayer
+                  src={speaker || ""}
+                  fallbackText={sentence_read || question}
+                />
+              </div>
             </div>
           )}
           <div className="flex flex-col">

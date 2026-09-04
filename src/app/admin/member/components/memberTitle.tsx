@@ -56,8 +56,8 @@ const MemberTitle = (props: HeaderSubTitleProps) => {
             onSubmit={onSubmit}
             className="w-full min-w-0 rounded-xl border border-white/10 bg-white/5 p-3 lg:w-auto lg:shrink-0 lg:p-2"
           >
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center lg:gap-2">
-              <div className="relative min-w-0 flex-1 sm:min-w-[12rem] lg:w-64 lg:flex-none">
+            <div className="flex w-full flex-col gap-2 md:flex-row md:items-center lg:gap-2">
+              <div className="relative w-full min-w-0 md:min-w-[12rem] md:flex-1 lg:w-64 lg:flex-none">
                 <i
                   className="fas fa-search pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs text-white/70"
                   aria-hidden
@@ -69,13 +69,13 @@ const MemberTitle = (props: HeaderSubTitleProps) => {
                   placeholder={t("common.search")}
                 />
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex w-full shrink-0 gap-2 md:w-auto">
                 <Button
                   type="submit"
                   size="sm"
                   variant="secondary"
                   disabled={isLoading}
-                  className="h-9 min-w-[4.5rem] flex-1 shrink-0 bg-white/15 text-white hover:bg-white/25 hover:text-white sm:flex-none"
+                  className="h-9 min-w-[4.5rem] flex-1 shrink-0 bg-white/15 text-white hover:bg-white/25 hover:text-white md:flex-none"
                 >
                   {isLoading ? t("common.searching") : t("common.search")}
                 </Button>
@@ -85,7 +85,7 @@ const MemberTitle = (props: HeaderSubTitleProps) => {
                   variant="outline"
                   disabled={isLoading}
                   onClick={onReset}
-                  className="h-9 min-w-[4.5rem] flex-1 border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white sm:flex-none"
+                  className="h-9 min-w-[4.5rem] flex-1 border-white/25 bg-transparent text-white hover:bg-white/10 hover:text-white md:flex-none"
                 >
                   {t("admin.resetSearch")}
                 </Button>

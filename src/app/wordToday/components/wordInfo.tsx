@@ -99,11 +99,23 @@ const WordInfo = (props:WordInfoProps) => {
         {level !== 'N0' && (
           <Button
             type="button"
-            variant={showQuestion ? 'secondary' : 'outline'}
+            variant={showQuestion ? 'default' : 'outline'}
             size="sm"
             onClick={handleShowQuestion}
+            className={
+              showQuestion
+                ? 'gap-1.5 border-primary shadow-sm'
+                : 'gap-1.5 border-primary text-primary hover:bg-primary/10 hover:text-primary'
+            }
+            aria-pressed={showQuestion}
           >
-            {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+            <i
+              className={showQuestion ? 'fas fa-times' : 'fas fa-clipboard-list'}
+              aria-hidden
+            />
+            <span>
+              {showQuestion ? t('today.closeQuestion') : t('today.checkQuestion')}
+            </span>
           </Button>
         )}
         <SaveWordButton item={wordInfo} source="wordToday" />
