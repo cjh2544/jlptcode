@@ -6,6 +6,10 @@ const nextConfig = {
   reactStrictMode: true,
   // Keep Prisma out of the bundle so native query engines resolve at runtime.
   serverExternalPackages: ["@prisma/client"],
+  // Admin CSV import can exceed the default 10MB body buffer used when middleware runs.
+  experimental: {
+    proxyClientMaxBodySize: "100mb",
+  },
   images: {
     remotePatterns: [
       {

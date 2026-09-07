@@ -5,30 +5,43 @@ import {
 } from "@/app/lib/levelUpJlptMap";
 
 const mapCache = new Map<string, LevelUpJlptMap>();
+const mapInflight = new Map<string, Promise<LevelUpJlptMap>>();
 
 export async function getLevelUpJlptMap(level: string): Promise<LevelUpJlptMap> {
   const cached = mapCache.get(level);
   if (cached) return cached;
 
-  const [testRows, yearRows] = await Promise.all([
-    prisma.jlptTest.findMany({
-      where: { level },
-      distinct: ["test"],
-      select: { test: true },
-    }),
-    prisma.levelUp.findMany({
-      where: { level, year: { contains: "(" } },
-      distinct: ["year"],
-      select: { year: true },
-    }),
-  ]);
+  const inflight = mapInflight.get(level);
+  if (inflight) return inflight;
 
-  const map = buildLevelUpJlptMap(
-    testRows.map((row) => row.test),
-    yearRows.map((row) => row.year),
-  );
-  mapCache.set(level, map);
-  return map;
+  const promise = (async () => {
+    try {
+      const [testRows, yearRows] = await Promise.all([
+        prisma.jlptTest.findMany({
+          where: { level },
+          distinct: ["test"],
+          select: { test: true },
+        }),
+        prisma.levelUp.findMany({
+          where: { level, year: { contains: "(" } },
+          distinct: ["year"],
+          select: { year: true },
+        }),
+      ]);
+
+      const map = buildLevelUpJlptMap(
+        testRows.map((row) => row.test),
+        yearRows.map((row) => row.year),
+      );
+      mapCache.set(level, map);
+      return map;
+    } finally {
+      mapInflight.delete(level);
+    }
+  })();
+
+  mapInflight.set(level, promise);
+  return promise;
 }
 
 export async function resolveLevelUpStudyRound(level: string, year: string) {
@@ -93,27 +106,34 @@ export async function resolveLevelUpAdminSearch(
   };
 }
 
+/**
+ * Attach studyRound without opening one DB query per row.
+ * Unique levels are loaded sequentially to avoid exhausting the Prisma pool.
+ */
 export async function enrichLevelUpRows<T extends { level?: string | null; year?: string | null }>(
   rows: T[],
 ) {
+  const levels = [
+    ...new Set(
+      rows
+        .map((row) => row.level?.trim() || "")
+        .filter((level) => level.length > 0),
+    ),
+  ];
+
   const mapByLevel = new Map<string, LevelUpJlptMap>();
+  for (const level of levels) {
+    mapByLevel.set(level, await getLevelUpJlptMap(level));
+  }
 
-  return Promise.all(
-    rows.map(async (row) => {
-      const level = row.level ?? "";
-      const year = row.year ?? "";
-      if (!level || !year) return { ...row, studyRound: "" };
+  return rows.map((row) => {
+    const level = row.level ?? "";
+    const year = row.year ?? "";
+    if (!level || !year) return { ...row, studyRound: "" };
+    if (year === "random") return { ...row, studyRound: "random" };
+    if (!year.includes("(")) return { ...row, studyRound: "" };
 
-      if (year === "random") return { ...row, studyRound: "random" };
-      if (!year.includes("(")) return { ...row, studyRound: "" };
-
-      let map = mapByLevel.get(level);
-      if (!map) {
-        map = await getLevelUpJlptMap(level);
-        mapByLevel.set(level, map);
-      }
-
-      return { ...row, studyRound: map.yearToTest[year] ?? "" };
-    }),
-  );
+    const map = mapByLevel.get(level);
+    return { ...row, studyRound: map?.yearToTest[year] ?? "" };
+  });
 }

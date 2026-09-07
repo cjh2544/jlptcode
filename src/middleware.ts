@@ -77,7 +77,9 @@ export const config = {
     "/member/:path*",
     "/mypage",
     "/mypage/:path*",
-    "/api/admin/:path*",
+    // Exclude CSV import/export so large bodies are not truncated by middleware buffering.
+    // Those routes still enforce auth via requireAdmin().
+    "/api/admin/((?!data/[^/]+/(?:import|export)).*)",
     "/api/user",
     "/api/user/list",
     "/api/user/page",

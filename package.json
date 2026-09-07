@@ -15,7 +15,8 @@
     "db:copy": "tsx scripts/db/copy-from-mongo.ts",
     "db:sync-user-board": "tsx scripts/db/sync-user-board-from-mongo.ts",
     "db:speaker": "prisma db execute --file scripts/db/006_speaker_url.sql --schema prisma/schema.prisma && prisma generate && tsx scripts/db/recopy-speaker.ts",
-    "db:split-json": "prisma db execute --file scripts/db/003_split_json.sql --schema prisma/schema.prisma && tsx scripts/db/migrate-split-json.ts && prisma db execute --file scripts/db/004_drop_json.sql --schema prisma/schema.prisma && prisma generate"
+    "db:split-json": "prisma db execute --file scripts/db/003_split_json.sql --schema prisma/schema.prisma && tsx scripts/db/migrate-split-json.ts && prisma db execute --file scripts/db/004_drop_json.sql --schema prisma/schema.prisma && prisma generate",
+    "db:fix-choice-nos": "tsx scripts/db/fix-choice-nos.ts"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",

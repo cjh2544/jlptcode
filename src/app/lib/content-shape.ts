@@ -158,13 +158,19 @@ function hasUniquePositiveNos(nos: number[]) {
   return nos.length > 0 && nos.every((n) => Number.isFinite(n) && n > 0) && new Set(nos).size === nos.length;
 }
 
+type OrderedExamChoice = {
+  sourceIndex: number;
+  no: number;
+  content: string | null;
+};
+
 /**
  * Ensure choices are numbered 1..n in display order.
  * Repairs bad level_up data where `no` is 0 / duplicated while content still has `1)`…`4)`.
  */
-export function orderExamChoices(
+function orderExamChoiceEntries(
   choices: Array<{ no?: unknown; content?: unknown } | null | undefined> | unknown
-): Array<{ no: number; content: string | null }> {
+): OrderedExamChoice[] {
   if (!Array.isArray(choices)) return [];
 
   const raw = choices.map((item, index) => {
@@ -212,7 +218,25 @@ export function orderExamChoices(
   }
 
   return ordered.map((item, index) => ({
+    sourceIndex: item.index,
     no: useContent ? (item.fromContent as number) : rawValid ? item.rawNo : index + 1,
+    content: item.content,
+  }));
+}
+
+export function orderExamChoices(
+  choices: Array<{ no?: unknown; content?: unknown } | null | undefined> | unknown
+): Array<{ no: number; content: string | null }> {
+  return orderExamChoiceEntries(choices).map(({ no, content }) => ({ no, content }));
+}
+
+/** Keep original row fields and rewrite `no` / `content` to the repaired order. */
+export function withOrderedExamChoiceNos<T extends { no?: unknown; content?: unknown }>(
+  choices: T[]
+): Array<T & { no: number; content: string | null }> {
+  return orderExamChoiceEntries(choices).map((item) => ({
+    ...choices[item.sourceIndex],
+    no: item.no,
     content: item.content,
   }));
 }
