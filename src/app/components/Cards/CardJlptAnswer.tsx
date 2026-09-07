@@ -1,5 +1,5 @@
-import { sortBy } from "lodash";
-import React, {memo, useCallback, useEffect} from "react";
+import React, {memo, useCallback, useMemo} from "react";
+import { orderExamChoices } from "@/app/lib/content-shape";
 
 type JlptAnswerProps = {
   questionNo: number,
@@ -12,6 +12,7 @@ type JlptAnswerProps = {
 
 const CardJlptAnswer = (props:JlptAnswerProps) => {
   const {questionNo, choices, answer, selectedAnswer, showAnswer = false, onClick} = props;
+  const orderedChoices = useMemo(() => orderExamChoices(choices), [choices]);
 
   const handleClick = (selectedAnswer: number) => {
     onClick && onClick({questionNo, selectedAnswer});
@@ -40,12 +41,13 @@ const CardJlptAnswer = (props:JlptAnswerProps) => {
   return (
     <>
       <div className="flex-auto mb-2">
-        {choices && sortBy(choices, 'no').map((item, idx) => {
+        {orderedChoices.map((item, idx) => {
+          const choiceNo = item.no || idx + 1;
           return item.content ? (
-            <div key={`question-answer-${questionNo}-${item?.no || idx + 1}`}
-              className={getCollectClassName(idx + 1)}>
-              <input checked={(idx + 1) === selectedAnswer} onChange={(e) => handleClick(item?.no || idx + 1)} id={`default-radio-${questionNo}-${item?.no || idx + 1}`} type="radio" value={`${item?.no || idx + 1}`} name={`${questionNo}`} className="mt-0.5 size-4 shrink-0 accent-brand-600" />
-              <label htmlFor={`default-radio-${questionNo}-${item?.no || idx + 1}`} className="flex-1 cursor-pointer">{parseHtml(`${item?.content}`)}</label>
+            <div key={`question-answer-${questionNo}-${choiceNo}`}
+              className={getCollectClassName(choiceNo)}>
+              <input checked={choiceNo === selectedAnswer} onChange={() => handleClick(choiceNo)} id={`default-radio-${questionNo}-${choiceNo}`} type="radio" value={`${choiceNo}`} name={`${questionNo}`} className="mt-0.5 size-4 shrink-0 accent-brand-600" />
+              <label htmlFor={`default-radio-${questionNo}-${choiceNo}`} className="flex-1 cursor-pointer">{parseHtml(`${item?.content}`)}</label>
             </div>
           ) : null;
         })}

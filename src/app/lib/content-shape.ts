@@ -142,25 +142,87 @@ export function todayQuestionFromFlat(doc: AnyRecord) {
   };
 }
 
-export function normalizeChoices(choices: unknown): Array<{ no: number; content: string | null }> {
+const FULLWIDTH_DIGITS = "０１２３４５６７８９";
+
+/** Parse leading choice label like `1)`, `2）`, `４)`. */
+export function parseChoiceNoFromContent(content: unknown): number | null {
+  const text = String(content ?? "").trim();
+  const match = text.match(/^([0-9０-９]+)\s*[\)）]/);
+  if (!match) return null;
+  const digits = match[1].replace(/[０-９]/g, (ch) => String(FULLWIDTH_DIGITS.indexOf(ch)));
+  const no = Number(digits);
+  return Number.isFinite(no) && no > 0 ? no : null;
+}
+
+function hasUniquePositiveNos(nos: number[]) {
+  return nos.length > 0 && nos.every((n) => Number.isFinite(n) && n > 0) && new Set(nos).size === nos.length;
+}
+
+/**
+ * Ensure choices are numbered 1..n in display order.
+ * Repairs bad level_up data where `no` is 0 / duplicated while content still has `1)`…`4)`.
+ */
+export function orderExamChoices(
+  choices: Array<{ no?: unknown; content?: unknown } | null | undefined> | unknown
+): Array<{ no: number; content: string | null }> {
   if (!Array.isArray(choices)) return [];
-  return choices.map((item, index) => {
+
+  const raw = choices.map((item, index) => {
     if (item && typeof item === "object") {
-      const no = Number((item as AnyRecord).no);
+      const parsedNo = Number((item as AnyRecord).no);
       return {
-        no: Number.isNaN(no) ? index + 1 : no,
+        index,
+        rawNo: Number.isFinite(parsedNo) ? parsedNo : NaN,
+        fromContent: parseChoiceNoFromContent((item as AnyRecord).content),
         content: (item as AnyRecord).content == null ? null : String((item as AnyRecord).content),
       };
     }
-    return { no: index + 1, content: item == null ? null : String(item) };
+    return {
+      index,
+      rawNo: NaN,
+      fromContent: parseChoiceNoFromContent(item),
+      content: item == null ? null : String(item),
+    };
   });
+
+  const rawNos = raw.map((item) => item.rawNo);
+  const contentNos = raw.map((item) => item.fromContent);
+  const rawValid = hasUniquePositiveNos(rawNos);
+  const contentValid =
+    contentNos.every((n): n is number => n != null) && new Set(contentNos).size === contentNos.length;
+
+  // Prefer labels in content when DB `no` is missing/duplicated/0-based or disagrees with labels.
+  const useContent =
+    contentValid && (!rawValid || raw.some((item) => item.fromContent !== item.rawNo));
+
+  let ordered = raw;
+  if (useContent) {
+    ordered = [...raw].sort(
+      (a, b) => (a.fromContent as number) - (b.fromContent as number) || a.index - b.index
+    );
+  } else if (rawValid) {
+    ordered = [...raw].sort((a, b) => a.rawNo - b.rawNo || a.index - b.index);
+  } else {
+    // 0-based or broken nos without labels: keep relative no/index order, then renumber.
+    ordered = [...raw].sort(
+      (a, b) =>
+        (Number.isFinite(a.rawNo) ? a.rawNo : a.index) - (Number.isFinite(b.rawNo) ? b.rawNo : b.index) ||
+        a.index - b.index
+    );
+  }
+
+  return ordered.map((item, index) => ({
+    no: useContent ? (item.fromContent as number) : rawValid ? item.rawNo : index + 1,
+    content: item.content,
+  }));
+}
+
+export function normalizeChoices(choices: unknown): Array<{ no: number; content: string | null }> {
+  return orderExamChoices(choices);
 }
 
 export function choicesFromRows(rows: AnyRecord[] | undefined) {
-  return (rows || [])
-    .slice()
-    .sort((a, b) => (a.no ?? 0) - (b.no ?? 0))
-    .map((item) => ({ no: item.no, content: item.content }));
+  return orderExamChoices(rows);
 }
 
 export function stringListFromRows(rows: AnyRecord[] | undefined) {
