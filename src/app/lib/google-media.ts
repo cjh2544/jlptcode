@@ -214,13 +214,54 @@ export async function fetchGoogleMedia(url: URL, accept = "*/*") {
   return null;
 }
 
-export function mediaResponse(body: Uint8Array, contentType: string) {
+function parseByteRange(rangeHeader: string, size: number) {
+  const match = /^bytes=(\d*)-(\d*)$/i.exec(rangeHeader.trim());
+  if (!match || size <= 0) return null;
+
+  const hasStart = match[1] !== "";
+  const hasEnd = match[2] !== "";
+  if (!hasStart && !hasEnd) return null;
+
+  if (!hasStart) {
+    const suffix = Number.parseInt(match[2], 10);
+    if (!Number.isFinite(suffix) || suffix <= 0) return null;
+    return { start: Math.max(0, size - suffix), end: size - 1 };
+  }
+
+  const start = Number.parseInt(match[1], 10);
+  if (!Number.isFinite(start) || start < 0 || start >= size) return null;
+  const end = hasEnd ? Number.parseInt(match[2], 10) : size - 1;
+  if (!Number.isFinite(end) || end < start) return null;
+  return { start, end: Math.min(end, size - 1) };
+}
+
+export function mediaResponse(body: Uint8Array, contentType: string, rangeHeader?: string | null) {
   const bytes = Uint8Array.from(body);
-  return new NextResponse(bytes, {
-    headers: {
-      "Content-Type": contentType,
-      "Content-Length": String(bytes.byteLength),
-      "Cache-Control": "public, max-age=86400",
-    },
-  });
+  const size = bytes.byteLength;
+  const headers: Record<string, string> = {
+    "Content-Type": contentType,
+    "Accept-Ranges": "bytes",
+    "Cache-Control": "public, max-age=86400",
+  };
+
+  if (rangeHeader) {
+    const range = parseByteRange(rangeHeader, size);
+    if (!range) {
+      return new NextResponse(null, {
+        status: 416,
+        headers: {
+          ...headers,
+          "Content-Range": `bytes */${size}`,
+        },
+      });
+    }
+
+    const chunk = bytes.subarray(range.start, range.end + 1);
+    headers["Content-Length"] = String(chunk.byteLength);
+    headers["Content-Range"] = `bytes ${range.start}-${range.end}/${size}`;
+    return new NextResponse(chunk, { status: 206, headers });
+  }
+
+  headers["Content-Length"] = String(size);
+  return new NextResponse(bytes, { headers });
 }

@@ -61,20 +61,22 @@ async function audioFromGoogleTts(url: URL) {
   return fetched?.buffer ?? null;
 }
 
-function audioResponse(buffer: Buffer, contentType?: string) {
+function audioResponse(buffer: Buffer, contentType?: string, rangeHeader?: string | null) {
   if (!isAudioBuffer(buffer)) return null;
   return mediaResponse(
     new Uint8Array(buffer),
-    sniffAudioContentType(buffer, contentType || "audio/mpeg")
+    sniffAudioContentType(buffer, contentType || "audio/mpeg"),
+    rangeHeader
   );
 }
 
 export async function GET(request: NextRequest) {
+  const rangeHeader = request.headers.get("range");
   const text = request.nextUrl.searchParams.get("text");
   if (text) {
     try {
       const lang = request.nextUrl.searchParams.get("lang") || "ja";
-      const tts = audioResponse(await audioFromText(text, lang));
+      const tts = audioResponse(await audioFromText(text, lang), undefined, rangeHeader);
       return tts ?? NextResponse.json({ error: "Speech failed" }, { status: 502 });
     } catch (error) {
       console.error("[speech] tts text failed", error);
@@ -101,12 +103,12 @@ export async function GET(request: NextRequest) {
   try {
     if (target.hostname.includes("translate.google")) {
       const tts = await audioFromGoogleTts(target);
-      const response = tts ? audioResponse(tts) : null;
+      const response = tts ? audioResponse(tts, undefined, rangeHeader) : null;
       if (response) return response;
     }
 
     const fetched = await fetchGoogleMedia(target, "audio/mpeg,audio/*,*/*;q=0.8");
-    const response = fetched ? audioResponse(fetched.buffer, fetched.contentType) : null;
+    const response = fetched ? audioResponse(fetched.buffer, fetched.contentType, rangeHeader) : null;
     if (response) return response;
 
     return NextResponse.json({ error: "Audio not found" }, { status: 404 });

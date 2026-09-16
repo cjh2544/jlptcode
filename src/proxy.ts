@@ -31,8 +31,8 @@ async function rejectAdminApi(request: NextRequestWithAuth) {
   return null;
 }
 
-const authMiddleware = withAuth(
-  function middleware(req) {
+const authProxy = withAuth(
+  function handleAuth(req) {
     if (req.nextUrl.pathname.startsWith("/admin") || req.nextUrl.pathname.startsWith("/member")) {
       const role = req.nextauth.token?.role;
       if (!isAdminRole(role)) {
@@ -49,7 +49,7 @@ const authMiddleware = withAuth(
   },
 );
 
-export async function middleware(request: NextRequestWithAuth, event: NextFetchEvent) {
+export async function proxy(request: NextRequestWithAuth, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
 
   if (isAdminApiPath(pathname, request.method)) {
@@ -62,7 +62,7 @@ export async function middleware(request: NextRequestWithAuth, event: NextFetchE
     return NextResponse.next();
   }
 
-  return authMiddleware(request, event);
+  return authProxy(request, event);
 }
 
 export const config = {
@@ -77,7 +77,7 @@ export const config = {
     "/member/:path*",
     "/mypage",
     "/mypage/:path*",
-    // Exclude CSV import/export so large bodies are not truncated by middleware buffering.
+    // Exclude CSV import/export so large bodies are not truncated by proxy buffering.
     // Those routes still enforce auth via requireAdmin().
     "/api/admin/((?!data/[^/]+/(?:import|export)).*)",
     "/api/user",

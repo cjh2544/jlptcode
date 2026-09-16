@@ -1514,10 +1514,21 @@
   );
   outline: none;
   cursor: pointer;
+  pointer-events: auto;
+  touch-action: none;
 }
 
 .app-speech-track input[type="range"]::-webkit-slider-thumb {
   appearance: none;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 9999px;
+  background: var(--primary);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.25);
+}
+
+.app-speech-track input[type="range"]::-moz-range-thumb {
   width: 0.875rem;
   height: 0.875rem;
   border-radius: 9999px;
