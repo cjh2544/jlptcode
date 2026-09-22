@@ -164,6 +164,11 @@ const NAV_SECTIONS: NavSection[] = [
         href: "/mypage/words",
         icon: "fas fa-bookmark",
       },
+      {
+        key: "sidebar.savedSpeaks",
+        href: "/mypage/speaks",
+        icon: "fas fa-comments",
+      },
     ],
   },
   {

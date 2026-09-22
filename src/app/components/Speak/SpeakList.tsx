@@ -7,9 +7,10 @@ import { useTranslations } from '@/app/providers/I18nProvider';
 
 type SpeakListProps = {
   className?: string;
+  source?: string;
 };
 
-const SpeakList = ({ className }: SpeakListProps) => {
+const SpeakList = ({ className, source = 'speakToday' }: SpeakListProps) => {
   const { t } = useTranslations();
   const wordTodayList = useSpeakTodayStore((state) => state.wordTodayList);
   const setWordTodayList = useSpeakTodayStore((state) => state.setSpeakTodayList);
@@ -52,6 +53,7 @@ const SpeakList = ({ className }: SpeakListProps) => {
               <SpeakInfo
                 key={item._id ?? index}
                 wordInfo={item}
+                source={source}
                 onClick={(data: any) => handleClickVisible(data, index)}
               />
             ))}

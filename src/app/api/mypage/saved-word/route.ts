@@ -1,5 +1,5 @@
 import UserSavedWord from "@/app/models/userSavedWordModel";
-import { asText, snapshotMeans } from "@/app/lib/mypage";
+import { asText, SAVED_WORD_LIMIT, snapshotMeans } from "@/app/lib/mypage";
 import { newId } from "@/app/lib/new-id";
 import connectDB from "@/app/utils/database";
 import { getOptionalUser, requireUser, userIdOf } from "@/app/utils/requireUser";
@@ -32,6 +32,14 @@ export async function POST(request: NextRequest) {
   if (existing) {
     await UserSavedWord.deleteOne({ id: existing.id || existing._id, userId });
     return NextResponse.json({ success: true, saved: false });
+  }
+
+  const count = await UserSavedWord.count({ userId });
+  if (count >= SAVED_WORD_LIMIT) {
+    return NextResponse.json(
+      { success: false, message: "LIMIT_REACHED", limit: SAVED_WORD_LIMIT },
+      { status: 400 },
+    );
   }
 
   await UserSavedWord.create({

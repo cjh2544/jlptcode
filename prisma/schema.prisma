@@ -19,6 +19,7 @@ model User {
   updatedAt       DateTime             @updatedAt @map("updated_at")
   roles           UserRole[]
   savedWords      UserSavedWord[]
+  savedSpeaks     UserSavedSpeak[]
   savedQuestions  UserSavedQuestion[]
   quizAttempts    UserQuizAttempt[]
   questionResults UserQuestionResult[]
@@ -78,6 +79,27 @@ model UserSavedWord {
   @@unique([userId, source, sourceId])
   @@index([userId, createdAt])
   @@map("user_saved_word")
+}
+
+model UserSavedSpeak {
+  id                String   @id @db.VarChar(24)
+  userId            String   @map("user_id") @db.VarChar(24)
+  source            String   @db.VarChar(50)
+  sourceId          String   @map("source_id") @db.VarChar(24)
+  keyword           String?  @db.Text
+  sentence          String?  @db.Text
+  sentenceRead      String?  @map("sentence_read") @db.Text
+  sentenceTranslate String?  @map("sentence_translate") @db.Text
+  speaker           String?  @db.Text
+  level             String?  @db.VarChar(20)
+  study             String?  @db.VarChar(50)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, source, sourceId])
+  @@index([userId, createdAt])
+  @@map("user_saved_speak")
 }
 
 model UserSavedQuestion {

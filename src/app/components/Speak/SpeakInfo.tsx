@@ -5,13 +5,15 @@ import SpeechPlayer from '@/app/components/Audio/SpeechPlayer';
 import { Button } from '@/components/ui/button';
 import { useTranslations } from '@/app/providers/I18nProvider';
 import { getLocalizedTranslate } from '@/app/utils/sentenceLocale';
+import { SaveSpeakButton } from '@/app/components/Buttons/SaveButtons';
 
 type SpeakInfoProps = {
   wordInfo: any;
   onClick?: (data: any) => void;
+  source?: string;
 };
 
-const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
+const SpeakInfo = ({ wordInfo, onClick, source = 'speakToday' }: SpeakInfoProps) => {
   const { t, locale } = useTranslations();
   const {
     wordNo,
@@ -101,20 +103,23 @@ const SpeakInfo = ({ wordInfo, onClick }: SpeakInfoProps) => {
             </span>
           )}
         </div>
-        {speaker && (
-          <Button
-            type="button"
-            variant={hideSpeaker ? 'outline' : 'secondary'}
-            size="sm"
-            onClick={() => handleClick('speak')}
-            className="gap-1.5"
-            aria-pressed={!hideSpeaker}
-            title={hideSpeaker ? t('today.show') : t('today.hide')}
-          >
-            <VisibilityIcon hidden={!!hideSpeaker} />
-            <span>{t('common.play')}</span>
-          </Button>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          <SaveSpeakButton item={wordInfo} source={source} />
+          {speaker && (
+            <Button
+              type="button"
+              variant={hideSpeaker ? 'outline' : 'secondary'}
+              size="sm"
+              onClick={() => handleClick('speak')}
+              className="gap-1.5"
+              aria-pressed={!hideSpeaker}
+              title={hideSpeaker ? t('today.show') : t('today.hide')}
+            >
+              <VisibilityIcon hidden={!!hideSpeaker} />
+              <span>{t('common.play')}</span>
+            </Button>
+          )}
+        </div>
       </div>
 
       <div className="app-today-speak-prompt">

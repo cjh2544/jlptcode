@@ -12,6 +12,9 @@ export const MYPAGE_SUBJECTS = [
 
 export type MypageSubject = (typeof MYPAGE_SUBJECTS)[number];
 
+export const SAVED_WORD_LIMIT = 50;
+export const SAVED_SPEAK_LIMIT = 50;
+
 export function snapshotMeans(means: unknown) {
   if (Array.isArray(means)) return means.filter(Boolean).map(String).join("\n");
   if (means == null) return "";

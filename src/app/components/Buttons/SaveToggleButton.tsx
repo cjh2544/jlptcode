@@ -1,6 +1,6 @@
 "use client";
 
-import { savedKey, useSavedWords } from "@/app/swr/useMypage";
+import { savedKey, useSavedSpeaks, useSavedWords } from "@/app/swr/useMypage";
 import ModalConfirm from "@/app/components/Modals/ModalConfirm";
 import { useTranslations } from "@/app/providers/I18nProvider";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,20 @@ import { cn } from "@/lib/utils";
 import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 
+type SaveKind = "word" | "speak";
+
 type SaveToggleButtonProps = {
   source: string;
   sourceId: string;
   snapshot?: Record<string, unknown>;
   compact?: boolean;
   className?: string;
+  kind?: SaveKind;
+};
+
+const ENDPOINTS: Record<SaveKind, string> = {
+  word: "/api/mypage/saved-word",
+  speak: "/api/mypage/saved-speak",
 };
 
 export default function SaveToggleButton({
@@ -22,13 +30,18 @@ export default function SaveToggleButton({
   snapshot,
   compact,
   className,
+  kind = "word",
 }: SaveToggleButtonProps) {
   const { t } = useTranslations();
   const { data: session, status } = useSession();
-  const savedWords = useSavedWords();
+  const savedWords = useSavedWords(kind === "word");
+  const savedSpeaks = useSavedSpeaks(kind === "speak");
+  const savedStore = kind === "speak" ? savedSpeaks : savedWords;
   const [pending, setPending] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const saved = savedWords.keys.has(savedKey(source, sourceId));
+  const [showLimit, setShowLimit] = useState(false);
+  const [limitN, setLimitN] = useState(50);
+  const saved = savedStore.keys.has(savedKey(source, sourceId));
   const label = saved ? t("mypage.savedDone") : t("mypage.save");
 
   const toggle = async () => {
@@ -39,7 +52,7 @@ export default function SaveToggleButton({
 
     setPending(true);
     try {
-      const response = await fetch("/api/mypage/saved-word", {
+      const response = await fetch(ENDPOINTS[kind], {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ source, sourceId, ...snapshot }),
@@ -48,7 +61,13 @@ export default function SaveToggleButton({
         signIn();
         return;
       }
-      await savedWords.mutate();
+      const data = await response.json().catch(() => null);
+      if (!response.ok && data?.message === "LIMIT_REACHED") {
+        setLimitN(Number(data.limit) || 50);
+        setShowLimit(true);
+        return;
+      }
+      await savedStore.mutate();
     } finally {
       setPending(false);
     }
@@ -88,6 +107,12 @@ export default function SaveToggleButton({
         showCancel
         onClose={() => setShowConfirm(false)}
         onConfirm={toggle}
+      />
+      <ModalConfirm
+        type="info"
+        message={t("mypage.saveLimit").replace("{n}", String(limitN))}
+        visible={showLimit}
+        onClose={() => setShowLimit(false)}
       />
     </>
   );

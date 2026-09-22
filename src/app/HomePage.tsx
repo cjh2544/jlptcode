@@ -51,6 +51,13 @@ const MYPAGE_CARDS = [
     gradient: "from-violet-500 to-purple-600",
   },
   {
+    key: "home.mypageSpeaks",
+    descKey: "home.mypageSpeaksDesc",
+    href: "/mypage/speaks",
+    icon: "fas fa-comments",
+    gradient: "from-rose-500 to-pink-600",
+  },
+  {
     key: "home.mypageProgress",
     descKey: "home.mypageProgressDesc",
     href: "/mypage/progress",

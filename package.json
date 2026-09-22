@@ -12,6 +12,8 @@
     "db:init": "tsx scripts/db/ensure-database.ts",
     "db:schema": "prisma db execute --file scripts/db/001_schema.sql --schema prisma/schema.prisma",
     "db:mypage": "prisma db execute --file scripts/db/005_mypage.sql --schema prisma/schema.prisma && prisma generate",
+    "db:saved-speak": "prisma db execute --file scripts/db/007_saved_speak.sql --schema prisma/schema.prisma && prisma generate",
+    "db:saved-speak-speaker": "prisma db execute --file scripts/db/012_saved_speak_speaker.sql --schema prisma/schema.prisma && prisma generate",
     "db:copy": "tsx scripts/db/copy-from-mongo.ts",
     "db:sync-user-board": "tsx scripts/db/sync-user-board-from-mongo.ts",
     "db:speaker": "prisma db execute --file scripts/db/006_speaker_url.sql --schema prisma/schema.prisma && prisma generate && tsx scripts/db/recopy-speaker.ts",
