@@ -69,9 +69,11 @@
     "newBadge": "NEW",
     "speakConversation": "Conversation",
     "speakMaster100": "Speaking Mastery 100 Days",
+    "todaySpeak": "3 Daily Japanese Conversations",
     "levelUp": "Level Up",
     "strategy": "Focus Strategy",
     "mockTest": "Mock Test",
+    "todayKangi": "Today's Kanji",
     "todayWord": "Today's Words",
     "todaySentence": "Today's Sentences",
     "todayGrammar": "Today's Grammar",
@@ -116,6 +118,9 @@
     "showAnswer": "Answer",
     "sentence": "Sentence",
     "keyword": "Keyword",
+    "word": "Word",
+    "kangi": "Kanji",
+    "image": "Image",
     "example": "Example",
     "highScore": "High score",
     "level": "Level",
@@ -143,6 +148,8 @@
     "speakTest": "Speaking Test",
     "speakMaster": "Speaking Mastery 100 Days",
     "speakMasterSub": "The ultimate goal of learning Japanese is speaking.",
+    "todaySpeak": "3 Daily Japanese Conversations",
+    "todayKangi": "Today's Kanji",
     "wordToday": "Today's Words",
     "grammarToday": "Today's Grammar",
     "sentenceToday": "Today's Sentences",
@@ -187,6 +194,9 @@
     "tipMaster": "★ Speaking improves vocabulary, grammar, and listening all at once.",
     "tipPaidOrder": "★ Paid members can study Speaking Mastery 100 Days in order."
   },
+  "todaySpeak": {
+    "tipRandom": "★ Until more data is ready, results are shown randomly."
+  },
   "levelUp": {
     "title": "Level Up",
     "tip": "★ Study 20,000 questions with a different set each time.",
@@ -229,6 +239,7 @@
     "number": "No.",
     "show": "Show",
     "hide": "Hide",
+    "dayN": "Day {n}",
     "tipPaidOrder": "★ Paid members can study in order."
   },
   "board": {
@@ -325,6 +336,8 @@
       "wordToday": "Today's words",
       "sentenceToday": "Today's sentences",
       "grammarToday": "Today's grammar",
+      "todaySpeak": "3 Daily Japanese Conversations",
+      "todayKangi": "Today's Kanji",
       "levelUp": "JLPT Level up",
       "jlptTest": "JLPT mock test (TEST)",
       "jlpt": "JLPT past exams",
@@ -355,6 +368,7 @@
       "sentence_read": "Sentence reading",
       "sentence_translate": "Translation",
       "speaker": "Audio URL",
+      "image": "Image URL",
       "question": "Question (JSON)",
       "sentence_locale": "Sentence locale (JSON)",
       "word_locale": "Word locale (JSON)",

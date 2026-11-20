@@ -6,8 +6,23 @@ export type SentenceLocale = {
   my?: string;
 };
 
+export type WordLocale = {
+  ko?: string | null;
+  en?: string | null;
+  cn?: string | null;
+  my?: string | null;
+};
+
 const LOCALE_TRANSLATE_KEY: Record<Locale, keyof SentenceLocale | null> = {
   ko: null,
+  ja: "en",
+  en: "en",
+  cn: "cn",
+  my: "my",
+};
+
+const WORD_LOCALE_KEY: Record<Locale, keyof WordLocale> = {
+  ko: "ko",
   ja: "en",
   en: "en",
   cn: "cn",
@@ -24,4 +39,13 @@ export function getLocalizedTranslate(
     return (sentenceLocale?.[key] || fallback || "").toString();
   }
   return (fallback || "").toString();
+}
+
+export function getLocalizedWord(
+  locale: Locale,
+  wordLocale?: WordLocale | null,
+  fallback?: string | null,
+): string {
+  const key = WORD_LOCALE_KEY[locale];
+  return (wordLocale?.[key] || wordLocale?.ko || fallback || "").toString();
 }

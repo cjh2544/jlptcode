@@ -50,6 +50,12 @@ const NAV_SECTIONS: NavSection[] = [
         href: "/speakMaster",
         icon: "fas fa-microphone",
       },
+      {
+        key: "sidebar.todaySpeak",
+        href: "/todaySpeak",
+        icon: "fas fa-comments",
+        badge: "new",
+      },
     ],
   },
   {
@@ -78,6 +84,12 @@ const NAV_SECTIONS: NavSection[] = [
     titleKey: "nav.wordToday",
     items: [
       {
+        key: "sidebar.todayKangi",
+        href: "/todayKangi",
+        icon: "fas fa-font",
+        badge: "new",
+      },
+      {
         key: "sidebar.todayWord",
         href: "/wordToday",
         icon: "fas fa-book-open",
@@ -96,7 +108,6 @@ const NAV_SECTIONS: NavSection[] = [
   },
   {
     titleKey: "nav.jpt",
-    titleBadge: "new",
     koOnly: true,
     items: [
       {

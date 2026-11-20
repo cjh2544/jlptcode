@@ -1410,6 +1410,44 @@
   min-width: 0;
 }
 
+.app-image-loading-dots {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+  height: 1.75rem;
+}
+
+.app-image-loading-dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 9999px;
+  background: var(--brand-600, #2563eb);
+  animation: app-image-dot-bounce 0.7s ease-in-out infinite;
+}
+
+.app-image-loading-dot:nth-child(2) {
+  animation-delay: 0.12s;
+  background: var(--brand-500, #3b82f6);
+}
+
+.app-image-loading-dot:nth-child(3) {
+  animation-delay: 0.24s;
+  background: var(--brand-400, #60a5fa);
+}
+
+@keyframes app-image-dot-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  40% {
+    transform: translateY(-0.65rem);
+    opacity: 1;
+  }
+}
+
 .app-question-image,
 .app-question-passage img,
 .app-question-content img,
@@ -2802,6 +2840,10 @@
   background: var(--card);
 }
 
+.app-today-field--image {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
 @media (max-width: 639px) {
   .app-today-field {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -2828,6 +2870,14 @@
   line-height: 1.55;
   color: var(--foreground);
   word-break: break-word;
+}
+
+.app-today-html {
+  display: block;
+}
+
+.app-today-html p {
+  margin: 0;
 }
 
 .app-today-field-value--word {

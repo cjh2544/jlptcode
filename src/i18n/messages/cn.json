@@ -69,9 +69,11 @@
     "newBadge": "NEW",
     "speakConversation": "会话学习",
     "speakMaster100": "口语100天精通",
+    "todaySpeak": "每天3句日语会话",
     "levelUp": "升级",
     "strategy": "重点攻略",
     "mockTest": "模拟考试",
+    "todayKangi": "今日汉字",
     "todayWord": "今日单词",
     "todaySentence": "今日句子",
     "todayGrammar": "今日语法",
@@ -116,6 +118,9 @@
     "showAnswer": "答案",
     "sentence": "句子",
     "keyword": "关键词",
+    "word": "单词",
+    "kangi": "汉字",
+    "image": "图片",
     "example": "例句",
     "highScore": "高分",
     "level": "等级",
@@ -143,6 +148,8 @@
     "speakTest": "口语测试",
     "speakMaster": "口语100天精通",
     "speakMasterSub": "日语学习的最终目标是口语。",
+    "todaySpeak": "每天3句日语会话",
+    "todayKangi": "今日汉字",
     "wordToday": "今日单词",
     "grammarToday": "今日语法",
     "sentenceToday": "今日句子",
@@ -187,6 +194,9 @@
     "tipMaster": "★ 口语可以同时提升单词、语法和听力。",
     "tipPaidOrder": "★ 付费会员可以按顺序学习口语100天精通课程。"
   },
+  "todaySpeak": {
+    "tipRandom": "★ 在积累更多数据之前，暂时仅随机显示。"
+  },
   "levelUp": {
     "title": "升级",
     "tip": "★ 可用20000道题目，每次以不同组合练习。",
@@ -229,6 +239,7 @@
     "number": "编号",
     "show": "显示",
     "hide": "隐藏",
+    "dayN": "第{n}天",
     "tipPaidOrder": "★ 付费会员可以按顺序学习。"
   },
   "board": {
@@ -325,6 +336,8 @@
       "wordToday": "今日单词",
       "sentenceToday": "今日句子",
       "grammarToday": "今日语法",
+      "todaySpeak": "每天3句日语会话",
+      "todayKangi": "今日汉字",
       "levelUp": "JLPT 升级(Level up)",
       "jlptTest": "JLPT 模拟考试(TEST)",
       "jlpt": "JLPT 真题",
@@ -355,6 +368,7 @@
       "sentence_read": "句子读音",
       "sentence_translate": "句子翻译",
       "speaker": "语音URL",
+      "image": "图片URL",
       "question": "题目(JSON)",
       "sentence_locale": "句子多语言(JSON)",
       "word_locale": "单词多语言(JSON)",

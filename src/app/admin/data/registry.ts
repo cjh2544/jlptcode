@@ -2,6 +2,8 @@ import Code from "@/app/models/codeModel";
 import CodeDetail from "@/app/models/codeDetailModel";
 import WordToday from "@/app/models/wordTodayModel";
 import GrammarToday from "@/app/models/grammarTodayModel";
+import TodaySpeak from "@/app/models/todaySpeakModel";
+import TodayKangi from "@/app/models/todayKangiModel";
 import Jlpt from "@/app/models/jlptModel";
 import Word from "@/app/models/wordModel";
 import Jpt from "@/app/models/jptModel";
@@ -38,6 +40,8 @@ const MODEL_BY_TABLE: Record<string, AdminModel> = {
   word_today: WordToday,
   sentence_today: WordToday,
   grammar_today: GrammarToday,
+  today_speak: TodaySpeak,
+  today_kangi: TodayKangi,
   jlpt: Jlpt,
   word: Word,
   jpt: Jpt,

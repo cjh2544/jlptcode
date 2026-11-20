@@ -14,6 +14,7 @@
     "db:mypage": "prisma db execute --file scripts/db/005_mypage.sql --schema prisma/schema.prisma && prisma generate",
     "db:saved-speak": "prisma db execute --file scripts/db/007_saved_speak.sql --schema prisma/schema.prisma && prisma generate",
     "db:saved-speak-speaker": "prisma db execute --file scripts/db/012_saved_speak_speaker.sql --schema prisma/schema.prisma && prisma generate",
+    "db:today-speak-kangi": "prisma db execute --file scripts/db/013_today_speak_kangi.sql --schema prisma/schema.prisma && prisma db execute --file scripts/db/014_today_speak_word.sql --schema prisma/schema.prisma && prisma generate && python scripts/db/import-today-speak-kangi-xlsx.py",
     "db:copy": "tsx scripts/db/copy-from-mongo.ts",
     "db:sync-user-board": "tsx scripts/db/sync-user-board-from-mongo.ts",
     "db:speaker": "prisma db execute --file scripts/db/006_speaker_url.sql --schema prisma/schema.prisma && prisma generate && tsx scripts/db/recopy-speaker.ts",

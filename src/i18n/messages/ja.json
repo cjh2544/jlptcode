@@ -69,9 +69,11 @@
     "newBadge": "NEW",
     "speakConversation": "会話学習",
     "speakMaster100": "スピーキング完全攻略100日",
+    "todaySpeak": "1日3文の日本語会話",
     "levelUp": "レベルアップ",
     "strategy": "集中攻略",
     "mockTest": "模擬試験",
+    "todayKangi": "今日の漢字",
     "todayWord": "今日の単語",
     "todaySentence": "今日の文",
     "todayGrammar": "今日の文法",
@@ -116,6 +118,9 @@
     "showAnswer": "正解",
     "sentence": "文",
     "keyword": "キーワード",
+    "word": "単語",
+    "kangi": "漢字",
+    "image": "画像",
     "example": "例文",
     "highScore": "高得点",
     "level": "級",
@@ -143,6 +148,8 @@
     "speakTest": "スピーキングテスト",
     "speakMaster": "スピーキング完全攻略100日",
     "speakMasterSub": "日本語学習の最終目標はスピーキングです。",
+    "todaySpeak": "1日3文の日本語会話",
+    "todayKangi": "今日の漢字",
     "wordToday": "今日の単語",
     "grammarToday": "今日の文法",
     "sentenceToday": "今日の文",
@@ -187,6 +194,9 @@
     "tipMaster": "★ スピーキングは単語・文法・聴解、すべてを向上させます。",
     "tipPaidOrder": "★ 有料会員はスピーキング完全攻略100日を順番に学習できます。"
   },
+  "todaySpeak": {
+    "tipRandom": "★ データが増えるまでは、まずランダム表示のみです。"
+  },
   "levelUp": {
     "title": "レベルアップ",
     "tip": "★ 20000問を毎回違うセットで学習できます。",
@@ -229,6 +239,7 @@
     "number": "番号",
     "show": "表示",
     "hide": "非表示",
+    "dayN": "{n}日目",
     "tipPaidOrder": "★ 有料会員は順番に学習できます。"
   },
   "board": {
@@ -325,6 +336,8 @@
       "wordToday": "今日の単語",
       "sentenceToday": "今日の文",
       "grammarToday": "今日の文法",
+      "todaySpeak": "1日3文の日本語会話",
+      "todayKangi": "今日の漢字",
       "levelUp": "JLPT レベルアップ(Level up)",
       "jlptTest": "JLPT 模擬試験(TEST)",
       "jlpt": "JLPT 過去問",
@@ -355,6 +368,7 @@
       "sentence_read": "文の読み",
       "sentence_translate": "文の訳",
       "speaker": "音声URL",
+      "image": "画像URL",
       "question": "問題(JSON)",
       "sentence_locale": "文ロケール(JSON)",
       "word_locale": "単語ロケール(JSON)",

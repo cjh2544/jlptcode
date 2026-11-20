@@ -69,9 +69,11 @@
     "newBadge": "NEW",
     "speakConversation": "စကားပြောလေ့လာမှု",
     "speakMaster100": "စကားပြော ၁၀၀ ရက်",
+    "todaySpeak": "နေ့စဉ် ဂျပန်စကားပြော ၃ ကြောင်း",
     "levelUp": "Level Up",
     "strategy": "ဗဟိုတိုက်ခိုက်",
     "mockTest": "စမ်းသပ်စာမေးများ",
+    "todayKangi": "ယနေ့ဟန်ဇာ",
     "todayWord": "ယနေ့စကားလုံး",
     "todaySentence": "ယနေ့စာကြောင်း",
     "todayGrammar": "ယနေ့သဒ္ဒါ",
@@ -116,6 +118,9 @@
     "showAnswer": "အဖြေ",
     "sentence": "စာကြောင်း",
     "keyword": "သော့ချက်စကားလုံး",
+    "word": "စကားလုံး",
+    "kangi": "ဟန်ဇာ",
+    "image": "ပုံ",
     "example": "ဥပမာ",
     "highScore": "အမှတ်မြင့်",
     "level": "အဆင့်",
@@ -143,6 +148,8 @@
     "speakTest": "စကားပြောစမ်းသပ်",
     "speakMaster": "စကားပြော ၁၀၀ ရက်",
     "speakMasterSub": "ဂျပန်ဘာသာသင်ယူခြင်း၏နောက်ဆုံးပန်းတိုင်မှာစကားပြောဖြစ်သည်။",
+    "todaySpeak": "နေ့စဉ် ဂျပန်စကားပြော ၃ ကြောင်း",
+    "todayKangi": "ယနေ့ဟန်ဇာ",
     "wordToday": "ယနေ့စကားလုံး",
     "grammarToday": "ယနေ့သဒ္ဒါ",
     "sentenceToday": "ယနေ့စာကြောင်း",
@@ -187,6 +194,9 @@
     "tipMaster": "★ စကားပြောသည်စကားလုံး၊ သဒ္ဒါ၊ နားထောင်မှုအားလုံးကိုတိုးတက်စေသည်။",
     "tipPaidOrder": "★ ငွေပေးချေအဖွဲ့ဝင်များသည်စကားပြော ၁၀၀ ရက်ကိုအစဉ်လိုက်လေ့လာနိုင်သည်။"
   },
+  "todaySpeak": {
+    "tipRandom": "★ ဒေတာပိုမိုစုဆောင်းသည်အထိ ကျပန်းသာ ပြသပါမည်။"
+  },
   "levelUp": {
     "title": "Level Up",
     "tip": "★ မေးခွန်း ၂၀၀၀၀ ကိုအကြိမ်တိုင်းကွဲပြားစွာလေ့လာနိုင်သည်။",
@@ -229,6 +239,7 @@
     "number": "နံပါတ်",
     "show": "ပြရန်",
     "hide": "ဖျောက်ရန်",
+    "dayN": "Day {n}",
     "tipPaidOrder": "★ ငွေပေးချေအဖွဲ့ဝင်များသည်အစဉ်လိုက်လေ့လာနိုင်သည်။"
   },
   "board": {
@@ -325,6 +336,8 @@
       "wordToday": "ယနေ့စကားလုံး",
       "sentenceToday": "ယနေ့ဝါကျ",
       "grammarToday": "ယနေ့သဒ္ဒါ",
+      "todaySpeak": "နေ့စဉ် ဂျပန်စကားပြော ၃ ကြောင်း",
+      "todayKangi": "ယနေ့ဟန်ဇာ",
       "levelUp": "JLPT Level up",
       "jlptTest": "JLPT စမ်းသပ်စာမေးပွဲ (TEST)",
       "jlpt": "JLPT ယခင်မေးခွန်းများ",
@@ -355,6 +368,7 @@
       "sentence_read": "Reading",
       "sentence_translate": "Translation",
       "speaker": "Audio URL",
+      "image": "Image URL",
       "question": "Question (JSON)",
       "sentence_locale": "Sentence locale (JSON)",
       "word_locale": "Word locale (JSON)",

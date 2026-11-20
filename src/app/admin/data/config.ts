@@ -33,6 +33,16 @@ export const ADMIN_DATA_SECTIONS: AdminDataSection[] = [
         table: "grammar_today",
         icon: "fas fa-spell-check",
       },
+      {
+        key: "admin.tables.todaySpeak",
+        table: "today_speak",
+        icon: "fas fa-comments",
+      },
+      {
+        key: "admin.tables.todayKangi",
+        table: "today_kangi",
+        icon: "fas fa-font",
+      },
     ],
   },
   {

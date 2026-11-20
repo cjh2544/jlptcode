@@ -11,6 +11,8 @@ const PUBLIC_ROUTES: SitemapEntry[] = [
   { path: "/", priority: 1.0, changeFrequency: "daily" },
   { path: "/speakToday", priority: 0.9, changeFrequency: "weekly" },
   { path: "/speakMaster", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/todaySpeak", priority: 0.9, changeFrequency: "weekly" },
+  { path: "/todayKangi", priority: 0.9, changeFrequency: "weekly" },
   { path: "/wordToday", priority: 0.9, changeFrequency: "weekly" },
   { path: "/grammarToday", priority: 0.9, changeFrequency: "weekly" },
   { path: "/sentenceToday", priority: 0.9, changeFrequency: "weekly" },

@@ -331,6 +331,53 @@ model ReadingToday {
   @@map("reading_today")
 }
 
+model TodaySpeak {
+  id                 String          @id @db.VarChar(24)
+  sortNo             Int
+  sentence           String?         @db.Text
+  sentence_read      String?         @db.Text
+  sentence_translate String?         @db.Text
+  sentenceLocaleEn   String?         @map("sentence_locale_en") @db.Text
+  sentenceLocaleCn   String?         @map("sentence_locale_cn") @db.Text
+  sentenceLocaleMy   String?         @map("sentence_locale_my") @db.Text
+  keyword            String?         @db.Text
+  speaker            String?         @db.Text
+  image              String?         @db.Text
+  createdAt          DateTime        @default(now()) @map("created_at")
+  updatedAt          DateTime        @updatedAt @map("updated_at")
+  wordLocale         TodaySpeakWord?
+
+  @@index([sortNo])
+  @@map("today_speak")
+}
+
+model TodaySpeakWord {
+  id        String     @id @db.VarChar(24)
+  parentId  String     @unique @map("parent_id") @db.VarChar(24)
+  ko        String?    @db.Text
+  en        String?    @db.Text
+  cn        String?    @db.Text
+  my        String?    @db.Text
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  parent    TodaySpeak @relation(fields: [parentId], references: [id], onDelete: Cascade)
+
+  @@map("today_speak_word")
+}
+
+model TodayKangi {
+  id        String   @id @db.VarChar(24)
+  level     String   @db.VarChar(20)
+  sortNo    Int
+  word      String   @db.VarChar(191)
+  image     String?  @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([level, sortNo])
+  @@map("today_kangi")
+}
+
 model Jlpt {
   id                 String       @id @db.VarChar(24)
   year               String       @db.VarChar(20)

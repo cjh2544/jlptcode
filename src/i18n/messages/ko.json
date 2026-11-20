@@ -69,9 +69,11 @@
     "newBadge": "NEW",
     "speakConversation": "회화학습",
     "speakMaster100": "스피킹 완전정복 100일",
+    "todaySpeak": "하루 3문장 일본어회화",
     "levelUp": "레벨업(LEVEL UP)",
     "strategy": "집중공략",
     "mockTest": "모의고사(TEST)",
+    "todayKangi": "오늘의 한자",
     "todayWord": "오늘의 단어",
     "todaySentence": "오늘의 문장",
     "todayGrammar": "오늘의 문법",
@@ -116,6 +118,9 @@
     "showAnswer": "정답",
     "sentence": "문장",
     "keyword": "키워드",
+    "word": "단어",
+    "kangi": "한자",
+    "image": "이미지",
     "example": "예문",
     "highScore": "고득점",
     "level": "급수",
@@ -143,6 +148,8 @@
     "speakTest": "스피킹 테스트",
     "speakMaster": "스피킹 완전정복 100일",
     "speakMasterSub": "일본어 학습의 최종 목표는 스피킹입니다.",
+    "todaySpeak": "하루 3문장 일본어회화",
+    "todayKangi": "오늘의 한자",
     "wordToday": "오늘의 단어",
     "grammarToday": "오늘의 문법",
     "sentenceToday": "오늘의 문장",
@@ -187,6 +194,9 @@
     "tipMaster": "★ 스피킹은 단어 문법 청해, 모두를 향상 시킵니다.",
     "tipPaidOrder": "★ 유료회원은 스피킹 완전정복100일에서 순서대로 학습 가능합니다."
   },
+  "todaySpeak": {
+    "tipRandom": "★ 더 많은 데이터가 쌓일 때까지 우선 랜덤으로만 보여줍니다."
+  },
   "levelUp": {
     "title": "레벨업(Level up)",
     "tip": "★ 20000개의 문제를 매번 다르게 학습할 수 있습니다.",
@@ -229,6 +239,7 @@
     "number": "번호",
     "show": "표시",
     "hide": "숨김",
+    "dayN": "{n}일차",
     "tipPaidOrder": "★ 유료회원은 순서대로 학습 가능합니다."
   },
   "board": {
@@ -325,6 +336,8 @@
       "wordToday": "오늘의 단어",
       "sentenceToday": "오늘의 문장",
       "grammarToday": "오늘의 문법",
+      "todaySpeak": "하루 3문장 일본어회화",
+      "todayKangi": "오늘의 한자",
       "levelUp": "JLPT 레벨업(Level up)",
       "jlptTest": "JLPT 모의고사(TEST)",
       "jlpt": "JLPT 기출",
@@ -355,6 +368,7 @@
       "sentence_read": "문장 읽기",
       "sentence_translate": "문장 해석",
       "speaker": "음성URL",
+      "image": "이미지URL",
       "question": "문제(JSON)",
       "sentence_locale": "문장 다국어(JSON)",
       "word_locale": "단어 다국어(JSON)",
