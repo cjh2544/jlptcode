@@ -60,4 +60,33 @@ const result = spawnSync(
 );
 
 restoreLocal();
-process.exit(result.status ?? 1);
+
+if ((result.status ?? 1) !== 0) {
+  process.exit(result.status ?? 1);
+}
+
+// Next standalone 배포 번들: static / public 은 자동 포함되지 않음
+const standaloneDir = path.join(root, ".next", "standalone");
+const staticSrc = path.join(root, ".next", "static");
+const staticDest = path.join(standaloneDir, ".next", "static");
+const publicSrc = path.join(root, "public");
+const publicDest = path.join(standaloneDir, "public");
+
+if (!fs.existsSync(standaloneDir)) {
+  console.error("[build] .next/standalone 이 없습니다. output: 'standalone' 설정을 확인하세요.");
+  process.exit(1);
+}
+
+fs.mkdirSync(path.join(standaloneDir, ".next"), { recursive: true });
+fs.cpSync(staticSrc, staticDest, { recursive: true });
+console.log("[build] .next/static → .next/standalone/.next/static 복사 완료");
+
+if (fs.existsSync(publicSrc)) {
+  fs.cpSync(publicSrc, publicDest, { recursive: true });
+  console.log("[build] public → .next/standalone/public 복사 완료");
+} else {
+  console.warn("[build] public 폴더가 없어 복사를 건너뜁니다.");
+}
+
+console.log("[build] standalone 배포 준비 완료:", standaloneDir);
+process.exit(0);
