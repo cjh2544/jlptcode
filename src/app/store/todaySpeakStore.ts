@@ -45,7 +45,7 @@ const defaultHideAll: HeaderVisibleType = {
   keyword: true,
   sentence_translate: true,
   word: true,
-  speak: true,
+  speak: false, // 재생 기본 노출
 };
 
 function withDefaultHides(list: any[]) {
@@ -56,7 +56,7 @@ function withDefaultHides(list: any[]) {
     hideKeyword: true,
     hideSentenceTranslate: true,
     hideWord: true,
-    hideSpeaker: true,
+    hideSpeaker: false,
   }));
 }
 

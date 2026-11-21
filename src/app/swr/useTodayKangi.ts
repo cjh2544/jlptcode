@@ -8,7 +8,7 @@ type ClassTypeProps = {
 
 const useClassTypeList = (params: ClassTypeProps, config?: SWRConfiguration) => {
   const { data, error, isLoading, isValidating, mutate } = useSWR(
-    { url: "/api/todayKangi/class", params: params },
+    { url: "/api/todayKangi/class", params: params.params },
     config,
   );
 

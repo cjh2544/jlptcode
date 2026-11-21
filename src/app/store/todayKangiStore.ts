@@ -25,7 +25,7 @@ interface TodayKangiStore {
   todayKangiList: Array<TodayKangiInfoType>;
   setTodayKangiInfo: (info: any, isSearch?: boolean) => void;
   setTodayKangiList: (list: any) => void;
-  getTodayKangiList: () => void;
+  getTodayKangiList: (info?: { level: string; study: string }) => void;
   getTodayKangiAllList: () => void;
   setHideAllInfo: (headerVisibleInfo: HeaderVisibleType) => void;
   init: () => void;
@@ -47,18 +47,24 @@ export const useTodayKangiStore = create<TodayKangiStore>()(
         hideAll: { ...defaultHideAll },
         todayKangiList: [],
         setTodayKangiInfo: (todayKangiInfo, isSearch = true) => {
+          const next = { ...todayKangiInfo };
           set(() => ({
-            todayKangiInfo: { ...todayKangiInfo },
+            todayKangiInfo: next,
           }));
-          if (isSearch) get().getTodayKangiList();
+          if (isSearch) get().getTodayKangiList(next);
         },
         setTodayKangiList: (todayKangiList: Array<any>) =>
           set(() => ({ todayKangiList })),
-        getTodayKangiList: async () => {
+        getTodayKangiList: async (info) => {
+          const params = info ?? get().todayKangiInfo;
+          if (!params?.level) {
+            set({ todayKangiList: [], hideAll: { ...defaultHideAll } });
+            return;
+          }
           const response = await fetch("/api/todayKangi/list", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ params: get().todayKangiInfo }),
+            body: JSON.stringify({ params }),
           });
           const resData = await response.json();
           set({

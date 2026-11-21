@@ -32,7 +32,7 @@ const SpeakInfo = ({ speakInfo, onClick }: SpeakInfoProps) => {
     hideKeyword = true,
     hideSentenceTranslate = true,
     hideWord = true,
-    hideSpeaker = true,
+    hideSpeaker = false,
     speaker,
   } = speakInfo;
   const localizedTranslate = getLocalizedTranslate(

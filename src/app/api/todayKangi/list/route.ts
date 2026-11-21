@@ -1,4 +1,4 @@
-import TodayKangi from "@/app/models/todayKangiModel";
+import { prisma } from "@/app/lib/prisma";
 import connectDB from "@/app/utils/database";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,10 +8,21 @@ export async function POST(request: NextRequest) {
   const conditions = await request.json();
   const { level } = conditions.params || {};
 
-  const questionList = await TodayKangi.aggregate([
-    { $match: { level } },
-    { $sample: { size: 1 } },
-  ]);
+  if (!level) {
+    return NextResponse.json([]);
+  }
 
-  return NextResponse.json(questionList);
+  const ids = await prisma.todayKangi.findMany({
+    where: { level },
+    select: { id: true },
+  });
+
+  if (!ids.length) {
+    return NextResponse.json([]);
+  }
+
+  const picked = ids[Math.floor(Math.random() * ids.length)];
+  const row = await prisma.todayKangi.findUnique({ where: { id: picked.id } });
+
+  return NextResponse.json(row ? [row] : []);
 }

@@ -37,11 +37,15 @@ const LevelList = (props: LevelListProps) => {
 
   const handleTabChange = (selectedData: any) => {
     if (!selectedData?.level) return;
-    setTodayKangiInfo({
-      ...todayKangiInfo,
-      level: selectedData.level,
-      study: "",
-    });
+    // 레벨 탭 클릭 → 해당 레벨 랜덤 1건 (동일 레벨 재클릭도 재조회)
+    setTodayKangiInfo(
+      {
+        ...todayKangiInfo,
+        level: selectedData.level,
+        study: "",
+      },
+      true,
+    );
   };
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
