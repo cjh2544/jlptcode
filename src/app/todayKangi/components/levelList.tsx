@@ -140,9 +140,9 @@ const LevelList = (props: LevelListProps) => {
                 className="app-select"
               >
                 <option value="">{t("common.select")}</option>
-                {studies.map((day: string) => (
-                  <option key={day} value={day}>
-                    {t("today.dayN").replace("{n}", day)}
+                {studies.map((sortNo: string) => (
+                  <option key={sortNo} value={sortNo}>
+                    {t("today.sortNoBan").replace("{n}", sortNo)}
                   </option>
                 ))}
               </select>

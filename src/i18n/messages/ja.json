@@ -240,6 +240,7 @@
     "show": "表示",
     "hide": "非表示",
     "dayN": "{n}日目",
+    "sortNoBan": "{n}番",
     "tipPaidOrder": "★ 有料会員は順番に学習できます。"
   },
   "board": {

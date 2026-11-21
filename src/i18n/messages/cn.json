@@ -240,6 +240,7 @@
     "show": "显示",
     "hide": "隐藏",
     "dayN": "第{n}天",
+    "sortNoBan": "{n}番",
     "tipPaidOrder": "★ 付费会员可以按顺序学习。"
   },
   "board": {

@@ -240,6 +240,7 @@
     "show": "표시",
     "hide": "숨김",
     "dayN": "{n}일차",
+    "sortNoBan": "{n}番",
     "tipPaidOrder": "★ 유료회원은 순서대로 학습 가능합니다."
   },
   "board": {

@@ -240,6 +240,7 @@
     "show": "Show",
     "hide": "Hide",
     "dayN": "Day {n}",
+    "sortNoBan": "{n}番",
     "tipPaidOrder": "★ Paid members can study in order."
   },
   "board": {
